@@ -1,15 +1,12 @@
-import { StoreOptions } from 'vuex'
+import { Module } from 'vuex'
+import { RootState } from '../index'
 
 export interface gameState {
-  userInfo: object
-  userDeck: Array<number>
   enemyInfo: object
 }
 
-export const game: StoreOptions<gameState> = {
+export const game: Module<gameState, RootState> = {
   state: {
-    userInfo: {},
-    userDeck: [],
     enemyInfo: {}
   },
   getters: {
