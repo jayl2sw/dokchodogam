@@ -1,0 +1,18 @@
+ADD title
+
+do something great #kim
+# Close #7 (if you want to use footer)
+################
+DESCRIPTION FOR USE OF GIT MESSAGE CONVENTION
+################
+# TYPE
+# FIX : 올바르지 않은 동작을 고친 경우
+# ADD : 코드나 테스트, 예제, 문서 등을 추가로 생성한 경우
+# REMOVE : 코드의 삭제가 있는 경우
+# IMPROVE : 향상이 있는 경우
+# IMPLEMENT : 코드가 추가된 정도보다 더 주목할 만한 구현체를 완성시킨 경우
+# REFACTOR : 코드 전면 수정이 있는 경우
+# MOVE : 코드의 이동이 있는 경우
+# RENAME : 이름 변경이 있는 경우
+# UPDATE : 개정이나 버전 업데이트가 있는 경우(코드보다는 문서나 리소스, 라이브러리 등)
+################

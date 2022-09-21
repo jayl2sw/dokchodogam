@@ -2,6 +2,8 @@
 
 dev야.. 잘 지내니?
 
+해위
+
 0830 팀장미팅
 
 - 오프라인 팀장미팅은 이슈가 있을 때만
@@ -50,8 +52,6 @@ dev야.. 잘 지내니?
 - Distributed SQL Database
 
 - auto scaling sharding
-
-
 
 ### 2022.08.31 수
 

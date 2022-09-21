@@ -1,0 +1,60 @@
+<template>
+  <div>
+    <input v-model="userId" placeholder="아이디를 입력하세요" />
+    <input
+      v-model="userPassword"
+      type="password"
+      placeholder="비밀번호를 입력하세요"
+    />
+    <button @click="login()">로그인</button>
+    <button @click="this.isAccessTokenExpired()">토큰만료확인</button>
+    <button @click="this.doRefreshToken()">토큰재발급확인</button>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  data() {
+    return {
+      userId: '',
+      userPassword: '',
+      isLoggedIn: false,
+      loginError: false
+    }
+  },
+  methods: {
+    ...mapActions(['doRefreshToken']),
+    ...mapGetters(['isAccessTokenExpired']),
+    async login() {
+      console.log(this.userId)
+      console.log(this.userPassword)
+      try {
+        const result = await axios.post(
+          'http://localhost:8081/api/v1/user/auth/login',
+          {
+            username: this.userId,
+            password: this.userPassword
+          },
+          {
+            headers: {
+              'Content-type': 'application/json'
+            }
+          }
+        )
+        if (result.status === 200) {
+          console.log(result)
+          this.isLoggedIn = true
+          localStorage.setItem('accessToken', result.data.accessToken)
+          localStorage.setItem('refreshToken', result.data.refreshToken)
+        }
+      } catch (err) {
+        this.loginError = true
+        throw new Error(err)
+      }
+    }
+  }
+}
+</script>

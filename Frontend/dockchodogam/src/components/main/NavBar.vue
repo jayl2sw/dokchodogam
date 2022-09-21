@@ -1,0 +1,314 @@
+<template>
+  <div>
+    <nav class="navbar">
+      <div class="navbar__logo">
+        <a href="/main">
+          <p>dockchodogam로고</p>
+        </a>
+        <div class="navbar__toggleBtn" @click="menuOpen()">
+          <font-awesome-icon icon="fa-solid fa-bars" size="xl" />
+        </div>
+      </div>
+      <div class="navbar__centerMenu">
+        <div>
+          <ul class="navbar__centerIcons">
+            <li>
+              <a href="/camera">
+                <!-- <font-awesome-icon icon="fa-solid fa-camera" size="xl" /> -->
+                <p class="TITLE">사 진</p>
+              </a>
+            </li>
+            <li>
+              <a href="/encyclopedia">
+                <!-- <font-awesome-icon icon="fa-solid fa-book" size="xl" /> -->
+                <p class="TITLE">도 감</p>
+              </a>
+            </li>
+            <li>
+              <a href="/game">
+                <!-- <font-awesome-icon icon="fa-solid fa-gamepad" size="xl" /> -->
+                <p class="TITLE">게 임</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="navbar__sideMenu">
+        <div>
+          <ul class="navbar__sideIcons">
+            <li>
+              <a href="/mypage">
+                <font-awesome-icon icon="fa-solid fa-user" size="xl" />
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="sideBar" :class="this.showMenu ? 'open-menu' : 'closed-menu'">
+      <div>
+        &nbsp;<font-awesome-icon
+          class="x__icon"
+          icon="fa-solid fa-x"
+          size="sm"
+          @click="menuOpen()"
+        />
+      </div>
+      <div class="sideBar__menu">
+        <div class="sideBar__profile">
+          <div class="sideBar__profileBox">
+            <img src="@/assets/loading/5.png" alt="profile" />
+          </div>
+          <p>닉네임</p>
+        </div>
+        <div class="sideBar__items">
+          <ul class="sideBar__icons">
+            <li>
+              <a href="/camera">
+                <font-awesome-icon icon="fa-solid fa-camera" size="xl" />
+                <p>사진</p>
+              </a>
+            </li>
+            <li>
+              <a href="/encyclopedia">
+                <font-awesome-icon icon="fa-solid fa-book" size="xl" />
+                <p>도감</p>
+              </a>
+            </li>
+          </ul>
+          <ul class="sideBar__icons">
+            <li>
+              <a href="/game">
+                <font-awesome-icon icon="fa-solid fa-gamepad" size="xl" />
+                <p>게임</p>
+              </a>
+            </li>
+            <li>
+              <a href="/mypage">
+                <font-awesome-icon icon="fa-solid fa-user" size="xl" />
+                <p>내설정</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sideBar__logout">
+          <a href="#">
+            <font-awesome-icon
+              icon="fa-solid fa-door-open"
+              class="sideBar__logoutIcon"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="blur"
+      :class="this.showMenu ? 'open-menu__blur' : ''"
+      @click="menuOpen()"
+    ></div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      showMenu: false
+    }
+  },
+  methods: {
+    menuOpen() {
+      this.showMenu = !this.showMenu
+      this.$emit('overflow', this.showMenu)
+    }
+  }
+}
+</script>
+
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3vw 0 3vw;
+  background-color: #a7c957;
+  margin: 0;
+}
+.navbar__centerMenu {
+  display: flex;
+}
+.navbar__logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 150px;
+}
+.navbar__toggleBtn {
+  display: none;
+}
+.navbar__sideMenu {
+  width: 150px;
+}
+.navbar__centerMenu > div {
+  margin: 0 1vw 0 1vw;
+  align-items: center;
+}
+
+.navbar__centerIcons {
+  list-style: none;
+  display: flex;
+  margin: 1.5vh 0 1.5vh 0;
+  padding: 0;
+}
+.navbar__centerIcons > li {
+  margin: 0 2vw 0 2vw;
+  width: 8vw;
+  height: 3rem;
+  text-align: center;
+}
+.navbar__centerIcons p {
+  line-height: 3rem;
+  font-weight: bold;
+  color: #467302;
+  transition: 0.3s;
+}
+.navbar__centerIcons p:hover {
+  color: #2e4c00;
+  font-size: 1.3rem;
+}
+.navbar__sideIcons {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5vh 0 1.5vh 0;
+}
+.navbar__sideIcons > li {
+  margin: 0 1vw 0 1vw;
+  width: 48px;
+  text-align: center;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.sideBar {
+  width: 60vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  right: -60vw;
+  background: #cde29d;
+  padding: 1vh 2vw;
+  z-index: 9999;
+  overflow: auto;
+}
+.sideBar__menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blur {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  display: none;
+}
+.sideBar__items {
+  width: 50vw;
+  border-top: 2px solid #a7c957;
+  border-bottom: 2px solid #a7c957;
+  display: flex;
+  flex-direction: column;
+}
+.sideBar__profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sideBar__profileBox {
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+  border: 1px groove;
+  border-radius: 5px;
+}
+.sideBar__profileBox > img {
+  width: 50px;
+}
+.x__icon {
+  color: #467302;
+}
+.sideBar__icons {
+  list-style: none;
+  padding: 0;
+  margin: 40px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.sideBar__icons > li {
+  margin: 0 5vw 0 5vw;
+  width: 48px;
+  text-align: center;
+}
+.sideBar__icons p {
+  margin: 0;
+}
+.sideBar__logout {
+  display: flex;
+  justify-content: flex-end;
+  width: 50vw;
+  margin-top: 1vh;
+}
+.sideBar__logoutIcon {
+  margin: 2vh 5vw 0 5vw;
+}
+@media screen and (max-width: 850px) {
+  .navbar {
+    display: flex;
+    flex-direction: column;
+  }
+  .navbar__logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vw;
+  }
+  .navbar__toggleBtn {
+    display: block;
+    cursor: pointer;
+  }
+  .navbar__centerMenu {
+    display: none;
+  }
+  .navbar__sideMenu {
+    display: none;
+  }
+  .navbar__icons > li {
+    margin: 0 3vw 0 3vw;
+  }
+
+  .open-menu {
+    right: 0;
+    transition: all 1s;
+    position: fixed;
+  }
+  .closed-menu {
+    transition: all 1s;
+  }
+  .open-menu__blur {
+    display: block;
+  }
+}
+</style>
