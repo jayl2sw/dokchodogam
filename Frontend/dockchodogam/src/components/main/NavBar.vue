@@ -14,19 +14,16 @@
           <ul class="navbar__centerIcons">
             <li>
               <a href="/camera">
-                <!-- <font-awesome-icon icon="fa-solid fa-camera" size="xl" /> -->
                 <p class="TITLE">사 진</p>
               </a>
             </li>
             <li>
               <a href="/encyclopedia">
-                <!-- <font-awesome-icon icon="fa-solid fa-book" size="xl" /> -->
                 <p class="TITLE">도 감</p>
               </a>
             </li>
             <li>
               <a href="/game">
-                <!-- <font-awesome-icon icon="fa-solid fa-gamepad" size="xl" /> -->
                 <p class="TITLE">게 임</p>
               </a>
             </li>
@@ -61,23 +58,22 @@
       </div>
       <div class="sideBar__menu">
         <div class="sideBar__profile">
-          <div class="sideBar__profileBox">
-            <img src="@/assets/loading/5.png" alt="profile" />
-          </div>
-          <p>닉네임</p>
+          <img src="@/assets/loading/5.png" alt="profile" />
+          <font-awesome-icon icon="fa-brands fa-envira" />
+          <p class="TITLE">닉네임</p>
         </div>
         <div class="sideBar__items">
           <ul class="sideBar__icons">
             <li>
               <a href="/camera">
                 <font-awesome-icon icon="fa-solid fa-camera" size="xl" />
-                <p>사진</p>
+                <p class="TITLE">사진</p>
               </a>
             </li>
             <li>
               <a href="/encyclopedia">
                 <font-awesome-icon icon="fa-solid fa-book" size="xl" />
-                <p>도감</p>
+                <p class="TITLE">도감</p>
               </a>
             </li>
           </ul>
@@ -85,13 +81,13 @@
             <li>
               <a href="/game">
                 <font-awesome-icon icon="fa-solid fa-gamepad" size="xl" />
-                <p>게임</p>
+                <p class="TITLE">게임</p>
               </a>
             </li>
             <li>
               <a href="/mypage">
                 <font-awesome-icon icon="fa-solid fa-user" size="xl" />
-                <p>내설정</p>
+                <p class="TITLE">내설정</p>
               </a>
             </li>
           </ul>
@@ -102,6 +98,7 @@
               icon="fa-solid fa-door-open"
               class="sideBar__logoutIcon"
             />
+            <span class="out__message TITLE">나가기</span>
           </a>
         </div>
       </div>
@@ -230,21 +227,15 @@ a {
   border-bottom: 2px solid #a7c957;
   display: flex;
   flex-direction: column;
+  margin: 5vh 0 3vh;
 }
 .sideBar__profile {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.sideBar__profileBox {
-  margin-top: 10px;
-  width: 50px;
-  height: 50px;
-  border: 1px groove;
-  border-radius: 5px;
-}
-.sideBar__profileBox > img {
-  width: 50px;
+.sideBar__profile > img {
+  width: 25vw;
 }
 .x__icon {
   color: #467302;
@@ -254,7 +245,7 @@ a {
   padding: 0;
   margin: 40px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .sideBar__icons > li {
   margin: 0 5vw 0 5vw;
@@ -271,7 +262,11 @@ a {
   margin-top: 1vh;
 }
 .sideBar__logoutIcon {
-  margin: 2vh 5vw 0 5vw;
+  vertical-align: middle;
+}
+.out__message {
+  margin-left: 1vw;
+  font-size: 0.7rem;
 }
 @media screen and (max-width: 850px) {
   .navbar {
@@ -309,6 +304,13 @@ a {
   }
   .open-menu__blur {
     display: block;
+  }
+  svg {
+    color: #467302;
+  }
+  svg ~ p.TITLE {
+    margin-top: 2vh;
+    font-size: 0.8rem;
   }
 }
 </style>

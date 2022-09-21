@@ -32,6 +32,9 @@ public class MonsterInfoResponseDto {
     private MonsterGrade grade;
     @ApiModelProperty(name="몬스터 체력", example="1")
     private int hp;
+
+    @ApiModelProperty(name="몬스터 현재 체력", example="1")
+    private int currentHp;
     @ApiModelProperty(name="최초 발견자 아이디", example="user_name")
     private String firstFinder;
 
@@ -48,6 +51,7 @@ public class MonsterInfoResponseDto {
                 .images(monster.getImages())
                 .grade(monster.getGrade())
                 .hp(monster.getHp())
+                .currentHp(monster.getHp())
                 .firstFinder(monster.getFirstFinder())
                 .line(monster.getLine())
                 .build();

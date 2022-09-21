@@ -47,7 +47,29 @@
               <font-awesome-icon icon="fa-solid fa-question" size="xl" />
             </div>
           </div>
-          <div class="userList">상대들</div>
+          <div class="userList">
+            <div
+              v-for="(enemy, i) in this.Enemys.userInfo"
+              :key="i"
+              class="userListItem"
+            >
+              <div class="enemyInfo">
+                <div class="enemyName">{{ enemy.nickname }}</div>
+              </div>
+              <div class="enemyDeck">
+                <div
+                  v-for="(item, j) in this.Enemys.deck[i]"
+                  :key="j"
+                  class="enemyDeck__item"
+                >
+                  {{ item.monsterId }}
+                </div>
+              </div>
+              <div class="gameStartBtn">
+                <button @click="onClickGameStart(i)">ㄱ</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="buttons">
           <button @click="goToGameShop()">상점</button>
@@ -82,8 +104,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import axios from 'axios'
+
 export default {
+  data() {
+    return {
+      Enemys: { userInfo: [], deck: [] }
+    }
+  },
   methods: {
+    ...mapActions(['fetchEnemyInfo']),
     goToGameMain() {
       this.$router.push({ path: '/game' })
     },
@@ -95,7 +126,35 @@ export default {
     },
     goToDeck() {
       this.$router.push({ path: '/game/deck' })
+    },
+    getMyEnemy() {
+      axios
+        .get(
+          'https://cors-anywhere.herokuapp.com/http://j7e201.p.ssafy.io:8081/api/v1/game/deck/opponentInfo',
+          {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+        )
+        .then((res) => {
+          console.log(res.data)
+          this.Enemys.userInfo = res.data.opponents
+          this.Enemys.deck = res.data.yourDecks
+        })
+        .catch((err) => console.log(err))
+    },
+    onClickGameStart(i) {
+      const info = {
+        isChinsun: false,
+        nickname: this.Enemys.userInfo[i].nickname,
+        enemyDeck: this.Enemys.deck[i]
+      }
+      this.fetchEnemyInfo(info)
     }
+  },
+  created() {
+    this.getMyEnemy()
   }
 }
 </script>
@@ -115,7 +174,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 5vw;
+  margin: 0 2.5vw;
 }
 .myDeck {
   border: 2px groove;
@@ -181,7 +240,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 5vw;
+  margin: 0 2.5vw;
 }
 .goToHome {
   display: flex;
@@ -196,14 +255,50 @@ export default {
   border: 2px groove;
   border-radius: 5px;
   height: 65vh;
-  width: 40vw;
+  width: 50vw;
 }
 .userList {
   border: 2px groove;
-  margin: 1vh 2.5vw;
+  margin: 2vh 2.5vw;
   border-radius: 5px;
   height: 55vh;
-  width: 35vw;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.userListItem {
+  border: 2px groove black;
+  border-radius: 5px;
+  height: 13vh;
+  width: 40vw;
+  margin: 1vh 2vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.enemyInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5vw;
+}
+.enemyName {
+  font-size: 1.5vw;
+}
+.enemyDeck {
+  width: 28vw;
+  height: 10vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.enemyDeck__item {
+  border: 2px groove black;
+  border-radius: 5px;
+  width: 4vw;
+  height: 4vw;
 }
 .buttons {
   display: flex;
