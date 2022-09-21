@@ -22,6 +22,7 @@ public class FriendResponseDto {
     private Boolean gift_today;
     private Boolean gift_exist;
     private Integer rank_point;
+    private Long profile_img;
 
     public static FriendResponseDto from(Friend friend, User user){
         boolean flag = false;
@@ -36,6 +37,7 @@ public class FriendResponseDto {
                 .rank_point(user.getRankPoint())
                 .gift_today(flag)
                 .gift_exist(friend.getGiftExist())
+                .profile_img(user.getRepresentMonster().getMonsterId())
                 .build();
     }
 }
