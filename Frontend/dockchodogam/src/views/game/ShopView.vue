@@ -31,7 +31,6 @@
 import PaymentCash from '@/components/game/shop/PaymentCash.vue'
 import PaymentPackage from '@/components/game/shop/PaymentPackage.vue'
 import MonsterGacha from '@/components/game/shop/MonsterGacha.vue'
-import MonsterCard from '@/components/encyclopedia/MonsterCard.vue'
 
 export default {
   components: {
@@ -87,7 +86,7 @@ export default {
   right: 30px;
   cursor: pointer;
 }
-@media screen and (max-width: 850px) {
+/* @media screen and (max-width: 850px) {
   .game__exit {
     top: 10px;
     right: 10px;
@@ -97,5 +96,5 @@ export default {
   svg {
     width: 10px;
   }
-}
+} */
 </style>
