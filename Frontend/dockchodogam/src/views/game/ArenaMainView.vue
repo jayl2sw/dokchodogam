@@ -151,6 +151,9 @@ export default {
         enemyDeck: this.Enemys.deck[i]
       }
       this.fetchEnemyInfo(info)
+      setTimeout(() => {
+        this.$router.push({ path: '/game/arena/ingame' })
+      }, 200)
     }
   },
   created() {

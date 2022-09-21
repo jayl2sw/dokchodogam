@@ -39,9 +39,9 @@ export default {
 }
 .loading__image {
   animation: motion 0.5s linear 0s infinite alternate;
-  width: 30vw;
-  height: 30vw;
-  margin: 10vw;
+  width: 30vh;
+  height: 30vh;
+  margin: 10vh;
 }
 .loading__text {
   width: 100%;

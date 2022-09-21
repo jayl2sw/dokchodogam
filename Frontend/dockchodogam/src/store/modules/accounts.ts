@@ -1,17 +1,16 @@
 import axios from 'axios'
-import { StoreOptions } from 'vuex'
+import { Module } from 'vuex'
+import { RootState } from '../index'
 
 export interface accountsState {
   userInfo: object
-  userDeck: Array<number>
-  enemyInfo: object
+  userDeck: Array<object>
 }
 
-export const accounts: StoreOptions<accountsState> = {
+export const accounts: Module<accountsState, RootState> = {
   state: {
     userInfo: {},
-    userDeck: [],
-    enemyInfo: {}
+    userDeck: []
   },
   getters: {
     userInfo: (state) => state.userInfo,
