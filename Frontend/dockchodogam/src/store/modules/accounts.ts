@@ -1,8 +1,21 @@
 import axios from 'axios'
+import { StoreOptions } from 'vuex'
 
-export const accounts = {
-  state: {},
+export interface accountsState {
+  userInfo: object
+  userDeck: Array<number>
+  enemyInfo: object
+}
+
+export const accounts: StoreOptions<accountsState> = {
+  state: {
+    userInfo: {},
+    userDeck: [],
+    enemyInfo: {}
+  },
   getters: {
+    userInfo: (state) => state.userInfo,
+    userDeck: (state) => state.userDeck,
     // 로그인 여부를 가져옵니다.
     // isLogin(state) {
     //   return localStorage.getItem('refreshToken') === '' ? false : true
@@ -28,8 +41,24 @@ export const accounts = {
       return expire
     }
   },
-  mutations: {},
+  mutations: {
+    SET_USERINFO(state, userInfo) {
+      state.userInfo = userInfo
+      console.log(userInfo)
+    },
+    SET_USERDECK(state, userDeck) {
+      state.userDeck = userDeck
+      console.log(userDeck)
+    }
+  },
   actions: {
+    async fetchUserInfo({ commit }, userInfo) {
+      commit('SET_USERINFO', userInfo)
+    },
+    async fetchUserDeck({ commit }, userDeck) {
+      commit('SET_USERDECK', userDeck)
+    },
+
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
       if (localStorage.getItem('accessToken') !== '') {

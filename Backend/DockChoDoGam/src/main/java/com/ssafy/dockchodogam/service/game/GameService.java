@@ -2,7 +2,6 @@ package com.ssafy.dockchodogam.service.game;
 
 
 import com.ssafy.dockchodogam.domain.Item;
-import com.ssafy.dockchodogam.domain.Skill;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
 import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
@@ -19,10 +18,6 @@ public interface GameService {
     Page<MonstersResponseDto> getMonsterList(Long userId, Pageable pageable);
     // 몬스터 아이디를 통해 특정 독초몬 상세 정보 조회
     MonsterInfoResponseDto getMonsterInfo(Long monsterId);
-    // 모든 스킬 리스트 조회
-    List<Skill> getSkills();
-    // 스킬 아이디를 통해 특정 스킬 상세 정보 조회
-    Skill getSkill(Long skillId);
     // 로그인 유저의 덱 수정
     boolean changeDeck(DeckRequestDto monsters, Long userId);
     // 로그인 유저의 덱 정보 조회
