@@ -4,7 +4,7 @@
       <h3>독초몬 뽑기</h3>
     </div>
     <div class="gacha__body">
-      <img src="@/assets/tree.png" />
+      <img class="gatcha__img" src="@/assets/tree.png" />
       <button>뽑기</button>
     </div>
   </div>
@@ -24,5 +24,9 @@ export default {}
 .gacha__body {
   display: flex;
   flex-direction: column;
+}
+
+.gatcha__img {
+  width: 20vw;
 }
 </style>
