@@ -59,11 +59,6 @@ export default {
             .then((res) => {
               this.fetchUserInfo(res.data)
             })
-          await axios
-            .get('http://localhost:8081/api/v1/game/deck/myInfo', option)
-            .then((res) => {
-              this.fetchUserDeck(res.data)
-            })
         }
       } catch (err) {
         this.loginError = true
