@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['doRefreshToken']),
+    ...mapActions(['doRefreshToken', 'fetchUserInfo', 'fetchUserDeck']),
     ...mapGetters(['isAccessTokenExpired']),
     async login() {
       console.log(this.userId)
@@ -49,6 +49,21 @@ export default {
           this.isLoggedIn = true
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
+          const option = {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+          await axios
+            .get('http://localhost:8081/api/v1/user/myinfo', option)
+            .then((res) => {
+              this.fetchUserInfo(res.data)
+            })
+          await axios
+            .get('http://localhost:8081/api/v1/game/deck/myInfo', option)
+            .then((res) => {
+              this.fetchUserDeck(res.data)
+            })
         }
       } catch (err) {
         this.loginError = true
