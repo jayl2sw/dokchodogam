@@ -39,7 +39,7 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/" @click="logout()">
                 <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
               </a>
             </li>
@@ -122,6 +122,10 @@ export default {
     menuOpen() {
       this.showMenu = !this.showMenu
       this.$emit('overflow', this.showMenu)
+    },
+    logout() {
+      localStorage.setItem('accessToken', '')
+      localStorage.setItem('refreshToken', '')
     }
   }
 }
