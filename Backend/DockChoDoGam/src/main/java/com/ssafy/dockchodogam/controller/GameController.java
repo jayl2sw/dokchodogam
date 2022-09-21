@@ -1,7 +1,6 @@
 package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.domain.Item;
-import com.ssafy.dockchodogam.domain.Skill;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
 import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
@@ -55,27 +54,6 @@ public class GameController {
             @PathVariable @ApiParam(value="몬스터 아이디", required = true) Long monster_id){
         // 특정 독초몬의 상세 정보 조회
         return new ResponseEntity<>(gameService.getMonsterInfo(monster_id), HttpStatus.OK);
-    }
-
-    @GetMapping("/skill/list")
-    @ApiOperation(value = "스킬 리스트 조회")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = Skill.class)
-    })
-    public ResponseEntity<?> getSkills(){
-        // 모든 스킬 리스트 조회
-        return new ResponseEntity<>(gameService.getSkills(), HttpStatus.OK);
-    }
-
-    @GetMapping("/skill/detail/{skill_id}")
-    @ApiOperation(value = "스킬 상세 정보 조회")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = Skill.class)
-    })
-    public ResponseEntity<?> getSkillInfo(
-            @PathVariable @ApiParam(value="스킬 아이디", required = true) Long skill_id){
-        // 특정 스킬의 상세 정보 조회
-        return new ResponseEntity<>(gameService.getSkill(skill_id), HttpStatus.OK);
     }
 
     @PutMapping("/deck/save")

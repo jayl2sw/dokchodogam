@@ -33,7 +33,6 @@ public class GameServiceImpl implements GameService {
     private final DeckRepository deckRepository;
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
-    private final SkillRepository skillRepository;
     private final PurchasesRepository purchasesRepository;
 
     @Override
@@ -48,16 +47,6 @@ public class GameServiceImpl implements GameService {
     public MonsterInfoResponseDto getMonsterInfo(Long monsterId) {
         Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
         return MonsterInfoResponseDto.of(monster);
-    }
-
-    @Override
-    public List<Skill> getSkills() {
-        return skillRepository.findAll();
-    }
-
-    @Override
-    public Skill getSkill(Long skillId) {
-        return skillRepository.findById(skillId).orElseThrow(SkillNotFoundException::new);
     }
 
     @Override
