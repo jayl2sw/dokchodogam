@@ -11,7 +11,6 @@
       <input v-model="email" placeholder="이메일" />
       <button type="submit" @click="isEmailDuplicate()">이메일중복확인</button>
     </div>
-    <input v-model="region" placeholder="리젼" />
     <div>
       <input v-model="password" type="password" placeholder="비밀번호" />
       <input v-model="password2" type="password" placeholder="비밀번호 확인" />
@@ -30,7 +29,6 @@ export default {
       password: this.password,
       password2: this.password2,
       username: this.username,
-      region: this.region,
       nicknameDuplicate: true,
       emailDuplicate: true
     }
@@ -97,10 +95,14 @@ export default {
           })
           .then((res) => {
             console.log(res)
+            alert('회원가입을 축하드립니다!')
           })
           .catch((err) => {
             console.log(err)
           })
+        await this.$router.push({
+          name: 'start'
+        })
       } else {
         return alert('비밀번호가 일치하지 않습니다.')
       }

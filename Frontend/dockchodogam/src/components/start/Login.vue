@@ -20,9 +20,7 @@ export default {
   data() {
     return {
       userId: '',
-      userPassword: '',
-      isLoggedIn: false,
-      loginError: false
+      userPassword: ''
     }
   },
   methods: {
@@ -46,7 +44,6 @@ export default {
         )
         if (result.status === 200) {
           console.log(result)
-          this.isLoggedIn = true
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
           const option = {
@@ -59,9 +56,9 @@ export default {
             .then((res) => {
               this.fetchUserInfo(res.data)
             })
+          await this.$router.push({ name: 'main' })
         }
       } catch (err) {
-        this.loginError = true
         throw new Error(err)
       }
     }
