@@ -27,6 +27,7 @@ public class UserResponseDto {
     private Boolean newbie;
     private Boolean starter;
     private String createDate;
+    private Long profile_img;
 
     public static UserResponseDto from(User entity){
         String createDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(entity.getCreatedDate()).toString();
@@ -42,6 +43,7 @@ public class UserResponseDto {
                 .newbie(entity.getNewbie())
                 .starter(entity.getStarter())
                 .createDate(createDate)
+                .profile_img(entity.getRepresentMonster().getMonsterId())
                 .build();
     }
 }

@@ -108,9 +108,11 @@ public class UserServiceImpl implements UserService{
                 .representMonster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
                 .build();
 
+        Monster zero = monsterRepository.findById(Long.parseLong("0")).orElseThrow(MonsterNotFoundException::new);
+
         Deck deck = Deck.builder()
                 .user(user)
-                .monster1(null).monster2(null).monster3(null).monster4(null).monster5(null).build();
+                .monster1(zero).monster2(zero).monster3(zero).monster4(zero).monster5(zero).build();
 
         deckRepository.save(deck);
 
