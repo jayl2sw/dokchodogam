@@ -36,6 +36,7 @@ export default {
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: #ececec;
 }
 .loading__image {
   animation: motion 0.5s linear 0s infinite alternate;

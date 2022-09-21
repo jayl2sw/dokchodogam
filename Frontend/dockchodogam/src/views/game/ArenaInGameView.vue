@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import DockChoMon from '@/components/game/arena/DockChoMon.vue'
 import ArenaGameResult from '@/components/game/arena/ArenaGameResult.vue'
 import LoadingPage from '@/components/main/LoadingPage.vue'
@@ -121,6 +121,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchUserDeck']),
     gameStart() {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
@@ -143,6 +144,78 @@ export default {
           this.currentYourDockCho.minAttack,
           this.currentYourDockCho.maxAttack
         )
+        // 상성 체크
+        if (this.currentMyDockCho.type === 'JAPCHO') {
+          if (this.currentYourDockCho.type === 'DOKCHO') {
+            console.log(
+              '잡 독 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'YAKCHO') {
+            console.log('잡 약 쎄게떄림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '잡 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else if (this.currentMyDockCho.type === 'DOKCHO') {
+          if (this.currentYourDockCho.type === 'JAPCHO') {
+            console.log('독 잡 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'YAKCHO') {
+            console.log(
+              '독 약 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '독 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else if (this.currentMyDockCho.type === 'YAKCHO') {
+          if (this.currentYourDockCho.type === 'DOKCHO') {
+            console.log('약 독 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'JAPCHO') {
+            console.log(
+              '약 잡 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '약 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else {
+          console.log('히 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+          this.myDamage *= 1.2
+          if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '히 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        }
+        this.myDamage = Math.round(this.myDamage)
+        this.yourDamage = Math.round(this.yourDamage)
         if (this.nowUseSkill) {
           if (this.skill === 1) {
             console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
@@ -164,8 +237,6 @@ export default {
     judged() {
       this.currentMyDockCho.currentHp -= this.yourDamage
       this.currentYourDockCho.currentHp -= this.myDamage
-      console.log(this.myDockChoList, this.currentMyDockCho)
-      console.log(this.yourDockChoList, this.currentYourDockCho)
       setTimeout(() => {
         this.myDamage = ''
         this.yourDamage = ''
@@ -255,18 +326,19 @@ export default {
     }
   },
   created() {
+    this.fetchUserDeck()
     setTimeout(() => {
       this.isLoading = false
+      this.myDockChoList = this.userDeck
+      this.yourDockChoList = this.enemyInfo.enemyDeck
+      console.log('덱', this.myDockChoList, this.yourDockChoList)
+      console.log('덱', this.userDeck, this.enemyInfo)
       this.gameStart()
     }, 4000)
-    this.myDockChoList = this.userDeck
-    this.yourDockChoList = this.enemyInfo.enemyDeck
     this.skill = _.random(1, 3)
-    console.log('덱', this.myDockChoList, this.yourDockChoList)
-    console.log('덱', this.userDeck, this.enemyInfo, this.userInfo)
   },
   computed: {
-    ...mapGetters(['userDeck', 'enemyInfo', 'userInfo'])
+    ...mapGetters(['userDeck', 'enemyInfo'])
   }
 }
 </script>

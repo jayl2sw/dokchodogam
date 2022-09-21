@@ -4,17 +4,14 @@ import { RootState } from '../index'
 
 export interface accountsState {
   userInfo: object
-  userDeck: Array<object>
 }
 
 export const accounts: Module<accountsState, RootState> = {
   state: {
-    userInfo: {},
-    userDeck: []
+    userInfo: {}
   },
   getters: {
     userInfo: (state) => state.userInfo,
-    userDeck: (state) => state.userDeck,
     // 로그인 여부를 가져옵니다.
     // isLogin(state) {
     //   return localStorage.getItem('refreshToken') === '' ? false : true
@@ -44,18 +41,11 @@ export const accounts: Module<accountsState, RootState> = {
     SET_USERINFO(state, userInfo) {
       state.userInfo = userInfo
       console.log(userInfo)
-    },
-    SET_USERDECK(state, userDeck) {
-      state.userDeck = userDeck
-      console.log(userDeck)
     }
   },
   actions: {
     async fetchUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
-    },
-    async fetchUserDeck({ commit }, userDeck) {
-      commit('SET_USERDECK', userDeck)
     },
 
     // Access-Token를 갱신합니다.
