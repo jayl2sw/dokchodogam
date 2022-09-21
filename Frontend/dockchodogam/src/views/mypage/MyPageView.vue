@@ -265,11 +265,11 @@ button {
   }
   .change__password {
     width: 20vw;
-    font-size: 1vw;
+    font-size: 2vw;
   }
   .quit__btn {
     width: 20vw;
-    font-size: 1vw;
+    font-size: 2vw;
   }
   .changePw__inputs input {
     height: 5vh;
