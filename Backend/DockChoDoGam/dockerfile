@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-RUN ls ./build/libs
+RUN ls
 ADD ./build/libs/*.jar /app.jar
 ENTRYPOINT [ "java", "-jar","-Dspring.profiles.active=gcp", "/app.jar"]
 EXPOSE 8081
