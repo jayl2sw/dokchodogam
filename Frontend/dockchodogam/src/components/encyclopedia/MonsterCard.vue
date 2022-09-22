@@ -28,11 +28,11 @@
     <div
       v-b-modal.modalPopover
       :class="{
-        card__common: monsterDetail.grade == 'common',
-        card__rare: monsterDetail.grade == 'rare',
-        card__epic: monsterDetail.grade == 'epic',
-        card__legendary: monsterDetail.grade == 'legendary',
-        card__special: monsterDetail.grade == 'special'
+        card__common: monsterDetail.grade == 'COMMON',
+        card__rare: monsterDetail.grade == 'RARE',
+        card__epic: monsterDetail.grade == 'EPIC',
+        card__legendary: monsterDetail.grade == 'LEGENDARY',
+        card__special: monsterDetail.grade == 'SPECIAL'
       }"
     >
       <img
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       modal: false,
-      monsterDetail: { grade: 'normal' }
+      monsterDetail: []
     }
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
         url: '/game/monster/detail/',
         method: 'get',
         data: {
-          data: this.monster.monsterId
+          data: this.monster.mosterId
         }
       })
         .then((res) => {
@@ -87,6 +87,9 @@ export default {
         })
     }
   }
+  // created() {
+  //   this.fetchMonsterDetail()
+  // }
 }
 </script>
 
