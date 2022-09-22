@@ -44,7 +44,7 @@ export default {
   /* border-width: 5px; */
   border-radius: 10px;
   width: 40vw;
-  height: 70vh;
+  /* height: 70vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,6 +64,7 @@ export default {
   flex-direction: column;
 }
 .monster__silhouette {
+  width: 50vh;
   filter: grayscale(100%);
 }
 
@@ -75,7 +76,7 @@ button {
   border: none;
   opacity: 0.8;
   transition: 0.2s;
-  margin: 5vh auto;
+  margin: 5vh auto 0;
 }
 button:hover {
   font-weight: bold;
