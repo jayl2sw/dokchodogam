@@ -40,7 +40,8 @@ export const accounts: Module<accountsState, RootState> = {
   mutations: {
     SET_USERINFO(state, userInfo) {
       state.userInfo = userInfo
-      console.log(userInfo)
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      console.log(localStorage.getItem('userInfo'))
     }
   },
   actions: {
