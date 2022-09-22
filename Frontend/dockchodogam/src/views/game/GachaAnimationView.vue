@@ -1,12 +1,22 @@
 <template>
-  <div>
-    animation
-
-    <div>
+  <div class="card">
+    <div
+      :class="{
+        card__normal: newMonster.grade == 'normal',
+        card__rare: newMonster.grade == 'rare',
+        card__epic: newMonster.grade == 'epic',
+        card__legendary: newMonster.grade == 'legendary',
+        card__special: newMonster.grade == 'special'
+      }"
+    >
       <div>
-        <img src="@/assets/loading/3.png" />
-        <p>몬스터 이름</p>
+        <img src="@/assets/loading/3.png" class="card__img" />
+        <p>월계수</p>
       </div>
+    </div>
+  </div>
+  <div>
+    <div>
       <button @click="goToDogam">도감에서 확인하기</button>
       <button @click="gachaAgain">다시 뽑기</button>
     </div>
@@ -19,7 +29,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      newMonster: {},
+      newMonster: { grade: 'normal' },
       cash: 100
     }
   },
@@ -60,4 +70,29 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.card {
+  display: flex;
+  width: 20vw;
+  height: 50vh;
+}
+.card__img {
+  width: 100%;
+  height: 0%;
+}
+.card__normal {
+  background-color: gray;
+}
+.card__rare {
+  background-color: skyblue;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: yellow;
+}
+.card__special {
+  background-color: rosybrown;
+}
+</style>

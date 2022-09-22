@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      cash: 300
+      cash: 200
     }
   },
   methods: {

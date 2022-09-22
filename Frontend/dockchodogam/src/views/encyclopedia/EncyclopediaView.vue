@@ -48,7 +48,7 @@
         value="special"
         v-model="checkedGrade"
       />
-      <label for="special">epic</label>
+      <label for="special">special</label>
     </div>
     <div>
       <MonsterCard
@@ -110,10 +110,11 @@ export default {
   methods: {
     fetchMonsterList() {
       axios({
-        url: '/game/monster/list',
-        method: 'get'
+        url: 'http://j7e201.p.ssafy.io:8081/api/v1/dokcho/game/monster/list',
+        method: 'GET'
       })
         .then((res) => {
+          console.log(res)
           this.monsters = res
         })
         .catch((err) => console.log(err))

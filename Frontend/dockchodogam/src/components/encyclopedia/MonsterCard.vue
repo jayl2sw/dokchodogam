@@ -24,7 +24,17 @@
   </div> -->
 
   <div class="card">
-    <div v-b-modal.modalPopover class="monster__card">
+    <!--  -->
+    <div
+      v-b-modal.modalPopover
+      :class="{
+        card__normal: monsterDetail.grade == 'normal',
+        card__rare: monsterDetail.grade == 'rare',
+        card__epic: monsterDetail.grade == 'epic',
+        card__legendary: monsterDetail.grade == 'legendary',
+        card__special: monsterDetail.grade == 'special'
+      }"
+    >
       <img
         src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
         class="card__img"
@@ -49,13 +59,14 @@
 import axios from 'axios'
 
 export default {
+  // prop 제대로 받아오는지 확인하고 class 수정 필요
   props: {
-    monster: Object
+    monster: Array
   },
   data() {
     return {
       modal: false,
-      monsterDetail: {}
+      monsterDetail: { grade: 'normal' }
     }
   },
   methods: {
@@ -88,5 +99,20 @@ export default {
 .card__img {
   width: 100%;
   height: 20vh;
+}
+.card__normal {
+  background-color: gray;
+}
+.card__rare {
+  background-color: skyblue;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: yellow;
+}
+.card__special {
+  background-color: rosybrown;
 }
 </style>
