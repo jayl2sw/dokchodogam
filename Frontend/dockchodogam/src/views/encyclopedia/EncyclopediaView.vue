@@ -72,10 +72,7 @@ export default {
   },
   data() {
     return {
-      monsters: [
-        { monsterId: 1, type: 'dokcho', grade: 'normal' },
-        { monsterId: 2, type: 'yakcho', grade: 'rare' }
-      ],
+      monsters: [],
       checkedType: [],
       checkedGrade: []
     }
@@ -118,7 +115,7 @@ export default {
       })
         .then((res) => {
           console.log(res)
-          this.monsters = res
+          this.monsters = res.data
         })
         .catch((err) => console.log(err))
     }
