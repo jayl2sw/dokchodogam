@@ -2,7 +2,7 @@
   <div class="card">
     <div
       :class="{
-        card__normal: newMonster.grade == 'normal',
+        card__common: newMonster.grade == 'common',
         card__rare: newMonster.grade == 'rare',
         card__epic: newMonster.grade == 'epic',
         card__legendary: newMonster.grade == 'legendary',
@@ -80,7 +80,7 @@ export default {
   width: 100%;
   height: 0%;
 }
-.card__normal {
+.card__common {
   background-color: gray;
 }
 .card__rare {
