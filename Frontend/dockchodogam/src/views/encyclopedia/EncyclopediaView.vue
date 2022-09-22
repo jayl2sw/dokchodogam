@@ -22,11 +22,11 @@
 
       <input
         type="checkbox"
-        id="normal"
-        value="normal"
+        id="common"
+        value="common"
         v-model="checkedGrade"
       />
-      <label for="normal">normal</label>
+      <label for="common">common</label>
 
       <input type="checkbox" id="rare" value="rare" v-model="checkedGrade" />
       <label for="rare">rare</label>
@@ -110,8 +110,11 @@ export default {
   methods: {
     fetchMonsterList() {
       axios({
-        url: 'http://j7e201.p.ssafy.io:8081/api/v1/dokcho/game/monster/list',
-        method: 'GET'
+        url: 'http://localhost:8081/api/v1/game/monster/list',
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
       })
         .then((res) => {
           console.log(res)
@@ -119,10 +122,10 @@ export default {
         })
         .catch((err) => console.log(err))
     }
+  },
+  created() {
+    this.fetchMonsterList()
   }
-  // created() {
-  //   this.fetchMonsterList()
-  // }
 }
 </script>
 
