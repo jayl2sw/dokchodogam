@@ -271,7 +271,8 @@ router.beforeEach(async (to, from, next) => {
       return next('/')
     }
   } else {
-    console.log('>>>>>>>>>>>>>>>>>>>>> need login !')
+    console.log('로그인 해주세용~💋')
+    alert('로그인 해주세용~💋')
     return next({ path: '/' })
   }
 
