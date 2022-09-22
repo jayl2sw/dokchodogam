@@ -246,20 +246,26 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (isAccessTokenExpired) {
-//     await doRefreshToken()
-//   } else if (
-//     localStorage.getItem('accessToken') === '' ||
-//     localStorage.getItem('refreshToken') === '' ||
-//     !localStorage.getItem('accessToken') ||
-//     !localStorage.getItem('refreshToken')
-//   ) {
-//     alert('로그인 해주세용~💋')
-//     return next('/')
-//   } else {
-//     return next()
-//   }
-// })
+router.beforeEach(async (to, from, next) => {
+  if (window.location.href === 'http://localhost:8080/') {
+    console.log(window.location.href)
+    return next()
+  } else {
+    if (isAccessTokenExpired()) {
+      await doRefreshToken()
+      return next()
+    } else if (
+      localStorage.getItem('accessToken') === '' ||
+      localStorage.getItem('refreshToken') === '' ||
+      !localStorage.getItem('accessToken') ||
+      !localStorage.getItem('refreshToken')
+    ) {
+      alert('로그인 해주세용~💋')
+      return next('/')
+    } else {
+      return next()
+    }
+  }
+})
 
 export default router
