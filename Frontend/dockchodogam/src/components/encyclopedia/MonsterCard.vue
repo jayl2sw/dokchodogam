@@ -28,7 +28,7 @@
     <div
       v-b-modal.modalPopover
       :class="{
-        card__normal: monsterDetail.grade == 'normal',
+        card__common: monsterDetail.grade == 'common',
         card__rare: monsterDetail.grade == 'rare',
         card__epic: monsterDetail.grade == 'epic',
         card__legendary: monsterDetail.grade == 'legendary',
@@ -100,7 +100,7 @@ export default {
   width: 100%;
   height: 20vh;
 }
-.card__normal {
+.card__common {
   background-color: gray;
 }
 .card__rare {
