@@ -8,23 +8,30 @@ import axios from 'axios'
 const isAccessTokenExpired = function isAccessTokenExpired() {
   let expire = false
   // accessToken에서 .(도트)로 분리하여 payload를 가져옵니다.
-  let base64Payload = localStorage.getItem('accessToken').split('.')[1]
-  // URL과 호환되지 않는 문자를 base64 표준 문자로 교체합니다.
-  base64Payload = base64Payload.replace(/-/g, '+').replace(/_/g, '/')
-  // atob() 메소드로 복호화합니다.
-  base64Payload = atob(base64Payload)
-  // JSON 객체로 변환합니다.
-  const payloadObject = JSON.parse(base64Payload)
-  // accessToken의 만료 시간을 확인합니다.
-  const currentDate = new Date().getTime() / 1000
-  if (payloadObject.exp <= currentDate) {
-    console.log('token expired')
-    expire = true
-  } else {
-    console.log('token valid')
+  if (localStorage.getItem('accessToken') !== null) {
+    let base64Payload = localStorage.getItem('accessToken').split('.')[1]
+    // URL과 호환되지 않는 문자를 base64 표준 문자로 교체합니다.
+    base64Payload = base64Payload.replace(/-/g, '+').replace(/_/g, '/')
+    // atob() 메소드로 복호화합니다.
+    base64Payload = atob(base64Payload)
+    // JSON 객체로 변환합니다.
+    const payloadObject = JSON.parse(base64Payload)
+    // accessToken의 만료 시간을 확인합니다.
+    const currentDate = new Date().getTime() / 1000
+    if (payloadObject.exp <= currentDate) {
+      console.log('token expired')
+      expire = true
+    } else {
+      console.log('token valid')
+    }
   }
   return expire
 }
+
+// const requireAuth = () => (from, to, next) => {
+//   if (isAccessTokenExpired) return next()
+//   next('/')
+// }
 
 const doRefreshToken = async function doRefreshToken() {
   if (localStorage.getItem('accessToken') !== '') {
@@ -247,25 +254,58 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (window.location.href === 'http://localhost:8080/') {
-    console.log(window.location.href)
-    return next()
-  } else {
-    if (isAccessTokenExpired()) {
+  console.log(window.location.href)
+  let token = ''
+  if (localStorage.getItem('accessToken')) {
+    token = localStorage.getItem('accessToken')
+  }
+  if (to.path === '/') {
+    next()
+  } else if (token) {
+    console.log(isAccessTokenExpired())
+
+    if (!isAccessTokenExpired()) {
       await doRefreshToken()
       return next()
-    } else if (
-      localStorage.getItem('accessToken') === '' ||
-      localStorage.getItem('refreshToken') === '' ||
-      !localStorage.getItem('accessToken') ||
-      !localStorage.getItem('refreshToken')
-    ) {
-      alert('로그인 해주세용~💋')
-      return next('/')
     } else {
-      return next()
+      return next('/')
     }
+  } else {
+    console.log('>>>>>>>>>>>>>>>>>>>>> need login !')
+    return next({ path: '/' })
   }
+
+  // if (window.location.href === 'http://localhost:8080/') {
+  //   console.log(window.location.href)
+  //   console.log(localStorage.getItem('accessToken'))
+  //   return next()
+  // } else {
+  //   if (isAccessTokenExpired()) {
+  //     await doRefreshToken()
+  //     return next()
+  //   } else {
+  //     alert('로그인 해주세용~💋')
+  //     router.push({ path: '/' })
+  //     return next()
+  //   }
+  // }
 })
+
+// router.beforeEach(async (to, from) => {
+//   console.log(window.location.href)
+//   if (window.location.href === 'http://localhost:8080/') {
+//     console.log(window.location.href)
+//     console.log(localStorage.getItem('accessToken'))
+//     return '/'
+//   } else {
+//     if (isAccessTokenExpired()) {
+//       await doRefreshToken()
+//       return '/'
+//     } else {
+//       alert('로그인 해주세용~💋')
+//       return '/'
+//     }
+//   }
+// })
 
 export default router
