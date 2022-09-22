@@ -39,7 +39,7 @@ public class GameServiceImpl implements GameService {
     public Page<MonstersResponseDto> getMonsterList(Long userId, Pageable pageable) {
         return monsterRepository.findAll(pageable)
                 .map(s->MonstersResponseDto.of(s,
-                        userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(s.getMonsterId(), userId) != null
+                        userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(s.getMonsterId(), userId).isPresent()
                 ));
     }
 
