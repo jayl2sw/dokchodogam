@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-COPY ./build/libs/*.jar /app.jar
+ADD ./build/libs/*.jar /app.jar
 
 ENTRYPOINT [ "java", "-jar","-Dspring.profiles.active=gcp", "/app.jar"]
 EXPOSE 8081
