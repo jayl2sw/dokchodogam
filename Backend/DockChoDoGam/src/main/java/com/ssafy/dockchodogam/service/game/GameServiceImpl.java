@@ -154,4 +154,15 @@ public class GameServiceImpl implements GameService {
         userRepository.save(user);
     }
 
+    @Override
+    public void addMonster(Long userId, Long monsterId) {
+        if(userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monsterId, userId).isPresent()){
+            throw new RuntimeException("이미 보유 중");
+        }
+
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
+        userMonsterRepository.save(UserMonster.builder().user(user).monster(monster).build());
+    }
+
 }

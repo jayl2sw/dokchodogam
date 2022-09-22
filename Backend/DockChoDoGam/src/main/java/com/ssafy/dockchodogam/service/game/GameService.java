@@ -35,6 +35,8 @@ public interface GameService {
     List<MonstersResponseDto> getRandomMonsters(UserResponseDto user, Long itemId);
     // 로그인 유저 캐시 수정
     void chargeCash(Long userId, int cash);
+    // 로그인 유저 몬스터 추가
+    void addMonster(Long userId, Long monsterId);
     // 로그인 유저 보유 독초몬 수정
     // 로그인 유저 게임 정보 조회
 
