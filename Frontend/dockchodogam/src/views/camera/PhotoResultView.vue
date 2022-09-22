@@ -24,6 +24,9 @@
         <div class="dockchoExplanation__container">
           <div class="dockchoExplanation">
             <img src="@/assets/flower_ex.png" alt="flower" />
+            <h3 v-if="results.docko == true">
+              독초입니다! 채집 및 섭취에 주의하세요.
+            </h3>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nobis
             ea quae omnis doloribus assumenda impedit, maiores id tempora
             corporis obcaecati quis minima magnam sapiente ipsa in dolores hic
@@ -186,6 +189,7 @@ export default {
   overflow: auto;
   color: #215f00;
 }
+
 .dockchoExplanation > img {
   float: left;
   width: 10vw;
@@ -194,6 +198,7 @@ export default {
   margin-bottom: 1vh;
   object-fit: cover;
 }
+
 .tree_container img {
   height: 8vh;
   position: absolute;

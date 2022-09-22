@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   // 사진 분석 결과
   {
-    path: '/result',
+    path: '/camera/result',
     name: 'result',
     component: () =>
       import(
