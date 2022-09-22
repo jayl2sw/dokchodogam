@@ -10,12 +10,12 @@
         <div class="friendManage__tap">
           <div class="friendManage">
             <div v-for="(friend, i) in this.friendList" :key="i">
-              <FriendListManage :friend="friend" />
+              <FriendListManage :friend="friend" class="friendManageList" />
             </div>
           </div>
           <div class="friendGift">
             <div class="friendGift__top">
-              <p>NEW 친구 신청</p>
+              <p class="TITLE">NEW 친구 신청</p>
             </div>
             <div class="friendGift__bottom">
               <div v-for="(gift, i) in this.giftList" :key="i">
@@ -94,25 +94,35 @@ export default {
   margin: 0 5vw 0 0;
   overflow: auto;
 }
+.friendManageList:first-child {
+  margin-top: 0;
+}
 .friendGift {
-  border: 2px groove black;
-  border-radius: 5px;
-  height: 70vh;
+  border: none;
+  border-radius: 30px;
+  height: 100%;
   width: 45%;
+  background-color: white;
 }
 .friendGift__top {
-  height: 10vh;
+  height: 15%;
   width: 100%;
+  margin-top: 1vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.friendGift__top > p {
+  font-weight: bold;
+  font-size: 2vw;
+}
 .friendGift__bottom {
-  border: 2px groove black;
-  border-radius: 5px;
-  height: 50vh;
-  width: 32.5vw;
-  margin: 5vh 2.5vw;
+  border: none;
+  border-radius: 30px;
+  background-color: #a7c957;
+  height: 80%;
+  width: 28vw;
+  margin: 0 auto;
   overflow: auto;
 }
 .friendSearch__tap {

@@ -5,7 +5,7 @@
       <p class="TITLE name">username</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-paper-plane" />
+      <font-awesome-icon icon="fa-solid fa-gift" />
       <font-awesome-icon icon="fa-solid fa-hand-fist" />
     </div>
   </div>
