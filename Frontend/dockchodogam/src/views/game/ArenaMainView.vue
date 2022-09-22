@@ -12,16 +12,22 @@
               <div
                 class="progress-bar"
                 role="progressbar"
-                style="width: 75%"
-                aria-valuenow="75"
+                :style="'width: ' + (this.userInfo.rank_point % 100) + '%'"
+                :aria-valuenow="this.userInfo.rank_point % 100"
                 aria-valuemin="0"
                 aria-valuemax="100"
-              ></div>
+              >
+                {{ this.userInfo.rank_point % 100 }}
+              </div>
             </div>
           </div>
           <div class="myDeckDetail">
             <div class="myDeckPower">전투력:500</div>
-            <div class="myDeckImg"></div>
+            <div class="myDeckImages">
+              <div v-for="(item, i) in this.myDeck" :key="i">
+                <img src="@/assets/loading/1.png" alt="" class="myDeckImage" />
+              </div>
+            </div>
           </div>
           <div class="myDeckBtnBox">
             <div class="myDeckBtn" @click="goToDeck()">내 덱 수정</div>
@@ -36,7 +42,19 @@
               class="rankingListItem"
               v-for="(item, i) in this.ranking.opponents"
               :key="i"
-            ></div>
+            >
+              <div class="rankIntImage">{{ i + 1 }}</div>
+              <div class="rankerName">{{ item.nickname }}</div>
+              <div class="rankerDeck">
+                <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
+                  <img
+                    src="@/assets/loading/2.png"
+                    alt=""
+                    class="rankerDeckItem"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -64,12 +82,12 @@
                 <div class="enemyName">{{ enemy.nickname }}</div>
               </div>
               <div class="enemyDeck">
-                <div
-                  v-for="(item, j) in this.Enemys.deck[i]"
-                  :key="j"
-                  class="enemyDeck__item"
-                >
-                  {{ item.monsterId }}
+                <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
+                  <img
+                    src="@/assets/loading/3.png"
+                    alt=""
+                    class="enemyDeck__item"
+                  />
                 </div>
               </div>
               <div class="gameStartBtn" @click="onClickGameStart(i)">start</div>
@@ -110,7 +128,7 @@
 
 <script>
 import LoadingPage from '@/components/main/LoadingPage.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -120,8 +138,10 @@ export default {
   data() {
     return {
       Enemys: { userInfo: [], deck: [] },
+      myDeck: [],
       ranking: [],
-      isLoading: true
+      isLoading: true,
+      userInfo: {}
     }
   },
   methods: {
@@ -181,9 +201,19 @@ export default {
     this.getMyEnemy()
     this.fetchUserDeck()
     this.getRanking()
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     setTimeout(() => {
       this.isLoading = false
     }, 1500)
+  },
+  computed: {
+    ...mapGetters(['userDeck'])
+  },
+  watch: {
+    userDeck() {
+      this.myDeck = this.userDeck
+      console.log('와치', this.myDeck)
+    }
   }
 }
 </script>
@@ -231,6 +261,9 @@ export default {
 .progress {
   background-color: white;
 }
+.progress-bar {
+  background-color: #a7c957;
+}
 .myDeckPower {
   display: flex;
   align-items: center;
@@ -238,13 +271,17 @@ export default {
   width: 10vw;
   height: 100%;
 }
-.myDeckImg {
-  border: 2px groove;
-  border-radius: 10px;
+.myDeckImages {
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   width: 35vw;
   height: 100%;
+}
+.myDeckImage {
+  border-radius: 5px;
+  width: 6vw;
+  height: 6vw;
 }
 .myDeckBtnBox {
   display: flex;
@@ -293,6 +330,31 @@ export default {
   border-radius: 5px;
   width: 33vw;
   height: 8vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.rankIntImage {
+  width: 3vw;
+  height: 3vw;
+}
+.rankerName {
+  width: 5vw;
+  height: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vw;
+}
+.rankerDeck {
+  width: 23vw;
+  display: flex;
+  justify-content: space-evenly;
+}
+.rankerDeckItem {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 5px;
 }
 .box__right {
   display: flex;
@@ -363,10 +425,9 @@ export default {
   align-items: center;
 }
 .enemyDeck__item {
-  border: 2px groove black;
   border-radius: 5px;
-  width: 4vw;
-  height: 4vw;
+  width: 4.5vw;
+  height: 4.5vw;
 }
 .gameStartBtn {
   border-radius: 2.5vh;
