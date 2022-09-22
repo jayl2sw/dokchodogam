@@ -123,9 +123,9 @@ export default {
       this.showMenu = !this.showMenu
       this.$emit('overflow', this.showMenu)
     },
-    logout() {
-      localStorage.setItem('accessToken', '')
-      localStorage.setItem('refreshToken', '')
+    async logout() {
+      localStorage.clear()
+      await alert('로그아웃되셨습니다. 다음에 또 봐용~❤')
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="card">
     <div
       :class="{
-        card__normal: newMonster.grade == 'normal',
+        card__common: newMonster.grade == 'common',
         card__rare: newMonster.grade == 'rare',
         card__epic: newMonster.grade == 'epic',
         card__legendary: newMonster.grade == 'legendary',
@@ -18,7 +18,7 @@
   <div>
     <div>
       <button @click="goToDogam">도감에서 확인하기</button>
-      <button @click="gachaAgain">다시 뽑기</button>
+      <button @click="gachaAgain">한번 더 뽑기</button>
     </div>
   </div>
 </template>
@@ -37,7 +37,10 @@ export default {
     fetchMonsterGacha() {
       axios({
         url: '/game/monster/pick',
-        method: 'POST'
+        method: 'POST',
+        data: {
+          itemId: 3
+        }
       })
         .then((res) => (this.newMonster = res))
         .catch((err) => console.log(err))
@@ -80,7 +83,7 @@ export default {
   width: 100%;
   height: 0%;
 }
-.card__normal {
+.card__common {
   background-color: gray;
 }
 .card__rare {

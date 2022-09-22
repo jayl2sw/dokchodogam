@@ -39,7 +39,7 @@ public class GameServiceImpl implements GameService {
     public Page<MonstersResponseDto> getMonsterList(Long userId, Pageable pageable) {
         return monsterRepository.findAll(pageable)
                 .map(s->MonstersResponseDto.of(s,
-                        userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(s.getMonsterId(), userId) != null
+                        userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(s.getMonsterId(), userId).isPresent()
                 ));
     }
 
@@ -152,6 +152,17 @@ public class GameServiceImpl implements GameService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         user.changeMoney(user.getMoney() + cash);
         userRepository.save(user);
+    }
+
+    @Override
+    public void addMonster(Long userId, Long monsterId) {
+        if(userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monsterId, userId).isPresent()){
+            throw new RuntimeException("이미 보유 중");
+        }
+
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
+        userMonsterRepository.save(UserMonster.builder().user(user).monster(monster).build());
     }
 
 }

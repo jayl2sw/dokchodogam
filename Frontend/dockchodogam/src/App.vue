@@ -25,4 +25,19 @@
 .TITLE {
   font-family: 'UhBeeSe_hyun';
 }
+/* 스크롤바 전체 */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+/* 스크롤 막대 */
+*::-webkit-scrollbar-thumb {
+  height: 30vh; /* 스크롤바의 길이 */
+  background: #467302;
+  border-radius: 15px;
+}
+@media screen and (max-width: 850px) {
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
 </style>

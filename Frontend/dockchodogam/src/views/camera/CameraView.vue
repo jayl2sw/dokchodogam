@@ -9,7 +9,7 @@
         @error="(error) => logEvent('error: ' + error)"
       >
       </camera>
-      <button type="button" @click="snapshot">Button</button>
+      <button type="button" @click="snapshot">사진찍기</button>
     </div>
   </div>
 </template>
@@ -59,14 +59,14 @@ export default defineComponent({
       // console.log('사진찍힘')
       // console.log(currentSnapshot.value)
 
-      const route = useRoute()
+      // const route = useRoute()
       const router = useRouter()
 
       axios({
         url: '/dokcho/judge',
-        method: 'post',
+        method: 'POST',
         data: {
-          data: url
+          data: blob
         }
       })
         .then((res) => {
@@ -74,7 +74,7 @@ export default defineComponent({
           result.value = res
           // router push 하면서 result.value 담아서 보내기
           router.push({
-            path: '/search',
+            path: '/camera/result',
             query: { query: result.value }
           })
         })

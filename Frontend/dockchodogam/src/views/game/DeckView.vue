@@ -1,5 +1,6 @@
 <template>
-  <div class="deck">
+  <LoadingPage v-if="this.isLoading" />
+  <div class="deck" v-show="!this.isLoading">
     <div class="myDeck">
       <div class="myDeck__sum">
         <div class="myDeck__hp"></div>
@@ -13,7 +14,7 @@
           @click="onClickDeck(i)"
           :class="this.selectDeck === i ? 'checked' : ''"
         >
-          {{ item }}
+          {{ item.name }}
         </div>
       </div>
     </div>
@@ -25,52 +26,135 @@
         @click="onClickDockcho(i)"
         :class="this.selectDockcho === i ? 'checked' : ''"
       >
-        {{ item }}
+        <div class="dokchoBlur" :class="this.check[i] ? 'inMyDeck' : ''"></div>
+        {{ item.name }}
       </div>
     </div>
     <div class="buttons">
       <div class="cancel" @click="goToArena()">취소</div>
-      <div class="complite">완료</div>
+      <div class="complite" @click="changeMyDeck()">완료</div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { mapGetters } from 'vuex'
+import LoadingPage from '@/components/main/LoadingPage.vue'
+
 export default {
+  components: {
+    LoadingPage
+  },
   data() {
     return {
-      myDeck: [1, 2, 3, 4, 5],
-      myDockcho: [6, 7, 8, 9, 10, 11, 12],
+      myDeck: [],
+      myDockcho: [],
+      check: [],
       selectDeck: '',
-      selectDockcho: ''
+      selectDockcho: '',
+      isLoading: true
     }
   },
   methods: {
+    goToArena() {
+      this.$router.push({ path: '/game/arena' })
+    },
+    getMyDokcho() {
+      axios
+        .get('http://localhost:8081/api/v1/game/monster/list?size=100', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          res.data.content.forEach((element) => {
+            if (element.got) {
+              let tmpBool = false
+              this.myDeck.forEach((el) => {
+                if (el.monsterId === element.monsterId) {
+                  tmpBool = true
+                }
+              })
+              this.myDockcho.push(element)
+              this.check.push(tmpBool)
+            }
+          })
+          console.log(this.myDockcho)
+          console.log(this.check)
+        })
+        .catch((err) => console.log(err))
+    },
     onClickDeck(idx) {
-      if (this.selectDockcho === '') {
+      if (this.selectDockcho === '' && this.selectDeck === '') {
         this.selectDeck = idx
+      } else if (this.selectDeck !== '') {
+        const tmp = this.myDeck[this.selectDeck]
+        this.myDeck[this.selectDeck] = this.myDeck[idx]
+        this.myDeck[idx] = tmp
+        this.selectDeck = ''
       } else {
-        const tmp = this.myDeck[idx]
+        const monId = this.myDeck[idx].monsterId
         this.myDeck[idx] = this.myDockcho[this.selectDockcho]
-        this.myDockcho[this.selectDockcho] = tmp
+        this.myDockcho.forEach((el, i) => {
+          if (el.monsterId === monId) {
+            this.check[i] = false
+          }
+        })
+        this.check[this.selectDockcho] = true
         this.selectDeck = ''
         this.selectDockcho = ''
       }
     },
     onClickDockcho(idx) {
-      if (this.selectDeck === '') {
-        this.selectDockcho = idx
-      } else {
-        const tmp = this.myDockcho[idx]
-        this.myDockcho[idx] = this.myDeck[this.selectDeck]
-        this.myDeck[this.selectDeck] = tmp
-        this.selectDeck = ''
-        this.selectDockcho = ''
+      if (!this.check[idx]) {
+        if (this.selectDeck === '') {
+          this.selectDockcho = idx
+        } else {
+          const monId = this.myDeck[this.selectDeck].monsterId
+          this.myDeck[this.selectDeck] = this.myDockcho[idx]
+          this.check[idx] = true
+          this.myDockcho.forEach((el, i) => {
+            if (el.monsterId === monId) {
+              this.check[i] = false
+            }
+          })
+          this.selectDeck = ''
+          this.selectDockcho = ''
+        }
       }
     },
-    goToArena() {
-      this.$router.push({ path: '/game/arena' })
+    changeMyDeck() {
+      const params = {
+        monster1: this.myDeck[0].monsterId,
+        monster2: this.myDeck[1].monsterId,
+        monster3: this.myDeck[2].monsterId,
+        monster4: this.myDeck[3].monsterId,
+        monster5: this.myDeck[4].monsterId
+      }
+      console.log(params)
+      axios
+        .put('http://localhost:8081/api/v1/game/deck/save', params, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          alert('변경완료!')
+          this.$router.push({ path: '/game/arena' })
+        })
+        .catch((err) => console.log(err))
     }
+  },
+  computed: {
+    ...mapGetters(['userDeck'])
+  },
+  created() {
+    this.getMyDokcho()
+    this.myDeck = this.userDeck
+    setTimeout(() => {
+      this.isLoading = false
+    }, 3000)
   }
 }
 </script>
@@ -131,13 +215,13 @@ export default {
 .myDockcho {
   border: 2px groove black;
   border-radius: 2px;
-  height: 20vh;
+  height: 22vh;
   width: 85vw;
   margin: 0 2.5vw;
   padding: 0 1vw;
-  display: flex;
-  overflow: auto;
+  overflow-x: auto;
   align-items: center;
+  white-space: nowrap;
 }
 .myDockchoItem {
   border: 2px groove black;
@@ -145,7 +229,10 @@ export default {
   height: 18vh;
   width: 18vh;
   margin: 0 0.5vw;
+  margin-top: 1vh;
   cursor: pointer;
+  position: relative;
+  display: inline-block;
 }
 .buttons {
   height: 10vh;
@@ -180,7 +267,18 @@ export default {
 .checked {
   border: 4px groove green;
 }
-::-webkit-scrollbar {
+.dokchoBlur {
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
   display: none;
+  position: absolute;
+  cursor: default;
+}
+.inMyDeck {
+  display: block;
 }
 </style>

@@ -189,4 +189,15 @@ public class GameController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
+    @PostMapping("/monster")
+    @ApiOperation(value = "독초몬 추가")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = String.class)
+    })
+    public ResponseEntity<?> addMonster(
+            @RequestBody @ApiParam(value = "추가할 몬스터 id") Long monsterId){
+        Long userId = userService.getMyInfo().getUser_id();
+        gameService.addMonster(userId, monsterId);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
 }
