@@ -83,7 +83,7 @@
     </div>
     <div class="result__footer">
       <div>
-        <button @click="goToCamera">다시 촬영하기</button>
+        <!-- <button @click="goToCamera">다시 촬영하기</button> -->
       </div>
     </div>
   </div>
@@ -123,7 +123,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 10vh;
+  margin-top: 7vh;
 }
 .result__body {
   display: flex;
