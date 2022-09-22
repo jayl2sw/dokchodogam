@@ -1,7 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-RUN docker login
-COPY --from=builder build/libs/*.jar app.jar
+COPY build/libs/*.jar app.jar
 
 ENTRYPOINT [ "java", "-jar","-Dspring.profiles.active=gcp", "/app.jar"]
 EXPOSE 8081
