@@ -186,6 +186,7 @@ export default {
   overflow: auto;
   color: #215f00;
 }
+
 .dockchoExplanation > img {
   float: left;
   width: 10vw;
@@ -194,6 +195,7 @@ export default {
   margin-bottom: 1vh;
   object-fit: cover;
 }
+
 .tree_container img {
   height: 8vh;
   position: absolute;

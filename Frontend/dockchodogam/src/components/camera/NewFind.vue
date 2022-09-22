@@ -2,14 +2,15 @@
   <div class="find">
     <p class="find__title TITLE">찾았다, { 카네이션 }!</p>
     <p class="find_finder">최초 발견자 : { }</p>
-    <div class="find__img" v-if="this.pick == false">
-      <img class="monster__silhouette" src="@/assets/loading/5.png" />
-      <button @click="checkPick" class="TITLE">눌러서 잡기!</button>
-    </div>
-
-    <div v-else>
-      <img />
-      <button @click="goToEncyclopedia">도감에서 확인!</button>
+    <div>
+      <div class="find__img" v-if="this.pick == false">
+        <img class="monster__silhouette" src="@/assets/loading/5.png" />
+        <div>
+          <button @click="goToEncyclopedia" class="TITLE">
+            도감에서 확인하기!
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
