@@ -139,7 +139,10 @@ export default {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
-        .then((res) => alert('변경완료!'))
+        .then((res) => {
+          alert('변경완료!')
+          this.$router.push({ path: '/game/arena' })
+        })
         .catch((err) => console.log(err))
     }
   },
