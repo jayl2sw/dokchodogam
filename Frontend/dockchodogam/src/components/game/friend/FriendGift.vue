@@ -5,8 +5,8 @@
       <p class="TITLE name">username</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-heart" />
       <font-awesome-icon icon="fa-solid fa-ban" />
+      <font-awesome-icon icon="fa-solid fa-heart" />
     </div>
   </div>
 </template>
@@ -20,7 +20,6 @@ export default {}
   border: none;
   border-radius: 20px;
   width: 90%;
-  height: 100%;
   margin: 2vh auto;
   background-color: white;
   display: flex;
@@ -28,6 +27,7 @@ export default {}
 }
 .left {
   display: flex;
+  width: 70%;
 }
 .left > img {
   width: 8vh;
@@ -38,18 +38,22 @@ export default {}
   border-radius: 50%;
 }
 .name {
-  font-size: 2.5vh;
+  font-size: 1.5vw;
   font-weight: bold;
   line-height: 11vh;
   margin-left: 0.5vw;
   margin-bottom: 0;
 }
+.right {
+  width: 30%;
+}
 svg {
   color: pink;
-  width: 1.5vw;
+  width: 2vw;
   height: 100%;
-  margin-right: 1.5vw;
+  margin-right: 1vw;
   transition: 0.3s;
+  float: right;
 }
 svg:hover {
   color: red;

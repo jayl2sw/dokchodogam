@@ -132,6 +132,7 @@ export default {
 .friendRequest__tap {
   padding: 5vh 5vw;
   height: 80vh;
+  width: 100%;
 }
 .friend__exit {
   width: 30px;
