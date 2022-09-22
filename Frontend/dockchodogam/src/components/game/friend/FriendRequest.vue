@@ -1,6 +1,15 @@
 <template>
   <div class="friendRequests">
-    <div class="lists" v-for="(data, i) in this.datas" :key="i"></div>
+    <button class="all__button">한 번에 받기</button>
+    <div class="lists" v-for="(data, i) in this.datas" :key="i">
+      <div class="left">
+        <img src="@/assets/loading/1.png" alt="" />
+        <p class="TITLE name">username님이 선물을 보냈습니다!</p>
+      </div>
+      <div class="right">
+        <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="icon" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,15 +25,66 @@ export default {
 
 <style>
 .friendRequests {
+  width: 100%;
   height: 100%;
   overflow: auto;
 }
+.all__button {
+  width: 10vw;
+  height: 5vh;
+  float: right;
+  margin-bottom: 4vh;
+  border: none;
+  background-color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.5vw;
+  transition: 0.3s;
+}
+.all__button:hover {
+  color: #467302;
+}
 .lists {
-  border: 2px groove black;
-  border-radius: 5px;
+  border: none;
+  border-radius: 30px;
   width: 100%;
-  height: 10vh;
+  height: 12vh;
   margin: 2vh 0;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+.left {
+  display: flex;
+  width: 80%;
+}
+.left > img {
+  width: 8vh;
+  height: 8vh;
+  object-fit: contain;
+  margin: 2vh;
+  background-color: #eee;
+  border-radius: 50%;
+}
+.name {
+  font-size: 2.5vh;
+  font-weight: bold;
+  line-height: 11vh;
+  margin-left: 0.5vw;
+  margin-bottom: 0;
+}
+.right {
+  height: 100%;
+}
+svg.icon {
+  color: #467302;
+  width: 4vw;
+  height: 100% !important;
+  margin-right: 3vw;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #a7c957;
 }
 ::-webkit-scrollbar {
   display: none;
