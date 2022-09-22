@@ -10,6 +10,7 @@
       >
       </camera>
       <button type="button" @click="snapshot">사진찍기</button>
+      <button @click="goToMain">메인으로 돌아가기</button>
     </div>
   </div>
 </template>
@@ -42,6 +43,8 @@ export default defineComponent({
       }
     })
 
+    const route = useRoute()
+    const router = useRouter()
     const start = () => camera.value?.start()
     const stop = () => camera.value?.stop()
     const pause = () => camera.value?.pause()
@@ -52,22 +55,25 @@ export default defineComponent({
         height: 720
       })
 
+      const formdata = new FormData()
+      formdata.append('img', blob)
+
       const url = URL.createObjectURL(blob!)
+      console.log(formdata)
       console.log(blob)
       const result = ref()
       currentSnapshot.value = URL.createObjectURL(blob!)
       // console.log('사진찍힘')
       // console.log(currentSnapshot.value)
 
-      // const route = useRoute()
-      const router = useRouter()
-
       axios({
-        url: '/dokcho/judge',
+        url: 'http://localhost:8081/api/v1/dokcho/judge',
         method: 'POST',
-        data: {
-          data: blob
-        }
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: formdata
       })
         .then((res) => {
           console.log(res)
@@ -92,6 +98,12 @@ export default defineComponent({
       camera.value?.changeCamera(target.value)
     }
 
+    const goToMain = () => {
+      router.push({
+        name: 'main'
+      })
+    }
+
     return {
       camera,
       start,
@@ -102,7 +114,8 @@ export default defineComponent({
       snapshot,
       currentSnapshot,
       cameras,
-      changeCamera
+      changeCamera,
+      goToMain
     }
   }
 })
