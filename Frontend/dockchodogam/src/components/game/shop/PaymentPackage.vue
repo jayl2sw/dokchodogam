@@ -89,12 +89,11 @@ export default {
             // 결제 성공시 로직
             // axios로 HTTP 요청
             axios({
-              url: '{서버 결제 정보 받는 endpoint}',
+              url: '/game/monster/pick',
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               data: {
-                imp_uid: res.imp_uid,
-                merchant_uid: res.merchant_uid
+                itemId: 2
               }
             }).then((data) => {
               // 서버 결제 API 성공시 로직

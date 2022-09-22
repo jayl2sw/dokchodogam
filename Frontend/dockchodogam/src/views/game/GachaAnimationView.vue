@@ -18,7 +18,7 @@
   <div>
     <div>
       <button @click="goToDogam">도감에서 확인하기</button>
-      <button @click="gachaAgain">다시 뽑기</button>
+      <button @click="gachaAgain">한번 더 뽑기</button>
     </div>
   </div>
 </template>
@@ -37,7 +37,10 @@ export default {
     fetchMonsterGacha() {
       axios({
         url: '/game/monster/pick',
-        method: 'POST'
+        method: 'POST',
+        data: {
+          itemId: 3
+        }
       })
         .then((res) => (this.newMonster = res))
         .catch((err) => console.log(err))
