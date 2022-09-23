@@ -25,6 +25,7 @@
 import NavBar from '@/components/main/NavBar.vue'
 import SearchCard from '@/components/search/SearchCard.vue'
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 import InfiniteLoading from 'v3-infinite-loading'
 import 'v3-infinite-loading/lib/style.css'
 
@@ -54,11 +55,7 @@ export default {
         }
       }
       axios
-        .get(
-          'https://cors-anywhere.herokuapp.com/http://j7e201.p.ssafy.io:8081/api/v1/dokcho/search' +
-            queryParams,
-          option
-        )
+        .get(BASE_URL + '/api/v1/dokcho/search' + queryParams, option)
         .then((res) => {
           if (res.data.data.length) {
             this.searchResults = this.searchResults.concat(res.data.data)

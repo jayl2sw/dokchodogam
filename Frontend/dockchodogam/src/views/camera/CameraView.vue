@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { useRoute, useRouter } from 'vue-router'
+import { BASE_URL } from '@/constant/BASE_URL'
 import NavBar from '@/components/main/NavBar.vue'
 import axios from 'axios'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
@@ -67,7 +68,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: 'http://localhost:8081/api/v1/dokcho/judge',
+        url: BASE_URL + '/api/v1/dokcho/judge',
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),

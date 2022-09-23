@@ -40,6 +40,7 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import { BASE_URL } from '@/constant/BASE_URL'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 
 export default {
@@ -62,7 +63,7 @@ export default {
     },
     getMyDokcho() {
       axios
-        .get('http://localhost:8081/api/v1/game/monster/list?size=100', {
+        .get(BASE_URL + '/api/v1/game/monster/list?size=100', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
@@ -134,7 +135,7 @@ export default {
       }
       console.log(params)
       axios
-        .put('http://localhost:8081/api/v1/game/deck/save', params, {
+        .put(BASE_URL + '/api/v1/game/deck/save', params, {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
