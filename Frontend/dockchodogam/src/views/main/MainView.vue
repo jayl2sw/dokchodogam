@@ -2,7 +2,7 @@
   <NavBar @overflow="overflow" />
   <div class="main" :class="this.showMenu ? 'open-menu' : ''">
     <div class="nickname">
-      <h3 class="TITLE">username 님, 안녕하세요!</h3>
+      <h3 class="TITLE">{{ this.userInfo.nickname }} 님, 안녕하세요!</h3>
     </div>
     <div class="main__search">
       <input
@@ -130,7 +130,8 @@ export default {
       queryParams: process.env.VUE_APP_TODAYPLANT_API_KEY + '&dataNo=1',
       datas: {},
       showMenu: false,
-      inputData: ''
+      inputData: '',
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {

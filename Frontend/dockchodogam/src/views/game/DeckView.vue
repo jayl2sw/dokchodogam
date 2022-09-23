@@ -1,38 +1,43 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
-  <div class="deck" v-show="!this.isLoading">
-    <div class="myDeck">
-      <div class="myDeck__sum">
-        <div class="myDeck__hp"></div>
-        <div class="myDeck__power"></div>
+  <div class="deckPage">
+    <div class="deck" v-show="!this.isLoading">
+      <div class="myDeck">
+        <div class="myDeck__sum">
+          <div class="myDeck__hp"></div>
+          <div class="myDeck__power"></div>
+        </div>
+        <div class="myDeckItems">
+          <div
+            class="myDeckItem"
+            v-for="(item, i) in this.myDeck"
+            :key="i"
+            @click="onClickDeck(i)"
+            :class="this.selectDeck === i ? 'checked' : ''"
+          >
+            {{ item.name }}
+          </div>
+        </div>
       </div>
-      <div class="myDeckItems">
+      <div class="myDockcho">
         <div
-          class="myDeckItem"
-          v-for="(item, i) in this.myDeck"
+          class="myDockchoItem"
+          v-for="(item, i) in this.myDockcho"
           :key="i"
-          @click="onClickDeck(i)"
-          :class="this.selectDeck === i ? 'checked' : ''"
+          @click="onClickDockcho(i)"
+          :class="this.selectDockcho === i ? 'checked' : ''"
         >
+          <div
+            class="dokchoBlur"
+            :class="this.check[i] ? 'inMyDeck' : ''"
+          ></div>
           {{ item.name }}
         </div>
       </div>
-    </div>
-    <div class="myDockcho">
-      <div
-        class="myDockchoItem"
-        v-for="(item, i) in this.myDockcho"
-        :key="i"
-        @click="onClickDockcho(i)"
-        :class="this.selectDockcho === i ? 'checked' : ''"
-      >
-        <div class="dokchoBlur" :class="this.check[i] ? 'inMyDeck' : ''"></div>
-        {{ item.name }}
+      <div class="buttons">
+        <div class="cancel" @click="goToArena()">취소</div>
+        <div class="complite" @click="changeMyDeck()">완료</div>
       </div>
-    </div>
-    <div class="buttons">
-      <div class="cancel" @click="goToArena()">취소</div>
-      <div class="complite" @click="changeMyDeck()">완료</div>
     </div>
   </div>
 </template>
@@ -161,6 +166,14 @@ export default {
 </script>
 
 <style scoped>
+.deckPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .deck {
   border: 2px groove black;
   border-radius: 2px;
@@ -169,6 +182,7 @@ export default {
   margin: 5vh 5vw;
   display: flex;
   flex-direction: column;
+  background-color: #ececec;
 }
 .myDeck {
   height: 50vh;
