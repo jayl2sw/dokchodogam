@@ -8,6 +8,18 @@
       src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
     />
 
+    <!-- 보유 여부 : 얘 filter 걸다가 오류 나서 추후 수정 예정-->
+    <!-- <div>
+      <div>checkfilter: {{ checkedGot }}</div>
+
+      <input type="checkbox" id="true" value="true" v-model="checkedGot" />
+      <label for="true">보유</label>
+
+      <input type="checkbox" id="false" value="false" v-model="checkedGot" />
+      <label for="false">미보유</label>
+    </div> -->
+
+    <!-- 타입별 -->
     <div>
       <div>checkfilter: {{ checkedType }}</div>
 
@@ -23,6 +35,8 @@
       <input type="checkbox" id="HIDDEN" value="HIDDEN" v-model="checkedType" />
       <label for="HIDDEN">HIDDEN</label>
     </div>
+
+    <!-- 등급별 -->
     <div>
       <div>checkfilter: {{ checkedGrade }}</div>
 
@@ -56,11 +70,8 @@
       />
       <label for="SPECIAL">SPECIAL</label>
     </div>
-    <div>
-      <MonsterCard
-        v-for="monster in filteredMonsters"
-        :key="monster.monsterId"
-      />
+    <div v-for="monster in filteredMonsters" :key="monster.monsterId">
+      <MonsterCard :monster="monster" />
     </div>
   </div>
 </template>
@@ -80,17 +91,18 @@ export default {
     return {
       monsters: [],
       checkedType: [],
-      checkedGrade: []
+      checkedGrade: [],
+      checkedGot: []
     }
   },
   computed: {
     filteredMonsters() {
       // 체크된 것 아무것도 없을 경우
-      // 타입 X 등급 X
+      // 타입 X 등급 X 보유 X
       if (!this.checkedType.length && !this.checkedGrade.length) {
         return this.monsters
       } else if (this.checkedType.length) {
-        // 타입 O 등급 X
+        // 타입 O 등급 X 보유 X
         if (!this.checkedGrade.length) {
           return this.monsters.filter((monster) =>
             this.checkedType.includes(monster.type)
@@ -120,14 +132,12 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(res.data.content)
+          console.log(res.data.content)
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
     },
     shareKakao() {
-      // const Kakao = ''
-      // Kakao.init('0fed70b845345ee62c3445015d0c573a')
       window.Kakao.Link.sendDefault({
         objectType: 'feed',
         content: {
@@ -137,7 +147,7 @@ export default {
             'https://1.gall-img.com/hygall/files/attach/images/82/378/769/165/5f617e6da9ed21981ad1280f727dd8b3.jpg',
           link: {
             // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-            webUrl: 'http://localhost:8080/'
+            webUrl: 'https://j7e201.p.ssafy.io'
           }
         },
         buttons: [
@@ -145,7 +155,7 @@ export default {
             title: '웹으로 보기',
             link: {
               // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-              webUrl: 'http://localhost:8080/'
+              webUrl: 'https://j7e201.p.ssafy.io'
             }
           }
         ]
