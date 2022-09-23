@@ -155,7 +155,7 @@ export default {
         day
       axios
         .get(
-          'https://cors-anywhere.herokuapp.com/http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
+          'http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
             queryParams
         )
         .then((res) => {
