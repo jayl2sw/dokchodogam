@@ -348,6 +348,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .inGame__top {
   display: flex;

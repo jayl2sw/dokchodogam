@@ -3,7 +3,7 @@
     <nav class="navbar">
       <div class="navbar__logo">
         <a href="/main">
-          <p>dockchodogam로고</p>
+          <img src="@/assets/dokcho_logo.png" alt="" class="navbar__logoImg" />
         </a>
         <div class="navbar__toggleBtn" @click="menuOpen()">
           <font-awesome-icon icon="fa-solid fa-bars" size="xl" />
@@ -59,8 +59,7 @@
       <div class="sideBar__menu">
         <div class="sideBar__profile">
           <img src="@/assets/loading/5.png" alt="profile" />
-          <font-awesome-icon icon="fa-brands fa-envira" />
-          <p class="TITLE">닉네임</p>
+          <p class="TITLE">{{ this.userInfo.nickname }}</p>
         </div>
         <div class="sideBar__items">
           <ul class="sideBar__icons">
@@ -115,7 +114,8 @@
 export default {
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
@@ -147,6 +147,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 150px;
+}
+.navbar__logoImg {
+  height: 70px;
 }
 .navbar__toggleBtn {
   display: none;

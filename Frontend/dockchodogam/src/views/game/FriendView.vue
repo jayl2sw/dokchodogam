@@ -1,39 +1,41 @@
 <template>
-  <div class="friend">
-    <TabWrapper>
-      <TabItem title="친구 목록" class="friendList__tap">
-        <div v-for="(friend, i) in this.friendList" :key="i">
-          <FriendListItem :friend="friend" />
-        </div>
-      </TabItem>
-      <TabItem title="친구 관리">
-        <div class="friendManage__tap">
-          <div class="friendManage">
-            <div v-for="(friend, i) in this.friendList" :key="i">
-              <FriendListManage :friend="friend" class="friendManageList" />
-            </div>
+  <div class="friendPage">
+    <div class="friend">
+      <TabWrapper>
+        <TabItem title="친구 목록" class="friendList__tap">
+          <div v-for="(friend, i) in this.friendList" :key="i">
+            <FriendListItem :friend="friend" />
           </div>
-          <div class="friendGift">
-            <div class="friendGift__top">
-              <p class="TITLE">NEW 친구 신청</p>
+        </TabItem>
+        <TabItem title="친구 관리">
+          <div class="friendManage__tap">
+            <div class="friendManage">
+              <div v-for="(friend, i) in this.friendList" :key="i">
+                <FriendListManage :friend="friend" class="friendManageList" />
+              </div>
             </div>
-            <div class="friendGift__bottom">
-              <div v-for="(gift, i) in this.giftList" :key="i">
-                <FriendGift :gift="gift" />
+            <div class="friendGift">
+              <div class="friendGift__top">
+                <p class="TITLE">NEW 친구 신청</p>
+              </div>
+              <div class="friendGift__bottom">
+                <div v-for="(gift, i) in this.giftList" :key="i">
+                  <FriendGift :gift="gift" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </TabItem>
-      <TabItem title="친구 추가" class="friendSearch__tap">
-        <FriendSearch />
-      </TabItem>
-      <TabItem title="우편함" class="friendRequest__tap">
-        <FriendRequest />
-      </TabItem>
-    </TabWrapper>
-    <div class="friend__exit" @click="goToArenaMain()">
-      <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+        </TabItem>
+        <TabItem title="친구 추가" class="friendSearch__tap">
+          <FriendSearch />
+        </TabItem>
+        <TabItem title="우편함" class="friendRequest__tap">
+          <FriendRequest />
+        </TabItem>
+      </TabWrapper>
+      <div class="friend__exit" @click="goToArenaMain()">
+        <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+      </div>
     </div>
   </div>
 </template>
@@ -72,6 +74,14 @@ export default {
 </script>
 
 <style scoped>
+.friendPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .friend {
   margin: 5vh 5vw;
   height: 90vh;

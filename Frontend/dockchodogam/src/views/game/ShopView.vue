@@ -3,10 +3,10 @@
     <div class="shop__boxes">
       <div class="shop__top">
         <div class="nickname">
-          <h1>username</h1>
+          <h1>{{ this.userInfo.nickname }}</h1>
         </div>
         <div class="money">
-          <h1>100냥</h1>
+          <h1>{{ this.userInfo.money }}냥</h1>
         </div>
       </div>
       <div class="shop__bottom">
@@ -33,6 +33,11 @@ import PaymentPackage from '@/components/game/shop/PaymentPackage.vue'
 import MonsterGacha from '@/components/game/shop/MonsterGacha.vue'
 
 export default {
+  data() {
+    return {
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+    }
+  },
   components: {
     PaymentCash,
     PaymentPackage,
@@ -51,7 +56,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 10vh 0;
+  padding: 10vh 0;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .shop__boxes {
   display: flex;

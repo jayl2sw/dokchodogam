@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { BASE_URL } from '@/constant/BASE_URL'
 import LoginView from '../views/start/LoginView.vue'
 import axios from 'axios'
 
@@ -41,7 +42,7 @@ const doRefreshToken = async function doRefreshToken() {
     }
     try {
       const result = await axios.post(
-        'http://localhost:8081/api/v1/user/auth/refresh',
+        BASE_URL + '/api/v1/user/auth/refresh',
         token
       )
       if (result.status === 200) {

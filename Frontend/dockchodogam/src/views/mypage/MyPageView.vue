@@ -13,9 +13,10 @@
           <img src="@/assets/medal.png" alt="" />
         </div>
         <div>
-          <p class="TITLE myProfile__name">username님</p>
+          <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
           <p class="myProfile__contents">
-            현재 재화 : <span class="emphasize">{ }</span>냥
+            현재 재화 : <span class="emphasize">{{ this.userInfo.money }}</span
+            >냥
           </p>
           <p class="myProfile__contents">
             아레나 순위 : <span class="emphasize">{ }</span>위
@@ -56,7 +57,8 @@ export default {
   data() {
     return {
       showMenu: false,
-      isNone: false
+      isNone: false,
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {

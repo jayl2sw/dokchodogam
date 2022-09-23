@@ -88,6 +88,9 @@ export default {
   padding: 0 10vw;
   overflow: auto;
   height: 90vh;
+  background-image: url('@/assets/hanji.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .search__text {
   margin: 5vh 0;

@@ -83,7 +83,6 @@ export default {
   justify-content: center;
 }
 .resultBox {
-  border: 2px groove black;
   border-radius: 20px;
   width: 80vw;
   height: 85vh;
@@ -92,6 +91,9 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 5vh;
+  background-image: url('@/assets/hanji.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .plantText {
   text-align: center;

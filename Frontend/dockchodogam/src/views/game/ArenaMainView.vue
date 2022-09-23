@@ -5,9 +5,10 @@
       <div class="box__left">
         <div class="myDeck">
           <div class="nickname">
-            <h3>username</h3>
+            <h3>{{ this.userInfo.nickname }}</h3>
           </div>
           <div class="expBar">
+            <span>rankpoint</span>
             <div class="progress">
               <div
                 class="progress-bar"
@@ -22,7 +23,10 @@
             </div>
           </div>
           <div class="myDeckDetail">
-            <div class="myDeckPower">전투력:500</div>
+            <div class="myDeckPower">
+              <p>전투력</p>
+              <h2>500</h2>
+            </div>
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
                 <img src="@/assets/loading/1.png" alt="" class="myDeckImage" />
@@ -142,7 +146,7 @@ export default {
       myDeck: [],
       ranking: [],
       isLoading: true,
-      userInfo: {}
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
@@ -202,7 +206,6 @@ export default {
     this.getMyEnemy()
     this.fetchUserDeck()
     this.getRanking()
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     setTimeout(() => {
       this.isLoading = false
     }, 1500)
@@ -224,7 +227,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 9vh 0;
+  padding: 9vh 0;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .main__boxes {
   display: flex;
@@ -259,18 +265,35 @@ export default {
   justify-content: space-between;
   margin: 2vh 0;
 }
+.expBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2vh;
+}
 .progress {
   background-color: white;
+  width: 28vw;
 }
 .progress-bar {
   background-color: #a7c957;
 }
 .myDeckPower {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-size: 2vh;
   width: 10vw;
   height: 100%;
+}
+.myDeckPower > p {
+  font-size: 2vh;
+  margin: 0;
+}
+.myDeckPower > h2 {
+  font-size: 3vh;
+  margin: 0;
 }
 .myDeckImages {
   display: flex;
@@ -324,16 +347,16 @@ export default {
   align-items: center;
   width: 35vw;
   height: 28vh;
-  background-color: white;
 }
 .rankingListItem {
-  border: 2px groove;
-  border-radius: 5px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px;
   width: 33vw;
   height: 8vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background-color: white;
 }
 .rankIntImage {
   width: 3vw;
