@@ -14,6 +14,7 @@
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -31,7 +32,7 @@ export default {
       console.log(this.userPassword)
       try {
         const result = await axios.post(
-          'https://j7e201.p.ssafy.io:8080/api/v1/user/auth/login',
+          BASE_URL + '/api/v1/user/auth/login',
           {
             username: this.userId,
             password: this.userPassword
@@ -52,7 +53,7 @@ export default {
             }
           }
           await axios
-            .get('https://j7e201.p.ssafy.io:8080/api/v1/user/myinfo', option)
+            .get(BASE_URL + '/api/v1/user/myinfo', option)
             .then((res) => {
               this.fetchUserInfo(res.data)
             })

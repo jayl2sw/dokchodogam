@@ -129,6 +129,7 @@
 <script>
 import LoadingPage from '@/components/main/LoadingPage.vue'
 import { mapActions, mapGetters } from 'vuex'
+import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
 
 export default {
@@ -160,7 +161,7 @@ export default {
     },
     getMyEnemy() {
       axios
-        .get('http://localhost:8081/api/v1/game/deck/opponentInfo', {
+        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
@@ -174,7 +175,7 @@ export default {
     },
     getRanking() {
       axios
-        .get('http://localhost:8081/api/v1/game/deck/opponentInfo', {
+        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
