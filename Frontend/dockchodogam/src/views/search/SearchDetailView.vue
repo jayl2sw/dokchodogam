@@ -38,6 +38,7 @@
 
 <script>
 import NavBar from '@/components/main/NavBar.vue'
+import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
 
 export default {
@@ -62,11 +63,7 @@ export default {
         }
       }
       axios
-        .get(
-          'https://cors-anywhere.herokuapp.com/http://j7e201.p.ssafy.io:8081/api/v1/dokcho/detail/' +
-            this.queryData,
-          option
-        )
+        .get(BASE_URL + '/api/v1/dokcho/detail/' + this.queryData, option)
         .then((res) => {
           this.data = res.data.data
         })

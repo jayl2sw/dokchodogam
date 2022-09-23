@@ -21,6 +21,7 @@
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 export default {
   data() {
     return {
@@ -36,12 +37,9 @@ export default {
   methods: {
     async isEmailDuplicate() {
       await axios
-        .get(
-          'http://localhost:8081/api/v1/user/auth/check/email/' + this.email,
-          {
-            email: this.email
-          }
-        )
+        .get(BASE_URL + '/api/v1/user/auth/check/email/' + this.email, {
+          email: this.email
+        })
         .then((res) => {
           console.log(res)
           if (res.data === false) {
@@ -58,13 +56,9 @@ export default {
     },
     async isNicknameDuplicate() {
       await axios
-        .get(
-          'http://localhost:8081/api/v1/user/auth/check/nickname/' +
-            this.nickname,
-          {
-            nickname: this.nickname
-          }
-        )
+        .get(BASE_URL + '/api/v1/user/auth/check/nickname/' + this.nickname, {
+          nickname: this.nickname
+        })
         .then((res) => {
           console.log(res)
           if (res.data === false) {
@@ -86,7 +80,7 @@ export default {
         alert('이메일중복검사를 먼저 진행해주세요.')
       } else if (this.password === this.password2) {
         await axios
-          .post('http://localhost:8081/api/v1/user/auth/signup', {
+          .post(BASE_URL + '/api/v1/user/auth/signup', {
             email: this.email,
             nickname: this.nickname,
             password: this.password,

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 import { Module } from 'vuex'
 import { RootState } from '../index'
 
@@ -58,7 +59,7 @@ export const accounts: Module<accountsState, RootState> = {
         }
         try {
           const result = await axios.post(
-            'http://localhost:8081/api/v1/user/auth/refresh',
+            BASE_URL + '/api/v1/user/auth/refresh',
             token
           )
           if (result.status === 200) {

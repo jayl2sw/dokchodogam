@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 import { Module } from 'vuex'
 import { RootState } from '../index'
 
@@ -32,7 +33,7 @@ export const game: Module<gameState, RootState> = {
     },
     fetchUserDeck({ commit }) {
       axios
-        .get('http://localhost:8081/api/v1/game/deck/myInfo', {
+        .get(BASE_URL + '/api/v1/game/deck/myInfo', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
