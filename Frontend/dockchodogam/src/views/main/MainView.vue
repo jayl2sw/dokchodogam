@@ -155,7 +155,7 @@ export default {
         day
       axios
         .get(
-          'http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
+          'https://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
             queryParams
         )
         .then((res) => {
