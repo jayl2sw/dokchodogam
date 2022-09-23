@@ -120,7 +120,7 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(res.data.content)
+          console.log(res.data.content)
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
@@ -137,7 +137,7 @@ export default {
             'https://1.gall-img.com/hygall/files/attach/images/82/378/769/165/5f617e6da9ed21981ad1280f727dd8b3.jpg',
           link: {
             // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-            webUrl: 'http://localhost:8080/'
+            webUrl: 'https://j7e201.p.ssafy.io'
           }
         },
         buttons: [
@@ -145,7 +145,7 @@ export default {
             title: '웹으로 보기',
             link: {
               // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-              webUrl: 'http://localhost:8080/'
+              webUrl: 'https://j7e201.p.ssafy.io'
             }
           }
         ]
