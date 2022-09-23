@@ -31,7 +31,7 @@ export default {
       console.log(this.userPassword)
       try {
         const result = await axios.post(
-          'http://localhost:8081/api/v1/user/auth/login',
+          'https://j7e201.p.ssafy.io:8080/api/v1/user/auth/login',
           {
             username: this.userId,
             password: this.userPassword
@@ -52,7 +52,7 @@ export default {
             }
           }
           await axios
-            .get('http://localhost:8081/api/v1/user/myinfo', option)
+            .get('https://j7e201.p.ssafy.io:8080/api/v1/user/myinfo', option)
             .then((res) => {
               this.fetchUserInfo(res.data)
             })
