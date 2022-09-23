@@ -56,11 +56,8 @@
       />
       <label for="SPECIAL">SPECIAL</label>
     </div>
-    <div>
-      <MonsterCard
-        v-for="monster in filteredMonsters"
-        :key="monster.monsterId"
-      />
+    <div v-for="monster in filteredMonsters" :key="monster.monsterId">
+      <MonsterCard :monster="monster" />
     </div>
   </div>
 </template>
@@ -126,8 +123,6 @@ export default {
         .catch((err) => console.log(err))
     },
     shareKakao() {
-      // const Kakao = ''
-      // Kakao.init('0fed70b845345ee62c3445015d0c573a')
       window.Kakao.Link.sendDefault({
         objectType: 'feed',
         content: {
