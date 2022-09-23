@@ -1,6 +1,6 @@
 <template>
   <!-- isGot 확인해서 v-if 걸기 -->
-  <div v-if="monster.got == true" class="card">
+  <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
     <div
       v-b-modal.modalPopover
       :class="{
@@ -11,6 +11,7 @@
         card__special: monsterDetail.grade == 'SPECIAL'
       }"
     >
+      <p>00{{ monster.monsterId }}</p>
       <h3>{{ monster.name }}</h3>
       <img
         src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
@@ -24,10 +25,11 @@
     </div>
   </div>
 
-  <div v-else class="card">
+  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
+    <p>00{{ monster.monsterId }}</p>
     <h3>???</h3>
     <img
-      class="dontHaveImg, card__img"
+      class="card__dontHaveimg"
       src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
     />
   </div>
@@ -104,6 +106,11 @@ export default {
 .card__img {
   width: 100%;
   height: 20vh;
+}
+.card__dontHaveimg {
+  width: 100%;
+  height: 20vh;
+  filter: brightness(0%);
 }
 .card__common {
   background-color: gray;

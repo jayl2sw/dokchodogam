@@ -8,6 +8,18 @@
       src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
     />
 
+    <!-- 보유 여부 : 얘 filter 걸다가 오류 나서 추후 수정 예정-->
+    <!-- <div>
+      <div>checkfilter: {{ checkedGot }}</div>
+
+      <input type="checkbox" id="true" value="true" v-model="checkedGot" />
+      <label for="true">보유</label>
+
+      <input type="checkbox" id="false" value="false" v-model="checkedGot" />
+      <label for="false">미보유</label>
+    </div> -->
+
+    <!-- 타입별 -->
     <div>
       <div>checkfilter: {{ checkedType }}</div>
 
@@ -23,6 +35,8 @@
       <input type="checkbox" id="HIDDEN" value="HIDDEN" v-model="checkedType" />
       <label for="HIDDEN">HIDDEN</label>
     </div>
+
+    <!-- 등급별 -->
     <div>
       <div>checkfilter: {{ checkedGrade }}</div>
 
@@ -77,17 +91,18 @@ export default {
     return {
       monsters: [],
       checkedType: [],
-      checkedGrade: []
+      checkedGrade: [],
+      checkedGot: []
     }
   },
   computed: {
     filteredMonsters() {
       // 체크된 것 아무것도 없을 경우
-      // 타입 X 등급 X
+      // 타입 X 등급 X 보유 X
       if (!this.checkedType.length && !this.checkedGrade.length) {
         return this.monsters
       } else if (this.checkedType.length) {
-        // 타입 O 등급 X
+        // 타입 O 등급 X 보유 X
         if (!this.checkedGrade.length) {
           return this.monsters.filter((monster) =>
             this.checkedType.includes(monster.type)
