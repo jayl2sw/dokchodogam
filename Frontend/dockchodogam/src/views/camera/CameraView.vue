@@ -148,12 +148,12 @@ export default defineComponent({
   width: 7vw;
   height: 7vw;
   border-radius: 50%;
-  border: 10px double #467302;
+  border: 1vw double #467302;
   background: #eee;
   transition: 0.3s;
 }
 .photo__btn:hover {
-  border: 13px double #467302;
+  border: 1.2vw double #467302;
   background: white;
 }
 .photo__btn:hover > .photo__icon {
@@ -171,10 +171,18 @@ export default defineComponent({
     width: 10vh;
     height: 10vh;
     bottom: 12vh;
+    border: 1vh double #467302;
+  }
+  .photo__btn:hover {
+    border: 1.3vh double #467302;
   }
   .photo__icon {
-    width: 4vh;
-    height: 4vh;
+    width: 3vh;
+    height: 3vh;
+  }
+  .photo__btn:hover > .photo__icon {
+    width: 4.5vh;
+    height: 4.5vh;
   }
 }
 </style>
