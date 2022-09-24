@@ -12,7 +12,7 @@
       }"
     >
       <p>00{{ monster.monsterId }}</p>
-      <h3>{{ monster.name }}</h3>
+      <h3>{{ monster.name }}몬</h3>
       <img
         src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
         class="card__img"
