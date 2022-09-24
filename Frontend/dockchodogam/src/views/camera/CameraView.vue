@@ -166,6 +166,17 @@ export default defineComponent({
   color: #467302;
   transition: 0.3s;
 }
+@media screen and (max-width: 850px) {
+  .photo__btn {
+    width: 10vh;
+    height: 10vh;
+    bottom: 12vh;
+  }
+  .photo__icon {
+    width: 4vh;
+    height: 4vh;
+  }
+}
 </style>
 
 <style>
