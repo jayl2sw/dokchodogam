@@ -270,6 +270,10 @@ button {
     font-size: 4vw;
     margin-bottom: 3vh;
   }
+  .myProfile__contents {
+    font-size: 2.5vw;
+    line-height: 4vh;
+  }
   .change__dockcho {
     width: 50vw;
     height: 8vw;
@@ -282,11 +286,11 @@ button {
   }
   .change__password {
     width: 20vw;
-    font-size: 2vw;
+    font-size: 2.5vw;
   }
   .quit__btn {
     width: 20vw;
-    font-size: 2vw;
+    font-size: 2.5vw;
   }
   .changePw__inputs input {
     height: 5vh;
@@ -295,11 +299,11 @@ button {
   }
   .cancel__btn {
     width: 20vw;
-    font-size: 1vw;
+    font-size: 2.5vw;
   }
   .complete__btn {
     width: 20vw;
-    font-size: 1vw;
+    font-size: 2.5vw;
   }
 }
 </style>

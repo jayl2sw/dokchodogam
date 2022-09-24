@@ -174,15 +174,15 @@ export default defineComponent({
     border: 1vh double #467302;
   }
   .photo__btn:hover {
-    border: 1.3vh double #467302;
+    border: 1vh double #467302;
   }
   .photo__icon {
     width: 3vh;
     height: 3vh;
   }
   .photo__btn:hover > .photo__icon {
-    width: 4.5vh;
-    height: 4.5vh;
+    width: 3vh;
+    height: 3vh;
   }
 }
 </style>
