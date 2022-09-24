@@ -14,26 +14,25 @@
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       userId: '',
-      userPassword: '',
-      isLoggedIn: false,
-      loginError: false
+      userPassword: ''
     }
   },
   methods: {
-    ...mapActions(['doRefreshToken']),
+    ...mapActions(['doRefreshToken', 'fetchUserInfo', 'fetchUserDeck']),
     ...mapGetters(['isAccessTokenExpired']),
     async login() {
       console.log(this.userId)
       console.log(this.userPassword)
       try {
         const result = await axios.post(
-          'http://localhost:8081/api/v1/user/auth/login',
+          BASE_URL + '/api/v1/user/auth/login',
           {
             username: this.userId,
             password: this.userPassword
@@ -46,12 +45,21 @@ export default {
         )
         if (result.status === 200) {
           console.log(result)
-          this.isLoggedIn = true
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
+          const option = {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+          await axios
+            .get(BASE_URL + '/api/v1/user/myinfo', option)
+            .then((res) => {
+              this.fetchUserInfo(res.data)
+            })
+          await this.$router.push({ name: 'main' })
         }
       } catch (err) {
-        this.loginError = true
         throw new Error(err)
       }
     }

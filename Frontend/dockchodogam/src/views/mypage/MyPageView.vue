@@ -5,7 +5,9 @@
       <div class="myDockcho">
         <img src="@/assets/loading/5.png" alt="representative" />
       </div>
-      <button class="change__dockcho">대표 독초몬 변경</button>
+      <button class="change__dockcho" @click="this.onClickChangeDokcho()">
+        대표 독초몬 변경
+      </button>
     </div>
     <div class="mypage__right">
       <div class="myProfile">
@@ -13,9 +15,10 @@
           <img src="@/assets/medal.png" alt="" />
         </div>
         <div>
-          <p class="TITLE myProfile__name">username님</p>
+          <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
           <p class="myProfile__contents">
-            현재 재화 : <span class="emphasize">{ }</span>냥
+            현재 재화 : <span class="emphasize">{{ this.userInfo.money }}</span
+            >냥
           </p>
           <p class="myProfile__contents">
             아레나 순위 : <span class="emphasize">{ }</span>위
@@ -44,19 +47,27 @@
       </div>
     </div>
   </div>
+  <MyDokchoChange
+    @closeChangeDokcho="closeChangeDokcho"
+    :showChangeDokchoMenu="showChangeDokchoMenu"
+  />
 </template>
 
 <script>
 import NavBar from '@/components/main/NavBar.vue'
+import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    MyDokchoChange
   },
   data() {
     return {
       showMenu: false,
-      isNone: false
+      isNone: false,
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      showChangeDokchoMenu: false
     }
   },
   methods: {
@@ -65,6 +76,12 @@ export default {
     },
     displayNone() {
       this.isNone = !this.isNone
+    },
+    closeChangeDokcho(value) {
+      this.showChangeDokchoMenu = value
+    },
+    onClickChangeDokcho() {
+      this.showChangeDokchoMenu = true
     }
   }
 }

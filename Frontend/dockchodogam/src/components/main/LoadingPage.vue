@@ -36,12 +36,13 @@ export default {
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: #ececec;
 }
 .loading__image {
   animation: motion 0.5s linear 0s infinite alternate;
-  width: 30vw;
-  height: 30vw;
-  margin: 10vw;
+  width: 30vh;
+  height: 30vh;
+  margin: 10vh;
 }
 .loading__text {
   width: 100%;
