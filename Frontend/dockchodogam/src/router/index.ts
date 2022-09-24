@@ -246,6 +246,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404'
+  },
+  {
+    path: '/oauth',
+    name: 'oauth',
+    component: () => import(/* webpackChunkName: "oauth" */ '../components/start/KakaoLogin.vue')
   }
 ]
 
@@ -260,7 +265,7 @@ router.beforeEach(async (to, from, next) => {
   if (localStorage.getItem('accessToken')) {
     token = localStorage.getItem('accessToken')
   }
-  if (to.path === '/') {
+  if (to.path === '/' || to.path === '/signup' || to.path === '/findpassword' || to.path === '/oauth') {
     next()
   } else if (token) {
     console.log(isAccessTokenExpired())
