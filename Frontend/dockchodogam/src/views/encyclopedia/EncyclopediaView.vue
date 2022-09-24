@@ -9,7 +9,7 @@
     />
 
     <!-- 보유 여부 : 얘 filter 걸다가 오류 나서 추후 수정 예정-->
-    <!-- <div>
+    <div>
       <div>checkfilter: {{ checkedGot }}</div>
 
       <input type="checkbox" id="true" value="true" v-model="checkedGot" />
@@ -17,7 +17,7 @@
 
       <input type="checkbox" id="false" value="false" v-model="checkedGot" />
       <label for="false">미보유</label>
-    </div> -->
+    </div>
 
     <!-- 타입별 -->
     <div>
@@ -29,8 +29,8 @@
       <input type="checkbox" id="YAKCHO" value="YAKCHO" v-model="checkedType" />
       <label for="YAKCHO">YAKCHO</label>
 
-      <input type="checkbox" id="JOBCHO" value="JOBCHO" v-model="checkedType" />
-      <label for="JOBCHO">JOBCHO</label>
+      <input type="checkbox" id="JAPCHO" value="JAPCHO" v-model="checkedType" />
+      <label for="JAPCHO">JAPCHO</label>
 
       <input type="checkbox" id="HIDDEN" value="HIDDEN" v-model="checkedType" />
       <label for="HIDDEN">HIDDEN</label>
@@ -70,6 +70,7 @@
       />
       <label for="SPECIAL">SPECIAL</label>
     </div>
+    <div>{{ filteredMonsters.length }} / 99</div>
     <div v-for="monster in filteredMonsters" :key="monster.monsterId">
       <MonsterCard :monster="monster" />
     </div>
@@ -80,6 +81,7 @@
 import NavBar from '@/components/main/NavBar.vue'
 import MonsterCard from '@/components/encyclopedia/MonsterCard.vue'
 import axios from 'axios'
+// import { BASE_URL } from '@/constant/BASE_URL'
 // import { mapGetters } from 'vuex'
 
 export default {
@@ -97,42 +99,108 @@ export default {
   },
   computed: {
     filteredMonsters() {
-      // 체크된 것 아무것도 없을 경우
-      // 타입 X 등급 X 보유 X
-      if (!this.checkedType.length && !this.checkedGrade.length) {
+      if (
+        !this.checkedType.length &&
+        !this.checkedGrade.length &&
+        !this.checkedGot.length
+      ) {
         return this.monsters
-      } else if (this.checkedType.length) {
-        // 타입 O 등급 X 보유 X
-        if (!this.checkedGrade.length) {
-          return this.monsters.filter((monster) =>
-            this.checkedType.includes(monster.type)
-          )
-        }
-
-        // 타입 O 등급 O
+      } else if (
+        !this.checkedType.length &&
+        !this.checkedGrade.length &&
+        this.checkedGot.length
+      ) {
+        return this.monsters.filter((monster) =>
+          this.checkedGot.includes(monster.got.toString())
+        )
+      } else if (
+        this.checkedType.length &&
+        !this.checkedGrade.length &&
+        !this.checkedGot.length
+      ) {
+        return this.monsters.filter((monster) =>
+          this.checkedType.includes(monster.type)
+        )
+      } else if (
+        this.checkedType.length &&
+        !this.checkedGrade.length &&
+        this.checkedGot.length
+      ) {
+        return this.monsters.filter(
+          (monster) =>
+            this.checkedType.includes(monster.type) &&
+            this.checkedGot.includes(monster.got.toString())
+        )
+      } else if (
+        this.checkedType.length &&
+        this.checkedGrade.length &&
+        !this.checkedGot.length
+      ) {
         return this.monsters.filter(
           (monster) =>
             this.checkedType.includes(monster.type) &&
             this.checkedGrade.includes(monster.grade)
+        )
+      } else if (
+        this.checkedType.length &&
+        this.checkedGrade.length &&
+        this.checkedGot.length
+      ) {
+        return this.monsters.filter(
+          (monster) =>
+            this.checkedType.includes(monster.type) &&
+            this.checkedGrade.includes(monster.grade) &&
+            this.checkedGot.includes(monster.got.toString())
+        )
+      } else if (
+        !this.checkedType.length &&
+        this.checkedGrade.length &&
+        this.checkedGot.length
+      ) {
+        return this.monsters.filter(
+          (monster) =>
+            this.checkedGrade.includes(monster.grade) &&
+            this.checkedGot.includes(monster.got.toString())
         )
       } else {
         return this.monsters.filter((monster) =>
           this.checkedGrade.includes(monster.grade)
         )
       }
+      // 체크된 것 아무것도 없을 경우
+      // 타입 X 등급 X 보유 X
+      // if (!this.checkedType.length && !this.checkedGrade.length) {
+      //   return this.monsters
+      // } else if (this.checkedType.length) {
+      //   if (!this.checkedGrade.length) {
+      //     return this.monsters.filter((monster) =>
+      //       this.checkedType.includes(monster.type)
+      //     )
+      //   }
+      //   return this.monsters.filter(
+      //     (monster) =>
+      //       this.checkedType.includes(monster.type) &&
+      //       this.checkedGrade.includes(monster.grade)
+      //   )
+      // } else {
+      //   return this.monsters.filter((monster) =>
+      //     this.checkedGrade.includes(monster.grade)
+      //   )
+      // }
     }
   },
   methods: {
     fetchMonsterList() {
       axios({
-        url: 'http://localhost:8081/api/v1/game/monster/list?size=100',
+        url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/list?size=100',
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
         }
       })
         .then((res) => {
-          console.log(res.data.content)
+          // console.log(res.data.content)
+
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
