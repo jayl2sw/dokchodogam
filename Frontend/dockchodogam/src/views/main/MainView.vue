@@ -149,7 +149,7 @@ export default {
       const month = date.getMonth() + 1
       const day = date.getDate()
       const queryParams =
-        '?serviceKey=LLrHC7Vr141M21iFqyMgP%2BQRqlWYwR2KhGRau5%2BBNN4a7D%2BSZGjrAT5r3rG82%2F%2BX%2FMAZpB0YRF1nZSLUrss%2FGg%3D%3D' +
+        process.env.VUE_APP_TODAYPLANT_API_KEY +
         '&fMonth=' +
         month +
         '&fDay=' +
