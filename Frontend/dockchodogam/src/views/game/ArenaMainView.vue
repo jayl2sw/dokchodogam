@@ -246,7 +246,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
@@ -303,7 +303,6 @@ export default {
   height: 100%;
 }
 .myDeckImage {
-  border-radius: 5px;
   width: 6vw;
   height: 6vw;
 }
@@ -327,7 +326,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
@@ -340,7 +339,6 @@ export default {
   height: 5vh;
 }
 .rankingList {
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -378,7 +376,6 @@ export default {
 .rankerDeckItem {
   width: 4vw;
   height: 4vw;
-  border-radius: 5px;
 }
 .box__right {
   display: flex;
@@ -407,7 +404,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 65vh;
   width: 50vw;
   background-color: #467302;
@@ -449,7 +446,6 @@ export default {
   align-items: center;
 }
 .enemyDeck__item {
-  border-radius: 5px;
   width: 4.5vw;
   height: 4.5vw;
 }
