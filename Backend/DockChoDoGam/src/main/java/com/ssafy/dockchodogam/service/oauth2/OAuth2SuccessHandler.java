@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -41,42 +42,52 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        if(attributes.get("id")!=null){
-            attributes = (Map<String, Object>) attributes.get("id");
+
+        if(attributes.get("kakao_account")!=null){
+            attributes = (Map<String, Object>) attributes.get("kakao_account");
         }
 
         String email = (String) attributes.get("email");
-        String nickname = (String) attributes.get("profile");
+        Map<String, Object> profile = (Map<String, Object>) attributes.get("profile");
+        String nickname = (String) profile.get("nickname");
 
         // db 확인
         // 새로운 유저 -> 회원가입
-        User entity = userRepository.findByEmail(email)
-                .orElse(User.builder()
-                        .username(passwordMaker.make())
-                        .password(passwordMaker.make())
-                        .email(email)
-                        .nickname(nickname)
-                        .role(Role.ROLE_USER)
-                        .representMonster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
-                        .build());
+        Optional<User> entity = userRepository.findByEmail(email);
+        TokenDto tokenDto = new TokenDto();
 
-        Monster zero = monsterRepository.findById(Long.parseLong("0")).orElseThrow(MonsterNotFoundException::new);
+        if(!entity.isPresent()){
+            User user = User.builder().username(passwordMaker.make())
+                    .password(passwordMaker.make())
+                    .email(email)
+                    .nickname(nickname)
+                    .role(Role.ROLE_USER)
+                    .representMonster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
+                    .build();
 
-        Deck deck = Deck.builder()
-                .user(entity)
-                .monster1(zero).monster2(zero).monster3(zero).monster4(zero).monster5(zero).build();
+            Monster zero = monsterRepository.findById(Long.parseLong("0")).orElseThrow(MonsterNotFoundException::new);
 
-        deckRepository.save(deck);
+            Deck deck = Deck.builder()
+                    .user(user)
+                    .monster1(zero).monster2(zero).monster3(zero).monster4(zero).monster5(zero).build();
 
-        // 기본 독초몬 지급하기
-        userMonsterRepository.save(UserMonster.builder().user(entity).monster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new)).build());
-        userMonsterRepository.save(UserMonster.builder().user(entity).monster(monsterRepository.findById(Long.parseLong("46")).orElseThrow(MonsterNotFoundException::new)).build());
-        userMonsterRepository.save(UserMonster.builder().user(entity).monster(monsterRepository.findById(Long.parseLong("80")).orElseThrow(MonsterNotFoundException::new)).build());
+            deckRepository.save(deck);
 
-        // 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(entity.getEmail(), entity.getRole().toString());
-        entity.saveToken(tokenDto.getRefreshToken());
-        userRepository.save(entity);
+            // 기본 독초몬 지급하기
+            userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new)).build());
+            userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("46")).orElseThrow(MonsterNotFoundException::new)).build());
+            userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("80")).orElseThrow(MonsterNotFoundException::new)).build());
+
+            // 토큰 생성
+            tokenDto = tokenProvider.generateTokenDto(user.getUsername(), user.getRole().toString());
+            user.saveToken(tokenDto.getRefreshToken());
+            userRepository.save(user);
+        }else {
+            // 토큰 생성
+            tokenDto = tokenProvider.generateTokenDto(entity.get().getUsername(), entity.get().getRole().toString());
+            entity.get().saveToken(tokenDto.getRefreshToken());
+            userRepository.save(entity.get());
+        }
 
         // 리다이렉트
         String target = "https://j7e201.p.ssafy.io/oauth?Auth=" + tokenDto.getAccessToken() + "&Refresh=" + tokenDto.getRefreshToken();
