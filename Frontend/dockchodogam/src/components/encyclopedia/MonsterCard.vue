@@ -2,7 +2,8 @@
   <!-- isGot 확인해서 v-if 걸기 -->
   <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
     <div
-      v-b-modal.modalPopover
+      v-b-modal.modal-card
+      @click=";[storeMonster(monster), openModal]"
       :class="{
         card__common: monsterDetail.grade == 'COMMON',
         card__rare: monsterDetail.grade == 'RARE',
@@ -17,12 +18,34 @@
         src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
         class="card__img"
       />
+
+      <!-- backdrop에러남 -->
+      <!-- <MonsterDetail
+        @close="closeModal"
+        v-if="modal"
+        :monsterDetail="monsterDetail"
+      >
+      </MonsterDetail> -->
     </div>
-    <div>
-      <b-modal id="modalPopover" scrollable hide-footer="true">
-        <p>모달이 안와요</p>
-      </b-modal>
-    </div>
+
+    <b-modal
+      :monsterDetail="monsterDetail"
+      id="modal-card"
+      hide-footer
+      hide-header
+      scrollable
+    >
+      <p>{{ monsterDetail.name }}</p>
+      <p>타입 : {{ monsterDetail.type }}</p>
+      <p>등급 : {{ monsterDetail.grade }}</p>
+      <p>체력 : {{ monsterDetail.hp }}</p>
+      <p>
+        공격력 : {{ monsterDetail.minAttack }} ~
+        {{ monsterDetail.maxAttack }}
+      </p>
+    </b-modal>
+
+    <!-- <MonsterDetail :monsterDetail="monster" /> -->
   </div>
 
   <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
@@ -33,35 +56,11 @@
       src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
     />
   </div>
-
-  <!-- <div class="card">
-    <div
-      v-b-modal.modalPopover
-      :class="{
-        card__common: monsterDetail.grade == 'COMMON',
-        card__rare: monsterDetail.grade == 'RARE',
-        card__epic: monsterDetail.grade == 'EPIC',
-        card__legendary: monsterDetail.grade == 'LEGENDARY',
-        card__special: monsterDetail.grade == 'SPECIAL'
-      }"
-    >
-      <img
-        src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
-        class="card__img"
-      />
-      <p>{{ monster.name }}</p>
-
-      <div>
-        <b-modal id="modalPopover" scrollable hide-footer="true">
-          <p>모달이 안와요</p>
-        </b-modal>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
 import axios from 'axios'
+// import MonsterDetail from '@/components/encyclopedia/MonsterDetail.vue'
 
 export default {
   props: {
@@ -70,10 +69,26 @@ export default {
   data() {
     return {
       modal: false,
-      monsterDetail: []
+      monsterDetail: {}
     }
   },
+  components: {
+    // MonsterDetail
+  },
   methods: {
+    openModal() {
+      this.modal = true
+    },
+    closeModal() {
+      this.modal = false
+    },
+    async storeMonster(a) {
+      this.monsterDetail = a
+      // alert(a.name)
+      // console.log(a)
+      // console.log(this.monsterDetail)
+    },
+
     fetchMonsterDetail() {
       axios({
         url: `http://localhost:8081/api/v1/game/monster/detail/${this.monster.monsterId}`,
@@ -83,6 +98,7 @@ export default {
         }
       })
         .then((res) => {
+          // console.log(this.monster)
           // console.log(res.data)
           this.monsterDetail = res.data
         })
