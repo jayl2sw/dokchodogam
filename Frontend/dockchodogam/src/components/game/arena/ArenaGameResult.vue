@@ -34,6 +34,9 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 5vh 2vw;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .result__text {
   height: 20vh;
