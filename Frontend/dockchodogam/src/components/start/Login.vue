@@ -9,7 +9,7 @@
     <button @click="login()">로그인</button>
     <button @click="this.isAccessTokenExpired()">토큰만료확인</button>
     <button @click="this.doRefreshToken()">토큰재발급확인</button>
-    <a href="{{BASE_URL}}/oauth2/authorization/kakao">카카오 로그인</a>
+    <a href="/oauth2/authorization/kakao">카카오 로그인</a>
   </div>
 </template>
 
