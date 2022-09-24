@@ -8,7 +8,7 @@ import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions } from 'vuex'
 
 export default {
-  beforemounted() {
+  mounted() {
     localStorage.setItem('accessToken', this.$route.query.Auth)
     localStorage.setItem('refreshToken', this.$route.query.Refresh)
     this.login()
