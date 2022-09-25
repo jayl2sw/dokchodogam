@@ -53,6 +53,8 @@ export default defineComponent({
     const pause = () => camera.value?.pause()
     const resume = () => camera.value?.resume()
     const snapshot = async () => {
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/camera.mp3')
+      audio.play()
       const blob = await camera.value?.snapshot({
         width: 1280,
         height: 720
