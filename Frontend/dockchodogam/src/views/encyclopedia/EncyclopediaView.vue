@@ -167,26 +167,6 @@ export default {
           this.checkedGrade.includes(monster.grade)
         )
       }
-      // 체크된 것 아무것도 없을 경우
-      // 타입 X 등급 X 보유 X
-      // if (!this.checkedType.length && !this.checkedGrade.length) {
-      //   return this.monsters
-      // } else if (this.checkedType.length) {
-      //   if (!this.checkedGrade.length) {
-      //     return this.monsters.filter((monster) =>
-      //       this.checkedType.includes(monster.type)
-      //     )
-      //   }
-      //   return this.monsters.filter(
-      //     (monster) =>
-      //       this.checkedType.includes(monster.type) &&
-      //       this.checkedGrade.includes(monster.grade)
-      //   )
-      // } else {
-      //   return this.monsters.filter((monster) =>
-      //     this.checkedGrade.includes(monster.grade)
-      //   )
-      // }
     }
   },
   methods: {

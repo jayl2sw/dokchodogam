@@ -91,7 +91,7 @@ export default {
 
     fetchMonsterDetail() {
       axios({
-        url: `http://localhost:8081/api/v1/game/monster/detail/${this.monster.monsterId}`,
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
