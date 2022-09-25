@@ -16,6 +16,9 @@ public interface GameService {
 
     // 모든 독초몬 리스트 조회
     Page<MonstersResponseDto> getMonsterList(Long userId, Pageable pageable);
+    // 로그인 유저가 가진 독초몬 리스트 조회
+
+    Page<MonsterInfoResponseDto> getMyMonsterList(Long userId, Pageable pageable);
     // 몬스터 아이디를 통해 특정 독초몬 상세 정보 조회
     MonsterInfoResponseDto getMonsterInfo(Long monsterId);
     // 로그인 유저의 덱 수정
