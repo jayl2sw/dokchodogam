@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,18 @@ public class GameController {
         // 로그인 유저
         Long userId = userService.getMyInfo().getUser_id();
         Page<MonstersResponseDto> list = gameService.getMonsterList(userId, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/monster/mylist")
+    @ApiOperation(value = "유저가 가진 독초몬 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = MonsterInfoResponseDto.class)
+    })
+    public ResponseEntity<?> getMyMonsters(Pageable pageable){
+        Long userId = userService.getMyInfo().getUser_id();
+        Slice<MonsterInfoResponseDto> list = gameService.getMyMonsterList(userId, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
