@@ -60,6 +60,7 @@
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 // import MonsterDetail from '@/components/encyclopedia/MonsterDetail.vue'
 
 export default {
@@ -91,7 +92,7 @@ export default {
 
     fetchMonsterDetail() {
       axios({
-        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
+        url: `${BASE_URL} + api/v1/game/monster/detail/${this.monster.monsterId}`,
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
@@ -99,7 +100,7 @@ export default {
       })
         .then((res) => {
           // console.log(this.monster)
-          // console.log(res.data)
+          console.log(`monsterDetail  : ${res.data}`)
           this.monsterDetail = res.data
         })
         .catch((err) => {

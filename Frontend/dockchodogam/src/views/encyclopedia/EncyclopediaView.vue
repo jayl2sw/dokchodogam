@@ -1,4 +1,5 @@
 <template>
+  <LoadingPage v-if="this.isLoading" />
   <NavBar @overflow="overflow" />
   <div>
     <h1 class="dogam__title">나의 도감</h1>
@@ -24,16 +25,16 @@
       <div>checkfilter: {{ checkedType }}</div>
 
       <input type="checkbox" id="DOKCHO" value="DOKCHO" v-model="checkedType" />
-      <label for="DOKCHO">DOKCHO</label>
+      <label for="DOKCHO">독초😈</label>
 
       <input type="checkbox" id="YAKCHO" value="YAKCHO" v-model="checkedType" />
-      <label for="YAKCHO">YAKCHO</label>
+      <label for="YAKCHO">약초🥗</label>
 
       <input type="checkbox" id="JAPCHO" value="JAPCHO" v-model="checkedType" />
-      <label for="JAPCHO">JAPCHO</label>
+      <label for="JAPCHO">잡초🌻</label>
 
       <input type="checkbox" id="HIDDEN" value="HIDDEN" v-model="checkedType" />
-      <label for="HIDDEN">HIDDEN</label>
+      <label for="HIDDEN">히든✨</label>
     </div>
 
     <!-- 등급별 -->
@@ -81,20 +82,24 @@
 import NavBar from '@/components/main/NavBar.vue'
 import MonsterCard from '@/components/encyclopedia/MonsterCard.vue'
 import axios from 'axios'
+import LoadingPage from '@/components/main/LoadingPage.vue'
+
 // import { BASE_URL } from '@/constant/BASE_URL'
 // import { mapGetters } from 'vuex'
 
 export default {
   components: {
     NavBar,
-    MonsterCard
+    MonsterCard,
+    LoadingPage
   },
   data() {
     return {
       monsters: [],
       checkedType: [],
       checkedGrade: [],
-      checkedGot: []
+      checkedGot: [],
+      isLoading: true
     }
   },
   computed: {
@@ -212,6 +217,9 @@ export default {
   },
   created() {
     this.fetchMonsterList()
+    setTimeout(() => {
+      this.isLoading = false
+    }, 1500)
   }
 }
 </script>
