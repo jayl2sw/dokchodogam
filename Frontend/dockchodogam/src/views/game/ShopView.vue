@@ -31,6 +31,7 @@
 import PaymentCash from '@/components/game/shop/PaymentCash.vue'
 import PaymentPackage from '@/components/game/shop/PaymentPackage.vue'
 import MonsterGacha from '@/components/game/shop/MonsterGacha.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -42,6 +43,9 @@ export default {
     PaymentCash,
     PaymentPackage,
     MonsterGacha
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   methods: {
     goToArenaMain() {

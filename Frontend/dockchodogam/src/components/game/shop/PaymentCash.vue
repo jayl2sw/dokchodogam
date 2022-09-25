@@ -1,7 +1,7 @@
 <template>
   <div class="cash">
     <div class="cash__header">
-      <h2>캐시 충전</h2>
+      <h2>💰 냥 충전소 💰</h2>
     </div>
 
     <div class="cash__body">
@@ -9,15 +9,26 @@
         class="cash__img"
         src="http://img3.tmon.kr/cdn4/deals/2021/10/04/4040092538/front_252ba_vaemg.jpg"
       />
-      <button @click="onPaymentCash">결제하기</button>
+      <button @click="onPaymentCash">충전하기</button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
+import { mapGetters } from 'vuex'
+
 export default {
-  // data() {},
+  // data() {
+  //   return {
+  //     userInfo: JSON.parse(localStorage.getItem('userInfo'))
+  //   }
+  // },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     onPaymentCash() {
       /* 1. 가맹점 식별하기 */
@@ -31,27 +42,41 @@ export default {
           merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
           amount: 9900, // 결제금액
           name: '재화충전:결제테스트', // 주문명
-          buyer_name: '홍길동' // 구매자 이름 //이거 username으로 넣기
+          buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
         },
         (res) => {
           if (res.sucess) {
             // 결제 성공시 로직
             // axios로 HTTP 요청
             axios({
-              url: '/game/monster/pick',
+              url: `${BASE_URL} + api/v1/game/monster/pick`,
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+              },
               data: {
                 itemId: 1
               }
             }).then((data) => {
               // 서버 결제 API 성공시 로직
-              alert('냥 충전이 완료되었습니다.')
+              swal({
+                title: '냥 충전 완료! 💰',
+                text: '1,000냥이 충전 되었습니다😸',
+                icon: 'success',
+                buttons: false,
+                timer: 1500
+              })
             })
           } else {
             // 결제 실패시 로직
-
-            alert(`결제에 실패하였습니다. 에러 내용 : ${res.error_msg}`)
+            swal({
+              title: '결제에 실패하였습니다 😢',
+              text: `${res.error_msg}`,
+              icon: 'error',
+              buttons: false,
+              timer: 1500
+            })
           }
         }
       )
