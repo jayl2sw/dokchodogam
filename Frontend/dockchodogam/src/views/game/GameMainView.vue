@@ -37,6 +37,9 @@ export default {
   height: 85vh;
 }
 .game__arena {
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   border: 2px groove;
   border-radius: 5px;
   width: 39.5vw;

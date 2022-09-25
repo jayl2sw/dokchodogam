@@ -1,23 +1,22 @@
 <template>
-  <div class="friend">
-    <b-card no-body>
-      <b-tabs card>
-        <b-tab no-body title="친구 목록" class="friendList__tap">
+  <div class="friendPage">
+    <div class="friend">
+      <TabWrapper>
+        <TabItem title="친구 목록" class="friendList__tap">
           <div v-for="(friend, i) in this.friendList" :key="i">
             <FriendListItem :friend="friend" />
           </div>
-        </b-tab>
-
-        <b-tab no-body title="친구 관리">
+        </TabItem>
+        <TabItem title="친구 관리">
           <div class="friendManage__tap">
             <div class="friendManage">
               <div v-for="(friend, i) in this.friendList" :key="i">
-                <FriendListManage :friend="friend" />
+                <FriendListManage :friend="friend" class="friendManageList" />
               </div>
             </div>
             <div class="friendGift">
               <div class="friendGift__top">
-                <p>NEW 친구 신청</p>
+                <p class="TITLE">NEW 친구 신청</p>
               </div>
               <div class="friendGift__bottom">
                 <div v-for="(gift, i) in this.giftList" :key="i">
@@ -26,24 +25,24 @@
               </div>
             </div>
           </div>
-        </b-tab>
-
-        <b-tab no-body title="친구 추가" class="friendSearch__tap">
+        </TabItem>
+        <TabItem title="친구 추가" class="friendSearch__tap">
           <FriendSearch />
-        </b-tab>
-
-        <b-tab title="우편함" class="friendRequest__tap">
+        </TabItem>
+        <TabItem title="우편함" class="friendRequest__tap">
           <FriendRequest />
-        </b-tab>
-      </b-tabs>
-    </b-card>
-    <div class="friend__exit" @click="goToArenaMain()">
-      <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+        </TabItem>
+      </TabWrapper>
+      <div class="friend__exit" @click="goToArenaMain()">
+        <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TabWrapper from '@/components/game/friend/TabWrapper.vue'
+import TabItem from '@/components/game/friend/TabItem.vue'
 import FriendListItem from '@/components/game/friend/FriendListItem.vue'
 import FriendListManage from '@/components/game/friend/FriendListManage.vue'
 import FriendGift from '@/components/game/friend/FriendGift.vue'
@@ -52,6 +51,8 @@ import FriendRequest from '@/components/game/friend/FriendRequest.vue'
 
 export default {
   components: {
+    TabWrapper,
+    TabItem,
     FriendListItem,
     FriendListManage,
     FriendGift,
@@ -73,6 +74,14 @@ export default {
 </script>
 
 <style scoped>
+.friendPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .friend {
   margin: 5vh 5vw;
   height: 90vh;
@@ -85,33 +94,45 @@ export default {
 .friendManage__tap {
   padding: 5vh 5vw;
   height: 80vh;
+  width: 100%;
   display: flex;
+  justify-content: space-between;
 }
 .friendManage {
   height: 70vh;
-  width: 37.5vw;
+  width: 45%;
   margin: 0 5vw 0 0;
   overflow: auto;
 }
+.friendManageList:first-child {
+  margin-top: 0;
+}
 .friendGift {
-  border: 2px groove black;
-  border-radius: 5px;
-  height: 70vh;
-  width: 37.5vw;
+  border: none;
+  border-radius: 30px;
+  height: 100%;
+  width: 45%;
+  background-color: white;
 }
 .friendGift__top {
-  height: 10vh;
+  height: 15%;
   width: 100%;
+  margin-top: 1vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.friendGift__top > p {
+  font-weight: bold;
+  font-size: 2vw;
+}
 .friendGift__bottom {
-  border: 2px groove black;
-  border-radius: 5px;
-  height: 50vh;
-  width: 32.5vw;
-  margin: 5vh 2.5vw;
+  border: none;
+  border-radius: 30px;
+  background-color: #a7c957;
+  height: 80%;
+  width: 28vw;
+  margin: 0 auto;
   overflow: auto;
 }
 .friendSearch__tap {
@@ -121,6 +142,7 @@ export default {
 .friendRequest__tap {
   padding: 5vh 5vw;
   height: 80vh;
+  width: 100%;
 }
 .friend__exit {
   width: 30px;

@@ -1,8 +1,18 @@
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import { Module } from 'vuex'
+import { RootState } from '../index'
 
-export const accounts = {
-  state: {},
+export interface accountsState {
+  userInfo: object
+}
+
+export const accounts: Module<accountsState, RootState> = {
+  state: {
+    userInfo: {}
+  },
   getters: {
+    userInfo: (state) => state.userInfo,
     // 로그인 여부를 가져옵니다.
     // isLogin(state) {
     //   return localStorage.getItem('refreshToken') === '' ? false : true
@@ -28,8 +38,18 @@ export const accounts = {
       return expire
     }
   },
-  mutations: {},
+  mutations: {
+    SET_USERINFO(state, userInfo) {
+      state.userInfo = userInfo
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      console.log(localStorage.getItem('userInfo'))
+    }
+  },
   actions: {
+    async fetchUserInfo({ commit }, userInfo) {
+      commit('SET_USERINFO', userInfo)
+    },
+
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
       if (localStorage.getItem('accessToken') !== '') {
@@ -39,7 +59,7 @@ export const accounts = {
         }
         try {
           const result = await axios.post(
-            'http://localhost:8081/api/v1/user/auth/refresh',
+            BASE_URL + '/api/v1/user/auth/refresh',
             token
           )
           if (result.status === 200) {

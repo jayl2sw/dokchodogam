@@ -1,110 +1,111 @@
 <template>
-  <div class="inGame" v-if="!this.isGameEndFlag">
-    <div class="inGame__top">
-      <div class="yourDockChoList">
-        <div
-          v-for="(yourDockCho, i) in this.yourDockChoList"
-          :key="i"
-          class="yourDockChoItem"
-        >
+  <LoadingPage v-if="this.isLoading" />
+  <div v-show="!this.isLoading">
+    <div class="inGame" v-if="!this.isGameEndFlag">
+      <div class="inGame__top">
+        <div class="yourDockChoList">
           <div
-            class="deadBlurBox"
-            :class="isDead_yourDockCho[i] ? 'deadDockcho' : ''"
+            v-for="(yourDockCho, i) in this.yourDockChoList"
+            :key="i"
+            class="yourDockChoItem"
+          >
+            <div
+              class="deadBlurBox"
+              :class="isDead_yourDockCho[i] ? 'deadDockcho' : ''"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="inGame__middle">
+        <div class="currentMyDockCho">
+          <div
+            class="myDockChoMon"
+            :class="
+              this.isAttack
+                ? 'myDockcho_attack'
+                : this.currentMyDockCho
+                ? 'myDockCho_inGround'
+                : ''
+            "
+          >
+            <DockChoMon
+              :data="this.currentMyDockCho"
+              :damage="this.yourDamage"
+            />
+          </div>
+        </div>
+        <div class="currentYourDockCho">
+          <div
+            class="yourDockChoMon"
+            :class="
+              this.isAttack
+                ? 'yourDockcho_attack'
+                : this.currentYourDockCho
+                ? 'yourDockCho_inGround'
+                : ''
+            "
+          >
+            <DockChoMon
+              :data="this.currentYourDockCho"
+              :damage="this.myDamage"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="inGame__bottom">
+        <div class="myDockChoList">
+          <div
+            v-for="(myDockCho, i) in this.myDockChoList"
+            :key="i"
+            class="myDockChoItem"
+            :class="isMyDockchoDead ? 'ableSelect' : ''"
+            @click="this.selectNextDockcho(i)"
+          >
+            <div
+              class="deadBlurBox"
+              :class="isDead_myDockCho[i] ? 'deadDockcho' : ''"
+            ></div>
+          </div>
+        </div>
+        <div class="skillBtn" @click="onClickSkill()">
+          <div
+            class="skillBlur"
+            :class="this.isUseSkill ? 'usedSkill' : ''"
           ></div>
         </div>
       </div>
     </div>
-    <div class="inGame__middle">
-      <div class="currentMyDockCho">
-        <div
-          class="myDockChoMon"
-          :class="
-            this.isAttack
-              ? 'myDockcho_attack'
-              : this.currentMyDockCho
-              ? 'myDockCho_inGround'
-              : ''
-          "
-        >
-          <DockChoMon :data="this.currentMyDockCho" :damage="this.yourDamage" />
-        </div>
-      </div>
-      <div class="currentYourDockCho">
-        <div
-          class="yourDockChoMon"
-          :class="
-            this.isAttack
-              ? 'yourDockcho_attack'
-              : this.currentYourDockCho
-              ? 'yourDockCho_inGround'
-              : ''
-          "
-        >
-          <DockChoMon :data="this.currentYourDockCho" :damage="this.myDamage" />
-        </div>
-      </div>
+    <div v-else>
+      <ArenaGameResult
+        :myDeck="this.myDockChoList"
+        :resultInfo="this.resultInfo"
+      />
     </div>
-    <div class="inGame__bottom">
-      <div class="myDockChoList">
-        <div
-          v-for="(myDockCho, i) in this.myDockChoList"
-          :key="i"
-          class="myDockChoItem"
-          :class="isMyDockchoDead ? 'ableSelect' : ''"
-          @click="this.selectNextDockcho(i)"
-        >
-          <div
-            class="deadBlurBox"
-            :class="isDead_myDockCho[i] ? 'deadDockcho' : ''"
-          ></div>
-        </div>
-      </div>
-      <div class="skillBtn" @click="onClickSkill()">
-        <div
-          class="skillBlur"
-          :class="this.isUseSkill ? 'usedSkill' : ''"
-        ></div>
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <ArenaGameResult
-      :myDeck="this.myDockChoList"
-      :resultInfo="this.resultInfo"
-    />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import DockChoMon from '@/components/game/arena/DockChoMon.vue'
 import ArenaGameResult from '@/components/game/arena/ArenaGameResult.vue'
+import LoadingPage from '@/components/main/LoadingPage.vue'
 import _ from 'lodash'
 
 export default {
   components: {
     DockChoMon,
-    ArenaGameResult
+    ArenaGameResult,
+    LoadingPage
   },
   data() {
     return {
+      isLoading: true,
       round: 1,
       isAttack: false,
       isDead_myDockCho: [false, false, false, false, false],
       isDead_yourDockCho: [false, false, false, false, false],
-      myDockChoList: [
-        { name: 1, minAtt: 5, maxAtt: 10, hp: 100, currentHp: 100 },
-        { name: 1, minAtt: 5, maxAtt: 10, hp: 100, currentHp: 100 },
-        { name: 1, minAtt: 5, maxAtt: 10, hp: 100, currentHp: 100 },
-        { name: 1, minAtt: 5, maxAtt: 10, hp: 100, currentHp: 100 },
-        { name: 1, minAtt: 5, maxAtt: 10, hp: 100, currentHp: 100 }
-      ],
-      yourDockChoList: [
-        { name: 2, minAtt: 5, maxAtt: 50, hp: 11, currentHp: 11 },
-        { name: 2, minAtt: 5, maxAtt: 50, hp: 11, currentHp: 11 },
-        { name: 2, minAtt: 5, maxAtt: 50, hp: 11, currentHp: 11 },
-        { name: 2, minAtt: 5, maxAtt: 50, hp: 11, currentHp: 11 },
-        { name: 2, minAtt: 5, maxAtt: 50, hp: 11, currentHp: 11 }
-      ],
+      myDockChoList: [],
+      yourDockChoList: [],
       currentMyDockCho: '',
       currentYourDockCho: '',
       currentMyIdx: 0,
@@ -120,6 +121,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchUserDeck']),
     gameStart() {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
@@ -135,13 +137,85 @@ export default {
       setTimeout(() => {
         this.isAttack = false
         this.myDamage = _.random(
-          this.currentMyDockCho.minAtt,
-          this.currentMyDockCho.maxAtt
+          this.currentMyDockCho.minAttack,
+          this.currentMyDockCho.maxAttack
         )
         this.yourDamage = _.random(
-          this.currentYourDockCho.minAtt,
-          this.currentYourDockCho.maxAtt
+          this.currentYourDockCho.minAttack,
+          this.currentYourDockCho.maxAttack
         )
+        // 상성 체크
+        if (this.currentMyDockCho.type === 'JAPCHO') {
+          if (this.currentYourDockCho.type === 'DOKCHO') {
+            console.log(
+              '잡 독 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'YAKCHO') {
+            console.log('잡 약 쎄게떄림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '잡 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else if (this.currentMyDockCho.type === 'DOKCHO') {
+          if (this.currentYourDockCho.type === 'JAPCHO') {
+            console.log('독 잡 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'YAKCHO') {
+            console.log(
+              '독 약 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '독 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else if (this.currentMyDockCho.type === 'YAKCHO') {
+          if (this.currentYourDockCho.type === 'DOKCHO') {
+            console.log('약 독 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'JAPCHO') {
+            console.log(
+              '약 잡 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          } else if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '약 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        } else {
+          console.log('히 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+          this.myDamage *= 1.2
+          if (this.currentYourDockCho.type === 'HIDDEN') {
+            console.log(
+              '히 히 쎄게맞음!',
+              this.yourDamage,
+              this.yourDamage * 1.2
+            )
+            this.yourDamage *= 1.2
+          }
+        }
+        this.myDamage = Math.round(this.myDamage)
+        this.yourDamage = Math.round(this.yourDamage)
         if (this.nowUseSkill) {
           if (this.skill === 1) {
             console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
@@ -163,8 +237,6 @@ export default {
     judged() {
       this.currentMyDockCho.currentHp -= this.yourDamage
       this.currentYourDockCho.currentHp -= this.myDamage
-      console.log(this.myDockChoList, this.currentMyDockCho)
-      console.log(this.yourDockChoList, this.currentYourDockCho)
       setTimeout(() => {
         this.myDamage = ''
         this.yourDamage = ''
@@ -253,9 +325,20 @@ export default {
       }
     }
   },
-  mounted() {
-    this.gameStart()
+  created() {
+    this.fetchUserDeck()
+    setTimeout(() => {
+      this.isLoading = false
+      this.myDockChoList = this.userDeck
+      this.yourDockChoList = this.enemyInfo.enemyDeck
+      console.log('덱', this.myDockChoList, this.yourDockChoList)
+      console.log('덱', this.userDeck, this.enemyInfo)
+      this.gameStart()
+    }, 4000)
     this.skill = _.random(1, 3)
+  },
+  computed: {
+    ...mapGetters(['userDeck', 'enemyInfo'])
   }
 }
 </script>
@@ -265,6 +348,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .inGame__top {
   display: flex;

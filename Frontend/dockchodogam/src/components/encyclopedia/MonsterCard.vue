@@ -1,52 +1,66 @@
 <template>
   <!-- isGot 확인해서 v-if 걸기 -->
-  <!-- <div v-if="monster.isGot == true" @click="openModal" >
-    <p>{monster.monsterId}</p>
-    <h3>{monster.name}</h3>
-    <img :src="monster.images" v-b-modal.modalPopover class="card" />
-      <div>
-        <b-modal
-          id="modalPopover"
-          title="{{monster.name}}"
-          scrollable
-          hide-footer="true"
-        >
-          <p>몬스터 디테일 ..</p>
-        </b-modal>
-      </div>
-
-  </div>
-
-  <div v-else>
-    <p>{monster.monsterId}</p>
-    <h3>???</h3>
-    <img class="dontHaveImg" :src="monster.images" />
-  </div> -->
-
-  <div class="card">
-    <div v-b-modal.modalPopover class="monster__card">
+  <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
+    <div
+      v-b-modal.modal-card
+      @click=";[storeMonster(monster), openModal]"
+      :class="{
+        card__common: monsterDetail.grade == 'COMMON',
+        card__rare: monsterDetail.grade == 'RARE',
+        card__epic: monsterDetail.grade == 'EPIC',
+        card__legendary: monsterDetail.grade == 'LEGENDARY',
+        card__special: monsterDetail.grade == 'SPECIAL'
+      }"
+    >
+      <p>00{{ monster.monsterId }}</p>
+      <h3>{{ monster.name }}몬</h3>
       <img
         src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
         class="card__img"
       />
-      <p>카드입니다.</p>
 
-      <div>
-        <b-modal
-          id="modalPopover"
-          title="몬스터 이름"
-          scrollable
-          hide-footer="true"
-        >
-          <p>몬스터 디테일 ..</p>
-        </b-modal>
-      </div>
+      <!-- backdrop에러남 -->
+      <!-- <MonsterDetail
+        @close="closeModal"
+        v-if="modal"
+        :monsterDetail="monsterDetail"
+      >
+      </MonsterDetail> -->
     </div>
+
+    <b-modal
+      :monsterDetail="monsterDetail"
+      id="modal-card"
+      hide-footer
+      hide-header
+      scrollable
+    >
+      <p>{{ monsterDetail.name }}</p>
+      <p>타입 : {{ monsterDetail.type }}</p>
+      <p>등급 : {{ monsterDetail.grade }}</p>
+      <p>체력 : {{ monsterDetail.hp }}</p>
+      <p>
+        공격력 : {{ monsterDetail.minAttack }} ~
+        {{ monsterDetail.maxAttack }}
+      </p>
+    </b-modal>
+
+    <!-- <MonsterDetail :monsterDetail="monster" /> -->
+  </div>
+
+  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
+    <p>00{{ monster.monsterId }}</p>
+    <h3>???</h3>
+    <img
+      class="card__dontHaveimg"
+      src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+// import MonsterDetail from '@/components/encyclopedia/MonsterDetail.vue'
 
 export default {
   props: {
@@ -58,23 +72,43 @@ export default {
       monsterDetail: {}
     }
   },
+  components: {
+    // MonsterDetail
+  },
   methods: {
+    openModal() {
+      this.modal = true
+    },
+    closeModal() {
+      this.modal = false
+    },
+    async storeMonster(a) {
+      this.monsterDetail = a
+      // alert(a.name)
+      // console.log(a)
+      // console.log(this.monsterDetail)
+    },
+
     fetchMonsterDetail() {
       axios({
-        url: '/game/monster/detail/',
-        method: 'get',
-        data: {
-          data: this.monster.monsterId
+        url: `http://localhost:8081/api/v1/game/monster/detail/${this.monster.monsterId}`,
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
         }
       })
         .then((res) => {
-          console.log(res)
-          this.monsterDetail = res
+          // console.log(this.monster)
+          // console.log(res.data)
+          this.monsterDetail = res.data
         })
         .catch((err) => {
           console.log(err)
         })
     }
+  },
+  created() {
+    this.fetchMonsterDetail()
   }
 }
 </script>
@@ -88,5 +122,34 @@ export default {
 .card__img {
   width: 100%;
   height: 20vh;
+}
+.card__dontHaveimg {
+  width: 100%;
+  height: 20vh;
+  filter: brightness(0%);
+}
+.card__common {
+  background-color: gray;
+}
+.card__rare {
+  background-color: skyblue;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: yellow;
+}
+.card__special {
+  background-image: linear-gradient(
+    to right,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    purple
+  );
 }
 </style>

@@ -11,7 +11,6 @@
       <input v-model="email" placeholder="이메일" />
       <button type="submit" @click="isEmailDuplicate()">이메일중복확인</button>
     </div>
-    <input v-model="region" placeholder="리젼" />
     <div>
       <input v-model="password" type="password" placeholder="비밀번호" />
       <input v-model="password2" type="password" placeholder="비밀번호 확인" />
@@ -22,6 +21,7 @@
 
 <script>
 import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 export default {
   data() {
     return {
@@ -30,7 +30,6 @@ export default {
       password: this.password,
       password2: this.password2,
       username: this.username,
-      region: this.region,
       nicknameDuplicate: true,
       emailDuplicate: true
     }
@@ -38,12 +37,9 @@ export default {
   methods: {
     async isEmailDuplicate() {
       await axios
-        .get(
-          'http://localhost:8081/api/v1/user/auth/check/email/' + this.email,
-          {
-            email: this.email
-          }
-        )
+        .get(BASE_URL + '/api/v1/user/auth/check/email/' + this.email, {
+          email: this.email
+        })
         .then((res) => {
           console.log(res)
           if (res.data === false) {
@@ -60,13 +56,9 @@ export default {
     },
     async isNicknameDuplicate() {
       await axios
-        .get(
-          'http://localhost:8081/api/v1/user/auth/check/nickname/' +
-            this.nickname,
-          {
-            nickname: this.nickname
-          }
-        )
+        .get(BASE_URL + '/api/v1/user/auth/check/nickname/' + this.nickname, {
+          nickname: this.nickname
+        })
         .then((res) => {
           console.log(res)
           if (res.data === false) {
@@ -88,7 +80,7 @@ export default {
         alert('이메일중복검사를 먼저 진행해주세요.')
       } else if (this.password === this.password2) {
         await axios
-          .post('http://localhost:8081/api/v1/user/auth/signup', {
+          .post(BASE_URL + '/api/v1/user/auth/signup', {
             email: this.email,
             nickname: this.nickname,
             password: this.password,
@@ -97,10 +89,14 @@ export default {
           })
           .then((res) => {
             console.log(res)
+            alert('회원가입을 축하드립니다!')
           })
           .catch((err) => {
             console.log(err)
           })
+        await this.$router.push({
+          name: 'start'
+        })
       } else {
         return alert('비밀번호가 일치하지 않습니다.')
       }

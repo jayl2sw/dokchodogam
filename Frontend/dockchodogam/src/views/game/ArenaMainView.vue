@@ -1,41 +1,70 @@
 <template>
-  <div class="main">
+  <LoadingPage v-if="this.isLoading" />
+  <div class="main" v-show="!this.isLoading">
     <div class="main__boxes">
       <div class="box__left">
         <div class="myDeck">
           <div class="nickname">
-            <h3>username</h3>
+            <h3>{{ this.userInfo.nickname }}</h3>
           </div>
           <div class="expBar">
+            <span>rankpoint</span>
             <div class="progress">
               <div
                 class="progress-bar"
                 role="progressbar"
-                style="width: 75%"
-                aria-valuenow="75"
+                :style="'width: ' + (this.userInfo.rank_point % 100) + '%'"
+                :aria-valuenow="this.userInfo.rank_point % 100"
                 aria-valuemin="0"
                 aria-valuemax="100"
-              ></div>
+              >
+                {{ this.userInfo.rank_point % 100 }}
+              </div>
             </div>
           </div>
           <div class="myDeckDetail">
-            <div class="myDeckPower">전투력:500</div>
-            <div class="myDeckImg"></div>
+            <div class="myDeckPower">
+              <p>전투력</p>
+              <h2>500</h2>
+            </div>
+            <div class="myDeckImages">
+              <div v-for="(item, i) in this.myDeck" :key="i">
+                <img src="@/assets/loading/1.png" alt="" class="myDeckImage" />
+              </div>
+            </div>
           </div>
-          <div class="myDeckBtn">
-            <button @click="goToDeck()">내 덱 수정</button>
+          <div class="myDeckBtnBox">
+            <div class="myDeckBtn" @click="goToDeck()">내 덱 수정</div>
           </div>
         </div>
         <div class="ranking">
           <div class="rankingText">
-            <h3>랭킹</h3>
+            <p>랭킹</p>
           </div>
-          <div class="rankingList"></div>
+          <div class="rankingList">
+            <div
+              class="rankingListItem"
+              v-for="(item, i) in this.ranking.opponents"
+              :key="i"
+            >
+              <div class="rankIntImage">{{ i + 1 }}</div>
+              <div class="rankerName">{{ item.nickname }}</div>
+              <div class="rankerDeck">
+                <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
+                  <img
+                    src="@/assets/loading/2.png"
+                    alt=""
+                    class="rankerDeckItem"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="box__right">
         <div class="goToHome">
-          <button @click="goToGameMain()">홈으로 돌아가기</button>
+          <div class="goToHomeBtn" @click="goToGameMain()">홈으로 돌아가기</div>
         </div>
         <div class="users">
           <div class="info__box">
@@ -57,23 +86,21 @@
                 <div class="enemyName">{{ enemy.nickname }}</div>
               </div>
               <div class="enemyDeck">
-                <div
-                  v-for="(item, j) in this.Enemys.deck[i]"
-                  :key="j"
-                  class="enemyDeck__item"
-                >
-                  {{ item.monsterId }}
+                <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
+                  <img
+                    src="@/assets/loading/3.png"
+                    alt=""
+                    class="enemyDeck__item"
+                  />
                 </div>
               </div>
-              <div class="gameStartBtn">
-                <button @click="onClickGameStart(i)">ㄱ</button>
-              </div>
+              <div class="gameStartBtn" @click="onClickGameStart(i)">start</div>
             </div>
           </div>
         </div>
         <div class="buttons">
-          <button @click="goToGameShop()">상점</button>
-          <button @click="goToFriend()">친구관리</button>
+          <div class="button" @click="goToGameShop()">상점</div>
+          <div class="button" @click="goToFriend()">친구관리</div>
         </div>
       </div>
     </div>
@@ -104,17 +131,26 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import LoadingPage from '@/components/main/LoadingPage.vue'
+import { mapActions, mapGetters } from 'vuex'
+import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
 
 export default {
+  components: {
+    LoadingPage
+  },
   data() {
     return {
-      Enemys: { userInfo: [], deck: [] }
+      Enemys: { userInfo: [], deck: [] },
+      myDeck: [],
+      ranking: [],
+      isLoading: true,
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
-    ...mapActions(['fetchEnemyInfo']),
+    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck']),
     goToGameMain() {
       this.$router.push({ path: '/game' })
     },
@@ -129,18 +165,28 @@ export default {
     },
     getMyEnemy() {
       axios
-        .get(
-          'https://cors-anywhere.herokuapp.com/http://j7e201.p.ssafy.io:8081/api/v1/game/deck/opponentInfo',
-          {
-            headers: {
-              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
-        )
+        })
         .then((res) => {
           console.log(res.data)
           this.Enemys.userInfo = res.data.opponents
           this.Enemys.deck = res.data.yourDecks
+        })
+        .catch((err) => console.log(err))
+    },
+    getRanking() {
+      axios
+        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log('랭커', res.data)
+          this.ranking = res.data
         })
         .catch((err) => console.log(err))
     },
@@ -151,10 +197,27 @@ export default {
         enemyDeck: this.Enemys.deck[i]
       }
       this.fetchEnemyInfo(info)
+      setTimeout(() => {
+        this.$router.push({ path: '/game/arena/ingame' })
+      }, 200)
     }
   },
   created() {
     this.getMyEnemy()
+    this.fetchUserDeck()
+    this.getRanking()
+    setTimeout(() => {
+      this.isLoading = false
+    }, 1500)
+  },
+  computed: {
+    ...mapGetters(['userDeck'])
+  },
+  watch: {
+    userDeck() {
+      this.myDeck = this.userDeck
+      console.log('와치', this.myDeck)
+    }
   }
 }
 </script>
@@ -164,7 +227,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 9vh 0;
+  padding: 9vh 0;
+  background-image: url('@/assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .main__boxes {
   display: flex;
@@ -177,15 +243,18 @@ export default {
   margin: 0 2.5vw;
 }
 .myDeck {
-  border: 2px groove;
-  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-radius: 20px;
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
   padding: 0 2vw;
+  background-color: #ececec;
 }
 .nickname {
-  height: 15vh;
+  height: 13vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,47 +263,119 @@ export default {
   height: 10vh;
   display: flex;
   justify-content: space-between;
-  margin: 3vh 0;
+  margin: 2vh 0;
+}
+.expBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2vh;
+}
+.progress {
+  background-color: white;
+  width: 28vw;
+}
+.progress-bar {
+  background-color: #a7c957;
 }
 .myDeckPower {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  font-size: 2vh;
   width: 10vw;
   height: 100%;
 }
-.myDeckImg {
-  border: 2px groove;
-  border-radius: 5px;
+.myDeckPower > p {
+  font-size: 2vh;
+  margin: 0;
+}
+.myDeckPower > h2 {
+  font-size: 3vh;
+  margin: 0;
+}
+.myDeckImages {
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   width: 35vw;
   height: 100%;
 }
-.myDeckBtn {
+.myDeckImage {
+  width: 6vw;
+  height: 6vw;
+}
+.myDeckBtnBox {
   display: flex;
   justify-content: flex-end;
+}
+.myDeckBtn {
+  border-radius: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
+  width: 15vw;
+  height: 5vh;
+  background-color: #a7c957;
+  cursor: pointer;
 }
 .ranking {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px groove;
-  border-radius: 5px;
+  border-radius: 20px;
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
   padding: 2vh 2vw;
+  background-color: #ececec;
 }
 .rankingText {
   text-align: center;
+  font-size: 3vh;
   height: 5vh;
 }
 .rankingList {
-  border: 2px groove;
-  border-radius: 5px;
-  width: 30vw;
-  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 35vw;
+  height: 28vh;
+}
+.rankingListItem {
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px;
+  width: 33vw;
+  height: 8vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: white;
+}
+.rankIntImage {
+  width: 3vw;
+  height: 3vw;
+}
+.rankerName {
+  width: 5vw;
+  height: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vw;
+}
+.rankerDeck {
+  width: 23vw;
+  display: flex;
+  justify-content: space-evenly;
+}
+.rankerDeckItem {
+  width: 4vw;
+  height: 4vw;
 }
 .box__right {
   display: flex;
@@ -248,19 +389,28 @@ export default {
   margin-bottom: 2.5vh;
   height: 5vh;
 }
+.goToHomeBtn {
+  border-radius: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
+  width: 20vw;
+  height: 5vh;
+  background-color: #a7c957;
+  cursor: pointer;
+}
 .users {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 2px groove;
-  border-radius: 5px;
+  border-radius: 20px;
   height: 65vh;
   width: 50vw;
+  background-color: #467302;
 }
 .userList {
-  border: 2px groove;
   margin: 2vh 2.5vw;
-  border-radius: 5px;
   height: 55vh;
   width: 45vw;
   display: flex;
@@ -269,14 +419,15 @@ export default {
   align-items: center;
 }
 .userListItem {
-  border: 2px groove black;
-  border-radius: 5px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px;
   height: 13vh;
   width: 40vw;
   margin: 1vh 2vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background-color: white;
 }
 .enemyInfo {
   display: flex;
@@ -295,10 +446,20 @@ export default {
   align-items: center;
 }
 .enemyDeck__item {
-  border: 2px groove black;
-  border-radius: 5px;
-  width: 4vw;
-  height: 4vw;
+  width: 4.5vw;
+  height: 4.5vw;
+}
+.gameStartBtn {
+  border-radius: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vh;
+  width: 5vw;
+  height: 5vh;
+  background-color: #ffe140;
+  margin-right: 0.5vw;
+  cursor: pointer;
 }
 .buttons {
   display: flex;
@@ -306,27 +467,38 @@ export default {
   margin-top: 2.5vh;
   height: 5vh;
 }
+.button {
+  border-radius: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
+  width: 15vw;
+  height: 5vh;
+  background-color: #a7c957;
+  cursor: pointer;
+}
 .info__box {
   display: flex;
   justify-content: flex-end;
 }
 .game__info {
   margin: 2vh 2vw;
-  width: 30px;
-  height: 30px;
-  border: 2px groove black;
+  width: 25px;
+  height: 25px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-color: #ececec;
 }
 @media screen and (max-width: 850px) {
   .game__info {
     top: 10px;
     right: 10px;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
   }
   svg {
     width: 10px;

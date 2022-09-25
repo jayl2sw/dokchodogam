@@ -2,7 +2,7 @@
   <NavBar @overflow="overflow" />
   <div class="main" :class="this.showMenu ? 'open-menu' : ''">
     <div class="nickname">
-      <h3 class="TITLE">username 님, 안녕하세요!</h3>
+      <h3 class="TITLE">{{ this.userInfo.nickname }} 님, 안녕하세요!</h3>
     </div>
     <div class="main__search">
       <input
@@ -130,7 +130,8 @@ export default {
       queryParams: process.env.VUE_APP_TODAYPLANT_API_KEY + '&dataNo=1',
       datas: {},
       showMenu: false,
-      inputData: ''
+      inputData: '',
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
@@ -148,14 +149,14 @@ export default {
       const month = date.getMonth() + 1
       const day = date.getDate()
       const queryParams =
-        '?serviceKey=LLrHC7Vr141M21iFqyMgP%2BQRqlWYwR2KhGRau5%2BBNN4a7D%2BSZGjrAT5r3rG82%2F%2BX%2FMAZpB0YRF1nZSLUrss%2FGg%3D%3D' +
+        process.env.VUE_APP_TODAYPLANT_API_KEY +
         '&fMonth=' +
         month +
         '&fDay=' +
         day
       axios
         .get(
-          'http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
+          'https://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
             queryParams
         )
         .then((res) => {

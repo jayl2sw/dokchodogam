@@ -44,6 +44,11 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public Page<MonsterInfoResponseDto> getMyMonsterList(Long userId, Pageable pageable) {
+        return userMonsterRepository.findUserMonsterByUserUserId(userId, pageable).map(s -> MonsterInfoResponseDto.of(s.getMonster()));
+    }
+
+    @Override
     public MonsterInfoResponseDto getMonsterInfo(Long monsterId) {
         Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
         return MonsterInfoResponseDto.of(monster);

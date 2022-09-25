@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface UserMonsterRepository extends JpaRepository<UserMonster, Long> {
 
     Optional<UserMonster> findUserMonsterByMonsterMonsterIdAndUserUserId(Long monsterId, Long userId);
+    Page<UserMonster> findUserMonsterByUserUserId(Long userId, Pageable pageable);
 
 }
