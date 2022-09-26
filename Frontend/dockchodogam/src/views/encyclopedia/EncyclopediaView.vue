@@ -98,7 +98,7 @@ export default {
       monsters: [],
       checkedType: [],
       checkedGrade: [],
-      checkedGot: [],
+      checkedGot: ['true'],
       isLoading: true,
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
