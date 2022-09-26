@@ -334,4 +334,7 @@ export default {
     margin-top: 1vh;
   }
 }
+::-webkit-scrollbar {
+  display: block;
+}
 </style>
