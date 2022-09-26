@@ -222,7 +222,7 @@ public class UserController {
 
     @PutMapping("/monster")
     @ApiOperation(value = "대표 독초몬 선택")
-    public ResponseEntity<String> selectRepresentMonster(@RequestBody Long monster_id){
+    public ResponseEntity<String> selectRepresentMonster(@RequestParam(value = "monster_id") Long monster_id){
         userService.selectRepresentMonster(monster_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
