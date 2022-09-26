@@ -11,16 +11,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
-    return {
-      cash: 200
-    }
+    return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   methods: {
     doubleCheck() {
       if (confirm('200냥을 내고 뽑기를 진행하시겠습니까?') === true) {
-        if (this.cash >= 200) {
+        if (this.userInfo.money >= 200) {
           this.$router.push({
             path: '/game/shop/gacha'
           })
@@ -50,5 +53,6 @@ export default {
 
 .gatcha__img {
   width: 20vw;
+  height: 30vh;
 }
 </style>

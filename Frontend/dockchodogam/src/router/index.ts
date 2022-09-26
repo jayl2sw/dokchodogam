@@ -197,6 +197,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "shop" */ '../views/game/GachaAnimationView.vue'
       )
   },
+  // 패키지 애니메이션 페이지
+  {
+    path: '/game/shop/package',
+    name: 'package',
+    component: () =>
+      import(
+        /* webpackChunkName: "shop" */ '../views/game/PackageAnimationView.vue'
+      )
+  },
   // 아레나 메인 페이지
   {
     path: '/game/arena',
