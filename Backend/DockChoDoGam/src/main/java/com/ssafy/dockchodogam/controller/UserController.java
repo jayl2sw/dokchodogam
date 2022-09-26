@@ -175,7 +175,7 @@ public class UserController {
 
     @GetMapping("/friend/{page}")
     @ApiOperation(value = "친구 목록")
-    public ResponseEntity<List<FriendResponseDto>> getFriendList(int page){
+    public ResponseEntity<List<FriendResponseDto>> getFriendList(@PathVariable int page){
 
         return new ResponseEntity<>(userService.getFriendList(page), HttpStatus.OK);
     }
