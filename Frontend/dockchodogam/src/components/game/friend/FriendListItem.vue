@@ -2,18 +2,36 @@
   <div class="lists">
     <div class="left">
       <img src="@/assets/loading/1.png" alt="" />
-      <p class="TITLE name">username</p>
+      <p class="TITLE name">{{ this.friend.nickname }}</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-gift" />
+      <font-awesome-icon icon="fa-solid fa-gift" @click="this.giveGift()" />
       <font-awesome-icon icon="fa-solid fa-hand-fist" />
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+
 export default {
-  props: ['friends']
+  props: ['friend'],
+  methods: {
+    giveGift() {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/gift', this.friend.user_id, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+  }
 }
 </script>
 

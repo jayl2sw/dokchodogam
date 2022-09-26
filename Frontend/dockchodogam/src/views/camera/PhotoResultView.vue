@@ -3,78 +3,42 @@
   <div class="result">
     <div class="result__body">
       <div class="result__left">
-        <div>
-          <new-find :modelValue="results" />
-          <!-- <duplicate-find :modelValue="results" />
-          <undefined-find :modelValue="results" /> -->
-        </div>
+        <div></div>
         <!-- 조건 걸기 / 독초몬 유,무 -->
-        <!-- <div v-if="가지고 있던 독초몬 없을 때" class="dockchoMonster">
-          <new-find />
-        </div>
-        <div v-else-if="" class="dockchoMonster">
-          <duplicate-find />
-        </div>
-        <div v-else class="dockchoMonster">
+        <div v-if="!results" class="dockchoMonster">
           <undefined-find />
-        </div> -->
+        </div>
+        <div
+          v-else-if="results.onDogam && !results.isOverlapped"
+          class="dockchoMonster"
+        >
+          <new-find :plant="results.plant" />
+        </div>
+        <div
+          v-else-if="results.onDogam && results.isOverlapped"
+          class="dockchoMonster"
+        >
+          <duplicate-find :plant="results.plant" />
+        </div>
       </div>
       <div class="result__right">
         <img src="@/assets/cat.png" alt="cat" />
         <div class="dockchoExplanation__container">
-          <div class="dockchoExplanation">
+          <div v-if="!results" class="dockchoExplanation">
             <img src="@/assets/flower_ex.png" alt="flower" />
             <!-- <h3 v-if="results.docko == true">
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3> -->
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nobis
-            ea quae omnis doloribus assumenda impedit, maiores id tempora
-            corporis obcaecati quis minima magnam sapiente ipsa in dolores hic
-            distinctio? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quod nobis ea quae omnis doloribus assumenda impedit, maiores id
-            tempora corporis obcaecati quis minima magnam sapiente ipsa in
-            dolores hic distinctio? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quod nobis ea quae omnis doloribus assumenda
-            impedit, maiores id tempora corporis obcaecati quis minima magnam
-            sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quod nobis ea quae omnis doloribus
-            assumenda impedit, maiores id tempora corporis obcaecati quis minima
-            magnam sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quod nobis ea quae omnis
-            doloribus assumenda impedit, maiores id tempora corporis obcaecati
-            quis minima magnam sapiente ipsa in dolores hic distinctio? Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Quod nobis ea
-            quae omnis doloribus assumenda impedit, maiores id tempora corporis
-            obcaecati quis minima magnam sapiente ipsa in dolores hic
-            distinctio? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quod nobis ea quae omnis doloribus assumenda impedit, maiores id
-            tempora corporis obcaecati quis minima magnam sapiente ipsa in
-            dolores hic distinctio? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quod nobis ea quae omnis doloribus assumenda
-            impedit, maiores id tempora corporis obcaecati quis minima magnam
-            sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quod nobis ea quae omnis doloribus
-            assumenda impedit, maiores id tempora corporis obcaecati quis minima
-            magnam sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quod nobis ea quae omnis
-            doloribus assumenda impedit, maiores id tempora corporis obcaecati
-            quis minima magnam sapiente ipsa in dolores hic distinctio? Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Quod nobis ea
-            quae omnis doloribus assumenda impedit, maiores id tempora corporis
-            obcaecati quis minima magnam sapiente ipsa in dolores hic
-            distinctio? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quod nobis ea quae omnis doloribus assumenda impedit, maiores id
-            tempora corporis obcaecati quis minima magnam sapiente ipsa in
-            dolores hic distinctio? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quod nobis ea quae omnis doloribus assumenda
-            impedit, maiores id tempora corporis obcaecati quis minima magnam
-            sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quod nobis ea quae omnis doloribus
-            assumenda impedit, maiores id tempora corporis obcaecati quis minima
-            magnam sapiente ipsa in dolores hic distinctio? Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quod nobis ea quae omnis
-            doloribus assumenda impedit, maiores id tempora corporis obcaecati
-            quis minima magnam sapiente ipsa in dolores hic distinctio?
+            <h3>{{ results.plant.name }}</h3>
+            <p>
+              {{ results.plant.familyKorNm }} {{ results.plant.genusKorNm }}
+            </p>
+            <p>원산지 : {{ results.plant.dstrb }}</p>
+            <p>{{ results.plant.flwrDesc }}</p>
+            <p>{{ results.plant.grwEvrntDesc }}</p>
+          </div>
+          <div v-else>
+            <p>정보가 없어요 ㅠㅠ</p>
           </div>
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
@@ -107,7 +71,7 @@ export default {
   },
   data() {
     return {
-      results: this.$route.query.query
+      results: this.$route.params
     }
   },
 

@@ -100,7 +100,7 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/auth/findpw/{email}")
+    @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
     public ResponseEntity<String> findPW(@RequestParam String email){
         try {
@@ -146,9 +146,9 @@ public class UserController {
         return new ResponseEntity<>(userService.search(page, keyword), HttpStatus.OK);
     }
 
-    @PutMapping("/friend/request/{user_id}")
+    @PutMapping("/friend/request")
     @ApiOperation(value = "친구 요청")
-    public ResponseEntity<String> requestFriend(@PathVariable Long user_id){
+    public ResponseEntity<String> requestFriend(@RequestParam Long user_id){
         userService.requestFriend(user_id);
         return new ResponseEntity<>("SUCCESSS", HttpStatus.OK);
     }
@@ -159,9 +159,9 @@ public class UserController {
         return new ResponseEntity<>(userService.showFriendRequest(page), HttpStatus.OK);
     }
 
-    @PutMapping("/friend/accept/{propose_id}")
+    @PutMapping("/friend/accept")
     @ApiOperation(value = "친구 요청 수락")
-    public ResponseEntity<String> acceptFriend(@PathVariable Long propose_id){
+    public ResponseEntity<String> acceptFriend(@RequestParam Long propose_id){
         userService.acceptFriend(propose_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -187,14 +187,14 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/gift/{user_id}")
+    @PutMapping("/friend/gift")
     @ApiOperation(value = "친구한테 돈 선물하기")
-    public ResponseEntity<String> giftToFriend(@PathVariable Long user_id){
+    public ResponseEntity<String> giftToFriend(@RequestParam Long user_id){
         userService.giftToFriend(user_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/gift")
+    @PutMapping("/friend/gift/all")
     @ApiOperation(value = "친구 모두에게 선물 보내기")
     public ResponseEntity<String> giftToAll(){
         userService.giftToAll();
@@ -206,23 +206,23 @@ public class UserController {
         return new ResponseEntity<>(userService.getGiftList(), HttpStatus.OK);
     }
 
-    @PutMapping("/friend/receipt/{friend_id}")
+    @PutMapping("/friend/receipt")
     @ApiOperation(value = "선물 받기")
-    public ResponseEntity<String> receiveGift(@PathVariable Long friend_id){
+    public ResponseEntity<String> receiveGift(@RequestParam Long friend_id){
         userService.receiveGift(friend_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/receipt")
+    @PutMapping("/friend/receipt/all")
     @ApiOperation(value = "선물 모두 받기")
     public ResponseEntity<String> receiveGiftAll(){
         userService.receiveGiftAll();
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/monster/{monster_id}")
+    @PutMapping("/monster")
     @ApiOperation(value = "대표 독초몬 선택")
-    public ResponseEntity<String> selectRepresentMonster(@PathVariable Long monster_id){
+    public ResponseEntity<String> selectRepresentMonster(@RequestParam Long monster_id){
         userService.selectRepresentMonster(monster_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }

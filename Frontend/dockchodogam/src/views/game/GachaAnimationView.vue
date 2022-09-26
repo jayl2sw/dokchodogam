@@ -10,8 +10,12 @@
       }"
     >
       <div>
-        <img src="@/assets/loading/3.png" class="card__img" />
-        <p>월계수</p>
+        <p>00{{ newMonster.monsterId }}</p>
+        <h3>{{ newMonster.name }}몬</h3>
+        <img
+          :src="this.imageBaseUrl + '/' + newMonster.monsterId + '.png'"
+          class="card__img"
+        />
       </div>
     </div>
   </div>
@@ -25,19 +29,28 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
+import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 export default {
   data() {
     return {
-      newMonster: { grade: 'normal' },
-      cash: 100
+      newMonster: {},
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   methods: {
     fetchMonsterGacha() {
       axios({
-        url: '/game/monster/pick',
+        url: `${BASE_URL} + api/v1/game/monster/pick`,
         method: 'POST',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        },
         data: {
           itemId: 3
         }
@@ -52,12 +65,17 @@ export default {
     },
     gachaAgain() {
       if (confirm('200냥을 내고 뽑기를 한번 더 진행하시겠습니까?') === true) {
-        if (this.cash >= 200) {
+        if (this.userInfo.money >= 200) {
           this.$router.push({
             path: '/game/shop/gacha'
           })
         } else {
-          alert('보유하신 냥이 부족합니다.')
+          swal({
+            title: '보유하신 냥이 부족합니다 😢',
+            icon: 'error',
+            buttons: false,
+            timer: 1500
+          })
           this.$router.push({
             path: '/game/shop'
           })

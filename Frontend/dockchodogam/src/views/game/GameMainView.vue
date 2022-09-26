@@ -15,7 +15,8 @@ export default {
   },
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/game_main.mp3')
     }
   },
   methods: {
@@ -23,8 +24,18 @@ export default {
       this.showMenu = value
     },
     goToArena() {
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+      audio.play()
       this.$router.push({ path: '/game/arena' })
     }
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
@@ -62,11 +73,11 @@ export default {
   }
   .game__arena {
     width: 80vw;
-    height: 40vh;
+    height: 38vh;
   }
   .game__mandu {
     width: 80vw;
-    height: 40vh;
+    height: 38vh;
   }
 }
 </style>
