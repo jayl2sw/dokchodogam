@@ -9,6 +9,11 @@
             :key="i"
             class="yourDockChoItem"
           >
+            <img
+              :src="this.imageBaseUrl + '/' + yourDockCho.monsterId + '.png'"
+              alt=""
+              class="yourDockChoItemImage"
+            />
             <div
               class="deadBlurBox"
               :class="isDead_yourDockCho[i] ? 'deadDockcho' : ''"
@@ -61,6 +66,11 @@
             :class="isMyDockchoDead ? 'ableSelect' : ''"
             @click="this.selectNextDockcho(i)"
           >
+            <img
+              :src="this.imageBaseUrl + '/' + myDockCho.monsterId + '.png'"
+              alt=""
+              class="myDockChoItemImage"
+            />
             <div
               class="deadBlurBox"
               :class="isDead_myDockCho[i] ? 'deadDockcho' : ''"
@@ -118,11 +128,12 @@ export default {
       skill: '',
       nowUseSkill: false,
       isUseSkill: false,
-      audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3')
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
-    ...mapActions(['fetchUserDeck']),
+    ...mapActions(['fetchUserDeck', 'fetchEnemyInfo']),
     gameStart() {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
@@ -134,109 +145,111 @@ export default {
       }, 1000)
     },
     attack() {
-      var audio = new Audio(process.env.VUE_APP_S3_URL + '/attack.mp3')
-      audio.volume = 0.8
-      audio.play()
-      this.isAttack = true
-      setTimeout(() => {
-        this.isAttack = false
-        this.myDamage = _.random(
-          this.currentMyDockCho.minAttack,
-          this.currentMyDockCho.maxAttack
-        )
-        this.yourDamage = _.random(
-          this.currentYourDockCho.minAttack,
-          this.currentYourDockCho.maxAttack
-        )
-        // 상성 체크
-        if (this.currentMyDockCho.type === 'JAPCHO') {
-          if (this.currentYourDockCho.type === 'DOKCHO') {
-            console.log(
-              '잡 독 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'YAKCHO') {
-            console.log('잡 약 쎄게떄림!', this.myDamage, this.myDamage * 1.2)
-            this.myDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'HIDDEN') {
-            console.log(
-              '잡 히 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          }
-        } else if (this.currentMyDockCho.type === 'DOKCHO') {
-          if (this.currentYourDockCho.type === 'JAPCHO') {
-            console.log('독 잡 쎄게때림!', this.myDamage, this.myDamage * 1.2)
-            this.myDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'YAKCHO') {
-            console.log(
-              '독 약 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'HIDDEN') {
-            console.log(
-              '독 히 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          }
-        } else if (this.currentMyDockCho.type === 'YAKCHO') {
-          if (this.currentYourDockCho.type === 'DOKCHO') {
-            console.log('약 독 쎄게때림!', this.myDamage, this.myDamage * 1.2)
-            this.myDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'JAPCHO') {
-            console.log(
-              '약 잡 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          } else if (this.currentYourDockCho.type === 'HIDDEN') {
-            console.log(
-              '약 히 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          }
-        } else {
-          console.log('히 쎄게때림!', this.myDamage, this.myDamage * 1.2)
-          this.myDamage *= 1.2
-          if (this.currentYourDockCho.type === 'HIDDEN') {
-            console.log(
-              '히 히 쎄게맞음!',
-              this.yourDamage,
-              this.yourDamage * 1.2
-            )
-            this.yourDamage *= 1.2
-          }
-        }
-        this.myDamage = Math.round(this.myDamage)
-        this.yourDamage = Math.round(this.yourDamage)
-        if (this.nowUseSkill) {
-          if (this.skill === 1) {
-            console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
-            this.myDamage *= 2
-          } else if (this.skill === 2) {
-            console.log('상대 공격 무효')
-            this.yourDamage = 0
+      if (this.enemyInfo.nickname) {
+        var audio = new Audio(process.env.VUE_APP_S3_URL + '/attack.mp3')
+        audio.volume = 0.8
+        audio.play()
+        this.isAttack = true
+        setTimeout(() => {
+          this.isAttack = false
+          this.myDamage = _.random(
+            this.currentMyDockCho.minAttack,
+            this.currentMyDockCho.maxAttack
+          )
+          this.yourDamage = _.random(
+            this.currentYourDockCho.minAttack,
+            this.currentYourDockCho.maxAttack
+          )
+          // 상성 체크
+          if (this.currentMyDockCho.type === 'JAPCHO') {
+            if (this.currentYourDockCho.type === 'DOKCHO') {
+              console.log(
+                '잡 독 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'YAKCHO') {
+              console.log('잡 약 쎄게떄림!', this.myDamage, this.myDamage * 1.2)
+              this.myDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'HIDDEN') {
+              console.log(
+                '잡 히 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            }
+          } else if (this.currentMyDockCho.type === 'DOKCHO') {
+            if (this.currentYourDockCho.type === 'JAPCHO') {
+              console.log('독 잡 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+              this.myDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'YAKCHO') {
+              console.log(
+                '독 약 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'HIDDEN') {
+              console.log(
+                '독 히 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            }
+          } else if (this.currentMyDockCho.type === 'YAKCHO') {
+            if (this.currentYourDockCho.type === 'DOKCHO') {
+              console.log('약 독 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+              this.myDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'JAPCHO') {
+              console.log(
+                '약 잡 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            } else if (this.currentYourDockCho.type === 'HIDDEN') {
+              console.log(
+                '약 히 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            }
           } else {
-            console.log('상대 공격 반사')
-            this.myDamage = this.yourDamage
-            this.yourDamage = 0
+            console.log('히 쎄게때림!', this.myDamage, this.myDamage * 1.2)
+            this.myDamage *= 1.2
+            if (this.currentYourDockCho.type === 'HIDDEN') {
+              console.log(
+                '히 히 쎄게맞음!',
+                this.yourDamage,
+                this.yourDamage * 1.2
+              )
+              this.yourDamage *= 1.2
+            }
           }
-          this.nowUseSkill = false
-          this.isUseSkill = true
-        }
-        this.judged()
-      }, 300)
+          this.myDamage = Math.round(this.myDamage)
+          this.yourDamage = Math.round(this.yourDamage)
+          if (this.nowUseSkill) {
+            if (this.skill === 1) {
+              console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
+              this.myDamage *= 2
+            } else if (this.skill === 2) {
+              console.log('상대 공격 무효')
+              this.yourDamage = 0
+            } else {
+              console.log('상대 공격 반사')
+              this.myDamage = this.yourDamage
+              this.yourDamage = 0
+            }
+            this.nowUseSkill = false
+            this.isUseSkill = true
+          }
+          this.judged()
+        }, 300)
+      }
     },
     judged() {
       this.currentMyDockCho.currentHp -= this.yourDamage
@@ -327,6 +340,10 @@ export default {
       }
     },
     onClickSkill() {
+      var audio = new Audio(
+        process.env.VUE_APP_S3_URL + '/skill' + this.skill + '.mp3'
+      )
+      audio.play()
       if (!this.isUseSkill) {
         this.nowUseSkill = true
       }
@@ -334,14 +351,17 @@ export default {
   },
   created() {
     this.fetchUserDeck()
+    if (!this.enemyInfo.nickname) {
+      this.$router.push({ path: '/game/arena' })
+    }
     setTimeout(() => {
       this.isLoading = false
       this.myDockChoList = this.userDeck
       this.yourDockChoList = this.enemyInfo.enemyDeck
-      console.log('덱', this.myDockChoList, this.yourDockChoList)
-      console.log('덱', this.userDeck, this.enemyInfo)
-      this.gameStart()
-    }, 4000)
+      if (this.enemyInfo.nickname) {
+        this.gameStart()
+      }
+    }, 3000)
     this.skill = _.random(1, 3)
   },
   mounted() {
@@ -351,6 +371,7 @@ export default {
   },
   beforeUnmount() {
     this.audio.pause()
+    this.fetchEnemyInfo('')
   },
   computed: {
     ...mapGetters(['userDeck', 'enemyInfo'])
@@ -376,11 +397,18 @@ export default {
   display: flex;
 }
 .yourDockChoItem {
-  border: 2px groove black;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 12vh;
   height: 12vh;
   margin: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.yourDockChoItemImage {
+  width: 11vh;
+  height: 11vh;
 }
 .inGame__middle {
   display: flex;
@@ -390,7 +418,6 @@ export default {
   height: 55vh;
 }
 .myDockChoMon {
-  border: 2px groove black;
   width: 20vw;
   height: 25vw;
   position: fixed;
@@ -403,7 +430,6 @@ export default {
   height: 55vh;
 }
 .yourDockChoMon {
-  border: 2px groove black;
   width: 20vw;
   height: 25vw;
   position: fixed;
@@ -420,19 +446,29 @@ export default {
   display: flex;
 }
 .myDockChoItem {
-  border: 2px groove black;
-  border-radius: 5px;
+  border: 5px solid #ffe140;
+  border-radius: 10px;
   width: 17vh;
   height: 17vh;
   margin: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.myDockChoItemImage {
+  width: 16vh;
+  height: 16vh;
 }
 .deadBlurBox {
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 9999;
+  position: absolute;
   display: none;
 }
 .skillBtn {
@@ -489,4 +525,9 @@ export default {
     top: 30vh;
   }
 } */
+@media screen and (max-width: 850px) {
+  .myDockChoItem {
+    border-width: 2px;
+  }
+}
 </style>
