@@ -117,7 +117,8 @@ export default {
       resultInfo: [],
       skill: '',
       nowUseSkill: false,
-      isUseSkill: false
+      isUseSkill: false,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3')
     }
   },
   methods: {
@@ -133,6 +134,9 @@ export default {
       }, 1000)
     },
     attack() {
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/attack.mp3')
+      audio.volume = 0.8
+      audio.play()
       this.isAttack = true
       setTimeout(() => {
         this.isAttack = false
@@ -310,6 +314,9 @@ export default {
       }
     },
     selectNextDockcho(idx) {
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/card_select.mp3')
+      audio.volume = 1
+      audio.play()
       if (this.isMyDockchoDead && !this.isDead_myDockCho[idx]) {
         this.currentMyIdx = idx
         this.currentMyDockCho = this.myDockChoList[this.currentMyIdx]
@@ -336,6 +343,14 @@ export default {
       this.gameStart()
     }, 4000)
     this.skill = _.random(1, 3)
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   },
   computed: {
     ...mapGetters(['userDeck', 'enemyInfo'])
