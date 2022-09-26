@@ -1,9 +1,17 @@
 <template>
   <NavBar @overflow="overflow" />
-  <div class="mypage">
+  <div
+    class="mypage"
+    :class="
+      this.showMenu ? 'open-menu' : this.showChangeDokchoMenu ? 'open-menu' : ''
+    "
+  >
     <div class="mypage__left">
       <div class="myDockcho">
-        <img src="@/assets/loading/5.png" alt="representative" />
+        <img
+          :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+          alt=""
+        />
       </div>
       <button class="change__dockcho" @click="this.onClickChangeDokcho()">
         대표 독초몬 변경
@@ -67,7 +75,8 @@ export default {
       showMenu: false,
       isNone: false,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      showChangeDokchoMenu: false
+      showChangeDokchoMenu: false,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -82,6 +91,11 @@ export default {
     },
     onClickChangeDokcho() {
       this.showChangeDokchoMenu = true
+    }
+  },
+  watch: {
+    showChangeDokchoMenu() {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     }
   }
 }
@@ -300,6 +314,10 @@ button {
   .complete__btn {
     width: 20vw;
     font-size: 1vw;
+  }
+  .open-menu {
+    overflow: hidden;
+    position: fixed;
   }
 }
 </style>

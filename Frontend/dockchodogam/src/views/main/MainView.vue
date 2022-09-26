@@ -18,7 +18,11 @@
           <div class="dockchoName">
             <h3 class="TITLE">같이 여행을 떠날 잡초몬</h3>
           </div>
-          <div class="dockchoImg"></div>
+          <img
+            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            alt=""
+            class="dockchoImg"
+          />
         </div>
       </div>
       <div class="main__right">
@@ -131,7 +135,8 @@ export default {
       datas: {},
       showMenu: false,
       inputData: '',
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -220,7 +225,6 @@ export default {
   color: #fff;
 }
 .dockchoImg {
-  border: 2px groove black;
   border-radius: 5px;
   width: 20vw;
   height: 20vw;
