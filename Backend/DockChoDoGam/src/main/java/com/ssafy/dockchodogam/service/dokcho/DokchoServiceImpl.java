@@ -126,7 +126,7 @@ public class DokchoServiceImpl implements DokchoService {
         double probability = (double) data.get("probability");
         Map<String, Object> res = new HashMap<>();
         res.put("plant", null);
-        if (probability < 0.1) {
+        if (probability < 0.5) {
             return res;
         }
         res.put("probability", probability);
