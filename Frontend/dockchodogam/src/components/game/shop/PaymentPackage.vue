@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userInfo.starter == false" class="package">
+  <div v-if="userInfo.starter == true" class="package">
     <div class="package__header">
       <h3>🐣 스타터팩 🐣</h3>
     </div>
@@ -30,7 +30,7 @@ import swal from 'sweetalert'
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      // userInfo: JSON.parse(localStorage.getItem('userInfo')),
       packageMonsters: {}
     }
   },
