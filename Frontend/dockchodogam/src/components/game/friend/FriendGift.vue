@@ -1,33 +1,116 @@
 <template>
-  <div class="lists">
-    <div class="left">
-      <img src="@/assets/loading/1.png" alt="" />
-      <p class="TITLE name">username</p>
-    </div>
-    <div class="right">
-      <font-awesome-icon icon="fa-solid fa-ban" />
-      <font-awesome-icon icon="fa-solid fa-heart" />
+  <div class="friendGifts">
+    <button class="all__button" @click="this.receiptGiftAll()">
+      한 번에 받기
+    </button>
+    <div class="lists" v-for="(gift, i) in this.giftList" :key="i">
+      <div class="left">
+        <img src="@/assets/loading/1.png" alt="" />
+        <p class="TITLE name">{{ gift.nickname }} 님이 선물을 보냈습니다!</p>
+      </div>
+      <div class="right">
+        <font-awesome-icon
+          icon="fa-solid fa-hand-holding-heart"
+          class="icon"
+          @click="this.receiptGift(gift.friend_id)"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+
+export default {
+  data() {
+    return {
+      giftList: []
+    }
+  },
+  methods: {
+    receiptGift(friendId) {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/receipt', friendId, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.getGiftList()
+        })
+        .catch((err) => console.log(err))
+    },
+    receiptGiftAll() {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/receipt/all', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.getGiftList()
+        })
+        .catch((err) => console.log(err))
+    },
+    getGiftList() {
+      axios
+        .get(BASE_URL + '/api/v1/user/friend/gift', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          this.giftList = res.data
+        })
+        .catch((err) => console.log(err))
+    }
+  },
+  created() {
+    this.getGiftList()
+  }
+}
 </script>
 
-<style scoped>
+<style>
+.friendGifts {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.all__button {
+  width: 10vw;
+  height: 5vh;
+  float: right;
+  margin-bottom: 4vh;
+  border: none;
+  background-color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.5vw;
+  transition: 0.3s;
+}
+.all__button:hover {
+  color: #467302;
+}
 .lists {
   border: none;
-  border-radius: 20px;
-  width: 90%;
-  margin: 2vh auto;
+  border-radius: 30px;
+  width: 100%;
+  height: 12vh;
+  margin: 2vh 0;
   background-color: white;
   display: flex;
   justify-content: space-between;
 }
 .left {
   display: flex;
-  width: 70%;
+  width: 80%;
 }
 .left > img {
   width: 8vh;
@@ -38,24 +121,26 @@ export default {}
   border-radius: 50%;
 }
 .name {
-  font-size: 1.5vw;
+  font-size: 2.5vh;
   font-weight: bold;
   line-height: 11vh;
   margin-left: 0.5vw;
   margin-bottom: 0;
 }
 .right {
-  width: 30%;
-}
-svg {
-  color: pink;
-  width: 2vw;
   height: 100%;
-  margin-right: 1vw;
+}
+svg.icon {
+  color: #467302;
+  width: 4vw;
+  height: 100% !important;
+  margin-right: 3vw;
   transition: 0.3s;
-  float: right;
 }
 svg:hover {
-  color: red;
+  color: #a7c957;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

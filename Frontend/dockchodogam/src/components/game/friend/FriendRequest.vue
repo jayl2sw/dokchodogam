@@ -1,62 +1,74 @@
 <template>
-  <div class="friendRequests">
-    <button class="all__button">한 번에 받기</button>
-    <div class="lists" v-for="(data, i) in this.datas" :key="i">
-      <div class="left">
-        <img src="@/assets/loading/1.png" alt="" />
-        <p class="TITLE name">username님이 선물을 보냈습니다!</p>
-      </div>
-      <div class="right">
-        <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="icon" />
-      </div>
+  <div class="lists">
+    <div class="left">
+      <img src="@/assets/loading/1.png" alt="" />
+      <p class="TITLE name">{{ this.request.sender_nickname }}</p>
+    </div>
+    <div class="right">
+      <font-awesome-icon icon="fa-solid fa-ban" @click="this.refuseFriend()" />
+      <font-awesome-icon
+        icon="fa-solid fa-heart"
+        @click="this.acceptFriend()"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+
 export default {
-  data() {
-    return {
-      datas: [1, 1, 1, 1, 1, 1, 1, 1]
+  props: ['request', 'getRequestList'],
+  methods: {
+    acceptFriend() {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/accept', this.request.propose_id, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.$emit('getRequestList')
+          this.$emit('getFriendList')
+        })
+        .catch((err) => console.log(err))
+    },
+    refuseFriend() {
+      axios
+        .delete(
+          BASE_URL + '/api/v1/user/friend/refuse/' + this.request.propose_id,
+          {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+        )
+        .then((res) => {
+          console.log(res.data)
+          this.$emit('getRequestList')
+        })
+        .catch((err) => console.log(err))
     }
   }
 }
 </script>
 
-<style>
-.friendRequests {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.all__button {
-  width: 10vw;
-  height: 5vh;
-  float: right;
-  margin-bottom: 4vh;
-  border: none;
-  background-color: white;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 1.5vw;
-  transition: 0.3s;
-}
-.all__button:hover {
-  color: #467302;
-}
+<style scoped>
 .lists {
   border: none;
-  border-radius: 30px;
-  width: 100%;
-  height: 12vh;
-  margin: 2vh 0;
+  border-radius: 20px;
+  width: 90%;
+  margin: 2vh auto;
   background-color: white;
   display: flex;
   justify-content: space-between;
 }
 .left {
   display: flex;
-  width: 80%;
+  width: 70%;
 }
 .left > img {
   width: 8vh;
@@ -67,26 +79,24 @@ export default {
   border-radius: 50%;
 }
 .name {
-  font-size: 2.5vh;
+  font-size: 1.5vw;
   font-weight: bold;
   line-height: 11vh;
   margin-left: 0.5vw;
   margin-bottom: 0;
 }
 .right {
-  height: 100%;
+  width: 30%;
 }
-svg.icon {
-  color: #467302;
-  width: 4vw;
-  height: 100% !important;
-  margin-right: 3vw;
+svg {
+  color: pink;
+  width: 2vw;
+  height: 100%;
+  margin-right: 1vw;
   transition: 0.3s;
+  float: right;
 }
 svg:hover {
-  color: #a7c957;
-}
-::-webkit-scrollbar {
-  display: none;
+  color: red;
 }
 </style>
