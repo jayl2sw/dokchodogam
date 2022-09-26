@@ -62,6 +62,7 @@ export const accounts: Module<accountsState, RootState> = {
             BASE_URL + '/api/v1/user/auth/refresh',
             token
           )
+          console.log(result)
           if (result.status === 200) {
             console.log('Access-Token이 갱신되었습니다.')
             localStorage.setItem('accessToken', result.data.accessToken)
