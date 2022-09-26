@@ -340,6 +340,10 @@ export default {
       }
     },
     onClickSkill() {
+      var audio = new Audio(
+        process.env.VUE_APP_S3_URL + '/skill' + this.skill + '.mp3'
+      )
+      audio.play()
       if (!this.isUseSkill) {
         this.nowUseSkill = true
       }
