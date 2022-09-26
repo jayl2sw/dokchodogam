@@ -4,6 +4,7 @@ import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
+import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -35,4 +36,6 @@ public interface DokchoService {
     PlantDetailDto createDto(Plant p);
 
     boolean checkUserDogam(Long monsterId);
+
+    TodayPlantDto getTodayPlant();
 }

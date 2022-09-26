@@ -9,10 +9,13 @@ import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.domain.User;
 import com.ssafy.dockchodogam.domain.UserMonster;
+import com.ssafy.dockchodogam.dto.exception.plant.PlantNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
+import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import com.ssafy.dockchodogam.repository.PlantRepository;
+import com.ssafy.dockchodogam.repository.TodayPlantRepository;
 import com.ssafy.dockchodogam.repository.UserMonsterRepository;
 import com.ssafy.dockchodogam.repository.UserRepository;
 import com.ssafy.dockchodogam.util.SecurityUtil;
@@ -31,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +48,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final PlantRepository plantRepository;
     private final UserRepository userRepository;
     private final UserMonsterRepository userMonsterRepository;
+    private final TodayPlantRepository todayPlantRepository;
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -251,5 +256,13 @@ public class DokchoServiceImpl implements DokchoService {
                 p.getSporeDesc(), p.getRootDesc(), p.getFarmSpftDesc(), p.getGrwEvrntDesc(), p.getUseMthdDesc(),
                 p.getCprtCtnt());
         return dto;
+    }
+
+    public TodayPlantDto getTodayPlant(){
+        String today = LocalDate.now().toString();
+        int month = Integer.parseInt(today.substring(5, 7));
+        int day = Integer.parseInt(today.substring(8, 10));
+
+        return TodayPlantDto.of(todayPlantRepository.findByMonthAndDay(month, day).orElseThrow(PlantNotFoundException::new));
     }
 }

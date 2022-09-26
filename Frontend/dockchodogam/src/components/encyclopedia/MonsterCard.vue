@@ -3,52 +3,29 @@
   <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
     <div
       v-b-modal.modal-card
-      @click=";[storeMonster(monster), openModal]"
+      @click=";[storeMonster(monster), openDetail()]"
       :class="{
-        card__common: monsterDetail.grade == 'COMMON',
-        card__rare: monsterDetail.grade == 'RARE',
-        card__epic: monsterDetail.grade == 'EPIC',
-        card__legendary: monsterDetail.grade == 'LEGENDARY',
-        card__special: monsterDetail.grade == 'SPECIAL'
+        card__common: monster.grade == 'COMMON',
+        card__rare: monster.grade == 'RARE',
+        card__epic: monster.grade == 'EPIC',
+        card__legendary: monster.grade == 'LEGENDARY',
+        card__special: monster.grade == 'SPECIAL'
       }"
     >
       <p>00{{ monster.monsterId }}</p>
       <h3>{{ monster.name }}몬</h3>
       <img
-        src="https://i.pinimg.com/550x/06/50/31/065031061c7642d5fa307a6ead4da3f8.jpg"
+        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
         class="card__img"
       />
-
-      <!-- backdrop에러남 -->
-      <!-- <MonsterDetail
-        @close="closeModal"
-        v-if="modal"
-        :monsterDetail="monsterDetail"
-      >
-      </MonsterDetail> -->
     </div>
-
-    <b-modal
-      :monsterDetail="monsterDetail"
-      id="modal-card"
-      hide-footer
-      hide-header
-      scrollable
-    >
-      <p>{{ monsterDetail.name }}</p>
-      <p>타입 : {{ monsterDetail.type }}</p>
-      <p>등급 : {{ monsterDetail.grade }}</p>
-      <p>체력 : {{ monsterDetail.hp }}</p>
-      <p>
-        공격력 : {{ monsterDetail.minAttack }} ~
-        {{ monsterDetail.maxAttack }}
-      </p>
-    </b-modal>
-
-    <!-- <MonsterDetail :monsterDetail="monster" /> -->
   </div>
 
-  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
+  <div
+    v-else-if="monster.got == false && monster.monsterId !== 0"
+    class="card"
+    @click="monsterDetail"
+  >
     <p>00{{ monster.monsterId }}</p>
     <h3>???</h3>
     <img
@@ -60,8 +37,9 @@
 
 <script>
 import axios from 'axios'
-import { BASE_URL } from '@/constant/BASE_URL'
+// import { BASE_URL } from '@/constant/BASE_URL'
 // import MonsterDetail from '@/components/encyclopedia/MonsterDetail.vue'
+import Swal from 'sweetalert2'
 
 export default {
   props: {
@@ -70,18 +48,25 @@ export default {
   data() {
     return {
       modal: false,
-      monsterDetail: {}
+      monsterDetail: {},
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
-  components: {
-    // MonsterDetail
-  },
   methods: {
-    openModal() {
-      this.modal = true
-    },
-    closeModal() {
-      this.modal = false
+    openDetail() {
+      Swal.fire({
+        title: `${this.monster.name}`,
+        text: `타입 : ${this.monster.type}
+        등급 : ${this.monster.grade}
+        체력 : ${this.monster.hp}
+        공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}
+        `,
+        imageUrl: `${this.imageBaseUrl}/${this.monster.monsterId}.png`,
+        imageWidth: 250,
+        imageHeight: 250,
+        imageAlt: 'Custom image',
+        showConfirmButton: false
+      })
     },
     async storeMonster(a) {
       this.monsterDetail = a
@@ -92,7 +77,7 @@ export default {
 
     fetchMonsterDetail() {
       axios({
-        url: `${BASE_URL} + api/v1/game/monster/detail/${this.monster.monsterId}`,
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
@@ -100,8 +85,10 @@ export default {
       })
         .then((res) => {
           // console.log(this.monster)
-          console.log(`monsterDetail  : ${res.data}`)
+          // console.log(`monsterDetail  : ${res.data}`)
+          // console.log(this.monster)
           this.monsterDetail = res.data
+          // console.log(this.monsterDetail)
         })
         .catch((err) => {
           console.log(err)

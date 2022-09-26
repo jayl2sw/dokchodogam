@@ -35,6 +35,8 @@ dependencies {
     // json
     implementation group: 'org.json', name: 'json', version: '20090211'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    //kafka
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.1.0'
     // mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // security

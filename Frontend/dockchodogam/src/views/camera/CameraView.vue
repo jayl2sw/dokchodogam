@@ -72,7 +72,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: BASE_URL + '/api/v1/dokcho/judge',
+        url: 'http://localhost:8081/api/v1/dokcho/judge',
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
