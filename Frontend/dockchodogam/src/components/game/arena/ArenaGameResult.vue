@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import axios from 'axios'
+
 export default {
   props: ['myDeck', 'resultInfo'],
   data() {
@@ -26,11 +29,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchEnemyInfo']),
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
     }
   },
   mounted() {
+    this.fetchEnemyInfo('')
     setTimeout(() => {
       this.goToArenaMain()
     }, 2000)
