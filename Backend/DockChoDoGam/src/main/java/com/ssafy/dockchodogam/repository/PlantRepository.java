@@ -31,5 +31,5 @@ public interface PlantRepository extends JpaRepository<Plant, Long> {
     @Query("select p from Plant p where p.name like %:keyword%")
     Page<Plant> searchPlantsByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
-
+    List<Plant> findPlantsByGenusNm(String genus);
 }
