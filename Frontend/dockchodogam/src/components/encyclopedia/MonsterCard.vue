@@ -55,12 +55,17 @@ export default {
   methods: {
     openDetail() {
       Swal.fire({
-        title: `${this.monster.name}`,
-        text: `타입 : ${this.monster.type}
-        등급 : ${this.monster.grade}
-        체력 : ${this.monster.hp}
-        공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}
-        `,
+        title: `${this.monster.name}몬`,
+        html: `<br /> 
+        <p>타입 : ${this.monster.type}</p>
+        <p>등급 : ${this.monster.grade}</p>
+        <p>체력 : ${this.monster.hp} </p>
+        공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}`,
+        // text: `타입 : ${this.monster.type}
+        // 등급 : ${this.monster.grade}
+        // 체력 : ${this.monster.hp}
+        // 공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}
+        // `,
         imageUrl: `${this.imageBaseUrl}/${this.monster.monsterId}.png`,
         imageWidth: 250,
         imageHeight: 250,
