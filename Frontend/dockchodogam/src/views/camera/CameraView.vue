@@ -9,8 +9,10 @@
         @error="(error) => logEvent('error: ' + error)"
       >
       </camera>
-      <button type="button" @click="snapshot">사진찍기</button>
-      <button @click="goToMain">메인으로 돌아가기</button>
+      <button type="button" @click="snapshot" class="photo__btn">
+        <font-awesome-icon icon="fa-solid fa-camera" class="photo__icon" />
+      </button>
+      <!-- <button @click="goToMain">메인으로 돌아가기</button> -->
     </div>
   </div>
 </template>
@@ -51,6 +53,8 @@ export default defineComponent({
     const pause = () => camera.value?.pause()
     const resume = () => camera.value?.resume()
     const snapshot = async () => {
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/camera.mp3')
+      audio.play()
       const blob = await camera.value?.snapshot({
         width: 1280,
         height: 720
@@ -68,7 +72,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: BASE_URL + '/api/v1/dokcho/judge',
+        url: 'http://localhost:8081/api/v1/dokcho/judge',
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -124,14 +128,69 @@ export default defineComponent({
 
 <style scoped>
 .camera {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
 }
 .camera__body {
-  align-items: center;
-  flex-direction: column;
-  height: 70vh;
-  width: auto;
+  width: 100%;
+  height: 100%;
+}
+.photo__btn {
+  position: absolute;
+  bottom: 5vh;
+  left: 50vw;
+  display: block;
+  z-index: 999;
+  transform: translate(-50%, 0%);
+  width: 7vw;
+  height: 7vw;
+  border-radius: 50%;
+  border: 1vw double #467302;
+  background: #eee;
+  transition: 0.3s;
+}
+.photo__btn:hover {
+  border: 1.2vw double #467302;
+  background: white;
+}
+.photo__btn:hover > .photo__icon {
+  width: 2.5vw;
+  height: 2.5vw;
+}
+.photo__icon {
+  width: 2vw;
+  height: 2vw;
+  color: #467302;
+  transition: 0.3s;
+}
+@media screen and (max-width: 850px) {
+  .photo__btn {
+    width: 10vh;
+    height: 10vh;
+    bottom: 12vh;
+    border: 1vh double #467302;
+  }
+  .photo__btn:hover {
+    border: 1vh double #467302;
+  }
+  .photo__icon {
+    width: 3vh;
+    height: 3vh;
+  }
+  .photo__btn:hover > .photo__icon {
+    width: 3vh;
+    height: 3vh;
+  }
+}
+</style>
+
+<style>
+#video {
+  object-fit: cover;
 }
 </style>

@@ -197,6 +197,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "shop" */ '../views/game/GachaAnimationView.vue'
       )
   },
+  // 패키지 애니메이션 페이지
+  {
+    path: '/game/shop/package',
+    name: 'package',
+    component: () =>
+      import(
+        /* webpackChunkName: "shop" */ '../views/game/PackageAnimationView.vue'
+      )
+  },
   // 아레나 메인 페이지
   {
     path: '/game/arena',
@@ -246,6 +255,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404'
+  },
+  {
+    path: '/oauth',
+    name: 'oauth',
+    component: () =>
+      import(
+        /* webpackChunkName: "oauth" */ '../components/start/KakaoLogin.vue'
+      )
   }
 ]
 
@@ -260,7 +277,12 @@ router.beforeEach(async (to, from, next) => {
   if (localStorage.getItem('accessToken')) {
     token = localStorage.getItem('accessToken')
   }
-  if (to.path === '/') {
+  if (
+    to.path === '/' ||
+    to.path === '/signup' ||
+    to.path === '/findpassword' ||
+    to.path === '/oauth'
+  ) {
     next()
   } else if (token) {
     console.log(isAccessTokenExpired())

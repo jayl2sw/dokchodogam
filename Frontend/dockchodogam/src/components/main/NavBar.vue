@@ -13,17 +13,17 @@
         <div>
           <ul class="navbar__centerIcons">
             <li>
-              <a href="/camera">
+              <a @click="popon('/camera')">
                 <p class="TITLE">사 진</p>
               </a>
             </li>
             <li>
-              <a href="/encyclopedia">
+              <a @click="popon('/encyclopedia')">
                 <p class="TITLE">도 감</p>
               </a>
             </li>
             <li>
-              <a href="/game">
+              <a @click="popon('/game')">
                 <p class="TITLE">게 임</p>
               </a>
             </li>
@@ -130,6 +130,13 @@ export default {
     async logout() {
       localStorage.clear()
       await alert('로그아웃되셨습니다. 다음에 또 봐용~❤')
+    },
+    popon(path) {
+      console.log(process.env)
+      var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+      console.log('S3 : ' + process.env.VUE_APP_S3_URL)
+      audio.play()
+      this.$router.push(path)
     }
   }
 }
@@ -177,6 +184,9 @@ export default {
   width: 8vw;
   height: 3rem;
   text-align: center;
+}
+.navbar__centerIcons a {
+  cursor: pointer;
 }
 .navbar__centerIcons p {
   line-height: 3rem;
