@@ -100,6 +100,7 @@ import DockChoMon from '@/components/game/arena/DockChoMon.vue'
 import ArenaGameResult from '@/components/game/arena/ArenaGameResult.vue'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 import _ from 'lodash'
+import swal from 'sweetalert'
 
 export default {
   components: {
@@ -372,7 +373,12 @@ export default {
   beforeUnmount() {
     this.audio.pause()
     if (!this.isGameEndFlag) {
-      alert('왜 억지로끔? 님 감점')
+      swal({
+        title: '정상적이지 않은 게임 진행입니다 😡',
+        text: '임의로 게임이 중단되어 랭크 포인트 5점이 감점됩니다.',
+        icon: 'error',
+        timer: 1500
+      })
       this.fetchEnemyInfo('')
     }
   },
