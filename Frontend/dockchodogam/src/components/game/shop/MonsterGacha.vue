@@ -13,12 +13,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import swal from 'sweetalert'
-import Swal from 'sweetalert2'
 
 export default {
-  data() {
-    return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
-  },
+  // data() {
+  //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
+  // },
   computed: {
     ...mapGetters(['userInfo'])
   },
