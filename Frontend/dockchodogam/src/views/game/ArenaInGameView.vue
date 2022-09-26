@@ -367,7 +367,10 @@ export default {
   },
   beforeUnmount() {
     this.audio.pause()
-    this.fetchEnemyInfo('')
+    if (!this.isGameEndFlag) {
+      alert('왜 억지로끔? 님 감점')
+      this.fetchEnemyInfo('')
+    }
   },
   computed: {
     ...mapGetters(['userDeck', 'enemyInfo'])
