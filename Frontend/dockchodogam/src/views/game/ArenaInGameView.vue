@@ -9,6 +9,11 @@
             :key="i"
             class="yourDockChoItem"
           >
+            <img
+              :src="this.imageBaseUrl + '/' + yourDockCho.monsterId + '.png'"
+              alt=""
+              class="yourDockChoItemImage"
+            />
             <div
               class="deadBlurBox"
               :class="isDead_yourDockCho[i] ? 'deadDockcho' : ''"
@@ -61,6 +66,11 @@
             :class="isMyDockchoDead ? 'ableSelect' : ''"
             @click="this.selectNextDockcho(i)"
           >
+            <img
+              :src="this.imageBaseUrl + '/' + myDockCho.monsterId + '.png'"
+              alt=""
+              class="myDockChoItemImage"
+            />
             <div
               class="deadBlurBox"
               :class="isDead_myDockCho[i] ? 'deadDockcho' : ''"
@@ -118,7 +128,8 @@ export default {
       skill: '',
       nowUseSkill: false,
       isUseSkill: false,
-      audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3')
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -376,11 +387,18 @@ export default {
   display: flex;
 }
 .yourDockChoItem {
-  border: 2px groove black;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 12vh;
   height: 12vh;
   margin: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.yourDockChoItemImage {
+  width: 11vh;
+  height: 11vh;
 }
 .inGame__middle {
   display: flex;
@@ -390,7 +408,6 @@ export default {
   height: 55vh;
 }
 .myDockChoMon {
-  border: 2px groove black;
   width: 20vw;
   height: 25vw;
   position: fixed;
@@ -403,7 +420,6 @@ export default {
   height: 55vh;
 }
 .yourDockChoMon {
-  border: 2px groove black;
   width: 20vw;
   height: 25vw;
   position: fixed;
@@ -420,19 +436,29 @@ export default {
   display: flex;
 }
 .myDockChoItem {
-  border: 2px groove black;
-  border-radius: 5px;
+  border: 5px solid #ffe140;
+  border-radius: 10px;
   width: 17vh;
   height: 17vh;
   margin: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.myDockChoItemImage {
+  width: 16vh;
+  height: 16vh;
 }
 .deadBlurBox {
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 9999;
+  position: absolute;
   display: none;
 }
 .skillBtn {
@@ -489,4 +515,9 @@ export default {
     top: 30vh;
   }
 } */
+@media screen and (max-width: 850px) {
+  .myDockChoItem {
+    border-width: 2px;
+  }
+}
 </style>

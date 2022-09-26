@@ -6,7 +6,13 @@
       <p v-else>+10</p>
     </div>
     <div class="result__images">
-      <div v-for="(item, i) in myDeck" :key="i" class="result__dockcho"></div>
+      <img
+        v-for="(item, i) in myDeck"
+        :key="i"
+        :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+        alt=""
+        class="result__dockcho"
+      />
     </div>
   </div>
 </template>
@@ -14,6 +20,11 @@
 <script>
 export default {
   props: ['myDeck', 'resultInfo'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL
+    }
+  },
   methods: {
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
@@ -54,11 +65,9 @@ export default {
   justify-content: space-around;
 }
 .result__dockcho {
-  border: 2px groove black;
   border-radius: 5px;
   height: 16vw;
   width: 16vw;
   margin: 0 1vw;
-  padding: 0 3vw;
 }
 </style>

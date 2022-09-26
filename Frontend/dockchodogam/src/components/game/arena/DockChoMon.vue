@@ -11,16 +11,28 @@
         ></div>
       </div>
     </div>
-    <div class="damage">
-      <p>{{ damage }}</p>
+    <div class="dokchoBox">
+      <div class="damage">
+        <p>{{ damage }}</p>
+      </div>
+      <img
+        :src="this.imageBaseUrl + '/' + this.data.monsterId + '.png'"
+        alt=""
+        class="dockChoImage"
+        :class="this.damage !== '' ? 'damaged' : ''"
+      />
     </div>
-    <div class="dockChoImage"></div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['data', 'damage']
+  props: ['data', 'damage'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL
+    }
+  }
 }
 </script>
 
@@ -32,13 +44,23 @@ export default {
   width: 100%;
   height: 100%;
 }
+.dokchoBox {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .hpBar {
   width: 100%;
 }
 .dockChoImage {
-  border: 2px groove black;
-  border-radius: 2px;
+  border-radius: 5px;
   width: 100%;
   height: auto;
+}
+.damaged {
+  -webkit-filter: grayscale(50%) brightness(0.9);
+  filter: grayscale(50%) brightness(0.9);
 }
 </style>
