@@ -227,10 +227,7 @@ export default {
     setTimeout(() => {
       this.isLoading = false
       if (this.enemyInfo.nickname) {
-        console.log(this.enemyInfo.nickname)
-        alert('먼데 데이터있음')
         this.fetchEnemyInfo('')
-        console.log(this.enemyInfo.nickname)
       }
     }, 1500)
   },
