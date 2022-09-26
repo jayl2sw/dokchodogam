@@ -11,7 +11,12 @@
     }"
   >
     <v-card elevation="1" outlined>
-      <p>{{ monster.name }}</p>
+      <p>00{{ monster.monsterId }}</p>
+      <h3>{{ monster.name }}몬</h3>
+      <img
+        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+        class="card__img"
+      />
     </v-card>
   </div>
   <div>

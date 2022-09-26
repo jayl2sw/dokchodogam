@@ -29,7 +29,11 @@
             </div>
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
-                <img src="@/assets/loading/1.png" alt="" class="myDeckImage" />
+                <img
+                  :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+                  alt=""
+                  class="myDeckImage"
+                />
               </div>
             </div>
           </div>
@@ -52,7 +56,7 @@
               <div class="rankerDeck">
                 <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
                   <img
-                    src="@/assets/loading/2.png"
+                    :src="this.imageBaseUrl + '/' + dokcho.monsterId + '.png'"
                     alt=""
                     class="rankerDeckItem"
                   />
@@ -72,6 +76,7 @@
               class="game__info"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
+              @click="sound()"
             >
               <font-awesome-icon icon="fa-solid fa-question" size="xl" />
             </div>
@@ -88,7 +93,7 @@
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
                   <img
-                    src="@/assets/loading/3.png"
+                    :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
                     alt=""
                     class="enemyDeck__item"
                   />
@@ -146,21 +151,29 @@ export default {
       myDeck: [],
       ranking: [],
       isLoading: true,
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/arena_main.mp3'),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3'),
+      btn2_audio: new Audio(process.env.VUE_APP_S3_URL + '/button2.mp3')
     }
   },
   methods: {
     ...mapActions(['fetchEnemyInfo', 'fetchUserDeck']),
     goToGameMain() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game' })
     },
     goToGameShop() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game/shop' })
     },
     goToFriend() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game/friend' })
     },
     goToDeck() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game/deck' })
     },
     getMyEnemy() {
@@ -191,6 +204,7 @@ export default {
         .catch((err) => console.log(err))
     },
     onClickGameStart(i) {
+      this.btn_audio.play()
       const info = {
         isChinsun: false,
         nickname: this.Enemys.userInfo[i].nickname,
@@ -200,6 +214,9 @@ export default {
       setTimeout(() => {
         this.$router.push({ path: '/game/arena/ingame' })
       }, 200)
+    },
+    sound() {
+      this.btn2_audio.play()
     }
   },
   created() {
@@ -209,6 +226,14 @@ export default {
     setTimeout(() => {
       this.isLoading = false
     }, 1500)
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   },
   computed: {
     ...mapGetters(['userDeck'])

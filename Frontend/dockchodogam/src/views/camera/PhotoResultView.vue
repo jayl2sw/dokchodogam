@@ -107,7 +107,7 @@ export default {
   },
   data() {
     return {
-      results: this.$route.query.query
+      results: this.$route.params
     }
   },
 

@@ -18,7 +18,11 @@
           <div class="dockchoName">
             <h3 class="TITLE">같이 여행을 떠날 잡초몬</h3>
           </div>
-          <div class="dockchoImg"></div>
+          <img
+            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            alt=""
+            class="dockchoImg"
+          />
         </div>
       </div>
       <div class="main__right">
@@ -30,8 +34,8 @@
               />&nbsp;&nbsp;오늘의 식물&nbsp;
               <font-awesome-icon icon="fa-solid fa-seedling" />
             </h2>
-            <h4>{{ this.datas.flowNm }}</h4>
-            <h6>{{ this.datas.flowLang }}</h6>
+            <h4>{{ this.datas.name }}</h4>
+            <h6>{{ this.datas.lang }}</h6>
             <div
               id="carouselExampleIndicators"
               class="carousel slide"
@@ -61,25 +65,13 @@
               </div>
               <div class="carousel-inner 300-px-wide">
                 <div class="carousel-item active">
-                  <img
-                    :src="this.datas.imgUrl1"
-                    class="d-block w-100"
-                    alt="..."
-                  />
+                  <img :src="this.datas.img1" class="d-block w-100" alt="..." />
                 </div>
                 <div class="carousel-item">
-                  <img
-                    :src="this.datas.imgUrl2"
-                    class="d-block w-100"
-                    alt="..."
-                  />
+                  <img :src="this.datas.img2" class="d-block w-100" alt="..." />
                 </div>
                 <div class="carousel-item">
-                  <img
-                    :src="this.datas.imgUrl3"
-                    class="d-block w-100"
-                    alt="..."
-                  />
+                  <img :src="this.datas.img3" class="d-block w-100" alt="..." />
                 </div>
               </div>
               <button
@@ -107,8 +99,8 @@
                 <span class="visually-hidden">Next</span>
               </button>
             </div>
-            <p class="carousel__content">{{ this.datas.fContent }}</p>
-            <i>출처 {{ this.datas.publishOrg }}</i>
+            <p class="carousel__content">{{ this.datas.content }}</p>
+            <i>출처 : 농촌진흥청 국립원예특작과학원</i>
           </div>
         </div>
       </div>
@@ -118,6 +110,7 @@
 
 <script>
 import NavBar from '@/components/main/NavBar.vue'
+import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
 // import dotenv from 'dotenv'
 
@@ -131,7 +124,8 @@ export default {
       datas: {},
       showMenu: false,
       inputData: '',
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -145,42 +139,14 @@ export default {
       this.showMenu = value
     },
     getTodayPlant() {
-      const date = new Date()
-      const month = date.getMonth() + 1
-      const day = date.getDate()
-      const queryParams =
-        process.env.VUE_APP_TODAYPLANT_API_KEY +
-        '&fMonth=' +
-        month +
-        '&fDay=' +
-        day
       axios
-        .get(
-          'https://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlower01' +
-            queryParams
-        )
-        .then((res) => {
-          const parser = new DOMParser()
-          const xmlDoc = parser.parseFromString(res.data, 'text/xml')
-          this.datas = {
-            flowNm:
-              xmlDoc.getElementsByTagName('flowNm')[0].childNodes[0].nodeValue,
-            fContent:
-              xmlDoc.getElementsByTagName('fContent')[0].childNodes[0]
-                .nodeValue,
-            flowLang:
-              xmlDoc.getElementsByTagName('flowLang')[0].childNodes[0]
-                .nodeValue,
-            publishOrg:
-              xmlDoc.getElementsByTagName('publishOrg')[0].childNodes[0]
-                .nodeValue,
-            imgUrl1:
-              xmlDoc.getElementsByTagName('imgUrl1')[0].childNodes[0].nodeValue,
-            imgUrl2:
-              xmlDoc.getElementsByTagName('imgUrl2')[0].childNodes[0].nodeValue,
-            imgUrl3:
-              xmlDoc.getElementsByTagName('imgUrl3')[0].childNodes[0].nodeValue
+        .get(BASE_URL + '/api/v1/dokcho/today', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
+        })
+        .then((res) => {
+          this.datas = res.data
         })
         .catch((err) => console.log(err))
     }
@@ -220,7 +186,6 @@ export default {
   color: #fff;
 }
 .dockchoImg {
-  border: 2px groove black;
   border-radius: 5px;
   width: 20vw;
   height: 20vw;
