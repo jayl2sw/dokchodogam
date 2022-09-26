@@ -194,7 +194,7 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/gift")
+    @PutMapping("/friend/gift/all")
     @ApiOperation(value = "친구 모두에게 선물 보내기")
     public ResponseEntity<String> giftToAll(){
         userService.giftToAll();
@@ -213,7 +213,7 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/receipt")
+    @PutMapping("/friend/receipt/all")
     @ApiOperation(value = "선물 모두 받기")
     public ResponseEntity<String> receiveGiftAll(){
         userService.receiveGiftAll();
