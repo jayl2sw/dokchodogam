@@ -9,13 +9,16 @@
       />
     </div>
     <div class="search__result">
-      <div v-for="(user, i) in datas" :key="i" class="result__item">
+      <div v-for="(user, i) in this.searchUsers" :key="i" class="result__item">
         <div class="left">
           <img src="@/assets/loading/1.png" alt="" />
-          <p class="TITLE name">username</p>
+          <p class="TITLE name">{{ user.nickname }}</p>
         </div>
         <div class="right">
-          <font-awesome-icon icon="fa-solid fa-clover" />
+          <font-awesome-icon
+            icon="fa-solid fa-clover"
+            @click="this.requestFriend(user.user_id)"
+          />
         </div>
       </div>
     </div>
@@ -23,16 +26,51 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+
 export default {
   data() {
     return {
       inputData: '',
-      datas: [1, 2, 3, 1, 1, 1, 1, 1]
+      searchUsers: [],
+      searchPage: 0
+    }
+  },
+  methods: {
+    requestFriend(userId) {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/request', userId, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    },
+    search() {
+      axios
+        .get(
+          BASE_URL +
+            '/api/v1/user/search/' +
+            this.inputData +
+            '/' +
+            this.searchPage,
+          {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+        )
+        .then((res) => {
+          this.searchUsers = res.data
+        })
+        .catch((err) => console.log(err))
     }
   }
-  // methods: {
-  //   search() {}
-  // }
 }
 </script>
 

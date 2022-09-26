@@ -155,7 +155,7 @@ export default {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
-        .then((res) => {
+        .then(() => {
           swal('변경 완료!', '덱 변경이 완료되었습니다 😺', 'success')
           this.$router.push({ path: '/game/arena' })
         })
