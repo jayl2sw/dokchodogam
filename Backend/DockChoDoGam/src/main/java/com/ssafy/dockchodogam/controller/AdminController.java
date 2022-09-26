@@ -41,7 +41,7 @@ public class AdminController {
 
     @PutMapping("/user")
     @ApiOperation(value = "회원 정보 수정")
-    public ResponseEntity<String> updateUser(@RequestParam Long user_id, @RequestBody UpdateUserRequestDto dto){
+    public ResponseEntity<String> updateUser(@RequestBody Long user_id, @RequestBody UpdateUserRequestDto dto){
         adminService.updateUser(user_id, dto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class AdminController {
 
     @PutMapping("/money")
     @ApiOperation(value = "돈 주기/뺏기")
-    public ResponseEntity<String> updateMoney(@RequestParam Long user_id, @RequestParam Integer money){
+    public ResponseEntity<String> updateMoney(@RequestBody Long user_id, @RequestBody Integer money){
         adminService.updateMoney(user_id, money);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -67,9 +67,9 @@ public class AdminController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/dokcho")
+    @PutMapping("/dokcho/{plant_id}")
     @ApiOperation(value = "식물 수정")
-    public ResponseEntity<String> updateDokcho(@RequestParam Long plant_id, @RequestBody PlantRequestDto dto){
+    public ResponseEntity<String> updateDokcho(@PathVariable Long plant_id, @RequestBody PlantRequestDto dto){
         adminService.updateDokcho(plant_id, dto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -88,9 +88,9 @@ public class AdminController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/monster")
+    @PutMapping("/monster/{monster_id}")
     @ApiOperation(value = "독초몬 수정")
-    public ResponseEntity<String> updateMonster(@RequestParam Long monster_id, @RequestPart(value = "dto")MonsterRequestDto dto, @RequestPart(value = "img", required = false)MultipartFile img){
+    public ResponseEntity<String> updateMonster(@PathVariable Long monster_id, @RequestPart(value = "dto")MonsterRequestDto dto, @RequestPart(value = "img", required = false)MultipartFile img){
         adminService.updateMonster(monster_id, dto, img);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }

@@ -102,7 +102,7 @@ public class UserController {
 
     @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPW(@RequestParam String email){
+    public ResponseEntity<String> findPW(@RequestBody String email){
         try {
             if(!userService.checkEmail(email)){
                 throw new UserNotFoundException();
@@ -148,7 +148,7 @@ public class UserController {
 
     @PutMapping("/friend/request")
     @ApiOperation(value = "친구 요청")
-    public ResponseEntity<String> requestFriend(@RequestParam Long user_id){
+    public ResponseEntity<String> requestFriend(@RequestBody Long user_id){
         userService.requestFriend(user_id);
         return new ResponseEntity<>("SUCCESSS", HttpStatus.OK);
     }
@@ -161,7 +161,7 @@ public class UserController {
 
     @PutMapping("/friend/accept")
     @ApiOperation(value = "친구 요청 수락")
-    public ResponseEntity<String> acceptFriend(@RequestParam Long propose_id){
+    public ResponseEntity<String> acceptFriend(@RequestBody Long propose_id){
         userService.acceptFriend(propose_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -189,7 +189,7 @@ public class UserController {
 
     @PutMapping("/friend/gift")
     @ApiOperation(value = "친구한테 돈 선물하기")
-    public ResponseEntity<String> giftToFriend(@RequestParam Long user_id){
+    public ResponseEntity<String> giftToFriend(@RequestBody Long user_id){
         userService.giftToFriend(user_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -208,7 +208,7 @@ public class UserController {
 
     @PutMapping("/friend/receipt")
     @ApiOperation(value = "선물 받기")
-    public ResponseEntity<String> receiveGift(@RequestParam Long friend_id){
+    public ResponseEntity<String> receiveGift(@RequestBody Long friend_id){
         userService.receiveGift(friend_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
