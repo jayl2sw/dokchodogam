@@ -3,6 +3,7 @@ package com.ssafy.dockchodogam.controller;
 import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
+import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import com.ssafy.dockchodogam.service.dokcho.DokchoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -127,4 +128,10 @@ public class DokchoController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @GetMapping("/today")
+    @ApiOperation(value = "오늘의 식물")
+    public ResponseEntity<TodayPlantDto> getTodayPlant(){
+
+        return new ResponseEntity<TodayPlantDto>(dokchoService.getTodayPlant(), HttpStatus.OK);
+    }
 }
