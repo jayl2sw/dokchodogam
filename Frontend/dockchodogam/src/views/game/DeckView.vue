@@ -47,6 +47,7 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
 import LoadingPage from '@/components/main/LoadingPage.vue'
+import swal from 'sweetalert'
 
 export default {
   components: {
@@ -146,7 +147,7 @@ export default {
           }
         })
         .then((res) => {
-          alert('변경완료!')
+          swal('변경 완료!', '덱 변경이 완료되었습니다 😺', 'success')
           this.$router.push({ path: '/game/arena' })
         })
         .catch((err) => console.log(err))
