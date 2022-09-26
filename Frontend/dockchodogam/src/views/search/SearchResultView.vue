@@ -95,6 +95,9 @@ export default {
 .search__text {
   margin: 5vh 0;
 }
+.search__result {
+  width: 100%;
+}
 .col {
   display: flex;
   justify-content: center;

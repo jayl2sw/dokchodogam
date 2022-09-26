@@ -58,7 +58,10 @@
       </div>
       <div class="sideBar__menu">
         <div class="sideBar__profile">
-          <img src="@/assets/loading/5.png" alt="profile" />
+          <img
+            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            alt="profile"
+          />
           <p class="TITLE">{{ this.userInfo.nickname }}</p>
         </div>
         <div class="sideBar__items">
@@ -91,7 +94,7 @@
             </li>
           </ul>
         </div>
-        <div class="sideBar__logout">
+        <div class="sideBar__logout" @click="logout()">
           <a href="#">
             <font-awesome-icon
               icon="fa-solid fa-door-open"
@@ -115,7 +118,8 @@ export default {
   data() {
     return {
       showMenu: false,
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {

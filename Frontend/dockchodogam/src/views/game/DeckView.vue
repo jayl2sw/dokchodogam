@@ -3,10 +3,6 @@
   <div class="deckPage">
     <div class="deck" v-show="!this.isLoading">
       <div class="myDeck">
-        <div class="myDeck__sum">
-          <div class="myDeck__hp"></div>
-          <div class="myDeck__power"></div>
-        </div>
         <div class="myDeckItems">
           <div
             class="myDeckItem"
@@ -15,23 +11,36 @@
             @click="onClickDeck(i)"
             :class="this.selectDeck === i ? 'checked' : ''"
           >
-            {{ item.name }}
+            <img
+              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              alt=""
+              class="myDeckItemImage"
+            />
+            {{ item.name }}몬
+            <div class="myDeckItemIdx">{{ i + 1 }}</div>
           </div>
         </div>
       </div>
       <div class="myDockcho">
         <div
-          class="myDockchoItem"
+          class="myDockchoItemBox"
+          :class="this.selectDockcho === i ? 'checked' : ''"
           v-for="(item, i) in this.myDockcho"
           :key="i"
           @click="onClickDockcho(i)"
-          :class="this.selectDockcho === i ? 'checked' : ''"
         >
-          <div
-            class="dokchoBlur"
-            :class="this.check[i] ? 'inMyDeck' : ''"
-          ></div>
-          {{ item.name }}
+          <div class="myDockchoItem">
+            <div
+              class="dokchoBlur"
+              :class="this.check[i] ? 'inMyDeck' : ''"
+            ></div>
+            <img
+              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              alt=""
+              class="myDockchoItemImage"
+            />
+          </div>
+          {{ item.name }}몬
         </div>
       </div>
       <div class="buttons">
@@ -59,7 +68,8 @@ export default {
       check: [],
       selectDeck: '',
       selectDockcho: '',
-      isLoading: true
+      isLoading: false,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -68,23 +78,22 @@ export default {
     },
     getMyDokcho() {
       axios
-        .get(BASE_URL + '/api/v1/game/monster/list?size=100', {
+        .get(BASE_URL + '/api/v1/game/monster/mylist', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
+          console.log(res.data)
           res.data.content.forEach((element) => {
-            if (element.got) {
-              let tmpBool = false
-              this.myDeck.forEach((el) => {
-                if (el.monsterId === element.monsterId) {
-                  tmpBool = true
-                }
-              })
-              this.myDockcho.push(element)
-              this.check.push(tmpBool)
-            }
+            let tmpBool = false
+            this.myDeck.forEach((el) => {
+              if (el.monsterId === element.monsterId) {
+                tmpBool = true
+              }
+            })
+            this.myDockcho.push(element)
+            this.check.push(tmpBool)
           })
           console.log(this.myDockcho)
           console.log(this.check)
@@ -182,72 +191,87 @@ export default {
   margin: 5vh 5vw;
   display: flex;
   flex-direction: column;
-  background-color: #ececec;
+  background-color: white;
 }
 .myDeck {
-  height: 50vh;
+  height: 45vh;
   width: 85vw;
-  margin: 5vh 2.5vw 0 2.5vw;
+  margin: 5vh 2.5vw;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-}
-.myDeck__sum {
-  display: flex;
-  justify-content: flex-end;
-  height: 10vh;
-  width: 100%;
-  margin: 2.5vh 0;
-  padding: 0 2vw;
-}
-.myDeck__hp {
-  border: 2px groove black;
-  border-radius: 5px;
-  width: 15vw;
-  height: 5vh;
-  margin: 0 0.5vw;
-}
-.myDeck__power {
-  border: 2px groove black;
-  border-radius: 5px;
-  width: 15vw;
-  height: 5vh;
-  margin: 0 0.5vw;
+  justify-content: center;
+  background-color: #ececec;
 }
 .myDeckItems {
   display: flex;
   justify-content: space-around;
   margin: 0 0 2vh 0;
-  height: 35vh;
+  height: 40vh;
   width: 100%;
 }
 .myDeckItem {
-  border: 2px groove black;
+  border: 2px #ececec;
   border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 15vw;
   cursor: pointer;
 }
+.myDeckItemImage {
+  width: 12vw;
+  height: 12vw;
+}
+.myDeckItemIdx {
+  margin-top: 5vh;
+  border-radius: 1.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
+  width: 10vw;
+  height: 3vh;
+  background-color: #a7c957;
+}
 .myDockcho {
-  border: 2px groove black;
-  border-radius: 2px;
-  height: 22vh;
+  border-radius: 20px;
+  height: 25vh;
   width: 85vw;
   margin: 0 2.5vw;
   padding: 0 1vw;
   overflow-x: auto;
   align-items: center;
   white-space: nowrap;
+  background-color: #a7c957;
+}
+.myDockchoItemBox {
+  height: 20vh;
+  width: 20vh;
+  border: 4px dotted #a7c957;
+  margin: 0 0.5vw;
+  margin-top: 2vh;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .myDockchoItem {
-  border: 2px groove black;
-  border-radius: 2px;
-  height: 18vh;
-  width: 18vh;
-  margin: 0 0.5vw;
   margin-top: 1vh;
+  border-radius: 10px;
+  background-color: #ececec;
+  height: 15vh;
+  width: 15vh;
   cursor: pointer;
   position: relative;
   display: inline-block;
+}
+.myDockchoItemImage {
+  margin: 0 0.5vh;
+  width: 14vh;
+  height: 14vh;
 }
 .buttons {
   height: 10vh;
@@ -256,27 +280,29 @@ export default {
   padding: 0 1vw;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .cancel {
-  border: 2px groove black;
-  border-radius: 2px;
-  height: 5vh;
-  width: 5vw;
-  margin: 2.5vh 2vw;
+  border-radius: 2.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 3vh;
+  width: 10vw;
+  height: 5vh;
+  background-color: #a7c957;
   cursor: pointer;
+  margin-right: 5vw;
 }
 .complite {
-  border: 2px groove black;
-  border-radius: 2px;
-  height: 5vh;
-  width: 5vw;
-  margin: 2.5vh 2vw;
+  border-radius: 2.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 3vh;
+  width: 10vw;
+  height: 5vh;
+  background-color: #a7c957;
   cursor: pointer;
 }
 .checked {
@@ -284,6 +310,7 @@ export default {
 }
 .dokchoBlur {
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
   top: 0;
   left: 0;
   width: 100%;
@@ -295,5 +322,16 @@ export default {
 }
 .inMyDeck {
   display: block;
+}
+@media screen and (max-width: 850px) {
+  .myDockchoItemBox {
+    font-size: 2vh;
+  }
+  .myDeckItem {
+    font-size: 3vh;
+  }
+  .myDeckItemIdx {
+    margin-top: 1vh;
+  }
 }
 </style>

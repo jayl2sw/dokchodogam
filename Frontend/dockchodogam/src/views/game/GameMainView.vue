@@ -73,11 +73,11 @@ export default {
   }
   .game__arena {
     width: 80vw;
-    height: 40vh;
+    height: 38vh;
   }
   .game__mandu {
     width: 80vw;
-    height: 40vh;
+    height: 38vh;
   }
 }
 </style>

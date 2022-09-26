@@ -29,7 +29,11 @@
             </div>
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
-                <img src="@/assets/loading/1.png" alt="" class="myDeckImage" />
+                <img
+                  :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+                  alt=""
+                  class="myDeckImage"
+                />
               </div>
             </div>
           </div>
@@ -52,7 +56,7 @@
               <div class="rankerDeck">
                 <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
                   <img
-                    src="@/assets/loading/2.png"
+                    :src="this.imageBaseUrl + '/' + dokcho.monsterId + '.png'"
                     alt=""
                     class="rankerDeckItem"
                   />
@@ -89,7 +93,7 @@
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
                   <img
-                    src="@/assets/loading/3.png"
+                    :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
                     alt=""
                     class="enemyDeck__item"
                   />
@@ -148,6 +152,7 @@ export default {
       ranking: [],
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/arena_main.mp3'),
       btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3'),
       btn2_audio: new Audio(process.env.VUE_APP_S3_URL + '/button2.mp3')

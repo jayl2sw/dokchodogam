@@ -1,34 +1,48 @@
 <template>
-  <div
-    class="blur"
-    :class="this.showChangeDokcho ? 'isShowBlur' : ''"
-    @click="closeChangeDokcho()"
-  ></div>
-  <div class="myDokchoChange" :class="this.showChangeDokcho ? 'isShow' : ''">
-    <div class="closeBtnBox">
-      <div class="closeBtn" @click="closeChangeDokcho()"></div>
-    </div>
-    <div class="mainBox">
-      <div class="myDokchos">
-        <div
-          class="myDokchoItem"
-          v-for="(item, i) in this.datas"
-          :key="i"
-        ></div>
-      </div>
-      <div class="changeBtnBox">
-        <div class="changeBtn">변경</div>
+  <div>
+    <div
+      class="blur"
+      :class="this.showChangeDokcho ? 'isShowBlur' : ''"
+      @click="closeChangeDokcho()"
+    ></div>
+    <div class="myDokchoChange" :class="this.showChangeDokcho ? 'isShow' : ''">
+      <div class="mainBox">
+        <div class="myDokchos">
+          <div
+            class="myDokchoItem"
+            v-for="(item, i) in this.myDokcho"
+            :key="i"
+            :class="this.selectDokcho === item.monsterId ? 'checked' : ''"
+            @click="this.onClickDokcho(item.monsterId)"
+          >
+            <img
+              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              alt=""
+              class="myDokchoItemImage"
+            />
+          </div>
+        </div>
+        <div class="changeBtnBox">
+          <div class="closeBtn" @click="closeChangeDokcho()">취소</div>
+          <div class="changeBtn" @click="onClickChange()">변경</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
-      datas: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      showChangeDokcho: false
+      myDokcho: [],
+      showChangeDokcho: false,
+      selectDokcho: '',
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   props: {
@@ -37,9 +51,36 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchUserInfo']),
     closeChangeDokcho() {
       this.showChangeDokcho = false
       this.$emit('closeChangeDokcho', this.showChangeDokcho)
+    },
+    onClickDokcho(i) {
+      this.selectDokcho = i
+      console.log('독초 선택', this.selectDokcho)
+    },
+    onClickChange() {
+      const option = {
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      }
+      if (this.selectDokcho !== '') {
+        axios
+          .put(
+            BASE_URL + '/api/v1/user/monster/' + this.selectDokcho,
+            { monster_id: this.selectDokcho },
+            option
+          )
+          .then((res) => {
+            axios.get(BASE_URL + '/api/v1/user/myinfo', option).then((res) => {
+              this.fetchUserInfo(res.data)
+              this.closeChangeDokcho()
+            })
+          })
+          .catch((err) => console.log(err))
+      }
     }
   },
   watch: {
@@ -48,6 +89,23 @@ export default {
         this.showChangeDokcho = true
       }
     }
+  },
+  created() {
+    axios
+      .get(BASE_URL + '/api/v1/game/monster/list?size=100', {
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+      .then((res) => {
+        res.data.content.forEach((element) => {
+          if (element.got) {
+            this.myDokcho.push(element)
+          }
+        })
+        console.log(this.myDokcho)
+      })
+      .catch((err) => console.log(err))
   }
 }
 </script>
@@ -63,28 +121,11 @@ export default {
   overflow: auto;
   transition: all 1s;
 }
-.closeBtnBox {
-  display: flex;
-  justify-content: center;
-  height: 5vh;
-  width: 100vw;
-}
-.closeBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 5vh;
-  width: 10vw;
-  cursor: pointer;
-  border-top-right-radius: 3vh;
-  border-top-left-radius: 3vh;
-  background-color: #a7c957;
-}
 .mainBox {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 65vh;
+  height: 70vh;
   width: 100vw;
   border-top-right-radius: 3vh;
   border-top-left-radius: 3vh;
@@ -97,12 +138,19 @@ export default {
   margin: 10vh 10vw 5vh 10vw;
 }
 .myDokchoItem {
-  width: 10vw;
-  height: 10vw;
-  border: 2px groove black;
-  border-radius: 10px;
-  margin: 3.7vw;
-  display: inline-block;
+  width: 12vw;
+  height: 12vw;
+  border-radius: 15px;
+  background-color: #ececec;
+  margin: 2.7vw;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.myDokchoItemImage {
+  width: 9vw;
+  height: 9vw;
 }
 .changeBtnBox {
   width: 90vw;
@@ -110,6 +158,17 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+.closeBtn {
+  width: 10vw;
+  height: 5vh;
+  border-radius: 5vh;
+  background-color: #ececec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 5vw;
 }
 .changeBtn {
   width: 10vw;
@@ -132,20 +191,16 @@ export default {
   display: none;
   cursor: pointer;
 }
+.checked {
+  border: 4px groove #467302;
+}
 @media screen and (max-width: 850px) {
   .myDokchoChange {
     height: 100vh;
     bottom: -100vh;
   }
-  .closeBtnBox {
-    background-color: #a7c957;
-  }
-  .closeBtn {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-  }
   .mainBox {
-    height: 95vh;
+    height: 100vh;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
   }
@@ -156,6 +211,13 @@ export default {
     width: 20vw;
     height: 20vw;
     margin: 5vw;
+  }
+  .myDokchoItemImage {
+    width: 18vw;
+    height: 18vw;
+  }
+  .closeBtn {
+    width: 20vw;
   }
   .changeBtn {
     width: 20vw;
