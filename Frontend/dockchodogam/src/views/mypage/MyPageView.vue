@@ -86,7 +86,8 @@ export default {
       showChangeDokchoMenu: false,
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
-      newPassword2: this.newPassword2
+      newPassword2: this.newPassword2,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
