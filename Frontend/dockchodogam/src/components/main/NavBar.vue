@@ -128,6 +128,7 @@ export default {
       await alert('로그아웃되셨습니다. 다음에 또 봐용~❤')
     },
     popon(path) {
+      console.log(process.env)
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
       audio.play()
       this.$router.push(path)
