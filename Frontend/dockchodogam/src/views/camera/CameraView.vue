@@ -72,7 +72,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: BASE_URL + '/api/v1/dokcho/judge',
+        url: `${BASE_URL} + /api/v1/dokcho/judge`,
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -86,7 +86,7 @@ export default defineComponent({
           // router push 하면서 result.value 담아서 보내기
           router.push({
             path: '/camera/result',
-            query: { query: result.value }
+            params: result.value
           })
         })
         .catch((err) => {
