@@ -111,6 +111,8 @@
 </template>
 
 <script>
+require('dotenv').config();
+
 export default {
   data() {
     return {
