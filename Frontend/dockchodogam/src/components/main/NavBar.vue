@@ -134,7 +134,6 @@ export default {
     popon(path) {
       console.log(process.env)
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
-      console.log('S3 : ' + process.env.VUE_APP_S3_URL)
       audio.play()
       this.$router.push(path)
     }
