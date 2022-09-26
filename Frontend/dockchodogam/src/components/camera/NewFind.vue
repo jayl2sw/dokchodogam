@@ -1,7 +1,7 @@
 <template>
   <div class="find">
-    <p class="find__title TITLE">찾았다, { 카네이션 }!</p>
-    <p class="find_finder">최초 발견자 : { }</p>
+    <p class="find__title TITLE">찾았다, {{ plant.name }}!</p>
+    <p class="find_finder">최초 발견자 : {{}}</p>
     <div>
       <div class="find__img" v-if="this.pick == false">
         <img class="monster__silhouette" src="@/assets/loading/5.png" />
@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    modelValue: Object
+    plant: Object
   },
   data() {
     return {

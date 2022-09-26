@@ -1,4 +1,5 @@
 <template>
+  <LoadingPage v-if="this.isLoading" />
   <NavBar @overflow="overflow" />
   <div class="camera">
     <div class="camera__body">
@@ -73,7 +74,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: 'http://localhost:8081/api/v1/dokcho/judge/',
+        url: BASE_URL + '/api/v1/dokcho/judge/',
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -82,7 +83,7 @@ export default defineComponent({
         data: formdata
       })
         .then((res) => {
-          console.log(res)
+          console.log(res.data)
           if (res.data === null) {
             swal({
               title: '사진을 다시 찍어주세요 😢',
