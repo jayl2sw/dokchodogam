@@ -79,6 +79,7 @@ export const accounts: Module<accountsState, RootState> = {
           }
         } catch (err) {
           console.log('다시 로그인 하셈')
+          console.log(err)
           // if (!err.response) {
           // err.response = {data:{"success":false, "errormessage":err.message}};
           // }

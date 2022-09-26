@@ -111,8 +111,6 @@
 </template>
 
 <script>
-require('dotenv').config();
-
 export default {
   data() {
     return {
@@ -131,6 +129,7 @@ export default {
     },
     popon(path) {
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+      console.log(process.env.VUE_APP_S3_URL)
       audio.play()
       this.$router.push(path)
     }
