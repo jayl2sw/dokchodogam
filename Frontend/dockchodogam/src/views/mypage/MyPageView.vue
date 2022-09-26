@@ -44,13 +44,27 @@
       </div>
       <div class="changePw__form" :class="this.isNone ? '' : 'displayNone'">
         <div class="changePw__inputs">
-          <input type="password" placeholder="현재 비밀번호" />
-          <input type="password" placeholder="새 비밀번호" />
-          <input type="password" placeholder="새 비밀번호 확인" />
+          <input
+            v-model="oldPassword"
+            type="password"
+            placeholder="현재 비밀번호"
+          />
+          <input
+            v-model="newPassword"
+            type="password"
+            placeholder="새 비밀번호"
+          />
+          <input
+            v-model="newPassword2"
+            type="password"
+            placeholder="새 비밀번호 확인"
+          />
         </div>
         <div class="changePw__btn">
           <button @click="this.displayNone()" class="cancel__btn">취소</button>
-          <button class="complete__btn">수정 완료</button>
+          <button @click="this.changePassword()" class="complete__btn">
+            수정 완료
+          </button>
         </div>
       </div>
     </div>
@@ -64,6 +78,8 @@
 <script>
 import NavBar from '@/components/main/NavBar.vue'
 import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
   components: {
@@ -76,7 +92,9 @@ export default {
       isNone: false,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
       showChangeDokchoMenu: false,
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      newPassword2: this.newPassword2
     }
   },
   methods: {
@@ -91,6 +109,34 @@ export default {
     },
     onClickChangeDokcho() {
       this.showChangeDokchoMenu = true
+    },
+    changePassword() {
+      if (this.newPassword === this.newPassword2) {
+        console.log(this.newPassword)
+        console.log(this.newPassword2)
+        axios
+          .put(
+            BASE_URL + '/api/v1/user/password',
+            {
+              newPW: this.newPassword
+            },
+            {
+              headers: {
+                'Content-type': 'application/json',
+                AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+              }
+            }
+          )
+          .then((res) => {
+            console.log(res)
+            alert('비밀번호가 변경되었습니다!😘')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else {
+        alert('새 비밀번호를 한번 더 확인해 주세요😢')
+      }
     }
   },
   watch: {
