@@ -211,6 +211,7 @@ export default {
         enemyDeck: this.Enemys.deck[i]
       }
       this.fetchEnemyInfo(info)
+      console.log('상대 덱 저장?', info)
       setTimeout(() => {
         this.$router.push({ path: '/game/arena/ingame' })
       }, 200)
@@ -225,6 +226,12 @@ export default {
     this.getRanking()
     setTimeout(() => {
       this.isLoading = false
+      if (this.enemyInfo.nickname) {
+        console.log(this.enemyInfo.nickname)
+        alert('먼데 데이터있음')
+        this.fetchEnemyInfo('')
+        console.log(this.enemyInfo.nickname)
+      }
     }, 1500)
   },
   mounted() {
@@ -236,7 +243,7 @@ export default {
     this.audio.pause()
   },
   computed: {
-    ...mapGetters(['userDeck'])
+    ...mapGetters(['userDeck', 'enemyInfo'])
   },
   watch: {
     userDeck() {

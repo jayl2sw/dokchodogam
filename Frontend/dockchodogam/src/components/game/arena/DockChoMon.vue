@@ -16,6 +16,7 @@
         <p>{{ damage }}</p>
       </div>
       <img
+        v-if="this.data.monsterId"
         :src="this.imageBaseUrl + '/' + this.data.monsterId + '.png'"
         alt=""
         class="dockChoImage"
