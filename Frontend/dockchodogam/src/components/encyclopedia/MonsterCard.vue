@@ -22,12 +22,14 @@
   </div>
 
   <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
-    <p>00{{ monster.monsterId }}</p>
-    <h3>???</h3>
-    <img
-      class="card__dontHaveimg"
-      :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-    />
+    <div>
+      <p>00{{ monster.monsterId }}</p>
+      <h3>???</h3>
+      <img
+        class="card__dontHaveimg"
+        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+      />
+    </div>
   </div>
 </template>
 
