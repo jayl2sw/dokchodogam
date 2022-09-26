@@ -65,18 +65,23 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .representMonster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
                     .build();
 
-            Monster zero = monsterRepository.findById(Long.parseLong("0")).orElseThrow(MonsterNotFoundException::new);
-
             Deck deck = Deck.builder()
                     .user(user)
-                    .monster1(zero).monster2(zero).monster3(zero).monster4(zero).monster5(zero).build();
+                    .monster1(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
+                    .monster2(monsterRepository.findById(Long.parseLong("18")).orElseThrow(MonsterNotFoundException::new))
+                    .monster3(monsterRepository.findById(Long.parseLong("46")).orElseThrow(MonsterNotFoundException::new))
+                    .monster4(monsterRepository.findById(Long.parseLong("80")).orElseThrow(MonsterNotFoundException::new))
+                    .monster5(monsterRepository.findById(Long.parseLong("89")).orElseThrow(MonsterNotFoundException::new))
+                    .build();
 
             deckRepository.save(deck);
 
             // 기본 독초몬 지급하기
             userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new)).build());
+            userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("18")).orElseThrow(MonsterNotFoundException::new)).build());
             userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("46")).orElseThrow(MonsterNotFoundException::new)).build());
             userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("80")).orElseThrow(MonsterNotFoundException::new)).build());
+            userMonsterRepository.save(UserMonster.builder().user(user).monster(monsterRepository.findById(Long.parseLong("89")).orElseThrow(MonsterNotFoundException::new)).build());
 
             // 토큰 생성
             tokenDto = tokenProvider.generateTokenDto(user.getUsername(), user.getRole().toString());
