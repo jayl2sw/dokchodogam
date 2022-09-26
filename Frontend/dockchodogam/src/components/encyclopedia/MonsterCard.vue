@@ -17,6 +17,7 @@
       <img
         :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
         class="card__img"
+        style="-webkit-user-drag: none"
       />
     </div>
   </div>
@@ -28,6 +29,7 @@
       <img
         class="card__dontHaveimg"
         :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+        style="-webkit-user-drag: none"
       />
     </div>
   </div>
