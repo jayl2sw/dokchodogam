@@ -12,6 +12,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -28,7 +30,13 @@ export default {
             path: '/game/shop/gacha'
           })
         } else {
-          alert('보유하신 냥이 부족합니다.')
+          swal({
+            title: '보유하신 냥이 부족합니다. 😢',
+            text: '냥을 모아서 다시 도전하세요!',
+            icon: 'error',
+            buttons: false,
+            timer: 1500
+          })
           return false
         }
       } else {
