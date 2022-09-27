@@ -5,7 +5,10 @@
     </button>
     <div class="lists" v-for="(gift, i) in this.giftList" :key="i">
       <div class="left">
-        <img src="@/assets/loading/1.png" alt="" />
+        <img
+          :src="this.imageBaseUrl + '/' + gift.profile_img + '.png'"
+          alt=""
+        />
         <p class="TITLE name">{{ gift.nickname }} 님이 선물을 보냈습니다!</p>
       </div>
       <div class="right">
@@ -26,7 +29,8 @@ import { BASE_URL } from '@/constant/BASE_URL'
 export default {
   data() {
     return {
-      giftList: []
+      giftList: [],
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -46,10 +50,9 @@ export default {
     },
     receiptGiftAll() {
       axios
-        .put(BASE_URL + '/api/v1/user/friend/receipt/all', {
+        .put(BASE_URL + '/api/v1/user/friend/receipt/all', null, {
           headers: {
-            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
-            'Content-type': 'application/json'
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
@@ -66,6 +69,7 @@ export default {
           }
         })
         .then((res) => {
+          console.log('선물', res.data)
           this.giftList = res.data
         })
         .catch((err) => console.log(err))
