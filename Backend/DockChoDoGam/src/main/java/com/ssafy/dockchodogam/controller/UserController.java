@@ -102,7 +102,7 @@ public class UserController {
 
     @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPW(@RequestParam String email){
+    public ResponseEntity<String> findPW(@RequestBody String email){
         try {
             if(!userService.checkEmail(email)){
                 throw new UserNotFoundException();
@@ -139,29 +139,29 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/search/{keyword}/{page}")
+    @GetMapping("/search/{keyword}")
     @ApiOperation(value = "회원 검색")
-    public ResponseEntity<List<UserResponseDto>> search(@PathVariable String keyword, @PathVariable int page){
+    public ResponseEntity<UserResponseDto> search(@PathVariable String keyword){
 
-        return new ResponseEntity<>(userService.search(page, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(userService.search(keyword), HttpStatus.OK);
     }
 
     @PutMapping("/friend/request")
     @ApiOperation(value = "친구 요청")
-    public ResponseEntity<String> requestFriend(@RequestParam Long user_id){
+    public ResponseEntity<String> requestFriend(@RequestBody Long user_id){
         userService.requestFriend(user_id);
         return new ResponseEntity<>("SUCCESSS", HttpStatus.OK);
     }
 
-    @GetMapping("/friend/request/{page}")
+    @GetMapping("/friend/request")
     @ApiOperation(value = "친구 요청 조회")
-    public ResponseEntity<List<ProposeResponseDto>> showFriendRequest(@PathVariable int page){
-        return new ResponseEntity<>(userService.showFriendRequest(page), HttpStatus.OK);
+    public ResponseEntity<List<ProposeResponseDto>> showFriendRequest(){
+        return new ResponseEntity<>(userService.showFriendRequest(), HttpStatus.OK);
     }
 
     @PutMapping("/friend/accept")
     @ApiOperation(value = "친구 요청 수락")
-    public ResponseEntity<String> acceptFriend(@RequestParam Long propose_id){
+    public ResponseEntity<String> acceptFriend(@RequestBody Long propose_id){
         userService.acceptFriend(propose_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -173,11 +173,11 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/friend/{page}")
+    @GetMapping("/friend")
     @ApiOperation(value = "친구 목록")
-    public ResponseEntity<List<FriendResponseDto>> getFriendList(int page){
+    public ResponseEntity<List<FriendResponseDto>> getFriendList(){
 
-        return new ResponseEntity<>(userService.getFriendList(page), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getFriendList(), HttpStatus.OK);
     }
 
     @DeleteMapping("/friend/{user_id}")
@@ -189,12 +189,12 @@ public class UserController {
 
     @PutMapping("/friend/gift")
     @ApiOperation(value = "친구한테 돈 선물하기")
-    public ResponseEntity<String> giftToFriend(@RequestParam Long user_id){
+    public ResponseEntity<String> giftToFriend(@RequestBody Long user_id){
         userService.giftToFriend(user_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/gift")
+    @PutMapping("/friend/gift/all")
     @ApiOperation(value = "친구 모두에게 선물 보내기")
     public ResponseEntity<String> giftToAll(){
         userService.giftToAll();
@@ -208,12 +208,12 @@ public class UserController {
 
     @PutMapping("/friend/receipt")
     @ApiOperation(value = "선물 받기")
-    public ResponseEntity<String> receiveGift(@RequestParam Long friend_id){
+    public ResponseEntity<String> receiveGift(@RequestBody Long friend_id){
         userService.receiveGift(friend_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PutMapping("/friend/receipt")
+    @PutMapping("/friend/receipt/all")
     @ApiOperation(value = "선물 모두 받기")
     public ResponseEntity<String> receiveGiftAll(){
         userService.receiveGiftAll();
@@ -222,7 +222,7 @@ public class UserController {
 
     @PutMapping("/monster")
     @ApiOperation(value = "대표 독초몬 선택")
-    public ResponseEntity<String> selectRepresentMonster(@RequestParam Long monster_id){
+    public ResponseEntity<String> selectRepresentMonster(@RequestBody Long monster_id){
         userService.selectRepresentMonster(monster_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
