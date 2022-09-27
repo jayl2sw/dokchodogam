@@ -115,11 +115,11 @@ public class GameController {
     @GetMapping("/deck/friendInfo")
     @ApiOperation(value = "친구의 프로필 정보와 덱 조회",
             notes = "friends 키로 상대 세 명의 UserResponseDto를, friendDecks 키로 상대 세 명의 MonsterInfoResponseDto의 리스트를 응답한다")
-    public ResponseEntity<?> getFriendDeck(Pageable pageable){
+    public ResponseEntity<?> getFriendDeck(){
         Map<String, Object> map = new HashMap<>();
         // 친구의 유저 정보 및 덱 정보 조회
 
-        List<UserResponseDto> friends = userService.getFriendInfoList(pageable);
+        List<UserResponseDto> friends = userService.getFriendInfoList();
 
         List<List<MonsterInfoResponseDto>> friendDecks = friends
                 .stream().map(s -> gameService.getMyDeck(s.getUser_id()))

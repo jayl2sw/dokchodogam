@@ -23,15 +23,15 @@ public interface UserService {
     UserResponseDto getMyInfo();
     TokenDto refresh(TokenRequestDto requestDto);
     void logout();
-    List<UserResponseDto> search(int page, String keyword);
+    UserResponseDto search(String keyword);
     void requestFriend(Long id);
     void acceptFriend(Long id);
     void refuseFriend(Long id);
-    List<FriendResponseDto> getFriendList(int page);
+    List<FriendResponseDto> getFriendList();
 
-    List<UserResponseDto> getFriendInfoList(Pageable pageable);
+    List<UserResponseDto> getFriendInfoList();
     void deleteFriend(Long id);
-    List<ProposeResponseDto> showFriendRequest(int page);
+    List<ProposeResponseDto> showFriendRequest();
     int getFriendCount(Long id);
     void selectRepresentMonster(Long id);
     void giftToFriend(Long id);
