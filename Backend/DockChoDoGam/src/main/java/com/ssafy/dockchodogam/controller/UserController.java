@@ -139,11 +139,11 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/search/{keyword}/{page}")
+    @GetMapping("/search/{keyword}")
     @ApiOperation(value = "회원 검색")
-    public ResponseEntity<List<UserResponseDto>> search(@PathVariable String keyword, @PathVariable int page){
+    public ResponseEntity<UserResponseDto> search(@PathVariable String keyword){
 
-        return new ResponseEntity<>(userService.search(page, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(userService.search(keyword), HttpStatus.OK);
     }
 
     @PutMapping("/friend/request")
@@ -153,10 +153,10 @@ public class UserController {
         return new ResponseEntity<>("SUCCESSS", HttpStatus.OK);
     }
 
-    @GetMapping("/friend/request/{page}")
+    @GetMapping("/friend/request")
     @ApiOperation(value = "친구 요청 조회")
-    public ResponseEntity<List<ProposeResponseDto>> showFriendRequest(@PathVariable int page){
-        return new ResponseEntity<>(userService.showFriendRequest(page), HttpStatus.OK);
+    public ResponseEntity<List<ProposeResponseDto>> showFriendRequest(){
+        return new ResponseEntity<>(userService.showFriendRequest(), HttpStatus.OK);
     }
 
     @PutMapping("/friend/accept")
@@ -173,11 +173,11 @@ public class UserController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/friend/{page}")
+    @GetMapping("/friend")
     @ApiOperation(value = "친구 목록")
-    public ResponseEntity<List<FriendResponseDto>> getFriendList(@PathVariable int page){
+    public ResponseEntity<List<FriendResponseDto>> getFriendList(){
 
-        return new ResponseEntity<>(userService.getFriendList(page), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getFriendList(), HttpStatus.OK);
     }
 
     @DeleteMapping("/friend/{user_id}")
