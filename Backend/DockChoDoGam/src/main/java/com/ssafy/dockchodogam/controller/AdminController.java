@@ -39,9 +39,9 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getUserDetail(user_id), HttpStatus.OK);
     }
 
-    @PutMapping("/user")
+    @PutMapping("/user/{user_id}")
     @ApiOperation(value = "회원 정보 수정")
-    public ResponseEntity<String> updateUser(@RequestBody Long user_id, @RequestBody UpdateUserRequestDto dto){
+    public ResponseEntity<String> updateUser(@PathVariable Long user_id, @RequestBody UpdateUserRequestDto dto){
         adminService.updateUser(user_id, dto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -55,7 +55,9 @@ public class AdminController {
 
     @PutMapping("/money")
     @ApiOperation(value = "돈 주기/뺏기")
-    public ResponseEntity<String> updateMoney(@RequestBody Long user_id, @RequestBody Integer money){
+    public ResponseEntity<String> updateMoney(@RequestBody Map<String, Object> map){
+        Long user_id = (Long) map.get("user_id");
+        Integer money = (Integer) map.get("money");
         adminService.updateMoney(user_id, money);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
