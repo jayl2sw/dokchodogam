@@ -81,25 +81,25 @@ public class BattleServiceImpl implements BattleService {
             }
             System.out.println("start kafka");
             // 카프카로 배틀 보내는 로직 작성
-            Properties props = new Properties();
-            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "j7e201.p.ssafy.io:9092");
-            props.put(ProducerConfig.CLIENT_ID_CONFIG, "DokchoMainServer");
-            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonValueSerializer.class.getName());
-
-            KafkaProducer<String, Object> producer = new KafkaProducer<>(props);
-            producer.send(new ProducerRecord<>("battles", new JSONObject(battleDto)), (recordMeta, exception) -> {
-               if (exception == null) {
-                   System.out.println("Record written to offset " +
-                   recordMeta.offset() + "timestamp " + recordMeta.timestamp());
-               } else {
-                   System.err.println("An error occurred");
-                   exception.printStackTrace(System.err);
-               }
-            });
-
-            producer.flush();
-            producer.close();
+//            Properties props = new Properties();
+//            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "j7e201.p.ssafy.io:9092");
+//            props.put(ProducerConfig.CLIENT_ID_CONFIG, "DokchoMainServer");
+//            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+//            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonValueSerializer.class.getName());
+//
+//            KafkaProducer<String, Object> producer = new KafkaProducer<>(props);
+//            producer.send(new ProducerRecord<>("battles", new JSONObject(battleDto)), (recordMeta, exception) -> {
+//               if (exception == null) {
+//                   System.out.println("Record written to offset " +
+//                   recordMeta.offset() + "timestamp " + recordMeta.timestamp());
+//               } else {
+//                   System.err.println("An error occurred");
+//                   exception.printStackTrace(System.err);
+//               }
+//            });
+//
+//            producer.flush();
+//            producer.close();
         }
     }
 }
