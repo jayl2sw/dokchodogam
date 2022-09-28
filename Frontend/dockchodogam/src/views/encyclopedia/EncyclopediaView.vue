@@ -116,7 +116,7 @@ import axios from 'axios'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 
 // import { BASE_URL } from '@/constant/BASE_URL'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -131,11 +131,12 @@ export default {
       checkedGrade: [],
       checkedGot: ['true'],
       isLoading: true,
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    // ...mapGetters(['userInfo']),
     filteredMonsters() {
       if (
         !this.checkedType.length &&

@@ -188,10 +188,11 @@ export default {
 .container .card .imgBx img {
   /* position: absolute; */
   top: 50%;
-  left: 50%;
+  /* left: 50%; */
   transition: transform 0.25s ease;
+  object-fit: contain;
   /* transform: translate(-20%, -20%); */
-  width: 50%;
+  /* width: 50%; */
 }
 
 .arrow_box {
@@ -241,7 +242,7 @@ export default {
 
 .container .card .card__dontHaveimg img {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   /* transform: translate(-50%, -50%); */
   width: 270px;
