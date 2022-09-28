@@ -48,7 +48,7 @@ export default {
   height: 85vh;
 }
 .game__arena {
-  background-image: url('@/assets/game_background.png');
+  background-image: url('@/assets/arena/001.png');
   background-repeat: no-repeat;
   background-size: cover;
   border: 2px groove;
@@ -59,6 +59,7 @@ export default {
   cursor: pointer;
 }
 .game__mandu {
+  background-image: url('@/assets/arena/002.png');
   border: 2px groove;
   border-radius: 5px;
   width: 39.5vw;
