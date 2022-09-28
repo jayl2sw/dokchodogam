@@ -22,6 +22,9 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+
+var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+
 export default {
   data() {
     return {
@@ -78,6 +81,10 @@ export default {
         alert('닉네임중복검사를 먼저 진행해주세요.')
       } else if (this.emailDuplicate === true) {
         alert('이메일중복검사를 먼저 진행해주세요.')
+      } else if (!passwordCheck.test(this.password)) {
+        alert(
+          '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏'
+        )
       } else if (this.password === this.password2) {
         await axios
           .post(BASE_URL + '/api/v1/user/auth/signup', {
