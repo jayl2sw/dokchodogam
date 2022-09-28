@@ -5,10 +5,10 @@
       <div class="box__left">
         <div class="myDeck">
           <div class="nickname">
-            <h3>{{ this.userInfo.nickname }}</h3>
+            <h1 class="TITLE">{{ this.userInfo.nickname }}</h1>
           </div>
           <div class="expBar">
-            <span>rankpoint</span>
+            <span>몰라 진행도</span>
             <div class="progress">
               <div
                 class="progress-bar"
@@ -25,7 +25,7 @@
           <div class="myDeckDetail">
             <div class="myDeckPower">
               <p>전투력</p>
-              <h2>500</h2>
+              <h1 class="TITLE">{{ this.tot }}</h1>
             </div>
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
@@ -38,12 +38,12 @@
             </div>
           </div>
           <div class="myDeckBtnBox">
-            <div class="myDeckBtn" @click="goToDeck()">내 덱 수정</div>
+            <div class="myDeckBtn TITLE" @click="goToDeck()">나의 덱 수정</div>
           </div>
         </div>
         <div class="ranking">
           <div class="rankingText">
-            <p>랭킹</p>
+            <p class="TITLE">랭킹</p>
           </div>
           <div class="rankingList">
             <div
@@ -51,8 +51,14 @@
               v-for="(item, i) in this.ranking.opponents"
               :key="i"
             >
-              <div class="rankIntImage">{{ i + 1 }}</div>
-              <div class="rankerName">{{ item.nickname }}</div>
+              <div>
+                <img
+                  class="rankIntImage"
+                  :src="require('@/assets/medal' + (i + 1) + '.png')"
+                  alt=""
+                />
+              </div>
+              <div class="rankerName TITLE">{{ item.nickname }}</div>
               <div class="rankerDeck">
                 <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
                   <img
@@ -68,19 +74,18 @@
       </div>
       <div class="box__right">
         <div class="goToHome">
-          <div class="goToHomeBtn" @click="goToGameMain()">홈으로 돌아가기</div>
+          <div class="goToHomeBtn TITLE" @click="goToGameMain()">
+            홈으로 돌아가기
+          </div>
         </div>
         <div class="users">
-          <div class="info__box">
-            <div
-              class="game__info"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              @click="sound()"
-            >
-              <font-awesome-icon icon="fa-solid fa-question" size="xl" />
-            </div>
-          </div>
+          <font-awesome-icon
+            class="game__info"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            @click="sound()"
+            icon="fa-solid fa-circle-info"
+          />
           <div class="userList">
             <div
               v-for="(enemy, i) in this.Enemys.userInfo"
@@ -88,7 +93,7 @@
               class="userListItem"
             >
               <div class="enemyInfo">
-                <div class="enemyName">{{ enemy.nickname }}</div>
+                <div class="enemyName TITLE">{{ enemy.nickname }}</div>
               </div>
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
@@ -99,13 +104,15 @@
                   />
                 </div>
               </div>
-              <div class="gameStartBtn" @click="onClickGameStart(i)">start</div>
+              <div class="gameStartBtn TITLE" @click="onClickGameStart(i)">
+                START
+              </div>
             </div>
           </div>
         </div>
         <div class="buttons">
-          <div class="button" @click="goToGameShop()">상점</div>
-          <div class="button" @click="goToFriend()">친구관리</div>
+          <div class="button TITLE" @click="goToGameShop()">상점</div>
+          <div class="button TITLE" @click="goToFriend()">친구 관리</div>
         </div>
       </div>
     </div>
@@ -185,6 +192,7 @@ export default {
     return {
       Enemys: { userInfo: [], deck: [] },
       myDeck: [],
+      tot: 0,
       ranking: [],
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
@@ -282,6 +290,11 @@ export default {
     userDeck() {
       this.myDeck = this.userDeck
       console.log('와치', this.myDeck)
+      for (let index = 0; index < 5; index++) {
+        this.tot +=
+          (this.myDeck[index].maxAttack + this.myDeck[index].minAttack) / 2
+      }
+      console.log(this.tot)
     }
   }
 }
@@ -315,20 +328,23 @@ export default {
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
-  padding: 0 2vw;
+  padding: 2vh 2vw;
   background-color: #ececec;
 }
 .nickname {
-  height: 13vh;
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .myDeckDetail {
-  height: 10vh;
+  height: 13vh;
   display: flex;
   justify-content: space-between;
   margin: 2vh 0;
+  padding: 0 1vw;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
 }
 .expBar {
   display: flex;
@@ -368,8 +384,8 @@ export default {
   height: 100%;
 }
 .myDeckImage {
-  width: 6vw;
-  height: 6vw;
+  width: 5vw;
+  height: 5vw;
 }
 .myDeckBtnBox {
   display: flex;
@@ -380,11 +396,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 15vw;
+  font-size: 2vh;
+  width: 10vw;
   height: 5vh;
   background-color: #a7c957;
   cursor: pointer;
+  transition: 0.3s;
+}
+.myDeckBtn:hover {
+  background-color: #467302;
+  color: white;
 }
 .ranking {
   display: flex;
@@ -413,13 +434,13 @@ export default {
 }
 .rankingListItem {
   border-radius: 15px;
-  box-shadow: 2px 2px 2px;
-  width: 33vw;
+  width: 35vw;
   height: 8vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 1vh 1vw;
 }
 .rankIntImage {
   width: 3vw;
@@ -431,7 +452,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
 }
 .rankerDeck {
   width: 23vw;
@@ -439,8 +460,8 @@ export default {
   justify-content: space-evenly;
 }
 .rankerDeckItem {
-  width: 4vw;
-  height: 4vw;
+  width: 3vw;
+  height: 3vw;
 }
 .box__right {
   display: flex;
@@ -459,24 +480,30 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 20vw;
-  height: 5vh;
-  background-color: #a7c957;
+  font-size: 1.5vw;
+  width: 13vw;
+  height: 6vh;
+  background-color: white;
   cursor: pointer;
+  transition: 0.3s;
+}
+.goToHomeBtn:hover {
+  background-color: #467302;
+  color: white;
 }
 .users {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 20px;
-  height: 65vh;
+  height: 55vh;
   width: 50vw;
   background-color: #467302;
+  position: relative;
 }
 .userList {
   margin: 2vh 2.5vw;
-  height: 55vh;
+  height: 100%;
   width: 45vw;
   display: flex;
   flex-direction: column;
@@ -484,10 +511,10 @@ export default {
   align-items: center;
 }
 .userListItem {
-  border-radius: 15px;
-  box-shadow: 5px 5px 10px;
-  height: 13vh;
-  width: 40vw;
+  border-radius: 30px;
+  /* box-shadow: 5px 5px 10px; */
+  height: 12vh;
+  width: 100%;
   margin: 1vh 2vw;
   display: flex;
   justify-content: space-around;
@@ -502,9 +529,10 @@ export default {
 }
 .enemyName {
   font-size: 1.5vw;
+  margin-left: 1vw;
 }
 .enemyDeck {
-  width: 28vw;
+  width: 30vw;
   height: 10vh;
   display: flex;
   justify-content: space-evenly;
@@ -519,12 +547,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vh;
+  font-size: 1.2vh;
   width: 5vw;
   height: 5vh;
-  background-color: #ffe140;
+  background-color: #ccc;
   margin-right: 0.5vw;
   cursor: pointer;
+  transition: 0.3s;
+}
+.gameStartBtn:hover {
+  background-color: #ffe140;
 }
 .buttons {
   display: flex;
@@ -537,26 +569,29 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 15vw;
-  height: 5vh;
-  background-color: #a7c957;
+  font-size: 2vh;
+  width: 10vw;
+  height: 6vh;
+  background-color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
-.info__box {
-  display: flex;
-  justify-content: flex-end;
+.button:hover {
+  background-color: #467302;
+  color: white;
 }
 .game__info {
-  margin: 2vh 2vw;
-  width: 25px;
-  height: 25px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 3vh;
+  height: 3vh;
   cursor: pointer;
-  background-color: #ececec;
+  color: white;
+  position: absolute;
+  top: 1vh;
+  right: 1vw;
+  transition: 0.3s;
+}
+.game__info:hover {
+  color: #ffe140;
 }
 .modal-dialog {
   min-width: 90vw;
