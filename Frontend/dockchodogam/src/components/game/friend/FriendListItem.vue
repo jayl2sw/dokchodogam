@@ -12,14 +12,19 @@
         icon="fa-solid fa-gift"
         @click="this.giveGift()"
         :class="this.friend.gift_today ? 'sentGift' : ''"
+        ref="button"
       />
-      <font-awesome-icon icon="fa-solid fa-hand-fist" ref="button" />
+      <font-awesome-icon
+        icon="fa-solid fa-hand-fist"
+        @click="getFriendDeck()"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { mapActions } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
@@ -30,6 +35,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchEnemyInfo']),
     giveGift() {
       axios
         .put(BASE_URL + '/api/v1/user/friend/gift', this.friend.user_id, {
@@ -43,6 +49,30 @@ export default {
           this.$refs.button.$el.classList.add('sentGift')
         })
         .catch((err) => console.log(err))
+    },
+    getFriendDeck() {
+      axios
+        .get(BASE_URL + '/api/v1/game/deck/friendInfo/' + this.friend.user_id, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          this.onClickGameStart(res.data)
+        })
+        .catch((err) => console.log(err))
+    },
+    onClickGameStart(deck) {
+      const info = {
+        isChinsun: true,
+        nickname: this.friend.nickname,
+        enemyDeck: deck
+      }
+      this.fetchEnemyInfo(info)
+      console.log('상대 덱 저장?', info)
+      setTimeout(() => {
+        this.$router.push({ path: '/game/arena/ingame' })
+      }, 200)
     }
   }
 }
