@@ -26,6 +26,9 @@
           />
         </div>
       </div>
+      <div v-if="this.searchUser === '*'" class="noResult TITLE">
+        유저 정보가 존재하지 않습니다.
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +56,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
+          this.$emit('getRequestList')
         })
         .catch((err) => console.log(err))
     },
@@ -64,9 +68,17 @@ export default {
           }
         })
         .then((res) => {
-          this.searchUser = res.data
+          if (
+            res.data.nickname !==
+            JSON.parse(localStorage.getItem('userInfo')).nickname
+          ) {
+            this.searchUser = res.data
+          }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err)
+          this.searchUser = '*'
+        })
     }
   }
 }
@@ -145,6 +157,11 @@ svg {
 }
 svg:hover {
   color: #a7c957;
+}
+.noResult {
+  font-size: 4vh;
+  text-align: center;
+  color: white;
 }
 ::-webkit-scrollbar {
   display: none;

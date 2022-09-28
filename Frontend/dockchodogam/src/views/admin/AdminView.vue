@@ -8,12 +8,14 @@
       <div class="dockchoManage__btn" @click="this.onClickDockcho()">
         독초몬 관리
       </div>
-      <div class="logManage__btn" @click="this.onClickLog()">로그 관리</div>
       <div class="logout__btn">로그아웃</div>
     </div>
     <div class="manage">
       <div v-if="this.now === 'user'">
         <UserManage />
+      </div>
+      <div v-if="this.now === 'dockcho'">
+        <DokchoManage />
       </div>
     </div>
   </div>
@@ -21,10 +23,12 @@
 
 <script>
 import UserManage from '@/components/admin/UserManage.vue'
+import DokchoManage from '@/components/admin/DokchoManage.vue'
 
 export default {
   components: {
-    UserManage
+    UserManage,
+    DokchoManage
   },
   data() {
     return {
@@ -40,9 +44,6 @@ export default {
     },
     onClickDockcho() {
       this.now = 'dockcho'
-    },
-    onClickLog() {
-      this.now = 'log'
     }
   }
 }

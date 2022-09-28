@@ -35,7 +35,7 @@
           </div>
         </TabItem>
         <TabItem title="친구 추가" class="friendSearch__tap">
-          <FriendSearch />
+          <FriendSearch @getRequestList="getRequestList()" />
         </TabItem>
         <TabItem title="우편함" class="friendGift__tap">
           <FriendGift />
