@@ -310,21 +310,21 @@ export default {
       console.log('상대 독초몬', this.currentYourDockCho)
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
         console.log('상대 승리')
-        postGameEnd(false)
+        this.postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentMyIdx === -1) {
         console.log('상대 승리')
-        postGameEnd(false)
+        this.postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentYourIdx === -1) {
         console.log('나 승리')
-        postGameEnd(true)
+        this.postGameEnd(true)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '승리!']
