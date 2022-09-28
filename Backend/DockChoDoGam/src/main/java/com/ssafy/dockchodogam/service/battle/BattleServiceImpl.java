@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.service.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
+import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
@@ -10,15 +11,10 @@ import com.ssafy.dockchodogam.repository.BattleRepository;
 import com.ssafy.dockchodogam.repository.MonsterRepository;
 import com.ssafy.dockchodogam.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.json.JSONObject;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 
 @Service
@@ -30,6 +26,8 @@ public class BattleServiceImpl implements BattleService {
     private final UserRepository userRepository;
     private final BattleRepository battleRepository;
     private final BattleLogRepository battleLogRepository;
+    private final KafkaTemplate<String, BattleDto> battleDtoKafkaTemplate;
+
 
     public Long createNewBattle(BattleRequestDto data) {
         Battle battle = Battle.builder()
@@ -81,5 +79,9 @@ public class BattleServiceImpl implements BattleService {
             battle.successBattle();
         }
         battle.finishBattle();
+
+        BattleDto battleDto = new BattleDto().from(battle);
+//        battleDtoKafkaTemplate.send("battles", null, battleDto);
+
     }
 }
