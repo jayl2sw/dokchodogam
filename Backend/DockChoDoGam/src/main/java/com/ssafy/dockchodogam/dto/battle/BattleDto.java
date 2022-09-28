@@ -1,8 +1,6 @@
-package com.ssafy.dockchodogam.dto.gg;
+package com.ssafy.dockchodogam.dto.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
