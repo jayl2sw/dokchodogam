@@ -53,7 +53,10 @@ public class User extends BaseTime {
     private Monster representMonster;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Purchases> purchases;
-
+    @OneToMany(mappedBy = "attacker", cascade = CascadeType.ALL)
+    private List<Battle> attack;
+    @OneToMany(mappedBy = "defender", cascade = CascadeType.ALL)
+    private List<Battle> defend;
     public void update(UpdateUserRequestDto requestDto){
         this.email = requestDto.getEmail();
         this.nickname = requestDto.getNickname();

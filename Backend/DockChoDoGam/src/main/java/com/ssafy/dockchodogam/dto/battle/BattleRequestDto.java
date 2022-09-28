@@ -1,21 +1,17 @@
-package com.ssafy.dockchodogam.dto.gg;
+package com.ssafy.dockchodogam.dto.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
 
 import java.time.format.DateTimeFormatter;
 
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
+@ApiModel(value = "BattleRequestDto", description = "배틀 생성 요청 Dto")
 public class BattleRequestDto {
     private String attacker;
     private String defender;
-    private boolean success;
+    private boolean isRank;
     private Long monster0;
     private Long monster1;
     private Long monster2;

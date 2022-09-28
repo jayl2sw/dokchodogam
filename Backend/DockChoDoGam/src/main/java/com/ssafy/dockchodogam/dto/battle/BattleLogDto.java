@@ -1,4 +1,4 @@
-package com.ssafy.dockchodogam.dto.gg;
+package com.ssafy.dockchodogam.dto.battle;
 
 import com.ssafy.dockchodogam.domain.BattleLog;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,6 @@ public class BattleLogDto {
                 .createdDate(createdDate)
                 .skill(battleLog.getSkill())
                 .skillUsage(battleLog.isSkillUsage())
-                .isFinished(battleLog.isFinished())
-                .success(battleLog.isSuccess())
                 .build();
     }
 }
