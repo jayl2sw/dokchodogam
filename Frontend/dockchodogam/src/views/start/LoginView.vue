@@ -1,8 +1,5 @@
 <template>
-  <div>로그인페이지임</div>
-
   <Login />
-  <router-view></router-view>
 </template>
 
 <script>
