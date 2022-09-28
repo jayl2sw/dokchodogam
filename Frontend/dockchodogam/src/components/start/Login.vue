@@ -88,7 +88,7 @@ export default {
           await this.$router.push({ name: 'main' })
         }
       } catch (err) {
-        throw new Error(err)
+        alert('아이디나 비밀번호를 확인해주세요🙏')
       }
     }
   }
