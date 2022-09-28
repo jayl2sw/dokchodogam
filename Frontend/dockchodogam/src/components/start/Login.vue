@@ -2,8 +2,11 @@
   <div class="background">
     <!-- <img class="background" src="@/assets/game_background.png" alt="" /> -->
     <div class="loginpage">
-      <div class="loginpage__left"></div>
+      <div class="loginpage__left">
+        <img class="loginpage__img" src="@/assets/404Image.png" alt="" />
+      </div>
       <div class="loginpage__right">
+        <img class="logo__img" src="@/assets/dokcho_logo.png" alt="" />
         <input v-model="userId" placeholder="아이디를 입력하세요" />
         <input
           v-model="userPassword"
@@ -28,9 +31,9 @@
           비밀번호찾기
         </button> -->
         <div>
-          <router-link class="findpassword__btn" to="/findpassword"
-            >비밀번호를 잊으셨나요?</router-link
-          >
+          <a class="findpassword__btn" @click="findpassword()"
+            >비밀번호를 잊으셨나요?
+          </a>
         </div>
       </div>
     </div>
@@ -109,7 +112,7 @@ button {
   border-radius: 50px;
   border: none;
   width: 10vw;
-  margin: 0 auto;
+  margin: 10px;
 }
 
 .background {
@@ -120,15 +123,68 @@ button {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginpage {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginpage__img {
+  width: 40vw;
+  height: 40vw;
+}
+
+.loginpage__left {
+  /* height: 100%; */
+  width: 30vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
 }
 
 .loginpage__right {
-  height: 100%;
-  width: 60vw;
-  margin-left: 10vw;
+  /* height: 100%; */
+  width: 30vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-content: center;
+}
+
+input {
+  display: block;
+  width: 30vw;
+  height: 7vh;
+  margin: 8px 0 8px 0;
+  padding: 10px 15px 10px 25px;
+  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
+  background-size: 20px 20px; */
+  font-size: 16px;
+  border: #ececec solid 2px;
+  border-radius: 20px;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
+}
+
+input::placeholder {
+  color: #467302;
+}
+
+input:focus {
+  outline: none;
+  border: #467302 solid 2px;
 }
 
 .loginpage__btn {
@@ -162,5 +218,52 @@ button {
 .signup__btn:hover {
   background-color: rgb(46, 60, 255);
   color: white;
+}
+
+.findpassword__btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media screen and (max-width: 850px) {
+  .background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginpage {
+    display: flex;
+    flex-direction: column;
+  }
+  .loginpage__img {
+    height: 40vh;
+    width: 40vh;
+  }
+  .loginpage__right {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo__img {
+    height: 20vh;
+  }
+  input {
+    width: 70vw;
+    height: 5vh;
+    font-size: 1.5vh;
+    background-size: 3vw 3vw;
+    padding-left: 7vw;
+  }
+  button {
+    height: 4vh;
+    border-radius: 50px;
+    border: none;
+    width: 25vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 </style>
