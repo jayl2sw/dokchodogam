@@ -125,8 +125,10 @@ public class DokchoServiceImpl implements DokchoService {
         System.out.println(data);
         double probability = (double) data.get("probability");
         Map<String, Object> res = new HashMap<>();
+        res.put("plantExist", false);
         res.put("plant", null);
-        if (probability < 0.5) {
+        if (probability < 0.4) {
+            res.put("errCode", "1: low prob");
             return res;
         }
         res.put("probability", probability);
@@ -134,16 +136,32 @@ public class DokchoServiceImpl implements DokchoService {
 //        if (false) {
             String species = (String) data.get("species");
             Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
-            Plant plant = plantBySpecies.get();
-            res.put("plant", plant);
+            if (plantBySpecies.isPresent()) {
+                Plant plant = plantBySpecies.get();
+                res.put("plantExist", true);
+                res.put("plant", plant);
+                return res;
+            } else {
+                String genus = (String) data.get("genus");
+                List<Plant> plantByGenus = plantRepository.findPlantsByGenusNm(genus);
+                if (plantByGenus.isEmpty()) {
+                    res.put("errCode", "2: no plant in species & genus");
+                } else {
+                    Plant plant = plantByGenus.get(0);
+                    res.put("plantExist", true);
+                    res.put("plant", plant);
+                }
+            }
         } else {
-
             String genus = (String) data.get("genus");
-            System.out.println(genus);
             List<Plant> plantByGenus = plantRepository.findPlantsByGenusNm(genus);
-            Plant plant = plantByGenus.get(0);
-            res.put("plant", plant);
-
+            if (plantByGenus.isEmpty()) {
+                res.put("errCode", "3: no plant in genus");
+            } else {
+                Plant plant = plantByGenus.get(0);
+                res.put("plantExist", true);
+                res.put("plant", plant);
+            }
         }
 
         return res;
@@ -254,7 +272,7 @@ public class DokchoServiceImpl implements DokchoService {
                 p.getShpe(), p.getSpft(), p.getOrplcNm(), p.getSz(), p.getSmlrPlntDesc(), p.getFlwrDesc(),
                 p.getLeafDesc(), p.getDstrb(), p.getStemDesc(), p.getFritDesc(), p.getBranchDesc(), p.getWoodDesc(),
                 p.getSporeDesc(), p.getRootDesc(), p.getFarmSpftDesc(), p.getGrwEvrntDesc(), p.getUseMthdDesc(),
-                p.getCprtCtnt());
+                p.getCprtCtnt(), p.getMonster().getMonsterId());
         return dto;
     }
 

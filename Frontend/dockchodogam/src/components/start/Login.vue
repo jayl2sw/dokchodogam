@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <img class="background" src="@/assets/game_background.png" alt="" />
+  <div class="background">
+    <!-- <img class="background" src="@/assets/game_background.png" alt="" /> -->
     <div class="loginpage">
       <div class="loginpage__left"></div>
       <div class="loginpage__right">

@@ -21,7 +21,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     )
     Integer countById(@Param("id") Long id);
 
-    Page<Friend> findByUserA(Pageable pageable, User user);
+    List<Friend> findByUserA(User user);
     List<Friend> findByUserAAndGiftExist(User user, Boolean giftExist);
     List<Friend> findByUserBAndGiftExist(User user, Boolean giftExist);
 }
