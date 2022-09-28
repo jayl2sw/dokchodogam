@@ -101,8 +101,9 @@ public class DokchoController {
         Map<String, Object> plantData = dokchoService.judgeImage(imgurl);
 
         Map<String, Object> res = new HashMap<>();
-        if (plantData.get("plant")== null){
-            res.put("data", null);
+        if (!(boolean) plantData.get("plantExist")){
+            res.put("plant", null);
+            res.put("errCode", plantData.get("errCode"));
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
         Plant plant = (Plant) plantData.get("plant");
