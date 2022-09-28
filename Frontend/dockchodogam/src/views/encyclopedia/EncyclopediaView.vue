@@ -2,7 +2,7 @@
   <LoadingPage v-if="this.isLoading" />
   <NavBar v-show="!this.isLoading" @overflow="overflow" />
   <div v-show="!this.isLoading">
-    <h1 class="dogam__title">나의 도감</h1>
+    <h1 class="dogam__title, TITLE">{{ userInfo.nickname }}의 도감</h1>
     <img
       class="new-result-btn"
       @click="shareKakao"
@@ -72,8 +72,10 @@
       <label for="SPECIAL">SPECIAL</label>
     </div>
     <div>{{ filteredMonsters.length }} / 99</div>
-    <div v-for="monster in filteredMonsters" :key="monster.monsterId">
-      <MonsterCard :monster="monster" />
+    <div>
+      <div v-for="monster in filteredMonsters" :key="monster.monsterId">
+        <MonsterCard :monster="monster" />
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +87,7 @@ import axios from 'axios'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 
 // import { BASE_URL } from '@/constant/BASE_URL'
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -104,6 +106,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     filteredMonsters() {
       if (
         !this.checkedType.length &&
