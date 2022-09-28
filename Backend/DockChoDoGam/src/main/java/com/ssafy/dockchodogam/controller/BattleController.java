@@ -48,7 +48,7 @@ public class BattleController {
     }
 
     @PostMapping("/finish")
-    @ApiOperation(value = "새 배틀 로그 생성")
+    @ApiOperation(value = "배틀 종료")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = Void.class),
             @ApiResponse(code = 401, message = "Fail", response = Void.class)
