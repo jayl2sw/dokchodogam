@@ -1,4 +1,4 @@
-package com.ssafy.dockchodogam.dto.gg;
+package com.ssafy.dockchodogam.dto.battle;
 
 import com.ssafy.dockchodogam.domain.BattleLog;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class BattleLogDto {
     private Integer attackMonsterDamage;
     private Integer defendMonsterDamage;
     private String createdDate;
-    private Long skill;
+    private String skill;
     private boolean skillUsage;
     private boolean isFinished;
     private boolean success;

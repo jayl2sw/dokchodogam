@@ -1,9 +1,7 @@
 package com.ssafy.dockchodogam.controller;
 
-import com.ssafy.dockchodogam.dto.gg.BattleDto;
-import com.ssafy.dockchodogam.dto.gg.BattleLogDto;
-import com.ssafy.dockchodogam.dto.gg.BattleLogRequestDto;
-import com.ssafy.dockchodogam.dto.gg.BattleRequestDto;
+import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
+import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
 import com.ssafy.dockchodogam.service.battle.BattleService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,9 +27,11 @@ public class BattleController {
             @ApiResponse(code = 200, message = "Success", response = Void.class),
             @ApiResponse(code = 401, message = "Fail", response = Void.class)
     })
-    public ResponseEntity<String> createNewBattle(@RequestBody BattleRequestDto data) {
-        battleService.createNewBattle(data);
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, Object>> createNewBattle(@RequestBody BattleRequestDto data) {
+        Long newBattleId = battleService.createNewBattle(data);
+        Map<String, Object> res = new HashMap<>();
+        res.put("battle_id", newBattleId);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("/logs/new")
