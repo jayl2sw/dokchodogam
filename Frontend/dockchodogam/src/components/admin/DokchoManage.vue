@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       dokchoList: [],
-      page: 0
+      dokchoPage: 0
     }
   },
   methods: {
@@ -56,13 +56,15 @@ export default {
       }
       axios
         .get(
-          BASE_URL + '/api/v1/game/monster/list?size=10&page=' + this.page,
+          BASE_URL +
+            '/api/v1/game/monster/list?size=10&page=' +
+            this.dokchoPage,
           option
         )
         .then((res) => {
           if (res.data.content.length) {
             this.dokchoList = this.dokchoList.concat(res.data.content)
-            this.page += 1
+            this.dokchoPage += 1
             $state.loaded()
           } else {
             $state.complete()

@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       userData: [],
-      page: 0
+      userPage: 0
     }
   },
   methods: {
@@ -55,11 +55,11 @@ export default {
         }
       }
       axios
-        .get(BASE_URL + '/api/v1/admin/user/list/' + this.page, option)
+        .get(BASE_URL + '/api/v1/admin/user/list/' + this.userPage, option)
         .then((res) => {
           if (res.data.length) {
             this.userData = this.userData.concat(res.data)
-            this.page += 1
+            this.userPage += 1
             $state.loaded()
           } else {
             $state.complete()
