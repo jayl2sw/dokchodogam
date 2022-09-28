@@ -1,8 +1,6 @@
-package com.ssafy.dockchodogam.dto.gg;
+package com.ssafy.dockchodogam.dto.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +17,7 @@ public class BattleDto {
     private String attacker;
     private String defender;
     private boolean success;
+    private boolean isRank;
     private String battle_time;
     private Long monster0;
     private Long monster1;
@@ -38,6 +37,7 @@ public class BattleDto {
                 .battle_id(battle.getBattle_id())
                 .attacker(battle.getAttacker().getNickname())
                 .defender(battle.getDefender().getNickname())
+                .isRank(battle.isRank())
                 .success(battle.isSuccess())
                 .battle_time(battle_time)
                 .monster0(battle.getMonster0().getMonsterId())

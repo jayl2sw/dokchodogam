@@ -30,6 +30,8 @@ public class Battle extends BaseTime {
     private User defender;
 
     private boolean success;
+    private boolean isRank;
+    private boolean wellFinished;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "monster_id0")
@@ -72,20 +74,6 @@ public class Battle extends BaseTime {
     private Monster monster9;
 
     public void successBattle() { this.success = true; }
+    public void finishBattle() { this.wellFinished = true; }
 
-    public Battle(User attacker, User defender, boolean success, Monster monster0, Monster monster1, Monster monster2, Monster monster3, Monster monster4, Monster monster5, Monster monster6, Monster monster7, Monster monster8, Monster monster9) {
-        this.attacker = attacker;
-        this.defender = defender;
-        this.success = success;
-        this.monster0 = monster0;
-        this.monster1 = monster1;
-        this.monster2 = monster2;
-        this.monster3 = monster3;
-        this.monster4 = monster4;
-        this.monster5 = monster5;
-        this.monster6 = monster6;
-        this.monster7 = monster7;
-        this.monster8 = monster8;
-        this.monster9 = monster9;
-    }
 }
