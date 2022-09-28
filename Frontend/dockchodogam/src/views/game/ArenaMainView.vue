@@ -120,7 +120,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">도움말</h5>
+            <h5 class="modal-title TITLE" id="exampleModalLabel">게임 설명</h5>
             <button
               type="button"
               class="btn-close"
@@ -128,7 +128,43 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">게임설명해줘요ㅎㅎ</div>
+          <div class="modal-body">
+            <p class="TITLE">
+              아레나에서는 여러분과 비슷한 점수의 사람들과 배틀을 할 수 있어요!
+            </p>
+            <p class="TITLE">
+              대전 상대를 골라 배틀을 시작하면<br />상대의 첫 번째 독초몬과 나의
+              첫 번째 독초몬이 서로를 공격해요.<br /><span class="emphasize"
+                >데미지는 각 독초몬의 최소 데미지와 최대 데미지 사이의
+                랜덤값</span
+              >으로, 매번 달라진답니다.<br />상대의 독초몬의 체력이 먼저 닳게
+              되면 그 다음 순서로 자동으로 넘어가요.<br />나의 독초몬의 체력이
+              모두 닳으면 다음으로 상대를 맞설 독초몬을 덱에서 골라야 해요.
+            </p>
+            <p class="TITLE">
+              배틀 도중 <span class="emphasize">딱 한 번 스킬을 발동</span>시킬
+              수 있어요.<br />오른쪽 아래의 버튼을 눌러 스킬을 사용해봐요!
+              스킬은 게임이 시작될 때 세 가지 중 랜덤으로 하나를 준답니다.<br />ㅇㅇㅇ은
+              딱 한 번 나의 독초몬을 두 배로 강하게 만들어줘요!<br />ㅁㅁㅁ은 딱
+              한 번 상대의 공격을 무효화시켜요!<br />ㅂㅂㅂ은 딱 한 번 상대의
+              공격을 그대로 상대에게 반사시켜줘요! 대신, 나의 독초몬은 상대를
+              공격할 수 없답니다.
+            </p>
+            <p class="TITLE">
+              독초몬끼리는 상성이 있는데,
+              <span class="emphasize">서로가 붙었을 때 공격 버프</span>를 받을
+              수 있어요.<br />잡초몬과 독초몬이 만나면 독초몬이 20% 강해져요!<br />독초몬과
+              약초몬이 만나면 약초몬이 20% 강해져요!<br />약초몬과 잡초몬이
+              만나면 잡초몬이 20% 강해져요!
+            </p>
+            <p class="TITLE">
+              아레나는 상대가 불리한 규칙으로 진행되기 때문에
+              <span class="emphasize"
+                >만약 무승부로 게임이 끝난다면 이는 상대의 승리</span
+              >랍니다.
+            </p>
+            <p class="TITLE">그럼 즐거운 아레나를 시작해볼까요?</p>
+          </div>
         </div>
       </div>
     </div>
@@ -227,10 +263,7 @@ export default {
     setTimeout(() => {
       this.isLoading = false
       if (this.enemyInfo.nickname) {
-        console.log(this.enemyInfo.nickname)
-        alert('먼데 데이터있음')
         this.fetchEnemyInfo('')
-        console.log(this.enemyInfo.nickname)
       }
     }, 1500)
   },
@@ -525,6 +558,38 @@ export default {
   cursor: pointer;
   background-color: #ececec;
 }
+.modal-dialog {
+  min-width: 90vw;
+  margin: 5vh auto;
+}
+.modal-content {
+  width: 50vw;
+  max-height: 80vh;
+  border-radius: 5vh;
+  border: none;
+  margin: 0 auto;
+}
+.modal-header {
+  padding: 2vw 2vw;
+  border: none;
+}
+.modal-title {
+  font-size: 2vh;
+}
+.modal-body {
+  font-size: 1.5vh;
+  line-height: 3vh;
+  padding: 2vh 2vw;
+  overflow: scroll;
+}
+.modal-body::-webkit-scrollbar {
+  display: none;
+}
+.emphasize {
+  font-family: 'UhBeeSe_hyun';
+  color: #467302;
+  font-size: 1.8vh;
+}
 @media screen and (max-width: 850px) {
   .game__info {
     top: 10px;
@@ -534,6 +599,13 @@ export default {
   }
   svg {
     width: 10px;
+  }
+  .modal-content {
+    min-width: 50vw;
+    max-height: 80vh;
+    border-radius: 20px;
+    border: none;
+    overflow: scroll;
   }
 }
 </style>

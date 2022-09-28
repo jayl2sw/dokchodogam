@@ -63,17 +63,14 @@ export default {
     onClickChange() {
       const option = {
         headers: {
-          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+          'Content-type': 'application/json'
         }
       }
       if (this.selectDokcho !== '') {
         axios
-          .put(
-            BASE_URL + '/api/v1/user/monster/' + this.selectDokcho,
-            { monster_id: this.selectDokcho },
-            option
-          )
-          .then((res) => {
+          .put(BASE_URL + '/api/v1/user/monster', this.selectDokcho, option)
+          .then(() => {
             axios.get(BASE_URL + '/api/v1/user/myinfo', option).then((res) => {
               this.fetchUserInfo(res.data)
               this.closeChangeDokcho()

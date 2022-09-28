@@ -1,4 +1,5 @@
 <template>
+  <LoadingPage v-if="this.isLoading" />
   <NavBar @overflow="overflow" />
   <div class="camera">
     <div class="camera__body">
@@ -25,6 +26,7 @@ import axios from 'axios'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 // import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
+import swal from 'sweetalert'
 
 export default defineComponent({
   name: 'App',
@@ -56,12 +58,12 @@ export default defineComponent({
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/camera.mp3')
       audio.play()
       const blob = await camera.value?.snapshot({
-        width: 1280,
-        height: 720
+        width: 500,
+        height: 500
       })
 
       const formdata = new FormData()
-      formdata.append('img', blob)
+      formdata.append('file', blob)
 
       const url = URL.createObjectURL(blob!)
       console.log(formdata)
@@ -72,7 +74,7 @@ export default defineComponent({
       // console.log(currentSnapshot.value)
 
       axios({
-        url: `${BASE_URL} + /api/v1/dokcho/judge`,
+        url: BASE_URL + '/api/v1/dokcho/judge/',
         method: 'POST',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -81,15 +83,25 @@ export default defineComponent({
         data: formdata
       })
         .then((res) => {
-          console.log(res)
-          result.value = res
-          // router push 하면서 result.value 담아서 보내기
-          router.push({
-            path: '/camera/result',
-            params: result.value
-          })
+          console.log(res.data)
+          if (res.data === null) {
+            swal({
+              title: '사진을 다시 찍어주세요 😢',
+              text: '찍어 주신 사진을 인식하지 못했어요 ...',
+              icon: 'error',
+              timer: 1500
+            })
+          } else {
+            result.value = res.data
+            // router push 하면서 result.value 담아서 보내기
+            router.push({
+              path: '/camera/result',
+              params: result.value
+            })
+          }
         })
         .catch((err) => {
+          alert(err)
           console.log(err)
         })
     }

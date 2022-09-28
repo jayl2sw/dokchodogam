@@ -80,6 +80,7 @@ import NavBar from '@/components/main/NavBar.vue'
 import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 export default {
   components: {
@@ -130,13 +131,23 @@ export default {
           )
           .then((res) => {
             console.log(res)
-            alert('비밀번호가 변경되었습니다!😘')
+            swal({
+              title: '비밀번호가 변경되었습니다!😘',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
           })
           .catch((err) => {
             console.log(err)
           })
       } else {
-        alert('새 비밀번호를 한번 더 확인해 주세요😢')
+        swal({
+          title: '새 비밀번호를 한번 더 확인해 주세요😢',
+          icon: 'error',
+          buttons: false,
+          timer: 1500
+        })
       }
     }
   },
