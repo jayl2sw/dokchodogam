@@ -101,6 +101,8 @@ import ArenaGameResult from '@/components/game/arena/ArenaGameResult.vue'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 import _ from 'lodash'
 import swal from 'sweetalert'
+import { BASE_URL } from '@/constant/BASE_URL'
+import axios from 'axios'
 
 export default {
   components: {
@@ -110,6 +112,7 @@ export default {
   },
   data() {
     return {
+      battleId: 0,
       isLoading: true,
       round: 1,
       isAttack: false,
@@ -245,8 +248,6 @@ export default {
               this.myDamage = this.yourDamage
               this.yourDamage = 0
             }
-            this.nowUseSkill = false
-            this.isUseSkill = true
           }
           this.judged()
         }, 300)
@@ -255,6 +256,11 @@ export default {
     judged() {
       this.currentMyDockCho.currentHp -= this.yourDamage
       this.currentYourDockCho.currentHp -= this.myDamage
+      this.postGameLog()
+      if (this.nowUseSkill) {
+        this.isUseSkill = true
+        this.nowUseSkill = false
+      }
       setTimeout(() => {
         this.myDamage = ''
         this.yourDamage = ''
@@ -304,21 +310,24 @@ export default {
       console.log('상대 독초몬', this.currentYourDockCho)
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
         console.log('상대 승리')
+        this.postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '패배']
+          this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentMyIdx === -1) {
         console.log('상대 승리')
+        this.postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '패배']
+          this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentYourIdx === -1) {
         console.log('나 승리')
+        this.postGameEnd(true)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '승리!']
+          this.resultInfo = [this.enemyInfo.isChinsun, '승리!']
         }, 1000)
       } else if (this.currentMyDockCho && this.currentYourDockCho === '') {
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
@@ -348,17 +357,85 @@ export default {
       if (!this.isUseSkill) {
         this.nowUseSkill = true
       }
+    },
+    postGameStart() {
+      const data = {
+        attacker: JSON.parse(localStorage.getItem('userInfo')).nickname,
+        defender: this.enemyInfo.nickname,
+        monster0: this.myDockChoList[0].monsterId,
+        monster1: this.myDockChoList[1].monsterId,
+        monster2: this.myDockChoList[2].monsterId,
+        monster3: this.myDockChoList[3].monsterId,
+        monster4: this.myDockChoList[4].monsterId,
+        monster5: this.yourDockChoList[0].monsterId,
+        monster6: this.yourDockChoList[1].monsterId,
+        monster7: this.yourDockChoList[2].monsterId,
+        monster8: this.yourDockChoList[3].monsterId,
+        monster9: this.yourDockChoList[4].monsterId,
+        rank: true
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/new', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.battleId = res.data.battleId
+        })
+        .catch((err) => console.log(err))
+    },
+    postGameLog() {
+      const data = {
+        attackMonsterDamage: this.myDamage,
+        attackMonsterHp: this.currentMyDockCho.currentHp,
+        attackMonsterId: this.currentMyDockCho.monsterId,
+        battleId: this.battleId,
+        defendMonsterDamage: this.yourDamage,
+        defendMonsterHp: this.currentYourDockCho.currentHp,
+        defendMonsterId: this.currentYourDockCho.monsterId,
+        round: this.round,
+        skill: this.skill,
+        skillUsage: this.nowUseSkill
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/logs/new', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err))
+    },
+    postGameEnd(win) {
+      const data = {
+        battleId: this.battleId,
+        success: win
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/finish', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err))
     }
   },
   created() {
     this.fetchUserDeck()
+    this.isChinsun = this.enemyInfo.isChinsun
     if (!this.enemyInfo.nickname) {
-      this.$router.push({ path: '/game/arena' })
+      this.$router.push({ path: '/main' })
     }
     setTimeout(() => {
       this.isLoading = false
       this.myDockChoList = this.userDeck
       this.yourDockChoList = this.enemyInfo.enemyDeck
+      this.postGameStart()
       if (this.enemyInfo.nickname) {
         this.gameStart()
       }

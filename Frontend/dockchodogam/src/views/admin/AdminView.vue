@@ -8,12 +8,20 @@
       <div class="dockchoManage__btn" @click="this.onClickDockcho()">
         독초몬 관리
       </div>
-      <div class="logManage__btn" @click="this.onClickLog()">로그 관리</div>
-      <div class="logout__btn">로그아웃</div>
+      <div class="dockchoAdd__btn" @click="this.onClickAddDockcho()">
+        독초몬 추가
+      </div>
+      <div class="goToMain__btn" @click="this.goToMain()">메인으로</div>
     </div>
     <div class="manage">
       <div v-if="this.now === 'user'">
         <UserManage />
+      </div>
+      <div v-if="this.now === 'dockcho'">
+        <DokchoManage />
+      </div>
+      <div v-if="this.now === 'addDockcho'">
+        <AddDokcho />
       </div>
     </div>
   </div>
@@ -21,10 +29,14 @@
 
 <script>
 import UserManage from '@/components/admin/UserManage.vue'
+import DokchoManage from '@/components/admin/DokchoManage.vue'
+import AddDokcho from '@/components/admin/AddDokcho.vue'
 
 export default {
   components: {
-    UserManage
+    UserManage,
+    DokchoManage,
+    AddDokcho
   },
   data() {
     return {
@@ -41,8 +53,11 @@ export default {
     onClickDockcho() {
       this.now = 'dockcho'
     },
-    onClickLog() {
-      this.now = 'log'
+    onClickAddDockcho() {
+      this.now = 'addDockcho'
+    },
+    goToMain() {
+      this.$router.push({ path: '/main' })
     }
   }
 }
