@@ -190,9 +190,8 @@ export default {
   top: 50%;
   /* left: 50%; */
   transition: transform 0.25s ease;
-  object-fit: contain;
   /* transform: translate(-20%, -20%); */
-  /* width: 50%; */
+  width: 50%;
 }
 
 .arrow_box {
