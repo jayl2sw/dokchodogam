@@ -112,23 +112,14 @@ public class GameController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/deck/friendInfo")
-    @ApiOperation(value = "친구의 프로필 정보와 덱 조회",
-            notes = "friends 키로 상대 세 명의 UserResponseDto를, friendDecks 키로 상대 세 명의 MonsterInfoResponseDto의 리스트를 응답한다")
-    public ResponseEntity<?> getFriendDeck(){
-        Map<String, Object> map = new HashMap<>();
-        // 친구의 유저 정보 및 덱 정보 조회
 
-        List<UserResponseDto> friends = userService.getFriendInfoList();
-
-        List<List<MonsterInfoResponseDto>> friendDecks = friends
-                .stream().map(s -> gameService.getMyDeck(s.getUser_id()))
-                .collect(Collectors.toList());
-        map.put("friends", friends);
-        map.put("friendDecks", friendDecks);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+    @GetMapping("/deck/friendInfo/{user_id}")
+    @ApiOperation(value = "친구의 덱 조회", notes = "친구의 아이디로 친구의 덱을 조회한다")
+    public ResponseEntity<?> getFriendDeck(@PathVariable @ApiParam(value = "친구 아이디") Long user_id){
+        return new ResponseEntity<>(gameService.getMyDeck(user_id), HttpStatus.OK);
     }
 
+    
     // 아직 안 함 ======================================================================================================
     @PostMapping("/battle/turn")
     @ApiOperation(value = "배틀 결과 저장")
