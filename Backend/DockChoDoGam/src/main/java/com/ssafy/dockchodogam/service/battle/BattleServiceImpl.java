@@ -3,7 +3,6 @@ package com.ssafy.dockchodogam.service.battle;
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
 import com.ssafy.dockchodogam.dto.gg.BattleDto;
-import com.ssafy.dockchodogam.dto.gg.BattleLogDto;
 import com.ssafy.dockchodogam.dto.gg.BattleLogRequestDto;
 import com.ssafy.dockchodogam.dto.gg.BattleRequestDto;
 import com.ssafy.dockchodogam.repository.BattleLogRepository;

@@ -1,17 +1,9 @@
 package com.ssafy.dockchodogam.dto.gg;
 
-import com.ssafy.dockchodogam.domain.BattleLog;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.format.DateTimeFormatter;
 
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class BattleLogRequestDto {
     private Integer round;
     private Long battleId;
@@ -23,6 +15,6 @@ public class BattleLogRequestDto {
     private Integer defendMonsterDamage;
     private Long skill;
     private boolean skillUsage;
-    private boolean isFinished;
+    private boolean finished;
     private boolean success;
 }
