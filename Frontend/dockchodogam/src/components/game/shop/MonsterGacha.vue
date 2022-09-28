@@ -1,11 +1,14 @@
 <template>
   <div class="gacha">
     <div class="gacha__header">
-      <h3>독초몬 뽑기</h3>
+      <h3 h2 class="TITLE">독초몬 뽑기</h3>
+      <p>커먼 ~ 스페셜까지 모두 등장!</p>
     </div>
     <div class="gacha__body">
-      <img class="gatcha__img" src="@/assets/tree.png" />
-      <button @click="doubleCheck">뽑기</button>
+      <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
+      <button class="btn" @click="doubleCheck">
+        <span class="TITLE">💰 100냥</span>
+      </button>
     </div>
   </div>
 </template>
@@ -73,15 +76,44 @@ export default {
 }
 .gacha__header {
   text-align: center;
+  margin-top: 5vh;
 }
 
+.gacha__header h3 {
+  margin-bottom: 1vh;
+}
+
+.gacha__header p {
+  margin: 0;
+}
 .gacha__body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .gatcha__img {
   width: 20vw;
-  height: 30vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn {
+  width: 10vw;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
 }
 </style>
