@@ -1,60 +1,53 @@
 <template>
-  <div class="container">
-    <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
-      <div class="imgBx">
-        <img
-          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-          class="card__img"
-          style="-webkit-user-drag: none"
-        />
+  <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
+    <div class="imgBx">
+      <div class="arrow_box">
+        <p>대사 : {{ monster.line }}</p>
       </div>
-      <div
-        :class="{
-          card__common: monster.grade == 'COMMON',
-          card__rare: monster.grade == 'RARE',
-          card__epic: monster.grade == 'EPIC',
-          card__legendary: monster.grade == 'LEGENDARY',
-          card__special: monster.grade == 'SPECIAL'
-        }"
-        class="contentBx"
-      >
-        <br />
-        <p class="TITLE">00{{ monster.monsterId }}</p>
-        <h3 class="TITLE">{{ monster.name }}몬</h3>
-        <div class="size">
-          <p>
-            타입 : {{ this.monster.type }} <br />등급 :
-            {{ this.monster.grade }} <br />
-            체력 : {{ this.monster.hp }} <br />
-            공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
-          </p>
-        </div>
-      </div>
+      <img
+        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+        class="card__img"
+        style="-webkit-user-drag: none"
+      />
     </div>
-
     <div
-      v-else-if="monster.got == false && monster.monsterId !== 0"
-      class="card"
+      :class="{
+        card__common: monster.grade == 'COMMON',
+        card__rare: monster.grade == 'RARE',
+        card__epic: monster.grade == 'EPIC',
+        card__legendary: monster.grade == 'LEGENDARY',
+        card__special: monster.grade == 'SPECIAL'
+      }"
+      class="contentBx"
     >
-      <div class="card__dontHaveimg">
-        <img
-          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-          class="card__img"
-          style="-webkit-user-drag: none"
-        />
-      </div>
-      <div class="contentBx">
-        <p>00{{ monster.monsterId }}</p>
-        <h2>???</h2>
-        <div class="size">
-          <p>
-            <br />
-            뽑아서 확인하세요.
-          </p>
-        </div>
+      <br />
+      <p class="TITLE">00{{ monster.monsterId }}</p>
+      <h3 class="TITLE">{{ monster.name }}몬</h3>
+      <div class="size">
+        <p>
+          타입 : {{ this.monster.type }} <br />등급 : {{ this.monster.grade }}
+          <br />
+          체력 : {{ this.monster.hp }} <br />
+          공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
+        </p>
       </div>
     </div>
   </div>
+
+  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
+    <div class="dontHaveimgBx">
+      <img
+        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+        class="card__dontHaveimg"
+        style="-webkit-user-drag: none"
+      />
+    </div>
+    <div class="dontHavecontentBx">
+      <p>00{{ monster.monsterId }}</p>
+      <h2>???</h2>
+    </div>
+  </div>
+
   <!-- isGot 확인해서 v-if 걸기 -->
   <!-- <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
     <div
@@ -158,30 +151,31 @@ export default {
 </script>
 
 <style scoped>
-body {
+/* body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   background: #131313;
-}
+} */
 
-.container {
+/* .container {
   position: relative;
-}
+} */
 
-.container .card {
+.card {
   position: relative;
-  width: 320px;
-  height: 450px;
+  width: 15vw;
+  height: 50vh;
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  margin: 0;
+  margin-bottom: 2vh;
+  /* margin: 0; */
 }
 
 .container .card .imgBx {
-  position: absolute;
+  /* position: absolute; */
   top: 35%;
   transform: translateY(-50%);
   z-index: 10000;
@@ -196,27 +190,49 @@ body {
 }
 
 .container .card .imgBx img {
-  position: absolute;
+  /* position: absolute; */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-25deg);
-  width: 270px;
+  transform: translate(-50%, -50%);
+  width: 50%;
 }
 
+.container .card .imgBx .arrow_box {
+  position: relative;
+  background: #d6c1c1;
+  border-radius: 20px;
+  margin: 2vh;
+  height: 5vh;
+  text-align: center;
+}
+.container .card .imgBx .arrow_box:after {
+  top: 100%;
+  left: 70%;
+  border: solid transparent;
+  content: '';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  /* border-color: rgba(214, 193, 193, 0); */
+  border-top-color: #d6c1c1;
+  border-width: 3vh;
+  margin-left: -3vw;
+}
 .container .card .card__dontHaveimg {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
   z-index: 10000;
   width: 100%;
-  height: 220px;
-  transition: 0.5s;
+  /* height: 220px; */
+  /* transition: 0.5s; */
   filter: brightness(100%);
 }
 
 .container .card:hover .card__dontHaveimg {
-  top: 0%;
-  transform: translateY(0%);
+  /* top: 0%; */
+  /* transform: translateY(0%); */
   filter: brightness(100%);
 }
 
@@ -224,12 +240,22 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-25deg);
+  /* transform: translate(-50%, -50%); */
   width: 270px;
   filter: brightness(100%);
 }
 
 .container .card .contentBx {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20vh;
+  text-align: center;
+  transition: 1s;
+  z-index: 10;
+}
+
+.container .card .dontHavecontentBx {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -247,7 +273,7 @@ body {
 .container .card .contentBx p {
   position: relative;
   font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 1em;
   color: #000000;
   margin: 0;
 }
@@ -265,6 +291,16 @@ body {
   padding-top: 0;
   padding-bottom: 0;
   color: white;
+}
+
+.container .card .dontHavecontentBx h2,
+.container .card .dontHavecontentBx p {
+  position: relative;
+  font-weight: 600;
+  font-size: 1em;
+  color: #000000;
+  margin-top: 3vh;
+  font-family: 'UhBeeSe_hyun';
 }
 
 .container .card:hover .contentBx .size {
