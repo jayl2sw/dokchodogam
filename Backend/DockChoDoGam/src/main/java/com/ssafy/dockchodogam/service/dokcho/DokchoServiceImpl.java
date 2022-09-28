@@ -23,8 +23,6 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -124,26 +122,44 @@ public class DokchoServiceImpl implements DokchoService {
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
         Map<String, Object> data = getGenusAndProb(jsonData);
-        String species = (String) data.get("species");
-        String genus = (String) data.get("genus");
-        Float probability = (Float) data.get("probability");
-
-        Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
-
+        System.out.println(data);
+        double probability = (double) data.get("probability");
         Map<String, Object> res = new HashMap<>();
+        res.put("plantExist", false);
         res.put("plant", null);
-        if (probability < 0.5) {
+        if (probability < 0.4) {
+            res.put("errCode", "1: low prob");
             return res;
         }
-
         res.put("probability", probability);
-        if (plantBySpecies.isPresent()) {
-            Plant plant = plantBySpecies.get();
-            res.put("plant", plant);
+        if (data.containsKey("species")) {
+//        if (false) {
+            String species = (String) data.get("species");
+            Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
+            if (plantBySpecies.isPresent()) {
+                Plant plant = plantBySpecies.get();
+                res.put("plantExist", true);
+                res.put("plant", plant);
+                return res;
+            } else {
+                String genus = (String) data.get("genus");
+                List<Plant> plantByGenus = plantRepository.findPlantsByGenusNm(genus);
+                if (plantByGenus.isEmpty()) {
+                    res.put("errCode", "2: no plant in species & genus");
+                } else {
+                    Plant plant = plantByGenus.get(0);
+                    res.put("plantExist", true);
+                    res.put("plant", plant);
+                }
+            }
         } else {
-            Optional<Plant> plantByGenus = plantRepository.findPlantByGenusNm(genus);
-            if (plantByGenus.isPresent()) {
-                Plant plant = plantByGenus.get();
+            String genus = (String) data.get("genus");
+            List<Plant> plantByGenus = plantRepository.findPlantsByGenusNm(genus);
+            if (plantByGenus.isEmpty()) {
+                res.put("errCode", "3: no plant in genus");
+            } else {
+                Plant plant = plantByGenus.get(0);
+                res.put("plantExist", true);
                 res.put("plant", plant);
             }
         }
@@ -228,21 +244,23 @@ public class DokchoServiceImpl implements DokchoService {
         return sendPostRequest("https://api.plant.id/v2/identify", data);
     }
 
-    public Map<String, Object> getGenusAndProb(String data) throws ParseException, JSONException {
-        JSONParser jsonParser= new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
+    public Map<String, Object> getGenusAndProb(String data) throws JSONException {
+        Map<String, Object> res = new HashMap<>();
+        JSONObject jsonObject = new JSONObject(data);
         JSONArray suggestions = (JSONArray) jsonObject.get("suggestions");
         JSONObject candidate = (JSONObject) suggestions.get(0);
-        float probability = (float) candidate.get("probability");
+        double probability = (double) candidate.get("probability");
         JSONObject plant_details = (JSONObject) candidate.get("plant_details");
         JSONObject structured_name = (JSONObject) plant_details.get("structured_name");
         String genus = (String) structured_name.get("genus");
-        String species = (String) structured_name.get("species");
+        if (structured_name.has("species")) {
+            String species = (String) structured_name.get("species");
+            res.put("species", species);
+        }
 
-        Map<String, Object> res = new HashMap<>();
         res.put("probability", probability);
         res.put("genus", genus);
-        res.put("species", species);
+
 
         return res;
     }
@@ -254,7 +272,7 @@ public class DokchoServiceImpl implements DokchoService {
                 p.getShpe(), p.getSpft(), p.getOrplcNm(), p.getSz(), p.getSmlrPlntDesc(), p.getFlwrDesc(),
                 p.getLeafDesc(), p.getDstrb(), p.getStemDesc(), p.getFritDesc(), p.getBranchDesc(), p.getWoodDesc(),
                 p.getSporeDesc(), p.getRootDesc(), p.getFarmSpftDesc(), p.getGrwEvrntDesc(), p.getUseMthdDesc(),
-                p.getCprtCtnt());
+                p.getCprtCtnt(), p.getMonster().getMonsterId());
         return dto;
     }
 

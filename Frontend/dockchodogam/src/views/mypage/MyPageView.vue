@@ -1,9 +1,17 @@
 <template>
   <NavBar @overflow="overflow" />
-  <div class="mypage">
+  <div
+    class="mypage"
+    :class="
+      this.showMenu ? 'open-menu' : this.showChangeDokchoMenu ? 'open-menu' : ''
+    "
+  >
     <div class="mypage__left">
       <div class="myDockcho">
-        <img src="@/assets/loading/5.png" alt="representative" />
+        <img
+          :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+          alt=""
+        />
       </div>
       <button class="change__dockcho" @click="this.onClickChangeDokcho()">
         대표 독초몬 변경
@@ -36,13 +44,27 @@
       </div>
       <div class="changePw__form" :class="this.isNone ? '' : 'displayNone'">
         <div class="changePw__inputs">
-          <input type="password" placeholder="현재 비밀번호" />
-          <input type="password" placeholder="새 비밀번호" />
-          <input type="password" placeholder="새 비밀번호 확인" />
+          <input
+            v-model="oldPassword"
+            type="password"
+            placeholder="현재 비밀번호"
+          />
+          <input
+            v-model="newPassword"
+            type="password"
+            placeholder="새 비밀번호"
+          />
+          <input
+            v-model="newPassword2"
+            type="password"
+            placeholder="새 비밀번호 확인"
+          />
         </div>
         <div class="changePw__btn">
           <button @click="this.displayNone()" class="cancel__btn">취소</button>
-          <button class="complete__btn">수정 완료</button>
+          <button @click="this.changePassword()" class="complete__btn">
+            수정 완료
+          </button>
         </div>
       </div>
     </div>
@@ -56,6 +78,9 @@
 <script>
 import NavBar from '@/components/main/NavBar.vue'
 import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 export default {
   components: {
@@ -67,7 +92,11 @@ export default {
       showMenu: false,
       isNone: false,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      showChangeDokchoMenu: false
+      showChangeDokchoMenu: false,
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      newPassword2: this.newPassword2,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   methods: {
@@ -82,6 +111,49 @@ export default {
     },
     onClickChangeDokcho() {
       this.showChangeDokchoMenu = true
+    },
+    changePassword() {
+      if (this.newPassword === this.newPassword2) {
+        console.log(this.newPassword)
+        console.log(this.newPassword2)
+        axios
+          .put(
+            BASE_URL + '/api/v1/user/password',
+            {
+              newPW: this.newPassword
+            },
+            {
+              headers: {
+                'Content-type': 'application/json',
+                AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+              }
+            }
+          )
+          .then((res) => {
+            console.log(res)
+            swal({
+              title: '비밀번호가 변경되었습니다!😘',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else {
+        swal({
+          title: '새 비밀번호를 한번 더 확인해 주세요😢',
+          icon: 'error',
+          buttons: false,
+          timer: 1500
+        })
+      }
+    }
+  },
+  watch: {
+    showChangeDokchoMenu() {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     }
   }
 }
@@ -304,6 +376,10 @@ button {
   .complete__btn {
     width: 20vw;
     font-size: 2.5vw;
+  }
+  .open-menu {
+    overflow: hidden;
+    position: fixed;
   }
 }
 </style>

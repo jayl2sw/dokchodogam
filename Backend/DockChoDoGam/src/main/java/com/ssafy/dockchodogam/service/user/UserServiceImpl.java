@@ -247,9 +247,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserResponseDto> search(int page, String keyword) {
-        return userRepository.findByNicknameContaining(PageRequest.of(page, 10), keyword).stream()
-                .map(user -> UserResponseDto.from(user)).collect(Collectors.toList());
+    public UserResponseDto search(String keyword) {
+        User user = userRepository.findByNickname(keyword).orElseThrow(UserNotFoundException::new);
+
+        return UserResponseDto.from(user);
     }
 
     @Override
@@ -270,9 +271,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<ProposeResponseDto> showFriendRequest(int page){
+    public List<ProposeResponseDto> showFriendRequest(){
         Long myId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
-        return proposeRepository.findAllByReceiver(PageRequest.of(page, 10), myId).stream()
+        return proposeRepository.findAllByReceiver(myId).stream()
                 .map(propose -> ProposeResponseDto.from(propose)).collect(Collectors.toList());
     }
 
@@ -303,18 +304,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<FriendResponseDto> getFriendList(int page) {
+    public List<FriendResponseDto> getFriendList() {
         User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
 
-        return friendRepository.findByUserA(PageRequest.of(page, 10), me).stream()
+        return friendRepository.findByUserA(me).stream()
                 .map(friend->FriendResponseDto.from(friend, friend.getUserB()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UserResponseDto> getFriendInfoList(Pageable pageable) {
+    public List<UserResponseDto> getFriendInfoList() {
         User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        return friendRepository.findByUserA(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), me)
+        return friendRepository.findByUserA(me)
                 .stream().map(s -> UserResponseDto.from(s.getUserB())).collect(Collectors.toList());
     }
 

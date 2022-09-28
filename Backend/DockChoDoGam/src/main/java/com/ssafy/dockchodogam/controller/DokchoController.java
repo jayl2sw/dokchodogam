@@ -101,11 +101,15 @@ public class DokchoController {
         Map<String, Object> plantData = dokchoService.judgeImage(imgurl);
 
         Map<String, Object> res = new HashMap<>();
-        if (plantData.get("plant")== null){
-            res.put("data", null);
+        if (!(boolean) plantData.get("plantExist")){
+            res.put("plant", null);
+            res.put("errCode", plantData.get("errCode"));
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
         Plant plant = (Plant) plantData.get("plant");
+        PlantDetailDto plantDto = dokchoService.createDto(plant);
+        res.put("plant", plantDto);
+
         boolean onDogam = false;
         boolean isOverlapped = false;
         boolean isDokcho = false;
@@ -121,11 +125,11 @@ public class DokchoController {
                 isDokcho = true;
             }
         }
-
         res.put("onDogam", onDogam);
         res.put("isOverlapped", isOverlapped);
         res.put("isDokcho", isDokcho);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("/today")

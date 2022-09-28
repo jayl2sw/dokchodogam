@@ -1,17 +1,48 @@
 <template>
   <div class="lists">
     <div class="left">
-      <img src="@/assets/loading/1.png" alt="" />
-      <p class="TITLE name">username</p>
+      <img
+        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        alt=""
+      />
+      <p class="TITLE name">{{ this.friend.nickname }}</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-trash" />
+      <font-awesome-icon
+        icon="fa-solid fa-trash"
+        @click="this.deleteFriend()"
+      />
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+
+export default {
+  props: ['friend'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL
+    }
+  },
+  methods: {
+    deleteFriend() {
+      axios
+        .delete(BASE_URL + '/api/v1/user/friend/' + this.friend.user_id, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.$emit('getFriendList')
+        })
+        .catch((err) => console.log(err))
+    }
+  }
+}
 </script>
 
 <style scoped>

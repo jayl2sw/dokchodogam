@@ -4,12 +4,18 @@
       class="flipbook"
       :pages="[
         null,
-        'https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201712/21/d1a9665f-e292-4444-85ce-05fed763c516.jpg',
-        'https://item-shopping.c.yimg.jp/i/z/niyantarose_sngl2108',
-        'https://img.hankyung.com/photo/202008/AKR20200831108100005_01_i.jpg',
-        'https://item-shopping.c.yimg.jp/i/z/seoul4_97712277340162106a',
-        'https://image.aladin.co.kr/product/28009/41/cover500/scm7931752657512.jpg',
-        'https://spnimage.edaily.co.kr/images/photo/files/NP/S/2016/04/PS16041900068.jpg'
+        require('@/assets/intro/001.png'),
+        require('@/assets/intro/002.png'),
+        require('@/assets/intro/003.png'),
+        require('@/assets/intro/004.png'),
+        require('@/assets/intro/005.png'),
+        require('@/assets/intro/006.png'),
+        require('@/assets/intro/007.png'),
+        require('@/assets/intro/008.png'),
+        require('@/assets/intro/009.png'),
+        require('@/assets/intro/010.png'),
+        require('@/assets/intro/011.png'),
+        require('@/assets/intro/012.png')
       ]"
       :zooms="null"
       :flipDuration="2000"

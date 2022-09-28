@@ -1,7 +1,7 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
-  <NavBar @overflow="overflow" />
-  <div>
+  <NavBar v-show="!this.isLoading" @overflow="overflow" />
+  <div v-show="!this.isLoading">
     <h1 class="dogam__title">나의 도감</h1>
     <img
       class="new-result-btn"
@@ -98,8 +98,9 @@ export default {
       monsters: [],
       checkedType: [],
       checkedGrade: [],
-      checkedGot: [],
-      isLoading: true
+      checkedGot: ['true'],
+      isLoading: true,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
   computed: {
@@ -219,7 +220,7 @@ export default {
     this.fetchMonsterList()
     setTimeout(() => {
       this.isLoading = false
-    }, 1500)
+    }, 2000)
   }
 }
 </script>

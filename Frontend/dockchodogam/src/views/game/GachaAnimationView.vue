@@ -10,8 +10,12 @@
       }"
     >
       <div>
-        <img src="@/assets/loading/3.png" class="card__img" />
-        <p>{{ newMonster.name }}</p>
+        <p>00{{ newMonster.monsterId }}</p>
+        <h3>{{ newMonster.name }}몬</h3>
+        <img
+          :src="this.imageBaseUrl + '/' + newMonster.monsterId + '.png'"
+          class="card__img"
+        />
       </div>
     </div>
   </div>

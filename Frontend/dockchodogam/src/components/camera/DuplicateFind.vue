@@ -1,6 +1,6 @@
 <template>
   <div class="find">
-    <h3>{ }를 이미 발견하셨어요!</h3>
+    <h3>{{ plant.name }}를 이미 발견하셨어요!</h3>
     <p>최초 발견자 : {}</p>
 
     <div>
@@ -13,7 +13,7 @@
 <script>
 export default {
   props: {
-    modelValue: Object
+    plant: Object
   },
   methods: {
     goToEncyclopedia() {

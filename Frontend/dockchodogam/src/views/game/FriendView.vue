@@ -11,16 +11,24 @@
           <div class="friendManage__tap">
             <div class="friendManage">
               <div v-for="(friend, i) in this.friendList" :key="i">
-                <FriendListManage :friend="friend" class="friendManageList" />
+                <FriendListManage
+                  :friend="friend"
+                  class="friendManageList"
+                  @getFriendList="getFriendList()"
+                />
               </div>
             </div>
-            <div class="friendGift">
-              <div class="friendGift__top">
+            <div class="friendRequest">
+              <div class="friendRequest__top">
                 <p class="TITLE">NEW 친구 신청</p>
               </div>
-              <div class="friendGift__bottom">
-                <div v-for="(gift, i) in this.giftList" :key="i">
-                  <FriendGift :gift="gift" />
+              <div class="friendRequest__bottom">
+                <div v-for="(request, i) in this.requestList" :key="i">
+                  <FriendRequest
+                    :request="request"
+                    @getRequestList="getRequestList()"
+                    @getFriendList="getFriendList()"
+                  />
                 </div>
               </div>
             </div>
@@ -29,8 +37,8 @@
         <TabItem title="친구 추가" class="friendSearch__tap">
           <FriendSearch />
         </TabItem>
-        <TabItem title="우편함" class="friendRequest__tap">
-          <FriendRequest />
+        <TabItem title="우편함" class="friendGift__tap">
+          <FriendGift />
         </TabItem>
       </TabWrapper>
       <div class="friend__exit" @click="goToArenaMain()">
@@ -48,6 +56,8 @@ import FriendListManage from '@/components/game/friend/FriendListManage.vue'
 import FriendGift from '@/components/game/friend/FriendGift.vue'
 import FriendSearch from '@/components/game/friend/FriendSearch.vue'
 import FriendRequest from '@/components/game/friend/FriendRequest.vue'
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
   components: {
@@ -61,14 +71,55 @@ export default {
   },
   data() {
     return {
-      friendList: [1, 2, 1, 1, 1, 1, 1, 1],
-      giftList: [1, 2, 1, 1, 1, 1, 1, 1]
+      friendList: [],
+      requestList: []
     }
   },
   methods: {
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
+    },
+    giveGiftAll() {
+      axios
+        .put(BASE_URL + '/api/v1/user/friend/gift/all', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    },
+    getFriendList() {
+      axios
+        .get(BASE_URL + '/api/v1/user/friend/', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log('친구', res.data)
+          this.friendList = res.data
+        })
+        .catch((err) => console.log(err))
+    },
+    getRequestList() {
+      axios
+        .get(BASE_URL + '/api/v1/user/friend/request', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          this.requestList = res.data
+        })
+        .catch((err) => console.log(err))
     }
+  },
+  created() {
+    this.getFriendList()
+    this.getRequestList()
   }
 }
 </script>
@@ -107,14 +158,14 @@ export default {
 .friendManageList:first-child {
   margin-top: 0;
 }
-.friendGift {
+.friendRequest {
   border: none;
   border-radius: 30px;
   height: 100%;
   width: 45%;
   background-color: white;
 }
-.friendGift__top {
+.friendRequest__top {
   height: 15%;
   width: 100%;
   margin-top: 1vh;
@@ -122,11 +173,11 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.friendGift__top > p {
+.friendRequest__top > p {
   font-weight: bold;
   font-size: 2vw;
 }
-.friendGift__bottom {
+.friendRequest__bottom {
   border: none;
   border-radius: 30px;
   background-color: #a7c957;
@@ -139,7 +190,7 @@ export default {
   padding: 5vh 5vw;
   height: 80vh;
 }
-.friendRequest__tap {
+.friendGift__tap {
   padding: 5vh 5vw;
   height: 80vh;
   width: 100%;

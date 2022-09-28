@@ -14,7 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
     Optional<User> findByNickname(String nickname);
-    Page<User> findByNicknameContaining(Pageable pageable, String keyword);
     @Query(nativeQuery = true, value =
             "select u.* from users u join friend f on f.user_id2 = u.user_id where f.user_id1 = :id"
     )
