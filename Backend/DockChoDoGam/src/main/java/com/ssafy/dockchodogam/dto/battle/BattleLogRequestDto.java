@@ -17,6 +17,6 @@ public class BattleLogRequestDto {
     private Integer defendMonsterDamage;
     private String skill;
     private boolean skillUsage;
-    private boolean isFinished;
+    private boolean finished;
     private boolean success;
 }
