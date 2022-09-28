@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         String email = (String) attributes.get("email");
         int index = email.indexOf("@");
-        String nickname = email.substring(0, index-1);
+        String nickname = email.substring(0, index);
 
         // db 확인
         // 새로운 유저 -> 회원가입
