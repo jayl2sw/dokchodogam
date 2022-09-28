@@ -1,14 +1,14 @@
 <template>
   <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
     <div class="imgBx">
-      <div class="arrow_box">
-        <p>대사 : {{ monster.line }}</p>
-      </div>
       <img
         :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
         class="card__img"
         style="-webkit-user-drag: none"
       />
+      <div class="arrow_box">
+        <p>대사 : {{ monster.line }}</p>
+      </div>
     </div>
     <div
       :class="{
@@ -102,21 +102,21 @@ export default {
     }
   },
   methods: {
-    openDetail() {
-      Swal.fire({
-        title: `${this.monster.name}몬`,
-        html: `<br /> 
-        <p>타입 : ${this.monster.type}</p>
-        <p>등급 : ${this.monster.grade}</p>
-        <p>체력 : ${this.monster.hp} </p>
-        공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}`,
-        imageUrl: `${this.imageBaseUrl}/${this.monster.monsterId}.png`,
-        imageWidth: 250,
-        imageHeight: 250,
-        imageAlt: 'Custom image',
-        showConfirmButton: false
-      })
-    },
+    // openDetail() {
+    //   Swal.fire({
+    //     title: `${this.monster.name}몬`,
+    //     html: `<br />
+    //     <p>타입 : ${this.monster.type}</p>
+    //     <p>등급 : ${this.monster.grade}</p>
+    //     <p>체력 : ${this.monster.hp} </p>
+    //     공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}`,
+    //     imageUrl: `${this.imageBaseUrl}/${this.monster.monsterId}.png`,
+    //     imageWidth: 250,
+    //     imageHeight: 250,
+    //     imageAlt: 'Custom image',
+    //     showConfirmButton: false
+    //   })
+    // },
     async storeMonster(a) {
       this.monsterDetail = a
       // alert(a.name)
@@ -133,11 +133,7 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(this.monster)
-          // console.log(`monsterDetail  : ${res.data}`)
-          // console.log(this.monster)
           this.monsterDetail = res.data
-          // console.log(this.monsterDetail)
         })
         .catch((err) => {
           console.log(err)
@@ -177,7 +173,7 @@ export default {
 .container .card .imgBx {
   /* position: absolute; */
   top: 35%;
-  transform: translateY(-50%);
+  transform: translateY(0%);
   z-index: 10000;
   width: 100%;
   height: 220px;
@@ -185,18 +181,26 @@ export default {
 }
 
 .container .card:hover .imgBx {
-  top: 0%;
-  transform: translateY(0%);
+  top: 30%;
+  /* transform: translateY(-20%); */
 }
 
 .container .card .imgBx img {
   /* position: absolute; */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease;
+  /* transform: translate(-20%, -20%); */
   width: 50%;
 }
 
+.arrow_box {
+  display: none;
+}
+
+.imgBx:hover .arrow_box {
+  display: block;
+}
 .container .card .imgBx .arrow_box {
   position: relative;
   background: #d6c1c1;
@@ -205,7 +209,7 @@ export default {
   height: 5vh;
   text-align: center;
 }
-.container .card .imgBx .arrow_box:after {
+/* .container .card .imgBx .arrow_box:after {
   top: 100%;
   left: 70%;
   border: solid transparent;
@@ -214,11 +218,10 @@ export default {
   width: 0;
   position: absolute;
   pointer-events: none;
-  /* border-color: rgba(214, 193, 193, 0); */
   border-top-color: #d6c1c1;
   border-width: 3vh;
   margin-left: -3vw;
-}
+} */
 .container .card .card__dontHaveimg {
   position: absolute;
   /* top: 50%; */
@@ -227,13 +230,13 @@ export default {
   width: 100%;
   /* height: 220px; */
   /* transition: 0.5s; */
-  filter: brightness(100%);
+  filter: brightness(0%);
 }
 
 .container .card:hover .card__dontHaveimg {
   /* top: 0%; */
   /* transform: translateY(0%); */
-  filter: brightness(100%);
+  filter: brightness(0%);
 }
 
 .container .card .card__dontHaveimg img {
@@ -242,7 +245,7 @@ export default {
   left: 50%;
   /* transform: translate(-50%, -50%); */
   width: 270px;
-  filter: brightness(100%);
+  filter: brightness(0%);
 }
 
 .container .card .contentBx {
