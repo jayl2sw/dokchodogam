@@ -73,6 +73,8 @@ export const accounts: Module<accountsState, RootState> = {
               result.data.accessToken
           } else {
             console.log('다시 로그인 하셈')
+            alert('다시 로그인 해주세요🙏')
+            window.location.href = '/'
             // let err = new Error("Request failed with status code 401");
             // err.status = 401;
             // err.response = {data:{"success":false, "errormessage":"Access-Token이 갱신되었습니다."}};
@@ -81,6 +83,8 @@ export const accounts: Module<accountsState, RootState> = {
         } catch (err) {
           console.log('다시 로그인 하셈')
           console.log(err)
+          alert('다시 로그인 해주세요🙏')
+          window.location.href = '/'
           // if (!err.response) {
           // err.response = {data:{"success":false, "errormessage":err.message}};
           // }
@@ -88,6 +92,8 @@ export const accounts: Module<accountsState, RootState> = {
         }
       } else {
         console.log('다시 로그인 하셈')
+        alert('다시 로그인 해주세요🙏')
+        window.location.href = '/'
         // let err = new Error("Access-Token does not exist");
         // err.status = 401;
         // err.response = {data:{"success":false, "errormessage":"Access-Token이 없습니다."}};

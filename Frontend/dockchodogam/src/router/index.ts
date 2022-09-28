@@ -289,10 +289,9 @@ router.beforeEach(async (to, from, next) => {
     console.log(isAccessTokenExpired())
 
     if (!isAccessTokenExpired()) {
-      await doRefreshToken()
       return next()
     } else {
-      return next('/')
+      await doRefreshToken()
     }
   } else {
     console.log('로그인 해주세용~💋')
