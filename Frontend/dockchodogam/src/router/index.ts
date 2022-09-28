@@ -281,7 +281,8 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/' ||
     to.path === '/signup' ||
     to.path === '/findpassword' ||
-    to.path === '/oauth'
+    to.path === '/oauth' ||
+    to.path === '/oauth2/authorization/kakao'
   ) {
     next()
   } else if (token) {

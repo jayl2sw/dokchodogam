@@ -12,9 +12,15 @@
         />
         <div class="loginpage__btn">
           <button class="login__btn" @click="login()">로그인</button>
+
+          <!-- <a href="/oauth2/authorization/kakao">
+            <button class="kakaologin__btn">카카오로그인</button>
+          </a> -->
+
           <button class="kakaologin__btn" @click="kakaoLogin()">
             카카오로그인
           </button>
+
           <button class="signup__btn" @click="signUp()">회원가입</button>
           <!-- <a href="/oauth2/authorization/kakao">카카오 로그인</a> -->
         </div>
@@ -40,14 +46,16 @@ export default {
   data() {
     return {
       userId: '',
-      userPassword: ''
+      userPassword: '',
+      kakaoLoginURL: BASE_URL + '/oauth2/authorization/kakao'
     }
   },
   methods: {
     ...mapActions(['doRefreshToken', 'fetchUserInfo', 'fetchUserDeck']),
     ...mapGetters(['isAccessTokenExpired']),
     kakaoLogin() {
-      this.$router.push({ name: 'oauth' })
+      // window.open(BASE_URL + '/oauth2/authorization/kakao')
+      window.location.href = this.kakaoLoginURL
     },
     findpassword() {
       this.$router.push({ name: 'findpassword' })

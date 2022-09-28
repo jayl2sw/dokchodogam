@@ -35,4 +35,5 @@ public class PlantDetailDto {
     private String grwEvrntDesc;
     private String useMthdDesc;
     private String cprtCtnt;
+    private Long monsterId;
 }
