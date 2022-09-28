@@ -1,8 +1,8 @@
 <template>
   <NavBar @overflow="overflow" />
   <div class="game">
-    <div class="game__arena" @click="goToArena()">아레나</div>
-    <div class="game__mandu">독초만두</div>
+    <div class="game__arena" @click="goToArena()"></div>
+    <div class="game__mandu"></div>
   </div>
 </template>
 
