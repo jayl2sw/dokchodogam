@@ -310,18 +310,21 @@ export default {
       console.log('상대 독초몬', this.currentYourDockCho)
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
         console.log('상대 승리')
+        postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentMyIdx === -1) {
         console.log('상대 승리')
+        postGameEnd(false)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentYourIdx === -1) {
         console.log('나 승리')
+        postGameEnd(true)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '승리!']
@@ -369,7 +372,7 @@ export default {
         monster7: this.yourDockChoList[2].monsterId,
         monster8: this.yourDockChoList[3].monsterId,
         monster9: this.yourDockChoList[4].monsterId,
-        success: true
+        rank: true
       }
       axios
         .post(BASE_URL + '/api/v1/battle/new', data, {
@@ -398,6 +401,21 @@ export default {
       }
       axios
         .post(BASE_URL + '/api/v1/battle/logs/new', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err))
+    },
+    postGameEnd(win) {
+      const data = {
+        battleId: this.battleId,
+        success: win
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/finish', data, {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
             'Content-type': 'application/json'
