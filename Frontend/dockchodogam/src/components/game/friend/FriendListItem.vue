@@ -1,12 +1,19 @@
 <template>
   <div class="lists">
     <div class="left">
-      <img src="@/assets/loading/1.png" alt="" />
+      <img
+        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        alt=""
+      />
       <p class="TITLE name">{{ this.friend.nickname }}</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-gift" @click="this.giveGift()" />
-      <font-awesome-icon icon="fa-solid fa-hand-fist" />
+      <font-awesome-icon
+        icon="fa-solid fa-gift"
+        @click="this.giveGift()"
+        :class="this.friend.gift_today ? 'sentGift' : ''"
+      />
+      <font-awesome-icon icon="fa-solid fa-hand-fist" ref="button" />
     </div>
   </div>
 </template>
@@ -17,6 +24,11 @@ import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
   props: ['friend'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL
+    }
+  },
   methods: {
     giveGift() {
       axios
@@ -28,6 +40,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
+          this.$refs.button.$el.classList.add('sentGift')
         })
         .catch((err) => console.log(err))
     }
@@ -62,6 +75,10 @@ export default {
   font-weight: bold;
   line-height: 14vh;
   margin-left: 1vw;
+}
+.sentGift {
+  color: #ececec;
+  pointer-events: none;
 }
 svg {
   color: #467302;

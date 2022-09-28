@@ -1,7 +1,10 @@
 <template>
   <div class="lists">
     <div class="left">
-      <img src="@/assets/loading/1.png" alt="" />
+      <img
+        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        alt=""
+      />
       <p class="TITLE name">{{ this.friend.nickname }}</p>
     </div>
     <div class="right">
@@ -19,6 +22,11 @@ import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
   props: ['friend'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL
+    }
+  },
   methods: {
     deleteFriend() {
       axios

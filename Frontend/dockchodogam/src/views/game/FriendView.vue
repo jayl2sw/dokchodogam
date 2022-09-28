@@ -72,9 +72,7 @@ export default {
   data() {
     return {
       friendList: [],
-      requestList: [],
-      friendPage: 0,
-      requestPage: 0
+      requestList: []
     }
   },
   methods: {
@@ -95,19 +93,20 @@ export default {
     },
     getFriendList() {
       axios
-        .get(BASE_URL + '/api/v1/user/friend/' + this.friendPage, {
+        .get(BASE_URL + '/api/v1/user/friend/', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
+          console.log('친구', res.data)
           this.friendList = res.data
         })
         .catch((err) => console.log(err))
     },
     getRequestList() {
       axios
-        .get(BASE_URL + '/api/v1/user/friend/request/' + this.requestPage, {
+        .get(BASE_URL + '/api/v1/user/friend/request', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
