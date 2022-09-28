@@ -93,7 +93,7 @@
         />
         <label for="SPECIAL">SPECIAL</label>
       </div>
-      <div class="selected">{{ filteredMonsters.length }} / 99</div>
+      <div class="selected">{{ filteredMonsters.length }} / 98</div>
     </div>
     <div class="container">
       <div class="row">
@@ -238,7 +238,7 @@ export default {
         },
         buttons: [
           {
-            title: '웹으로 보기',
+            title: '도감 모으러 이동!',
             link: {
               // mobileWebUrl: '이미지 클릭시 이동할 사이트',
               webUrl: 'https://j7e201.p.ssafy.io'
@@ -306,9 +306,9 @@ input[type='checkbox'] {
   background: #e1e1e1;
   border-radius: 4px;
   cursor: pointer;
-  height: 2vh;
+  height: 16px;
   outline: 0;
-  width: 1vw;
+  width: 16px;
   margin-left: 1vw;
   margin-right: 0.5vw;
 }
