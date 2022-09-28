@@ -1,15 +1,14 @@
 <template>
   <div class="cash">
     <div class="cash__header">
-      <h2>💰 냥 충전소 💰</h2>
+      <h3 class="TITLE">냥 충전소</h3>
     </div>
 
     <div class="cash__body">
-      <img
-        class="cash__img"
-        src="http://img3.tmon.kr/cdn4/deals/2021/10/04/4040092538/front_252ba_vaemg.jpg"
-      />
-      <button @click="onPaymentCash">충전하기</button>
+      <img class="cash__img" :src="require('@/assets/shop/cash.png')" />
+      <button class="btn" @click="onPaymentCash">
+        <span class="TITLE">💰 9,900원</span>
+      </button>
     </div>
   </div>
 </template>
@@ -87,15 +86,41 @@ export default {
 
 <style scoped>
 .cash {
+  width: 30vw;
+  height: 60vh;
 }
 .cash__header {
   text-align: center;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
 .cash__body {
   display: flex;
   flex-direction: column;
+  height: 20vh;
 }
 .cash__img {
   width: 20vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn {
+  width: 10vw;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
 }
 </style>

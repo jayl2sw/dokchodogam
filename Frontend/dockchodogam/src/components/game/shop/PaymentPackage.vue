@@ -1,22 +1,26 @@
 <template>
   <div v-if="userInfo.starter == true" class="package">
     <div class="package__header">
-      <h3>🐣 스타터팩 🐣</h3>
+      <h3 class="TITLE">🐣 스타터팩 🐣</h3>
+      <p>⭐계정 당 1회 한정</p>
     </div>
 
     <div class="package__body">
-      <img class="package__img" src="@/assets/loading/1.png" />
-      <button @click="onPaymentPackage">구매하기</button>
+      <img class="package__img" :src="require('@/assets/shop/package.png')" />
+      <button class="btn" @click="onPaymentPackage">
+        <span class="TITLE">💰 990원</span>
+      </button>
     </div>
   </div>
 
   <div v-else class="package">
     <div class="package__header">
-      <h3>패키지 🎮</h3>
+      <h3 class="TITLE">패키지 🎮</h3>
+      <p>새로운 패키지를 준비중입니다</p>
     </div>
 
     <div class="package__body">
-      <p>💬 새로운 패키지를 준비 중입니다.</p>
+      <img class="package__img" :src="require('@/assets/shop/waiting.png')" />
     </div>
   </div>
 </template>
@@ -103,6 +107,11 @@ export default {
 }
 .package__header {
   text-align: center;
+  margin-top: 5vh;
+}
+.package__header p,
+h3 {
+  margin: 0;
 }
 .package__body {
   display: flex;
@@ -110,9 +119,30 @@ export default {
 }
 .package__img {
   width: 20vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 .shop__modal {
   width: 20vw;
   height: 20vh;
+}
+
+.btn {
+  width: 10vw;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
 }
 </style>
