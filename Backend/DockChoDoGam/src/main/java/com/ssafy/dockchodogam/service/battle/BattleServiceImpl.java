@@ -81,8 +81,7 @@ public class BattleServiceImpl implements BattleService {
         battle.finishBattle();
 
         BattleDto battleDto = new BattleDto().from(battle);
-
-        battleDtoKafkaTemplate.send("battles", null, battleDto);
+//        battleDtoKafkaTemplate.send("battles", null, battleDto);
 
     }
 }
