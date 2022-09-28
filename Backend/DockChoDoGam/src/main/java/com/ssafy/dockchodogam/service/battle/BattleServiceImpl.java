@@ -1,11 +1,10 @@
 package com.ssafy.dockchodogam.service.battle;
 
-import com.fasterxml.jackson.databind.ser.std.JsonValueSerializer;
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
-import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
+import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
 import com.ssafy.dockchodogam.repository.BattleLogRepository;
 import com.ssafy.dockchodogam.repository.BattleRepository;
 import com.ssafy.dockchodogam.repository.MonsterRepository;
@@ -16,10 +15,11 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.json.JSONObject;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Properties;
+
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +45,12 @@ public class BattleServiceImpl implements BattleService {
                 .monster7(monsterRepository.findMonsterByMonsterId(data.getMonster7()))
                 .monster8(monsterRepository.findMonsterByMonsterId(data.getMonster8()))
                 .monster9(monsterRepository.findMonsterByMonsterId(data.getMonster9()))
+                .isRank(data.isRank())
                 .success(false)
+                .wellFinished(false)
                 .build();
 
+        System.out.println(battle);
         Battle saved = battleRepository.save(battle);
         return saved.getBattle_id();
     }
@@ -65,41 +68,18 @@ public class BattleServiceImpl implements BattleService {
                 .round(data.getRound())
                 .skill(data.getSkill())
                 .skillUsage(data.isSkillUsage())
-                .isFinished(data.isFinished())
-                .success(data.isSuccess())
                 .build();
 
+        System.out.println(true);
         battleLogRepository.save(battleLog);
+    }
 
-        System.out.println(data.isFinished());
-        if (data.isFinished()) {
-
-            Battle battle = battleRepository.findById(data.getBattleId()).get();
-            BattleDto battleDto = new BattleDto().from(battle);
-            if (data.isSuccess()) {
-                battle.successBattle();
-            }
-            System.out.println("start kafka");
-            // 카프카로 배틀 보내는 로직 작성
-//            Properties props = new Properties();
-//            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "j7e201.p.ssafy.io:9092");
-//            props.put(ProducerConfig.CLIENT_ID_CONFIG, "DokchoMainServer");
-//            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-//            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonValueSerializer.class.getName());
-//
-//            KafkaProducer<String, Object> producer = new KafkaProducer<>(props);
-//            producer.send(new ProducerRecord<>("battles", new JSONObject(battleDto)), (recordMeta, exception) -> {
-//               if (exception == null) {
-//                   System.out.println("Record written to offset " +
-//                   recordMeta.offset() + "timestamp " + recordMeta.timestamp());
-//               } else {
-//                   System.err.println("An error occurred");
-//                   exception.printStackTrace(System.err);
-//               }
-//            });
-//
-//            producer.flush();
-//            producer.close();
+    @Override
+    public void finishBattle(BattleStatusDto data) throws ChangeSetPersister.NotFoundException {
+        Battle battle = battleRepository.findById(data.getBattle_id()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        if (data.isSuccess()) {
+            battle.successBattle();
         }
+        battle.finishBattle();
     }
 }

@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class BattleRequestDto {
     private String attacker;
     private String defender;
-    private boolean success;
+    private boolean isRank;
     private Long monster0;
     private Long monster1;
     private Long monster2;

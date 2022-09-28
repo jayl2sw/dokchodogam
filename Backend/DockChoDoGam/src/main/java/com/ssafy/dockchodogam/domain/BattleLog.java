@@ -30,8 +30,6 @@ public class BattleLog extends BaseTime {
     private Integer defendMonsterHp;
     private Integer attackMonsterDamage;
     private Integer defendMonsterDamage;
-    private String skill;
+    private Long skill;
     private boolean skillUsage;
-    private boolean isFinished;
-    private boolean success;
 }

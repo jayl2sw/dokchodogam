@@ -23,7 +23,7 @@ public class BattleLogDto {
     private Integer attackMonsterDamage;
     private Integer defendMonsterDamage;
     private String createdDate;
-    private String skill;
+    private Long skill;
     private boolean skillUsage;
     private boolean isFinished;
     private boolean success;
@@ -43,8 +43,6 @@ public class BattleLogDto {
                 .createdDate(createdDate)
                 .skill(battleLog.getSkill())
                 .skillUsage(battleLog.isSkillUsage())
-                .isFinished(battleLog.isFinished())
-                .success(battleLog.isSuccess())
                 .build();
     }
 }
