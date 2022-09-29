@@ -19,59 +19,62 @@ import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 import { mapGetters } from 'vuex'
 
+const IMP = window.IMP
+IMP.init('imp40805235')
+
 export default {
-  // data() {
-  //   return {
-  //     userInfo: JSON.parse(localStorage.getItem('userInfo'))
-  //   }
-  // },
-  computed: {
-    ...mapGetters(['userInfo'])
+  data() {
+    return {
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+    }
   },
+  // computed: {
+  //   ...mapGetters(['userInfo'])
+  // },
   methods: {
-    onPaymentCash() {
+    onPaymentCash: function () {
       /* 1. 가맹점 식별하기 */
-      const IMP = window.IMP
-      IMP.init('imp40805235')
+      // const IMP = window.IMP
+      // IMP.init('imp40805235')
 
       IMP.request_pay(
         {
           pg: 'html5_inicis', // 카카오페이
           // pay_method: 'card', // 결제수단
           merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-          amount: 9900, // 결제금액
+          amount: 100, // 결제금액
           name: '재화충전:결제테스트', // 주문명
+          m_redirect_url: 'https://j7e201.p.ssafy.io/',
           buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
         },
-        (res) => {
-          if (res.sucess) {
-            // 결제 성공시 로직
-            // axios로 HTTP 요청
+        (rsp) => {
+          console.log(rsp)
+          if (rsp.success) {
             axios({
-              url: `${BASE_URL} + api/v1/game/monster/pick`,
-              method: 'POST',
+              url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/1',
+              method: 'GET',
               headers: {
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-              },
-              data: {
-                itemId: 1
               }
-            }).then((data) => {
-              // 서버 결제 API 성공시 로직
-              swal({
-                title: '냥 충전 완료! 💰',
-                text: '1,000냥이 충전 되었습니다😸',
-                icon: 'success',
-                buttons: false,
-                timer: 1500
-              })
             })
+              .then((data) => {
+                console.log(data)
+                // 서버 결제 API 성공시 로직
+                swal({
+                  title: '냥 충전 완료! 💰',
+                  text: '1,000냥이 충전 되었습니다😸',
+                  icon: 'success',
+                  buttons: false,
+                  timer: 1500
+                })
+              })
+              .catch((err) => console.log(err))
           } else {
             // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',
-              text: `${res.error_msg}`,
+              text: `${rsp.error_msg}`,
               icon: 'error',
               buttons: false,
               timer: 1500
@@ -80,6 +83,11 @@ export default {
         }
       )
     }
+  },
+  created() {
+    document.cookie = 'safeCookie1=foo; SameSite=Lax'
+    document.cookie = 'safeCookie2=foo'
+    document.cookie = 'crossCookie=bar; SameSite=None; Secure'
   }
 }
 </script>
