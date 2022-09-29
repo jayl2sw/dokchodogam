@@ -11,15 +11,24 @@
       </div>
 
       <input v-model="username" placeholder="아이디를 입력하세요" />
-      <input v-model="email" placeholder="이메일을 입력하세요" />
+      <input
+        @keyup.enter="findpassword()"
+        v-model="email"
+        placeholder="이메일을 입력하세요"
+      />
 
-      <button
-        class="findpassword__button"
-        type="submit"
-        @click="findpassword()"
-      >
-        비밀번호찾기
-      </button>
+      <div class="findpasswordpage__button">
+        <button
+          class="findpassword__button"
+          type="submit"
+          @click="findpassword()"
+        >
+          비밀번호찾기
+        </button>
+        <button class="login__button" type="submit" @click="to_login()">
+          로그인
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -38,14 +47,12 @@ export default {
     }
   },
   methods: {
-    findpassword() {
+    async findpassword() {
       if (!emailCheck.test(this.email)) {
         alert('정확한 이메일 주소인지 확인해주세요🙏')
       } else {
-        axios
-          .put(
-            'http://localhost:8081/api/v1/user/auth/findpw?email=' + this.email
-          )
+        await axios
+          .put(BASE_URL + '/api/v1/user/auth/findpw?email=' + this.email)
           .then((res) => {
             console.log(res)
             alert('비밀번호 변경 메일을 보내드렸어요!')
@@ -54,6 +61,9 @@ export default {
             console.log(err)
           })
       }
+    },
+    to_login() {
+      this.$router.push('/')
     }
   }
 }
@@ -68,6 +78,11 @@ button {
   margin: 10px;
 }
 .findpassword__button:hover {
+  background-color: #467302;
+  color: white;
+}
+
+.login__button:hover {
   background-color: #467302;
   color: white;
 }
@@ -129,12 +144,19 @@ input:focus {
   margin-bottom: 3vh;
 }
 
+.findpasswordpage__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 850px) {
   button {
     height: 6vh;
     border-radius: 50px;
     border: none;
-    width: 30vw;
+    width: 35vw;
     margin: 10px;
   }
 

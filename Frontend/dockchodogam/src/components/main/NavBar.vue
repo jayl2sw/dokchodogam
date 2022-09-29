@@ -95,7 +95,7 @@
           </ul>
         </div>
         <div class="sideBar__logout" @click="logout()">
-          <a href="">
+          <a href="#">
             <font-awesome-icon
               icon="fa-solid fa-door-open"
               class="sideBar__logoutIcon"
