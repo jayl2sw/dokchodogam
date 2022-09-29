@@ -54,7 +54,7 @@
           <div class="rankingList">
             <div
               class="rankingListItem"
-              v-for="(item, i) in this.ranking.opponents"
+              v-for="(item, i) in this.ranking"
               :key="i"
             >
               <div>
@@ -66,9 +66,9 @@
               </div>
               <div class="rankerName TITLE">{{ item.nickname }}</div>
               <div class="rankerDeck">
-                <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
+                <div v-for="(dokcho, j) in item.deck" :key="j">
                   <img
-                    :src="this.imageBaseUrl + '/' + dokcho.monsterId + '.png'"
+                    :src="this.imageBaseUrl + '/' + dokcho + '.png'"
                     alt=""
                     class="rankerDeckItem"
                   />
@@ -242,7 +242,7 @@ export default {
     },
     getRanking() {
       axios
-        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
+        .get(BASE_URL + '/api/v1/game/ranking', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
