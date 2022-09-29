@@ -17,6 +17,9 @@
       <div v-if="this.now === 'user'">
         <UserManage />
       </div>
+      <div v-if="this.now === 'plant'">
+        <PlantManage />
+      </div>
       <div v-if="this.now === 'dockcho'">
         <DokchoManage />
       </div>
@@ -29,6 +32,7 @@
 
 <script>
 import UserManage from '@/components/admin/UserManage.vue'
+import PlantManage from '@/components/admin/PlantManage.vue'
 import DokchoManage from '@/components/admin/DokchoManage.vue'
 import AddDokcho from '@/components/admin/AddDokcho.vue'
 
@@ -36,7 +40,8 @@ export default {
   components: {
     UserManage,
     DokchoManage,
-    AddDokcho
+    AddDokcho,
+    PlantManage
   },
   data() {
     return {
