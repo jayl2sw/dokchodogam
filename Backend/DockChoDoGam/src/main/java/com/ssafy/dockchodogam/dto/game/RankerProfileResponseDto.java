@@ -21,8 +21,8 @@ public class RankerProfileResponseDto {
     private String monsterImages;
     @ApiModelProperty(name="랭커 점수", example="1")
     private int rankPoint;
-    @ApiModelProperty(name="랭커 덱 몬스터 이미지 리스트")
-    private String[] deck;
+    @ApiModelProperty(name="랭커 덱 몬스터 아이디 리스트")
+    private Long[] deck;
 
     public static RankerProfileResponseDto of(User user) {
         Deck deck = user.getDeck();
@@ -31,8 +31,8 @@ public class RankerProfileResponseDto {
                 .nickname(user.getNickname())
                 .monsterImages(user.getRepresentMonster().getImages())
                 .rankPoint(user.getRankPoint())
-                .deck(new String[] {deck.getMonster1().getImages(), deck.getMonster2().getImages(),
-                        deck.getMonster3().getImages(), deck.getMonster4().getImages(), deck.getMonster5().getImages()})
+                .deck(new Long[] {deck.getMonster1().getMonsterId(), deck.getMonster2().getMonsterId(),
+                        deck.getMonster3().getMonsterId(), deck.getMonster4().getMonsterId(), deck.getMonster5().getMonsterId()})
                 .build();
     }
 }
