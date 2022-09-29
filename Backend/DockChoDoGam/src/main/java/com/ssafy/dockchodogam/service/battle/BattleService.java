@@ -17,4 +17,5 @@ public interface BattleService {
     void finishBattle(BattleStatusDto data) throws ChangeSetPersister.NotFoundException;
     List<BattleDto> searchLog(String nickname, int page);
     WinRateDto getWinRate(String nickname);
+    WinRateDto getWinRate(Long monsterId);
 }
