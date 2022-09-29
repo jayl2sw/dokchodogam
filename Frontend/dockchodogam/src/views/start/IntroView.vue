@@ -8,23 +8,23 @@
         require('@/assets/intro/001.png'),
         require('@/assets/intro/002.png'),
         require('@/assets/intro/003' +
-          (this.currentWidth < 754 ? 'm' : '') +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
           '.png'),
         require('@/assets/intro/004.png'),
         require('@/assets/intro/005' +
-          (this.currentWidth < 754 ? 'm' : '') +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
           '.png'),
         require('@/assets/intro/006.png'),
         require('@/assets/intro/007' +
-          (this.currentWidth < 754 ? 'm' : '') +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
           '.png'),
         require('@/assets/intro/008.png'),
         require('@/assets/intro/009' +
-          (this.currentWidth < 754 ? 'm' : '') +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
           '.png'),
         require('@/assets/intro/010.png'),
         require('@/assets/intro/011' +
-          (this.currentWidth < 754 ? 'm' : '') +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
           '.png'),
         require('@/assets/intro/012.png')
       ]"
@@ -78,7 +78,8 @@ export default {
       isNewbie: true,
       introCard: false,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/intro.mp3'),
-      currentWidth: 0
+      currentWidth: 0,
+      currentHeight: 0
     }
   },
   methods: {
@@ -92,8 +93,10 @@ export default {
   mounted() {
     this.isNewbie = JSON.parse(localStorage.getItem('userInfo')).newbie
     this.currentWidth = window.innerWidth
+    this.currentHeight = window.innerHeight
     window.addEventListener('resize', () => {
       this.currentWidth = window.innerWidth
+      this.currentHeight = window.innerHeight
     })
     this.audio.loop = true
     this.audio.play()
