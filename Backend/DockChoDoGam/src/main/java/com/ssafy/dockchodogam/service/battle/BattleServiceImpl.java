@@ -91,7 +91,7 @@ public class BattleServiceImpl implements BattleService {
 
         BattleDto battleDto = BattleDto.from(battle);
 
-//        battleDtoKafkaTemplate.send("battles", null, battleDto);
+        battleDtoKafkaTemplate.send("battles", String.valueOf(battleDto.getBattle_id()), battleDto);
 
     }
 
