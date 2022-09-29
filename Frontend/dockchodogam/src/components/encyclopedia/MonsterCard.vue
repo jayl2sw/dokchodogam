@@ -1,93 +1,64 @@
 <template>
-  <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
-    <div class="imgBx">
-      <img
-        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-        class="card__img"
-        style="-webkit-user-drag: none"
-      />
-      <div class="arrow_box">
-        <p>대사 : {{ monster.line }}</p>
+  <div>
+    <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
+    <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
+      <div class="imgBx">
+        <img
+          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+          class="card__img"
+          style="-webkit-user-drag: none"
+        />
+        <!-- <p>대사 : {{ monster.line }}</p> -->
+      </div>
+      <div
+        :class="{
+          card__common: monster.grade == 'COMMON',
+          card__rare: monster.grade == 'RARE',
+          card__epic: monster.grade == 'EPIC',
+          card__legendary: monster.grade == 'LEGENDARY',
+          card__special: monster.grade == 'SPECIAL'
+        }"
+        class="contentBx"
+      >
+        <div class="contentBx__name">
+          <p class="TITLE">00{{ monster.monsterId }}</p>
+          <h3 class="TITLE">{{ monster.name }}몬</h3>
+        </div>
+
+        <div class="size">
+          <p>
+            타입 : {{ this.monster.type }} <br />등급 : {{ this.monster.grade }}
+            <br />
+            체력 : {{ this.monster.hp }} <br />
+            공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
+          </p>
+        </div>
       </div>
     </div>
+
     <div
-      :class="{
-        card__common: monster.grade == 'COMMON',
-        card__rare: monster.grade == 'RARE',
-        card__epic: monster.grade == 'EPIC',
-        card__legendary: monster.grade == 'LEGENDARY',
-        card__special: monster.grade == 'SPECIAL'
-      }"
-      class="contentBx"
+      v-else-if="monster.got == false && monster.monsterId !== 0"
+      class="card"
     >
-      <br />
-      <p class="TITLE">00{{ monster.monsterId }}</p>
-      <h3 class="TITLE">{{ monster.name }}몬</h3>
-      <div class="size">
-        <p>
-          타입 : {{ this.monster.type }} <br />등급 : {{ this.monster.grade }}
-          <br />
-          체력 : {{ this.monster.hp }} <br />
-          공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
-        </p>
+      <div class="dontHaveimgBx">
+        <img
+          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+          class="card__dontHaveimg"
+          style="-webkit-user-drag: none"
+        />
+      </div>
+      <div class="dontHavecontentBx">
+        <div class="dontHavecontentBx__name">
+          <p>00{{ monster.monsterId }}</p>
+          <h3>?</h3>
+        </div>
       </div>
     </div>
   </div>
-
-  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
-    <div class="dontHaveimgBx">
-      <img
-        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-        class="card__dontHaveimg"
-        style="-webkit-user-drag: none"
-      />
-    </div>
-    <div class="dontHavecontentBx">
-      <p>00{{ monster.monsterId }}</p>
-      <h2>???</h2>
-    </div>
-  </div>
-
-  <!-- isGot 확인해서 v-if 걸기 -->
-  <!-- <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
-    <div
-      v-b-modal.modal-card
-      @click=";[storeMonster(monster), openDetail()]"
-      :class="{
-        card__common: monster.grade == 'COMMON',
-        card__rare: monster.grade == 'RARE',
-        card__epic: monster.grade == 'EPIC',
-        card__legendary: monster.grade == 'LEGENDARY',
-        card__special: monster.grade == 'SPECIAL'
-      }"
-    >
-      <h3>00{{ monster.monsterId }}</h3>
-      <h3>{{ monster.name }}몬</h3>
-      <img
-        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-        class="card__img"
-        style="-webkit-user-drag: none"
-      />
-    </div>
-  </div>
-
-  <div v-else-if="monster.got == false && monster.monsterId !== 0" class="card">
-    <div>
-      <p>00{{ monster.monsterId }}</p>
-      <h3>???</h3>
-      <img
-        class="card__dontHaveimg"
-        :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-        style="-webkit-user-drag: none"
-      />
-    </div>
-  </div> -->
 </template>
 
 <script>
 import axios from 'axios'
-// import { BASE_URL } from '@/constant/BASE_URL'
-// import MonsterDetail from '@/components/encyclopedia/MonsterDetail.vue'
 import Swal from 'sweetalert2'
 
 export default {
@@ -102,21 +73,6 @@ export default {
     }
   },
   methods: {
-    // openDetail() {
-    //   Swal.fire({
-    //     title: `${this.monster.name}몬`,
-    //     html: `<br />
-    //     <p>타입 : ${this.monster.type}</p>
-    //     <p>등급 : ${this.monster.grade}</p>
-    //     <p>체력 : ${this.monster.hp} </p>
-    //     공격력 : ${this.monster.minAttack} ~ ${this.monster.maxAttack}`,
-    //     imageUrl: `${this.imageBaseUrl}/${this.monster.monsterId}.png`,
-    //     imageWidth: 250,
-    //     imageHeight: 250,
-    //     imageAlt: 'Custom image',
-    //     showConfirmButton: false
-    //   })
-    // },
     async storeMonster(a) {
       this.monsterDetail = a
       // alert(a.name)
@@ -159,10 +115,16 @@ export default {
   position: relative;
 } */
 
+.speech {
+  position: absolute;
+  width: 200px;
+  height: auto;
+}
+
 .card {
   position: relative;
-  width: 15vw;
-  height: 50vh;
+  width: 200px;
+  height: 300px;
   background: white;
   border-radius: 20px;
   overflow: hidden;
@@ -172,43 +134,56 @@ export default {
 
 .container .card .imgBx {
   /* position: absolute; */
-  top: 35%;
-  transform: translateY(0%);
-  z-index: 10000;
+  /* top: 35%; */
+  transform: translate(10%, 10%);
   width: 100%;
-  height: 220px;
+  height: 120px;
   transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .card .imgBx p {
+  visibility: hidden;
+}
+
+.container .card:hover .imgBx p {
+  visibility: visible;
+  display: inline-block;
 }
 
 .container .card:hover .imgBx {
-  top: 30%;
-  /* transform: translateY(-20%); */
+  /* top: 30%; */
+  transform: translate(20%, 22%);
+  width: 80%;
 }
 
 .container .card .imgBx img {
-  /* position: absolute; */
-  top: 50%;
+  position: absolute;
+  display: block;
+  margin: auto;
+  /* top: 50%; */
   /* left: 50%; */
-  transition: transform 0.25s ease;
+  /* transition: transform 0.25s ease; */
   /* transform: translate(-20%, -20%); */
-  width: 50%;
+  width: 80%;
 }
 
-.arrow_box {
+/* .arrow_box {
   display: none;
 }
 
 .imgBx:hover .arrow_box {
   display: block;
-}
-.container .card .imgBx .arrow_box {
+} */
+/* .container .card .imgBx .arrow_box {
   position: relative;
   background: #d6c1c1;
   border-radius: 20px;
   margin: 2vh;
   height: 5vh;
   text-align: center;
-}
+} */
 /* .container .card .imgBx .arrow_box:after {
   top: 100%;
   left: 70%;
@@ -225,17 +200,11 @@ export default {
 .container .card .card__dontHaveimg {
   position: absolute;
   /* top: 50%; */
-  /* transform: translateY(-50%); */
-  z-index: 10000;
-  width: 100%;
+  transform: translate(30%, 30%);
+  /* z-index: 10000; */
+  width: 60%;
   /* height: 220px; */
   /* transition: 0.5s; */
-  filter: brightness(0%);
-}
-
-.container .card:hover .card__dontHaveimg {
-  /* top: 0%; */
-  /* transform: translateY(0%); */
   filter: brightness(0%);
 }
 
@@ -243,8 +212,7 @@ export default {
   position: absolute;
   top: 60%;
   left: 50%;
-  /* transform: translate(-50%, -50%); */
-  width: 270px;
+  width: 80%;
   filter: brightness(0%);
 }
 
@@ -252,10 +220,11 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   text-align: center;
   transition: 1s;
   z-index: 10;
+  padding: 1vh;
 }
 
 .container .card .dontHavecontentBx {
@@ -269,16 +238,31 @@ export default {
 }
 
 .container .card:hover .contentBx {
-  height: 30vh;
+  height: 25vh;
 }
 
-.container .card .contentBx h2,
+.container .card .contentBx h3 {
+  position: relative;
+  /* font-weight: 600; */
+  font-size: 15;
+  color: #000000;
+  margin-bottom: 1vw;
+}
+
 .container .card .contentBx p {
   position: relative;
-  font-weight: 600;
-  font-size: 1em;
+  font-weight: 500;
+  font-size: 0.9vw;
   color: #000000;
   margin: 0;
+}
+
+.contentBx__name {
+  margin-top: 1.5vh;
+}
+
+.dontHavecontentBx__name {
+  margin-top: 6vh;
 }
 
 .container .card .contentBx .size,
@@ -296,7 +280,25 @@ export default {
   color: white;
 }
 
-.container .card .dontHavecontentBx h2,
+.container .card .dontHavecontentBx h3 {
+  position: relative;
+  /* font-weight: 600; */
+  font-size: 15;
+  color: #000000;
+  font-family: 'UhBeeSe_hyun';
+  margin-bottom: 1vw;
+}
+
+.container .card .dontHavecontentBx p {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.9vw;
+  font-family: 'UhBeeSe_hyun';
+  color: #000000;
+  margin: 0;
+}
+
+/* .container .card .dontHavecontentBx h3,
 .container .card .dontHavecontentBx p {
   position: relative;
   font-weight: 600;
@@ -304,7 +306,7 @@ export default {
   color: #000000;
   margin-top: 3vh;
   font-family: 'UhBeeSe_hyun';
-}
+} */
 
 .container .card:hover .contentBx .size {
   opacity: 1;
@@ -314,6 +316,7 @@ export default {
 
 .card__common {
   background-color: gray;
+  /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
   background-color: skyblue;

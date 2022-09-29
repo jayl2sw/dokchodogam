@@ -1,108 +1,128 @@
 <template>
-  <LoadingPage v-if="this.isLoading" />
-  <NavBar v-show="!this.isLoading" @overflow="overflow" />
-  <div class="dogam__container" v-show="!this.isLoading">
-    <div class="dogam__title">
-      <h1 class="TITLE">☘️ {{ userInfo.nickname }}의 도감 ☘️</h1>
-    </div>
-
-    <img
-      class="new-result-btn"
-      @click="shareKakao"
-      src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-    />
-    <div class="dogam__checkbox">
-      <div class="checkbox1">
-        <p class="TITLE">독초몬 보유</p>
-
-        <input type="checkbox" id="true" value="true" v-model="checkedGot" />
-        <label for="true">보유</label>
-
-        <input type="checkbox" id="false" value="false" v-model="checkedGot" />
-        <label for="false">미보유</label>
+  <div class="dogam__container">
+    <LoadingPage v-if="this.isLoading" />
+    <NavBar v-show="!this.isLoading" @overflow="overflow" />
+    <div v-show="!this.isLoading">
+      <div class="dogam__title">
+        <h1 class="TITLE">☘️ {{ userInfo.nickname }}의 도감 ☘️</h1>
       </div>
 
-      <!-- 타입별 -->
-      <div class="checkbox2">
-        <p class="TITLE">독초몬 타입</p>
+      <div class="dogam__checkbox">
+        <div class="checkbox1">
+          <p class="TITLE">독초몬 보유</p>
 
-        <input
-          type="checkbox"
-          id="DOKCHO"
-          value="DOKCHO"
-          v-model="checkedType"
-        />
-        <label for="DOKCHO">독초😈</label>
+          <input type="checkbox" id="true" value="true" v-model="checkedGot" />
+          <label for="true">보유</label>
 
-        <input
-          type="checkbox"
-          id="YAKCHO"
-          value="YAKCHO"
-          v-model="checkedType"
-        />
-        <label for="YAKCHO">약초🥗</label>
+          <input
+            type="checkbox"
+            id="false"
+            value="false"
+            v-model="checkedGot"
+          />
+          <label for="false">미보유</label>
+        </div>
 
-        <input
-          type="checkbox"
-          id="JAPCHO"
-          value="JAPCHO"
-          v-model="checkedType"
-        />
-        <label for="JAPCHO">잡초🌻</label>
+        <!-- 타입별 -->
+        <div class="checkbox2">
+          <p class="TITLE">독초몬 타입</p>
 
-        <input
-          type="checkbox"
-          id="HIDDEN"
-          value="HIDDEN"
-          v-model="checkedType"
-        />
-        <label for="HIDDEN">히든✨</label>
+          <input
+            type="checkbox"
+            id="DOKCHO"
+            value="DOKCHO"
+            v-model="checkedType"
+          />
+          <label for="DOKCHO">독초😈</label>
+
+          <input
+            type="checkbox"
+            id="YAKCHO"
+            value="YAKCHO"
+            v-model="checkedType"
+          />
+          <label for="YAKCHO">약초🥗</label>
+
+          <input
+            type="checkbox"
+            id="JAPCHO"
+            value="JAPCHO"
+            v-model="checkedType"
+          />
+          <label for="JAPCHO">잡초🌻</label>
+
+          <input
+            type="checkbox"
+            id="HIDDEN"
+            value="HIDDEN"
+            v-model="checkedType"
+          />
+          <label for="HIDDEN">히든✨</label>
+        </div>
+
+        <!-- 등급별 -->
+        <div class="checkbox3">
+          <p class="TITLE">독초몬 등급</p>
+
+          <input
+            type="checkbox"
+            id="COMMON"
+            value="COMMON"
+            v-model="checkedGrade"
+          />
+          <label for="COMMON">COMMON</label>
+
+          <input
+            type="checkbox"
+            id="RARE"
+            value="RARE"
+            v-model="checkedGrade"
+          />
+          <label for="RARE">RARE</label>
+
+          <input
+            type="checkbox"
+            id="EPIC"
+            value="EPIC"
+            v-model="checkedGrade"
+          />
+          <label for="EPIC">EPIC</label>
+
+          <input
+            type="checkbox"
+            id="LEGENDARY"
+            value="LEGENDARY"
+            v-model="checkedGrade"
+          />
+          <label for="LEGENDARY">LEGENDARY</label>
+
+          <input
+            type="checkbox"
+            id="SPECIAL"
+            value="SPECIAL"
+            v-model="checkedGrade"
+          />
+          <label for="SPECIAL">SPECIAL</label>
+        </div>
+        <div class="selected">
+          {{ filteredMonsters.length }} / 98
+          <span>
+            <img
+              class="new-result-btn"
+              @click="shareKakao"
+              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+          /></span>
+        </div>
       </div>
-
-      <!-- 등급별 -->
-      <div class="checkbox3">
-        <p class="TITLE">독초몬 등급</p>
-
-        <input
-          type="checkbox"
-          id="COMMON"
-          value="COMMON"
-          v-model="checkedGrade"
-        />
-        <label for="COMMON">COMMON</label>
-
-        <input type="checkbox" id="RARE" value="RARE" v-model="checkedGrade" />
-        <label for="RARE">RARE</label>
-
-        <input type="checkbox" id="EPIC" value="EPIC" v-model="checkedGrade" />
-        <label for="EPIC">EPIC</label>
-
-        <input
-          type="checkbox"
-          id="LEGENDARY"
-          value="LEGENDARY"
-          v-model="checkedGrade"
-        />
-        <label for="LEGENDARY">LEGENDARY</label>
-
-        <input
-          type="checkbox"
-          id="SPECIAL"
-          value="SPECIAL"
-          v-model="checkedGrade"
-        />
-        <label for="SPECIAL">SPECIAL</label>
-      </div>
-      <div class="selected">{{ filteredMonsters.length }} / 98</div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div
-          class="col"
-          v-for="monster in filteredMonsters"
-          :key="monster.monsterId"
-        >
-          <MonsterCard :monster="monster" />
+      <div class="container">
+        <div class="row">
+          <div
+            class="col"
+            v-for="monster in filteredMonsters"
+            :key="monster.monsterId"
+          >
+            <MonsterCard :monster="monster" />
+          </div>
         </div>
       </div>
     </div>
@@ -259,6 +279,10 @@ export default {
 </script>
 
 <style scoped>
+.dogam__container {
+  background-image: url('@/assets/dogam_background.jpg');
+}
+
 .dogam__title {
   text-align: center;
   margin-top: 10vh;
@@ -304,7 +328,7 @@ input[type='checkbox'] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: #e1e1e1;
+  background: #d0d0d0;
   border-radius: 4px;
   cursor: pointer;
   height: 16px;
