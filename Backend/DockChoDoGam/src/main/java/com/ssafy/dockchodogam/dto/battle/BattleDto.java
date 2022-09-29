@@ -30,7 +30,7 @@ public class BattleDto {
     private Long monster8;
     private Long monster9;
 
-    public BattleDto from(Battle battle) {
+    public static BattleDto from(Battle battle) {
         String battle_time = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(battle.getCreatedDate()).toString();
 
         return BattleDto.builder()

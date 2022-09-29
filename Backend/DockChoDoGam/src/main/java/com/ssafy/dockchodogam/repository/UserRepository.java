@@ -27,6 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Long countUsersByRankPointGreaterThan(int rankPoint);
 
-    List<User> findTop5ByOrderByRankPointDescUserIdAsc();
+    @Query(nativeQuery = true, value = "select * from users u order by u.rank_point desc limit 3")
+    List<User> findRanker();
 
 }

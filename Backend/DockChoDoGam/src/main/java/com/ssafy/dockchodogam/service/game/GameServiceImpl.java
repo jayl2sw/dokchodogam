@@ -103,7 +103,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<RankerProfileResponseDto> getTop5() {
-        return userRepository.findTop5ByOrderByRankPointDescUserIdAsc()
+        return userRepository.findRanker()
                 .stream().map(s -> RankerProfileResponseDto.of(s)).collect(Collectors.toList());
     }
 
@@ -137,7 +137,7 @@ public class GameServiceImpl implements GameService {
             } else {
                 monster = monsters.get(i);
             }
-            boolean isGot = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monster.getMonsterId(), user.getUserId()) != null;
+            boolean isGot = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monster.getMonsterId(), user.getUserId()).isPresent();
             if (isGot) {
                 // 일부 환불 (10%)
                 rest += item.getPriceCash() / (item.getItemCnt() * 10);

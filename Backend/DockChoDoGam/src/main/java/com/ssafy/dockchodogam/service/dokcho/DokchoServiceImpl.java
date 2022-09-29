@@ -14,10 +14,7 @@ import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
-import com.ssafy.dockchodogam.repository.PlantRepository;
-import com.ssafy.dockchodogam.repository.TodayPlantRepository;
-import com.ssafy.dockchodogam.repository.UserMonsterRepository;
-import com.ssafy.dockchodogam.repository.UserRepository;
+import com.ssafy.dockchodogam.repository.*;
 import com.ssafy.dockchodogam.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -48,6 +45,8 @@ public class DokchoServiceImpl implements DokchoService {
     private final UserMonsterRepository userMonsterRepository;
     private final TodayPlantRepository todayPlantRepository;
     private final AmazonS3Client amazonS3Client;
+    private final PlantMongoRepository plantMongoRepository;
+    private final MonsterRepository monsterRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
@@ -81,6 +80,12 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public void addFoundMonster(Monster monster) {
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        Optional<UserMonster> isExist = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(user.getUserId(), monster.getMonsterId());
+
+        if(isExist.isPresent()){
+            return;
+        }
+
         UserMonster userMonster = UserMonster.builder().user(user).monster(monster).build();
         userMonsterRepository.save(userMonster);
     }
@@ -93,7 +98,7 @@ public class DokchoServiceImpl implements DokchoService {
 
     @Override
     public String savePlantImage(MultipartFile file) {
-        if(file.isEmpty()){
+        if (file.isEmpty()){
             throw new RuntimeException("이미지가 없습니다.");
         }
         String fileName = file.getOriginalFilename();
@@ -113,6 +118,10 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
+
+        // MongoDB에 저장
+        plantMongoRepository.save(new JSONObject(jsonData));
+
         Map<String, Object> data = getGenusAndProb(jsonData);
         System.out.println(data);
         double probability = (double) data.get("probability");
@@ -125,7 +134,6 @@ public class DokchoServiceImpl implements DokchoService {
         }
         res.put("probability", probability);
         if (data.containsKey("species")) {
-//        if (false) {
             String species = (String) data.get("species");
             Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
             if (plantBySpecies.isPresent()) {
@@ -161,7 +169,9 @@ public class DokchoServiceImpl implements DokchoService {
 
     public boolean checkUserDogam(Long monsterId){
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(user.getUserId(), monsterId);
+        Monster monster = monsterRepository.findMonsterByMonsterId(monsterId);
+        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user);
+
         if (um.isPresent()) {
             return true;
         } else{
@@ -193,8 +203,8 @@ public class DokchoServiceImpl implements DokchoService {
         byte[] bytes = IOUtils.toByteArray(is);
         String response = new String(bytes);
 
-        System.out.println("Response code : " + con.getResponseCode());
-        System.out.println("Response : " + response);
+//        System.out.println("Response code : " + con.getResponseCode());
+//        System.out.println("Response : " + response);
         con.disconnect();
         return response;
     }
