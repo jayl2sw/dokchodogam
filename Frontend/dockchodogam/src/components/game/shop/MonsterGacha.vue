@@ -18,9 +18,9 @@ import { mapActions, mapGetters } from 'vuex'
 import swal from 'sweetalert'
 
 export default {
-  data() {
-    return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
-  },
+  // data() {
+  //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
+  // },
   computed: {
     ...mapGetters(['userInfo'])
   },
@@ -51,7 +51,7 @@ export default {
       if (confirm('200냥을 내고 뽑기를 진행하시겠습니까?') === true) {
         if (this.userInfo.money >= 200) {
           this.fetchMonsterGacha()
-          this.fetchUserInfo()
+          // this.fetchUserInfo()
           this.$router.push({
             path: '/game/shop/gacha'
           })
