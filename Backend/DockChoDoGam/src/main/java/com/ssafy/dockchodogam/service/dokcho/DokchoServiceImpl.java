@@ -46,6 +46,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final TodayPlantRepository todayPlantRepository;
     private final AmazonS3Client amazonS3Client;
     private final PlantMongoRepository plantMongoRepository;
+    private final MonsterRepository monsterRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
@@ -162,7 +163,9 @@ public class DokchoServiceImpl implements DokchoService {
 
     public boolean checkUserDogam(Long monsterId){
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(user.getUserId(), monsterId);
+        Monster monster = monsterRepository.findMonsterByMonsterId(monsterId);
+        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user);
+
         if (um.isPresent()) {
             return true;
         } else{
