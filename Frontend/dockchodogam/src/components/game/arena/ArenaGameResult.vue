@@ -47,11 +47,11 @@ export default {
     if (this.resultInfo[0]) {
       setTimeout(() => {
         this.goToFriend()
-      }, 2000)
+      }, 3000)
     } else {
       setTimeout(() => {
         this.goToArenaMain()
-      }, 2000)
+      }, 3000)
     }
   }
 }
@@ -84,7 +84,7 @@ export default {
   color: #ffe140;
 }
 .result__images {
-  width: 96vw;
+  width: 100%;
   height: 40vh;
   margin: 2.5vh;
   display: flex;
@@ -92,8 +92,8 @@ export default {
 }
 .result__dockcho {
   border-radius: 5px;
-  height: 16vw;
-  width: 16vw;
+  height: 15vw;
+  width: 18%;
   margin: 0 1vw;
 }
 .true {
