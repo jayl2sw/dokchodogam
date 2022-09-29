@@ -27,7 +27,7 @@
 
 <script>
 import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 
@@ -45,6 +45,7 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    ...mapActions(['monsterPackage']),
     onPaymentPackage: function () {
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
@@ -74,10 +75,11 @@ export default {
               .then((data) => {
                 // 몬스터 3개 정보 올 것,, 아마도 ?
                 // 담아서 PackageAnimationView으로 넘기기
-                this.packageMonsters = data.data
+                this.fetchMonsterPackage()
+                // this.packageMonsters = data.data
                 this.$router.push({
-                  path: '/game/shop/package',
-                  params: this.packageMonsters
+                  path: '/game/shop/package'
+                  // params: this.packageMonsters
                 })
               })
               .catch((err) => console.log(err))
