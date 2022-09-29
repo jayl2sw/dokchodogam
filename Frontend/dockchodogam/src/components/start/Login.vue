@@ -3,7 +3,7 @@
     <!-- <img class="background" src="@/assets/game_background.png" alt="" /> -->
     <div class="loginpage">
       <div class="loginpage__left">
-        <img class="loginpage__img" src="@/assets/404Image.png" alt="" />
+        <img class="loginpage__img" src="@/assets/dokcho_escaping.png" alt="" />
       </div>
       <div class="loginpage__right">
         <img class="logo__img" src="@/assets/dokcho_logo.png" alt="" />
@@ -138,7 +138,7 @@ button {
 
 .loginpage__img {
   width: 40vw;
-  height: 40vw;
+  height: 60vh;
 }
 
 .loginpage__left {
@@ -237,7 +237,7 @@ input:focus {
     flex-direction: column;
   }
   .loginpage__img {
-    height: 40vh;
+    height: 30vh;
     width: 40vh;
   }
   .loginpage__right {
