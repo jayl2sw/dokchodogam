@@ -27,8 +27,13 @@ export default {
           .get(BASE_URL + '/api/v1/user/myinfo', option)
           .then((res) => {
             this.fetchUserInfo(res.data)
+            if (res.data.newbie) {
+              this.$router.push({ name: 'intro' })
+            } else {
+              this.$router.push({ name: 'main' })
+            }
           })
-        await this.$router.push({ name: 'main' })
+        // await this.$router.push({ name: 'main' })
       } catch (e) {
         console.log(e)
       }

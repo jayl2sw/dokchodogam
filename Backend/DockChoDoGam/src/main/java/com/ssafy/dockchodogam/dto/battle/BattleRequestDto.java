@@ -22,5 +22,6 @@ public class BattleRequestDto {
     private Long monster7;
     private Long monster8;
     private Long monster9;
-
+    private boolean success;
+    private boolean finish;
 }
