@@ -102,7 +102,7 @@ public class UserController {
 
     @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPW(@RequestBody String email){
+    public ResponseEntity<String> findPW(@RequestParam String email){
         try {
             if(!userService.checkEmail(email)){
                 throw new UserNotFoundException();
