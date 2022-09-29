@@ -32,7 +32,7 @@
 import PaymentCash from '@/components/game/shop/PaymentCash.vue'
 import PaymentPackage from '@/components/game/shop/PaymentPackage.vue'
 import MonsterGacha from '@/components/game/shop/MonsterGacha.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -52,6 +52,12 @@ export default {
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
     }
+  },
+  watch: {
+    // userInfo(newuserInfo) {
+    //   ...mapActions(['fetchUserInfo()'])
+    //   console.log('New userinfo: ' + newuserInfo)
+    // }
   }
 }
 </script>
