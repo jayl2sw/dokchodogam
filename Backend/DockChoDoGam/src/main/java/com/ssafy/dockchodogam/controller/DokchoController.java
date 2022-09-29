@@ -104,7 +104,7 @@ public class DokchoController {
         if (!(boolean) plantData.get("plantExist")){
             res.put("plant", null);
             res.put("errCode", plantData.get("errCode"));
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         Plant plant = (Plant) plantData.get("plant");
         PlantDetailDto plantDto = new PlantDetailDto().from(plant);
