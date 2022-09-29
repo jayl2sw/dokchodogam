@@ -1,10 +1,16 @@
 <template>
   <div class="find">
-    <p class="find__title TITLE">찾았다, {{ plant.name }}!</p>
-    <p class="find_finder">최초 발견자 : {{}}</p>
+    <h3 class="find__title TITLE">찾았다, {{ monsterDetail.name }}몬!</h3>
+    <p v-if="monsterDetail.firstFinder" class="find_finder">
+      최초 발견자 : {{ monsterDetail.firstFinder }}
+    </p>
     <div>
       <div class="find__img" v-if="this.pick == false">
-        <img class="monster__silhouette" src="@/assets/loading/5.png" />
+        <p v-if="monsterDetail.line"></p>
+        <img
+          class="monster__silhouette"
+          :src="this.imageBaseUrl + '/' + plant.monsterId + '.png'"
+        />
         <div>
           <button @click="goToEncyclopedia" class="TITLE">
             도감에서 확인하기!
@@ -16,24 +22,45 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   props: {
     plant: Object
   },
   data() {
     return {
-      pick: false
+      // pick: false,
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      monsterDetail: {}
     }
   },
   methods: {
-    checkPick() {
-      return this.pick === !!this.pick
-    },
+    // checkPick() {
+    //   return this.pick === !!this.pick
+    // },
     goToEncyclopedia() {
       this.$router.push({
         path: '/encyclopedia'
       })
+    },
+    fetchMonsterDetail() {
+      axios({
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.plant.monsterId}`,
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+        .then((res) => {
+          this.monsterDetail = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+  },
+  created() {
+    this.fetchMonsterDetail()
   }
 }
 </script>

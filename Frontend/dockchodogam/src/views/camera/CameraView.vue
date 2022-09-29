@@ -83,25 +83,25 @@ export default defineComponent({
         data: formdata
       })
         .then((res) => {
-          console.log(res.data)
-          if (res.data === null) {
-            swal({
-              title: '사진을 다시 찍어주세요 😢',
-              text: '찍어 주신 사진을 인식하지 못했어요 ...',
-              icon: 'error',
-              timer: 1500
-            })
-          } else {
-            result.value = res.data
-            // router push 하면서 result.value 담아서 보내기
-            router.push({
-              path: '/camera/result',
-              params: result.value
-            })
-          }
+          // console.log(res)
+          // console.log(res.data)
+          result.value = res.data
+          console.log('result value')
+          // console.log(result.value)
+          console.log(result.value.plant)
+          // router push 하면서 result.value 담아서 보내기
+          router.push({
+            path: '/camera/result',
+            query: { result1: result.value, plant: result.value.plant }
+          })
         })
         .catch((err) => {
-          alert(err)
+          swal({
+            title: '사진을 다시 찍어주세요 😢',
+            text: '찍어 주신 사진을 인식하지 못했어요 ...',
+            icon: 'error',
+            timer: 1500
+          })
           console.log(err)
         })
     }
