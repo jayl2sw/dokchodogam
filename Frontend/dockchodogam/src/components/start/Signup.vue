@@ -255,7 +255,7 @@ button {
   align-items: center;
 }
 .logo__img {
-  width: 25vw;
+  width: 15vw;
 }
 .signup {
   display: flex;
@@ -266,6 +266,7 @@ button {
 .signup__btn {
   background-color: #a7c957;
   transition: 0.3s;
+  height: 6vh;
 }
 .signup__btn:hover {
   background-color: #467302;
@@ -331,7 +332,7 @@ input {
     /* overflow: auto; */
     margin-left: 5vw;
     margin-right: 5vw;
-    margin-top: 20vh;
+    margin-top: 35vh;
   }
   .termsofservice {
     width: 75vw;

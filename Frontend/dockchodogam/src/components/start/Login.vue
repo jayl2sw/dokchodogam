@@ -9,6 +9,7 @@
         <img class="logo__img" src="@/assets/dokcho_logo.png" alt="" />
         <input v-model="userId" placeholder="아이디를 입력하세요" />
         <input
+          @keyup.enter="login()"
           v-model="userPassword"
           type="password"
           placeholder="비밀번호를 입력하세요"
