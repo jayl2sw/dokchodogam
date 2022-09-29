@@ -14,10 +14,7 @@ import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
-import com.ssafy.dockchodogam.repository.PlantRepository;
-import com.ssafy.dockchodogam.repository.TodayPlantRepository;
-import com.ssafy.dockchodogam.repository.UserMonsterRepository;
-import com.ssafy.dockchodogam.repository.UserRepository;
+import com.ssafy.dockchodogam.repository.*;
 import com.ssafy.dockchodogam.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -48,6 +45,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final UserMonsterRepository userMonsterRepository;
     private final TodayPlantRepository todayPlantRepository;
     private final AmazonS3Client amazonS3Client;
+    private final PlantMongoRepository plantMongoRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
@@ -113,6 +111,10 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
+
+        // MongoDB에 저장
+        plantMongoRepository.save(new JSONObject(jsonData));
+
         Map<String, Object> data = getGenusAndProb(jsonData);
         System.out.println(data);
         double probability = (double) data.get("probability");
