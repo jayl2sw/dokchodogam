@@ -33,8 +33,6 @@ public interface DokchoService {
     // 이미지 경로를 통해 이미지 판별
     Map<String, Object> judgeImage(String path) throws Exception;
 
-    PlantDetailDto createDto(Plant p);
-
     boolean checkUserDogam(Long monsterId);
 
     TodayPlantDto getTodayPlant();
