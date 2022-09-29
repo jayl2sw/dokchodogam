@@ -1,6 +1,12 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
-  <div v-show="!this.isLoading">
+  <div class="container" v-show="!this.isLoading">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="inGame" v-if="!this.isGameEndFlag">
       <div class="inGame__top">
         <div class="yourDockChoList">
@@ -134,7 +140,8 @@ export default {
       nowUseSkill: false,
       isUseSkill: false,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      isPortrait: true
     }
   },
   methods: {
@@ -611,6 +618,35 @@ export default {
 @media screen and (max-width: 850px) {
   .myDockChoItem {
     border-width: 2px;
+  }
+}
+@media only screen and (orientation: portrait) {
+  .container {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .inGame {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>
