@@ -27,6 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Long countUsersByRankPointGreaterThan(int rankPoint);
 
-    List<User> findTop5ByOrderByRankPointDesc();
+    List<User> findTop5ByOrderByRankPointDescUserIdAsc();
 
 }

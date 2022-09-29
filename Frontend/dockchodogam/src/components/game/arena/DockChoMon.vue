@@ -13,7 +13,7 @@
     </div>
     <div class="dokchoBox">
       <div class="damage">
-        <p>{{ damage }}</p>
+        <p class="TITLE" ref="dmg">{{ damage }}</p>
       </div>
       <img
         v-if="this.data.monsterId"
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   props: ['data', 'damage'],
   data() {
@@ -51,9 +52,21 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+}
+.progress {
+  margin-bottom: 2vh;
 }
 .hpBar {
   width: 100%;
+}
+.damage {
+  font-size: 4vw;
+  position: absolute;
+  z-index: 999;
+  color: red;
+  top: 0;
+  left: 0;
 }
 .dockChoImage {
   border-radius: 5px;

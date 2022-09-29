@@ -57,6 +57,10 @@ public class User extends BaseTime {
     private List<Battle> attack;
     @OneToMany(mappedBy = "defender", cascade = CascadeType.ALL)
     private List<Battle> defend;
+    @OneToMany(mappedBy = "userA", cascade = CascadeType.ALL)
+    private List<Friend> friendA;
+    @OneToMany(mappedBy = "userB", cascade = CascadeType.ALL)
+    private List<Friend> friendB;
     public void update(UpdateUserRequestDto requestDto){
         this.email = requestDto.getEmail();
         this.nickname = requestDto.getNickname();
