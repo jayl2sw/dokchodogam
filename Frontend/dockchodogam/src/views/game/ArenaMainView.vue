@@ -1,6 +1,12 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
   <div class="main" v-show="!this.isLoading">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="main__boxes">
       <div class="box__left">
         <div class="myDeck">
@@ -643,15 +649,30 @@ export default {
     overflow: scroll;
   }
 }
-@media (orientation: portrait) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: top left;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100vh;
-    height: 100vw;
+@media only screen and (orientation: portrait) {
+  .main {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .main__boxes {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>
