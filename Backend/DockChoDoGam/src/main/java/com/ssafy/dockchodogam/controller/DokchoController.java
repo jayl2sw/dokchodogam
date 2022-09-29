@@ -38,7 +38,7 @@ public class DokchoController {
             @ApiResponse(code = 200, message = "Success", response = Void.class),
             @ApiResponse(code = 401, message = "Fail", response = Void.class)
     })
-    public ResponseEntity<Map<String, Object>> getPlants(int page){
+    public ResponseEntity<Map<String, Object>> getPlants(@PathVariable int page){
         // 모든 식물 리스트 조회
         List<PlantListDto> plants = dokchoService.findAllPlants(page);
         Map<String, Object> res = new HashMap<>();
