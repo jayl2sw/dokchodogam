@@ -52,7 +52,7 @@ export default {
   justify-content: center;
   height: 10vh;
 }
-.myDataBtn {
+.userDataBtn {
   width: 20vw;
   text-align: center;
 }
@@ -60,7 +60,9 @@ export default {
   width: 20vw;
   text-align: center;
 }
-
+.dcgg__main {
+  padding: 0 10vw;
+}
 @media screen and (max-width: 850px) {
   .open-menu {
     overflow: hidden;
