@@ -20,6 +20,7 @@
     "core-js": "^3.8.3",
     "dotenv": "^16.0.2",
     "flipbook-vue": "^1.0.0-alpha.4",
+    "js-confetti": "^0.10.2",
     "lodash": "^4.17.21",
     "request": "^2.88.2",
     "simple-vue-camera": "^1.1.2",
