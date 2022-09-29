@@ -39,4 +39,5 @@ public interface UserService {
     List<FriendResponseDto> getGiftList();
     void receiveGift(Long id);
     void receiveGiftAll();
+    void changeRankPoint(int point);
 }

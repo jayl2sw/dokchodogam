@@ -7,10 +7,10 @@
       </div>
       <div class="loginpage__right">
         <img class="logo__img" src="@/assets/dokcho_logo.png" alt="" />
-        <input v-model="userId" placeholder="아이디를 입력하세요" />
+        <input v-model="username" placeholder="아이디를 입력하세요" />
         <input
           @keyup.enter="login()"
-          v-model="userPassword"
+          v-model="password"
           type="password"
           placeholder="비밀번호를 입력하세요"
         />
@@ -50,8 +50,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      userId: '',
-      userPassword: '',
+      username: '',
+      password: '',
       kakaoLoginURL: BASE_URL + '/oauth2/authorization/kakao'
     }
   },
@@ -69,14 +69,14 @@ export default {
       this.$router.push({ name: 'signup' })
     },
     async login() {
-      console.log(this.userId)
-      console.log(this.userPassword)
+      console.log(this.username)
+      console.log(this.password)
       try {
         const result = await axios.post(
           BASE_URL + '/api/v1/user/auth/login',
           {
-            username: this.userId,
-            password: this.userPassword
+            username: this.username,
+            password: this.password
           },
           {
             headers: {

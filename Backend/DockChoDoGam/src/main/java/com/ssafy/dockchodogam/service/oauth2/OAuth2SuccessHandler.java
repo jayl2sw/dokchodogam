@@ -57,7 +57,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         TokenDto tokenDto = new TokenDto();
 
         if(!entity.isPresent()){
-            User user = User.builder().username(passwordMaker.make())
+            User user = User.builder().username(email)
                     .password(passwordMaker.make())
                     .email(email)
                     .nickname(nickname)

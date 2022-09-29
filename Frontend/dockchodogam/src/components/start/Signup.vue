@@ -93,6 +93,7 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import { mapActions, mapGetters } from 'vuex'
 
 var usernameCheck = /^[a-zA-Z0-9]{5,20}$/
 var nicknameCheck = /^[가-힣a-zA-Z0-9]{1,4}$/
@@ -113,6 +114,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['doRefreshToken', 'fetchUserInfo']),
+    ...mapGetters(['isAccessTokenExpired']),
     isEmailDuplicate() {
       if (!emailCheck.test(this.email)) {
         alert('정확한 이메일 주소인지 확인해주세요🙏')
@@ -161,7 +164,49 @@ export default {
           })
       }
     },
-    async signup() {
+    login() {
+      console.log(this.username)
+      console.log(this.password)
+      axios
+        .post(
+          BASE_URL + '/api/v1/user/auth/login',
+          {
+            username: this.username,
+            password: this.password
+          },
+          {
+            headers: {
+              'Content-type': 'application/json'
+            }
+          }
+        )
+        .then((result) => {
+          console.log(result)
+          localStorage.setItem('accessToken', result.data.accessToken)
+          localStorage.setItem('refreshToken', result.data.refreshToken)
+          const option = {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+          axios.get(BASE_URL + '/api/v1/user/myinfo', option).then((res) => {
+            this.fetchUserInfo(res.data)
+            console.log(res.data.newbie)
+            if (res.data.newbie) {
+              this.$router.push({ name: 'intro' })
+            } else {
+              this.$router.push({ name: 'main' })
+            }
+          })
+          // console.log(localStorage.getItem('userInfo').newbie)
+        })
+
+      // .catch((errorr) => {
+      //   alert('아이디나 비밀번호를 확인해주세요🙏')
+      // })
+    },
+
+    signup() {
       if (this.nicknameDuplicate === true) {
         alert('닉네임중복검사를 먼저 진행해주세요.')
       } else if (this.emailDuplicate === true) {
@@ -179,7 +224,7 @@ export default {
       } else if (!emailCheck.test(this.email)) {
         alert('정확한 이메일 주소인지 확인해주세요🙏')
       } else if (this.password === this.password2) {
-        await axios
+        axios
           .post(BASE_URL + '/api/v1/user/auth/signup', {
             email: this.email,
             nickname: this.nickname,
@@ -190,13 +235,11 @@ export default {
           .then((res) => {
             console.log(res)
             alert('회원가입을 축하드립니다!')
+            this.login()
           })
           .catch((err) => {
             console.log(err)
           })
-        await this.$router.push({
-          name: 'start'
-        })
       } else {
         return alert('비밀번호가 일치하지 않습니다.')
       }
