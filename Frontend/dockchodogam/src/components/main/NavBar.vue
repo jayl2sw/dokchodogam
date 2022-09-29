@@ -145,6 +145,7 @@ export default {
             console.log(res)
             swal({
               title: '로그아웃이 완료되었습니다!😘',
+              text: '또 만나요',
               icon: 'success',
               buttons: false,
               timer: 1500
