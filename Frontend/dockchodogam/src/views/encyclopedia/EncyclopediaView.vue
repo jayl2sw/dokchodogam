@@ -2,6 +2,8 @@
   <div class="dogam__container">
     <LoadingPage v-if="this.isLoading" />
     <NavBar v-show="!this.isLoading" @overflow="overflow" />
+
+    <h3 v-show="!this.isLoading" @click="backToTop" class="toTheTop">👆</h3>
     <div v-show="!this.isLoading">
       <div class="dogam__title">
         <h1 class="TITLE">☘️ {{ userInfo.nickname }}의 도감 ☘️</h1>
@@ -229,6 +231,10 @@ export default {
     }
   },
   methods: {
+    backToTop() {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    },
     fetchMonsterList() {
       axios({
         url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/list?size=100',
@@ -279,6 +285,22 @@ export default {
 </script>
 
 <style scoped>
+.toTheTop {
+  /* background-color: #a7c957; */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* display: none; */
+  /* border-radius: 50px; */
+}
+
+.toTheTop:hover {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* display: none; */
+}
+
 .dogam__container {
   height: 100%;
   min-height: 100vh;
