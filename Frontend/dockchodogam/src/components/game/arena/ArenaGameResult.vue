@@ -5,7 +5,7 @@
       <p v-if="resultInfo[0]" class="TITLE">
         친선전은 랭크포인트에 영향을 주지 않아요!
       </p>
-      <p v-else-if="resultInfo[1] === '패배'" class="TITLE">-2</p>
+      <p v-else-if="resultInfo[1] === '패배'" class="TITLE">-5</p>
       <p v-else class="TITLE">
         <img :src="require('@/assets/award.png')" alt="award" class="award" />
         +10
@@ -44,15 +44,15 @@ export default {
   },
   mounted() {
     this.fetchEnemyInfo('')
-    // if (this.resultInfo[0]) {
-    //   setTimeout(() => {
-    //     this.goToFriend()
-    //   }, 2000)
-    // } else {
-    //   setTimeout(() => {
-    //     this.goToArenaMain()
-    //   }, 2000)
-    // }
+    if (this.resultInfo[0]) {
+      setTimeout(() => {
+        this.goToFriend()
+      }, 2000)
+    } else {
+      setTimeout(() => {
+        this.goToArenaMain()
+      }, 2000)
+    }
   }
 }
 </script>
