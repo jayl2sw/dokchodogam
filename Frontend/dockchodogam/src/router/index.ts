@@ -235,9 +235,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/game/friend',
     name: 'friend',
     component: () =>
-      import(/* webpackChunkName: "deck" */ '../views/game/FriendView.vue')
+      import(/* webpackChunkName: "friend" */ '../views/game/FriendView.vue')
   },
   // 친구 관리
+  {
+    path: '/game/gg',
+    name: 'gg',
+    component: () =>
+      import(/* webpackChunkName: "gg" */ '../views/game/DokchoGG.vue')
+  },
+  // 어드민
   {
     path: '/admin',
     name: 'admin',

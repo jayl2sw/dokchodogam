@@ -2,28 +2,41 @@
   <NavBar @overflow="overflow" />
   <div class="dcgg" :class="this.showMenu ? 'open-menu' : ''">
     <div class="menuBar">
-      <div class="myDataBtn">내데이터</div>
-      <div class="DokchoDataBtn">독초몬데이터</div>
+      <div class="userDataBtn" @click="this.onClickMyData()">내데이터</div>
+      <div class="DokchoDataBtn" @click="this.onClickDokcho()">
+        독초몬데이터
+      </div>
     </div>
-    <div class="dcgg__main"></div>
+    <div class="dcgg__main">
+      <UserData v-if="this.nowPage === 'myData'" />
+    </div>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/main/NavBar.vue'
+import UserData from '@/components/game/gg/UserData.vue'
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    UserData
   },
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      nowPage: 'myData'
     }
   },
   methods: {
     overflow(value) {
       this.showMenu = value
+    },
+    onClickMyData() {
+      this.nowPage = 'myData'
+    },
+    onClickDokcho() {
+      this.nowPage = 'Dokcho'
     }
   }
 }
@@ -38,6 +51,14 @@ export default {
   display: flex;
   justify-content: center;
   height: 10vh;
+}
+.myDataBtn {
+  width: 20vw;
+  text-align: center;
+}
+.DokchoDataBtn {
+  width: 20vw;
+  text-align: center;
 }
 
 @media screen and (max-width: 850px) {
