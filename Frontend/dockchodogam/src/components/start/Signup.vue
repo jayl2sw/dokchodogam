@@ -289,6 +289,7 @@ input {
   width: 50vw;
   height: 30vw;
   margin: 20px;
+  overflow: auto;
   background-image: url('@/assets/hanji.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -299,7 +300,8 @@ input {
   border-radius: 50px;
 }
 .termsofservice__text {
-  margin: 40px;
+  margin: 4vh;
+  height: 40vh;
   flex-direction: column;
   justify-content: center;
   justify-content: center;
@@ -321,8 +323,9 @@ input {
     justify-content: center;
     align-items: center;
     width: 90vw;
-    /* height: 100%; */
+    height: 95%;
     background-color: white;
+    border-radius: 40px;
   }
   .signuppage__left {
     /* overflow: auto; */
@@ -334,6 +337,7 @@ input {
     width: 75vw;
     height: 30vh;
     margin: 5vw;
+    margin-top: 10vh;
     margin-bottom: 0;
     /* margin-top: 15vh; */
     background-image: url('@/assets/hanji.jpeg');
@@ -367,7 +371,7 @@ input {
   }
   input {
     width: 70vw;
-    height: 5vh;
+    height: 7vh;
     font-size: 1.5vh;
     background-size: 3vw 3vw;
     padding-left: 4vw;
@@ -376,11 +380,16 @@ input {
     height: 4vh;
     border-radius: 50px;
     border: none;
-    width: 25vw;
+    width: 40vw;
     margin-left: 0;
     margin-right: 0;
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+  .signup__btn {
+    background-color: #a7c957;
+    transition: 0.3s;
+    height: 7vh;
   }
 }
 </style>
