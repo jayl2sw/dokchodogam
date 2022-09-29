@@ -78,10 +78,11 @@
           </div>
         </div>
         <div class="skillBtn" @click="onClickSkill()">
-          <div
-            class="skillBlur"
-            :class="this.isUseSkill ? 'usedSkill' : ''"
-          ></div>
+          <img
+            :src="this.imageBaseUrl + '/skill' + this.skill + '.png'"
+            alt=""
+            :class="this.isUseSkill ? 'skillImg usedSkill' : 'skillImg'"
+          />
         </div>
       </div>
     </div>
@@ -507,7 +508,7 @@ export default {
   width: 20vw;
   height: 25vw;
   position: fixed;
-  top: 20vh;
+  top: 25vh;
   left: -20vw;
   transition: all 1s;
 }
@@ -519,7 +520,7 @@ export default {
   width: 20vw;
   height: 25vw;
   position: fixed;
-  top: 20vh;
+  top: 25vh;
   right: -20vw;
   transition: all 1s;
 }
@@ -532,7 +533,8 @@ export default {
   display: flex;
 }
 .myDockChoItem {
-  border: 5px solid #ffe140;
+  /* border: 5px solid #ffe140; */
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
   width: 17vh;
   height: 17vh;
@@ -558,21 +560,16 @@ export default {
   display: none;
 }
 .skillBtn {
-  border: 2px groove black;
-  border-radius: 5px;
   width: 17vh;
   height: 17vh;
   margin: 1vh;
   cursor: pointer;
+  position: relative;
 }
-.skillBlur {
-  background-color: rgba(0, 0, 0, 0.4);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  display: none;
+.skillImg {
+  position: absolute;
+  width: 17vh;
+  height: 17vh;
 }
 .myDockCho_inGround {
   left: 20vw;
@@ -600,7 +597,7 @@ export default {
   cursor: default;
 }
 .usedSkill {
-  display: block;
+  opacity: 0.3;
   cursor: default;
 }
 /* @media screen and (min-height: 700px) {

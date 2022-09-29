@@ -102,7 +102,7 @@ public class UserController {
 
     @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPW(@RequestBody String email){
+    public ResponseEntity<String> findPW(@RequestParam String email){
         try {
             if(!userService.checkEmail(email)){
                 throw new UserNotFoundException();
@@ -224,6 +224,13 @@ public class UserController {
     @ApiOperation(value = "대표 독초몬 선택")
     public ResponseEntity<String> selectRepresentMonster(@RequestBody Long monster_id){
         userService.selectRepresentMonster(monster_id);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @PutMapping("/point")
+    @ApiOperation(value = "점수 변경")
+    public ResponseEntity<String> changeRankPoint(@RequestBody Integer point){
+        userService.changeRankPoint(point);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }

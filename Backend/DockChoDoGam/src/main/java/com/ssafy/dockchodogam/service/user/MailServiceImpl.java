@@ -30,6 +30,7 @@ public class MailServiceImpl implements MailService{
 
         String msgg="";
         msgg+= "<div style='margin:100px;'>";
+        msgg+= "<img src='https://dokchodogam.s3.ap-northeast-2.amazonaws.com/4.png' style='width:150px; height:150px;'/>";
         msgg+= "<h1> 안녕하세요 독초도감입니다. </h1>";
         msgg+= "<br>";
         msgg+= "<p>비밀번호가 아래와 같이 변경되었습니다.<p>";
