@@ -41,7 +41,7 @@
             value="YAKCHO"
             v-model="checkedType"
           />
-          <label for="YAKCHO">약초🥗</label>
+          <label for="YAKCHO">약초🌿</label>
 
           <input
             type="checkbox"
@@ -57,7 +57,7 @@
             value="HIDDEN"
             v-model="checkedType"
           />
-          <label for="HIDDEN">히든✨</label>
+          <label for="HIDDEN">히든💜</label>
         </div>
 
         <!-- 등급별 -->

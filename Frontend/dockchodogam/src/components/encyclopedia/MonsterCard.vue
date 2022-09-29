@@ -16,7 +16,11 @@
           card__rare: monster.grade == 'RARE',
           card__epic: monster.grade == 'EPIC',
           card__legendary: monster.grade == 'LEGENDARY',
-          card__special: monster.grade == 'SPECIAL'
+          card__special: monster.grade == 'SPECIAL',
+          card__dokcho: monster.type == 'DOKCHO',
+          card__yakcho: monster.type == 'YAKCHO',
+          card__japcho: monster.type == 'JAPCHO',
+          card__hidden: monster.type == 'HIDDEN'
         }"
         class="contentBx"
       >
@@ -259,6 +263,7 @@ export default {
 
 .contentBx__name {
   margin-top: 1.5vh;
+  /* width: 80%; */
 }
 
 .dontHavecontentBx__name {
@@ -329,5 +334,21 @@ export default {
 }
 .card__special {
   background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+
+.card__dokcho {
+  box-shadow: 0 0 20px #ff5555;
+}
+
+.card__yakcho {
+  box-shadow: 0 0 20px #467302;
+}
+
+.card__japcho {
+  box-shadow: 0 0 20px #ffe140;
+}
+
+.card__hidden {
+  box-shadow: 0 0 20px #c493ff;
 }
 </style>
