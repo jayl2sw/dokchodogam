@@ -23,7 +23,7 @@
 
 <script>
 import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 import JSConfetti from 'js-confetti'
@@ -46,13 +46,14 @@ export default {
     ...mapGetters(['monsterGacha'])
   },
   methods: {
+    ...mapActions(['fetchUserInfo']),
     goToDogam() {
-      this.$router.push({
+      this.$router.replace({
         path: '/encyclopedia'
       })
     },
     goToGameShop() {
-      this.$router.push({
+      this.$router.replace({
         path: '/game/shop'
       })
     },
@@ -69,6 +70,7 @@ export default {
     // document.cookie = 'safeCookie2=foo'
     // document.cookie = 'crossCookie=bar; SameSite=None; Secure'
     this.startConfetti()
+    // this.fetchUserInfo()
   }
 }
 </script>

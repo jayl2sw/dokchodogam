@@ -57,7 +57,7 @@ export default {
   methods: {
     // ...mapActions(['fetchUserInfo']),
     goToArenaMain() {
-      this.$router.push({ path: '/game/arena' })
+      this.$router.replace({ path: '/game/arena' })
     }
   }
 }

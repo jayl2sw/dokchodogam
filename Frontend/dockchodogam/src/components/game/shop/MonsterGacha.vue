@@ -52,7 +52,7 @@ export default {
         if (this.userInfo.money >= 200) {
           this.fetchMonsterGacha()
           // this.fetchUserInfo()
-          this.$router.push({
+          this.$router.replace({
             path: '/game/shop/gacha'
           })
         } else {
@@ -92,6 +92,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 50vh;
 }
 
 .gatcha__img {

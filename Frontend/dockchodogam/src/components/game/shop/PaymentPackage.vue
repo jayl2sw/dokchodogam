@@ -78,7 +78,7 @@ export default {
                 this.fetchMonsterPackage()
                 this.fetchUserInfo()
                 // this.packageMonsters = data.data
-                this.$router.push({
+                this.$router.replace({
                   path: '/game/shop/package'
                   // params: this.packageMonsters
                 })
@@ -99,7 +99,7 @@ export default {
       )
     },
     goToGameShop() {
-      this.$router.push({ path: '/game/shop' })
+      this.$router.replace({ path: '/game/shop' })
     }
     // showModal() {
     //   this.$bvModal.show('giveHamin')

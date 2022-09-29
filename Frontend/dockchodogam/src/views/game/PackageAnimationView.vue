@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     goToDogam() {
-      this.$router.push({
+      this.$router.replace({
         path: '/encyclopedia'
       })
     },
