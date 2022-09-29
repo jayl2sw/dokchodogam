@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface GGService {
 
-    List<BattleDto> findBattlesByNickname(String nickname, int offset, int limit);
+   // List<BattleDto> findBattlesByNickname(String nickname, int offset, int limit);
 
 }

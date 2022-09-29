@@ -80,11 +80,6 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public void addFoundMonster(Monster monster) {
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        Optional<UserMonster> isExist = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(user.getUserId(), monster.getMonsterId());
-
-        if(isExist.isPresent()){
-            return;
-        }
 
         UserMonster userMonster = UserMonster.builder().user(user).monster(monster).build();
         userMonsterRepository.save(userMonster);
