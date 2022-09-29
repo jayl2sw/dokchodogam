@@ -34,15 +34,15 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
             " or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster")
     Integer findAttackCountByMonster(@Param("monster") Long monster);
 
-    @Query(nativeQuery = true, value = "select count(*) from battle where monster_id0 = :monster" +
-            " or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster and success = true")
+    @Query(nativeQuery = true, value = "select count(*) from battle where (monster_id0 = :monster" +
+            " or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster) and success = true")
     Integer findAttackSuccessCountByMonster(@Param("monster") Long monster);
 
     @Query(nativeQuery = true, value = "select count(*) from battle where monster_id5 = :monster" +
             " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster")
     Integer findDefenceCountByMonster(@Param("monster") Long monster);
 
-    @Query(nativeQuery = true, value = "select count(*) from battle where monster_id5 = :monster" +
-            " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster and success = false")
+    @Query(nativeQuery = true, value = "select count(*) from battle where (monster_id5 = :monster" +
+            " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster) and success = false")
     Integer findDefenceSuccessCountByMonster(@Param("monster") Long monster);
 }
