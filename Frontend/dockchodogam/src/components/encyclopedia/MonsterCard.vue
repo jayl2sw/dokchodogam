@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card__container">
     <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
     <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
       <div class="imgBx">
@@ -16,7 +16,11 @@
           card__rare: monster.grade == 'RARE',
           card__epic: monster.grade == 'EPIC',
           card__legendary: monster.grade == 'LEGENDARY',
-          card__special: monster.grade == 'SPECIAL'
+          card__special: monster.grade == 'SPECIAL',
+          card__dokcho: monster.type == 'DOKCHO',
+          card__yakcho: monster.type == 'YAKCHO',
+          card__japcho: monster.type == 'JAPCHO',
+          card__hidden: monster.type == 'HIDDEN'
         }"
         class="contentBx"
       >
@@ -103,6 +107,11 @@ export default {
 </script>
 
 <style scoped>
+.card__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 /* body {
   display: flex;
   justify-content: center;
@@ -244,7 +253,7 @@ export default {
 .container .card .contentBx h3 {
   position: relative;
   /* font-weight: 600; */
-  font-size: 15;
+  font-size: 13;
   color: #000000;
   margin-bottom: 1vw;
 }
@@ -252,13 +261,14 @@ export default {
 .container .card .contentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   color: #000000;
   margin: 0;
 }
 
 .contentBx__name {
   margin-top: 1.5vh;
+  /* width: 80%; */
 }
 
 .dontHavecontentBx__name {
@@ -292,7 +302,7 @@ export default {
 .container .card .dontHavecontentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   font-family: 'UhBeeSe_hyun';
   color: #000000;
   margin: 0;
@@ -315,7 +325,7 @@ export default {
 }
 
 .card__common {
-  background-color: gray;
+  background-color: rgb(166, 166, 166);
   /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
@@ -329,5 +339,21 @@ export default {
 }
 .card__special {
   background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+
+.card__dokcho {
+  box-shadow: 0 0 20px #ff5555;
+}
+
+.card__yakcho {
+  box-shadow: 0 0 20px #467302;
+}
+
+.card__japcho {
+  box-shadow: 0 0 20px #ffe140;
+}
+
+.card__hidden {
+  box-shadow: 0 0 20px #c493ff;
 }
 </style>
