@@ -166,13 +166,13 @@ public class GameController {
         return new ResponseEntity<>(gameService.getItems(), HttpStatus.OK);
     }
 
-    @PostMapping("/monster/pick")
+    @GetMapping("/monster/pick/{item_id}")
     @ApiOperation(value = "독초몬 뽑기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = MonstersResponseDto.class)
     })
     public ResponseEntity<?> getRandomMonsters(
-            @RequestBody @ApiParam(value = "아이템 아이디") Long itemId){
+            @PathVariable @ApiParam(value = "아이템 아이디") Long itemId){
         UserResponseDto user = userService.getMyInfo();
         // 랜덤 독초몬 뽑기
         // 이미 있는 독초몬이라면 일부 냥 돌려주기

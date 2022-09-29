@@ -13,7 +13,7 @@ import java.util.Map;
 public interface DokchoService {
 
     // 모든 식물 리스트 조회
-    List<PlantListDto> findAllPlants();
+    List<PlantListDto> findAllPlants(int page);
 
     // 독초 아이디를 통해 특정 식물 상세 정보 조회
     PlantDetailDto findPlantDetail(Long plantId);

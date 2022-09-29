@@ -61,14 +61,11 @@ export default {
             // 결제 성공시 로직
             // axios로 HTTP 요청
             axios({
-              url: `${BASE_URL} + api/v1/game/monster/pick`,
-              method: 'POST',
+              url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
+              method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-              },
-              data: {
-                itemId: 2
               }
             }).then((data) => {
               // 몬스터 3개 정보 올 것,, 아마도 ?
