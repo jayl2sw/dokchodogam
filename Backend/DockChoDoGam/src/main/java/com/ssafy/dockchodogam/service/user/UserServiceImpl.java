@@ -415,4 +415,12 @@ public class UserServiceImpl implements UserService{
         me.setRepresentMonster(monster);
         userRepository.save(me);
     }
+
+    @Override
+    public void changeRankPoint(int point){
+        User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        me.changeRankPoint(point);
+
+        userRepository.save(me);
+    }
 }
