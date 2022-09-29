@@ -3,19 +3,24 @@
   <div class="result">
     <div class="result__body">
       <div class="result__left">
-        <div></div>
-        <!-- 조건 걸기 / 독초몬 유,무 -->
-        <div v-if="!results" class="dockchoMonster">
+        <div>{{ result1 }}</div>
+        <!-- !onDogam  -->
+        <div
+          v-if="!results.onDogam && !results.isOverlapped"
+          class="dockchoMonster"
+        >
           <undefined-find />
         </div>
+        <!-- !isOverlapped & onDogam -->
         <div
-          v-else-if="results.onDogam && !results.isOverlapped"
+          v-else-if="!results.isOverlapped && results.onDogam"
           class="dockchoMonster"
         >
           <new-find :plant="results.plant" />
         </div>
+        <!-- isOverlapped & onDogam -->
         <div
-          v-else-if="results.onDogam && results.isOverlapped"
+          v-else-if="results.isOverlapped && results.onDogam"
           class="dockchoMonster"
         >
           <duplicate-find :plant="results.plant" />
@@ -24,22 +29,20 @@
       <div class="result__right">
         <img src="@/assets/cat.png" alt="cat" />
         <div class="dockchoExplanation__container">
-          <div v-if="!results" class="dockchoExplanation">
+          <div v-if="results.plant" class="dockchoExplanation">
             <img src="@/assets/flower_ex.png" alt="flower" />
             <!-- <h3 v-if="results.docko == true">
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3> -->
-            <h3>{{ results.plant.name }}</h3>
-            <p>
-              {{ results.plant.familyKorNm }} {{ results.plant.genusKorNm }}
-            </p>
-            <p>원산지 : {{ results.plant.dstrb }}</p>
-            <p>{{ results.plant.flwrDesc }}</p>
-            <p>{{ results.plant.grwEvrntDesc }}</p>
+            <h3>{{ plant.name }}</h3>
+            <p>{{ plant.familyKorNm }} {{ plant.genusKorNm }}</p>
+            <p>원산지 : {{ plant.dstrb }}</p>
+            <p>{{ plant.flwrDesc }}</p>
+            <p>{{ plant.grwEvrntDesc }}</p>
           </div>
-          <div v-else>
-            <p>정보가 없어요 ㅠㅠ</p>
-          </div>
+          <!-- <div v-else>
+            <p>제가 잘 모르는 식물이에요 😥 스승님께 알려드릴게요!</p>
+          </div> -->
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
             <img class="tree2" src="@/assets/tree.png" alt="tree" />
@@ -50,7 +53,7 @@
     </div>
     <div class="result__footer">
       <div>
-        <!-- <button @click="goToCamera">다시 촬영하기</button> -->
+        <button @click="goToCamera">다시 촬영하기</button>
       </div>
     </div>
   </div>
@@ -71,7 +74,8 @@ export default {
   },
   data() {
     return {
-      results: this.$route.params
+      results: JSON.parse(this.$route.query.result1),
+      plant: this.$route.query.plant
     }
   },
 
