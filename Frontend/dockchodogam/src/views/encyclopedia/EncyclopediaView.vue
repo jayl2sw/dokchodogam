@@ -280,6 +280,8 @@ export default {
 
 <style scoped>
 .dogam__container {
+  height: 100%;
+  min-height: 100vh;
   background-image: url('@/assets/dogam_background.jpg');
 }
 

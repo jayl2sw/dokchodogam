@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card__container">
     <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
     <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
       <div class="imgBx">
@@ -107,6 +107,11 @@ export default {
 </script>
 
 <style scoped>
+.card__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 /* body {
   display: flex;
   justify-content: center;
@@ -248,7 +253,7 @@ export default {
 .container .card .contentBx h3 {
   position: relative;
   /* font-weight: 600; */
-  font-size: 15;
+  font-size: 13;
   color: #000000;
   margin-bottom: 1vw;
 }
@@ -256,7 +261,7 @@ export default {
 .container .card .contentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   color: #000000;
   margin: 0;
 }
@@ -297,7 +302,7 @@ export default {
 .container .card .dontHavecontentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   font-family: 'UhBeeSe_hyun';
   color: #000000;
   margin: 0;
@@ -320,7 +325,7 @@ export default {
 }
 
 .card__common {
-  background-color: gray;
+  background-color: rgb(166, 166, 166);
   /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
