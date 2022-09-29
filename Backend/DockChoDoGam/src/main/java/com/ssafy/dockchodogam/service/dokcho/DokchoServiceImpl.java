@@ -54,8 +54,8 @@ public class DokchoServiceImpl implements DokchoService {
     private String apiKey;
 
     @Override
-    public List<PlantListDto> findAllPlants() {
-        List<PlantListDto> plantList = plantRepository.findAll().stream()
+    public List<PlantListDto> findAllPlants(int page) {
+        List<PlantListDto> plantList = plantRepository.findAll(PageRequest.of(page, 20)).stream()
                 .map(p -> new PlantListDto(p.getPlantId(), p.getName(), p.getEngNm(), p.getImgUrl(),
                         p.getFamilyKorNm(), p.getGenusKorNm(), p.getPlantSpecsScnm()))
                 .collect(Collectors.toList());
