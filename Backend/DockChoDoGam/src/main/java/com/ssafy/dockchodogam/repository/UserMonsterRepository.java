@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserMonsterRepository extends JpaRepository<UserMonster, Long> {
-
     Optional<UserMonster> findUserMonsterByMonsterMonsterIdAndUserUserId(Long monsterId, Long userId);
+
     Optional<UserMonster> findUserMonsterByMonsterAndUser(Monster monster, User user);
 
     Page<UserMonster> findUserMonsterByUserUserId(Long userId, Pageable pageable);

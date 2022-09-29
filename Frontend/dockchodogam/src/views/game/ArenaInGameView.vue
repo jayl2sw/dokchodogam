@@ -1,6 +1,12 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
-  <div v-show="!this.isLoading">
+  <div class="containerBox" v-show="!this.isLoading">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="inGame" v-if="!this.isGameEndFlag">
       <div class="inGame__top">
         <div class="yourDockChoList">
@@ -134,7 +140,8 @@ export default {
       nowUseSkill: false,
       isUseSkill: false,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      isPortrait: true
     }
   },
   methods: {
@@ -263,6 +270,7 @@ export default {
         this.nowUseSkill = false
       }
       setTimeout(() => {
+        this.round += 1
         this.myDamage = ''
         this.yourDamage = ''
         if (
@@ -341,10 +349,15 @@ export default {
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/card_select.mp3')
       audio.volume = 1
       audio.play()
-      if (this.isMyDockchoDead && !this.isDead_myDockCho[idx]) {
+      if (
+        this.isMyDockchoDead &&
+        !this.isDead_myDockCho[idx] &&
+        this.currentMyDockCho === ''
+      ) {
         this.currentMyIdx = idx
         this.currentMyDockCho = this.myDockChoList[this.currentMyIdx]
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.isMyDockchoDead = false
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -382,8 +395,7 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
-          this.battleId = res.data.battleId
+          this.battleId = res.data.battle_id
         })
         .catch((err) => console.log(err))
     },
@@ -412,9 +424,10 @@ export default {
     },
     postGameEnd(win) {
       const data = {
-        battleId: this.battleId,
+        battle_id: this.battleId,
         success: win
       }
+      console.log(data)
       axios
         .post(BASE_URL + '/api/v1/battle/finish', data, {
           headers: {
@@ -611,6 +624,35 @@ export default {
 @media screen and (max-width: 850px) {
   .myDockChoItem {
     border-width: 2px;
+  }
+}
+@media only screen and (orientation: portrait) {
+  .containerBox {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .inGame {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>

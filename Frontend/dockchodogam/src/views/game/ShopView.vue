@@ -1,5 +1,11 @@
 <template>
   <div class="shop">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="shop__boxes">
       <div class="shop__top">
         <div class="nickname">
@@ -32,7 +38,7 @@
 import PaymentCash from '@/components/game/shop/PaymentCash.vue'
 import PaymentPackage from '@/components/game/shop/PaymentPackage.vue'
 import MonsterGacha from '@/components/game/shop/MonsterGacha.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -52,6 +58,12 @@ export default {
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
     }
+  },
+  watch: {
+    // userInfo(newuserInfo) {
+    //   ...mapActions(['fetchUserInfo()'])
+    //   console.log('New userinfo: ' + newuserInfo)
+    // }
   }
 }
 </script>
@@ -111,6 +123,32 @@ export default {
   text-align: center;
   border-radius: 50px;
   background-image: url(https://previews.123rf.com/images/surachetkhamsuk/surachetkhamsuk1410/surachetkhamsuk141000003/32388683-%EB%B9%A8%EA%B0%84-%EB%B0%98%EC%A7%9D%EC%9D%B4-%EB%B0%9C%EB%A0%8C%ED%83%80%EC%9D%B8%EC%9D%98-%EB%82%A0-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%B0%B0%EA%B2%BD.jpg);
+}
+@media only screen and (orientation: portrait) {
+  .shop {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .shop__boxes {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
+  }
 }
 /* @media screen and (max-width: 850px) {
   .game__exit {

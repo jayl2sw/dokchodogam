@@ -1,5 +1,11 @@
 <template>
   <div class="friendPage">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="friend">
       <TabWrapper>
         <TabItem title="친구 목록" class="friendList__tap">
@@ -220,6 +226,32 @@ export default {
   }
   svg {
     width: 10px;
+  }
+}
+@media only screen and (orientation: portrait) {
+  .friendPage {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .friend {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>

@@ -1,6 +1,12 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
   <div class="deckPage">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="deck" v-show="!this.isLoading">
       <div class="myDeck">
         <div class="myDeckItems">
@@ -348,6 +354,32 @@ export default {
 }
 .inMyDeck {
   display: block;
+}
+@media only screen and (orientation: portrait) {
+  .deckPage {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .deck {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
+  }
 }
 /* @media screen and (max-width: 850px) {
   .myDockchoItemBox {

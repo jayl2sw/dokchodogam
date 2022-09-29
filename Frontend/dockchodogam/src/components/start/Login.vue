@@ -24,13 +24,14 @@
           <button class="kakaologin__btn" @click="kakaoLogin()">
             카카오로그인
           </button>
-
+        </div>
+        <div class="loginpage__btn">
           <button class="signup__btn" @click="signUp()">회원가입</button>
           <!-- <a href="/oauth2/authorization/kakao">카카오 로그인</a> -->
+          <!-- <button class="findpassword__btn" @click="findpassword()">
+            비밀번호찾기
+          </button> -->
         </div>
-        <!-- <button class="findpassword__btn" @click="findpassword()">
-          비밀번호찾기
-        </button> -->
         <div>
           <a class="findpassword__btn" @click="findpassword()"
             >비밀번호를 잊으셨나요?
@@ -109,7 +110,7 @@ export default {
 
 <style scoped>
 button {
-  height: 4vh;
+  height: 5vh;
   border-radius: 50px;
   border: none;
   width: 10vw;
@@ -259,10 +260,10 @@ input:focus {
     padding-left: 7vw;
   }
   button {
-    height: 4vh;
+    height: 6vh;
     border-radius: 50px;
     border: none;
-    width: 25vw;
+    width: 35vw;
     margin-top: 20px;
     margin-bottom: 20px;
   }

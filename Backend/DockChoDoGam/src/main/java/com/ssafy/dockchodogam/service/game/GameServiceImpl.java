@@ -4,7 +4,6 @@ import com.ssafy.dockchodogam.domain.*;
 import com.ssafy.dockchodogam.dto.exception.game.CashBelowZeroException;
 import com.ssafy.dockchodogam.dto.exception.game.ItemNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.game.MonsterNotFoundException;
-import com.ssafy.dockchodogam.dto.exception.game.SkillNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
@@ -137,7 +136,7 @@ public class GameServiceImpl implements GameService {
             } else {
                 monster = monsters.get(i);
             }
-            boolean isGot = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monster.getMonsterId(), user.getUserId()) != null;
+            boolean isGot = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user).isPresent();
             if (isGot) {
                 // 일부 환불 (10%)
                 rest += item.getPriceCash() / (item.getItemCnt() * 10);
