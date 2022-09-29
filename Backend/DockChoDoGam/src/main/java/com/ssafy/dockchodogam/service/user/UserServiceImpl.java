@@ -141,6 +141,12 @@ public class UserServiceImpl implements UserService{
         return UserResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new));
     }
 
+
+    @Override
+    public UserResponseDto getUserInfo(Long userId) {
+        return UserResponseDto.from(userRepository.findById(userId).orElseThrow(UserNotFoundException::new));
+    }
+
 //  현재 사용처 없음
 //    @Override
 //    public UserResponseDto getUserInfo(Long id){

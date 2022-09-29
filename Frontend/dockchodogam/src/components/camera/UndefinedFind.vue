@@ -2,7 +2,8 @@
   <div class="find">
     <h3>도감에 없는 식물을 찾았어요!</h3>
     <div>
-      <img />
+      <p>스승님께 알려드릴게요!</p>
+      <img src="@/assets/5.png" />
     </div>
   </div>
 </template>

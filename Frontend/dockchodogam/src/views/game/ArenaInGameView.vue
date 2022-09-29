@@ -320,6 +320,7 @@ export default {
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
         console.log('상대 승리')
         this.postGameEnd(false)
+        this.putMyPoint(-5)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
@@ -327,6 +328,7 @@ export default {
       } else if (this.currentMyIdx === -1) {
         console.log('상대 승리')
         this.postGameEnd(false)
+        this.putMyPoint(-5)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
@@ -334,6 +336,7 @@ export default {
       } else if (this.currentYourIdx === -1) {
         console.log('나 승리')
         this.postGameEnd(true)
+        this.putMyPoint(10)
         setTimeout(() => {
           this.isGameEndFlag = true
           this.resultInfo = [this.enemyInfo.isChinsun, '승리!']
@@ -437,6 +440,16 @@ export default {
         })
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err))
+    },
+    putMyPoint(point) {
+      axios
+        .put(BASE_URL + '/api/v1/user/point', point, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .catch((err) => console.log(err))
     }
   },
   created() {
@@ -466,12 +479,13 @@ export default {
     if (!this.isGameEndFlag) {
       swal({
         title: '정상적이지 않은 게임 진행입니다 😡',
-        text: '임의로 게임이 중단되어 랭크 포인트 5점이 감점됩니다.',
+        text: '임의로 게임이 중단되어 랭크 포인트 10점이 감점됩니다.',
         icon: 'error',
         timer: 1500
       })
-      this.fetchEnemyInfo('')
+      this.putMyPoint(-10)
     }
+    this.fetchEnemyInfo('')
   },
   computed: {
     ...mapGetters(['userDeck', 'enemyInfo'])

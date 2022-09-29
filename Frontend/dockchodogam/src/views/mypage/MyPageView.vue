@@ -177,6 +177,7 @@ export default {
               buttons: false,
               timer: 1500
             })
+            localStorage.clear()
             this.$router.push({
               path: '/'
             })
