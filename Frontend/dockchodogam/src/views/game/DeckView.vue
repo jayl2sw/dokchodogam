@@ -1,5 +1,4 @@
 <template>
-  <LoadingPage v-if="this.isLoading" />
   <div class="deckPage">
     <div id="warning-message">
       <p class="TITLE">
@@ -61,13 +60,9 @@
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
-import LoadingPage from '@/components/main/LoadingPage.vue'
 import swal from 'sweetalert'
 
 export default {
-  components: {
-    LoadingPage
-  },
   data() {
     return {
       myDeck: [],
@@ -75,7 +70,6 @@ export default {
       check: [],
       selectDeck: '',
       selectDockcho: '',
-      isLoading: false,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/deck.mp3')
     }
@@ -86,7 +80,7 @@ export default {
     },
     getMyDokcho() {
       axios
-        .get(BASE_URL + '/api/v1/game/monster/mylist', {
+        .get(BASE_URL + '/api/v1/game/monster/mylist?size=100', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
@@ -180,10 +174,16 @@ export default {
   },
   created() {
     this.getMyDokcho()
-    this.myDeck = this.userDeck
-    setTimeout(() => {
-      this.isLoading = false
-    }, 3000)
+    axios
+      .get(BASE_URL + '/api/v1/game/deck/myInfo', {
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+      .then((res) => {
+        this.myDeck = res.data
+      })
+      .catch((err) => console.log(err))
   },
   mounted() {
     this.audio.loop = true
