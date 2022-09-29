@@ -55,10 +55,7 @@ export default {
         }
       }
       axios
-        .get(
-          BASE_URL + '/api/v1/dokcho/list/{page}?page=' + this.plantPage,
-          option
-        )
+        .get(BASE_URL + '/api/v1/dokcho/list/' + this.plantPage, option)
         .then((res) => {
           if (res.data.data.length) {
             this.plantList = this.plantList.concat(res.data.data)
