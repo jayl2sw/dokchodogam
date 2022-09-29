@@ -46,16 +46,14 @@ export default {
   methods: {
     fetchMonsterGacha() {
       axios({
-        url: `${BASE_URL} + api/v1/game/monster/pick`,
-        method: 'POST',
+        url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/3',
+        method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-        },
-        data: {
-          itemId: 3
+          // 'Content-Type': 'application/json'
         }
       })
-        .then((res) => (this.newMonster = res))
+        .then((res) => console.log(res)((this.newMonster = res)))
         .catch((err) => console.log(err))
     },
     goToDogam() {
