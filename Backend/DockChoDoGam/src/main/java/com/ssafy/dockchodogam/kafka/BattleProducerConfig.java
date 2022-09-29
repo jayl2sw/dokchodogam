@@ -1,7 +1,6 @@
 package com.ssafy.dockchodogam.kafka;
 
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,7 @@ import java.util.Map;
 @Configuration
 public class BattleProducerConfig {
 
-    @Value("localhost:9092")
+    @Value("https://j7e201.p.ssafy.io:9092")
     private String bootstrapServer;
 
     @Bean
