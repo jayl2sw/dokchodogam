@@ -91,7 +91,7 @@ public class DokchoServiceImpl implements DokchoService {
 
     @Override
     public String savePlantImage(MultipartFile file) {
-        if(file.isEmpty()){
+        if (file.isEmpty()){
             throw new RuntimeException("이미지가 없습니다.");
         }
         String fileName = file.getOriginalFilename();
@@ -127,7 +127,6 @@ public class DokchoServiceImpl implements DokchoService {
         }
         res.put("probability", probability);
         if (data.containsKey("species")) {
-//        if (false) {
             String species = (String) data.get("species");
             Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
             if (plantBySpecies.isPresent()) {
@@ -195,8 +194,8 @@ public class DokchoServiceImpl implements DokchoService {
         byte[] bytes = IOUtils.toByteArray(is);
         String response = new String(bytes);
 
-        System.out.println("Response code : " + con.getResponseCode());
-        System.out.println("Response : " + response);
+//        System.out.println("Response code : " + con.getResponseCode());
+//        System.out.println("Response : " + response);
         con.disconnect();
         return response;
     }
