@@ -40,7 +40,7 @@
 export default {
   data() {
     return {
-      dockchos: ['개나리몬', '유칼립투스몬', '월계수몬'],
+      dockchos: ['개나리몬', '해바라기몬', '도꼬마리몬', '석류몬', '박하몬'],
       isChecked: false
     }
   },
