@@ -49,7 +49,6 @@ export const accounts: Module<accountsState, RootState> = {
     async fetchUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
-
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
       if (localStorage.getItem('accessToken') !== '') {
