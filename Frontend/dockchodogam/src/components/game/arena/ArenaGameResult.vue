@@ -2,7 +2,8 @@
   <div class="gameResult">
     <div class="result__text">{{ resultInfo[1] }}</div>
     <div class="result__score">
-      <p v-if="resultInfo[1] === '패배'">-2</p>
+      <p v-if="resultInfo[0]">친선전은 랭크포인트에 영향을 주지 않아요!</p>
+      <p v-else-if="resultInfo[1] === '패배'">-2</p>
       <p v-else>+10</p>
     </div>
     <div class="result__images">
@@ -19,7 +20,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import axios from 'axios'
 
 export default {
   props: ['myDeck', 'resultInfo'],
@@ -32,13 +32,22 @@ export default {
     ...mapActions(['fetchEnemyInfo']),
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
+    },
+    goToFriend() {
+      this.$router.push({ path: '/game/friend' })
     }
   },
   mounted() {
     this.fetchEnemyInfo('')
-    setTimeout(() => {
-      this.goToArenaMain()
-    }, 2000)
+    if (this.resultInfo[0]) {
+      setTimeout(() => {
+        this.goToFriend()
+      }, 2000)
+    } else {
+      setTimeout(() => {
+        this.goToArenaMain()
+      }, 2000)
+    }
   }
 }
 </script>

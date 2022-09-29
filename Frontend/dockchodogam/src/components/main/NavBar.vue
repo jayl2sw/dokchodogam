@@ -39,7 +39,7 @@
               </a>
             </li>
             <li>
-              <a href="/" @click="logout()">
+              <a href="#" @click="logout()">
                 <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
               </a>
             </li>
@@ -95,7 +95,7 @@
           </ul>
         </div>
         <div class="sideBar__logout" @click="logout()">
-          <a href="#">
+          <a href="">
             <font-awesome-icon
               icon="fa-solid fa-door-open"
               class="sideBar__logoutIcon"
@@ -114,6 +114,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 export default {
   data() {
     return {
@@ -127,9 +130,34 @@ export default {
       this.showMenu = !this.showMenu
       this.$emit('overflow', this.showMenu)
     },
-    async logout() {
-      localStorage.clear()
-      await alert('로그아웃되셨습니다. 다음에 또 봐용~❤')
+    logout() {
+      if (
+        confirm('정말 로그아웃 하시겠어요? 독초도감을 완성하지 못했는데..😥')
+      ) {
+        axios
+          .put(BASE_URL + '/api/v1/user/logout', null, {
+            headers: {
+              // 'Content-type': 'application/json',
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          })
+          .then((res) => {
+            console.log(res)
+            swal({
+              title: '로그아웃이 완료되었습니다!😘',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
+            localStorage.clear()
+            this.$router.push({
+              path: '/'
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     },
     popon(path) {
       console.log(process.env)

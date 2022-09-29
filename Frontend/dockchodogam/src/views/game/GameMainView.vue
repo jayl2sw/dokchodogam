@@ -1,8 +1,8 @@
 <template>
   <NavBar @overflow="overflow" />
   <div class="game">
-    <div class="game__arena" @click="goToArena()">아레나</div>
-    <div class="game__mandu">독초만두</div>
+    <div class="game__arena" @click="goToArena()"></div>
+    <div class="game__mandu"></div>
   </div>
 </template>
 
@@ -48,9 +48,10 @@ export default {
   height: 85vh;
 }
 .game__arena {
-  background-image: url('@/assets/game_background.png');
+  background-image: url('@/assets/arena/001.png');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   border: 2px groove;
   border-radius: 5px;
   width: 39.5vw;
@@ -59,6 +60,10 @@ export default {
   cursor: pointer;
 }
 .game__mandu {
+  background-image: url('@/assets/arena/002.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   border: 2px groove;
   border-radius: 5px;
   width: 39.5vw;

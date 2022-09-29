@@ -40,7 +40,7 @@
         <button class="change__password" @click="this.displayNone()">
           비밀번호 변경
         </button>
-        <button class="quit__btn">회원 탈퇴</button>
+        <button class="quit__btn" @click="this.deleteUser()">회원 탈퇴</button>
       </div>
       <div class="changePw__form" :class="this.isNone ? '' : 'displayNone'">
         <div class="changePw__inputs">
@@ -82,6 +82,8 @@ import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 
+var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+
 export default {
   components: {
     NavBar,
@@ -113,7 +115,15 @@ export default {
       this.showChangeDokchoMenu = true
     },
     changePassword() {
-      if (this.newPassword === this.newPassword2) {
+      if (!passwordCheck.test(this.newPassword)) {
+        swal({
+          title:
+            '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏',
+          icon: 'error',
+          buttons: false,
+          timer: 2000
+        })
+      } else if (this.newPassword === this.newPassword2) {
         console.log(this.newPassword)
         console.log(this.newPassword2)
         axios
@@ -148,6 +158,32 @@ export default {
           buttons: false,
           timer: 1500
         })
+      }
+    },
+    deleteUser() {
+      if (confirm('정말 탈퇴하시겠어요? 독초도감을 완성하지 못했는데..😥')) {
+        axios
+          .delete(BASE_URL + '/api/v1/user/', {
+            headers: {
+              'Content-type': 'application/json',
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          })
+          .then((res) => {
+            console.log(res)
+            swal({
+              title: '탈퇴가 완료되었어요!😭',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
+            this.$router.push({
+              path: '/'
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     }
   },
