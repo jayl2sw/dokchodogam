@@ -1,6 +1,9 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
   <div class="main" v-show="!this.isLoading">
+    <div id="warning-message">
+      this website is only viewable in landscape mode
+    </div>
     <div class="main__boxes">
       <div class="box__left">
         <div class="myDeck">
@@ -643,15 +646,17 @@ export default {
     overflow: scroll;
   }
 }
-@media (orientation: portrait) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: top left;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100vh;
-    height: 100vw;
+@media only screen and (orientation: portrait) {
+  #wrapper {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>
