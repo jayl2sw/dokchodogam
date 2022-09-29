@@ -4,7 +4,6 @@ import com.ssafy.dockchodogam.domain.*;
 import com.ssafy.dockchodogam.dto.exception.game.CashBelowZeroException;
 import com.ssafy.dockchodogam.dto.exception.game.ItemNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.game.MonsterNotFoundException;
-import com.ssafy.dockchodogam.dto.exception.game.SkillNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;

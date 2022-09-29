@@ -22,13 +22,13 @@ public class GGServiceImpl implements GGService{
     private final BattleRepository battleRepository;
     private final BattleLogRepository battleLogRepository;
 
-    @Override
-    public List<BattleDto> findBattlesByNickname(String nickname, int offset, int limit) {
-        User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
-        List<BattleDto> battles = battleRepository.findBattlesByUser(user, offset, limit).stream()
-                .map(b -> new BattleDto().from(b)).collect(Collectors.toList());
-
-        return battles;
-
-    }
+//    @Override
+//    public List<BattleDto> findBattlesByNickname(String nickname, int offset, int limit) {
+//        User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
+//        List<BattleDto> battles = battleRepository.findBattlesByUser(user, offset, limit).stream()
+//                .map(b -> new BattleDto().from(b)).collect(Collectors.toList());
+//
+//        return battles;
+//
+//    }
 }
