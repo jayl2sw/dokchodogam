@@ -643,4 +643,15 @@ export default {
     overflow: scroll;
   }
 }
+@media (orientation: portrait) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: top left;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100vh;
+    height: 100vw;
+  }
+}
 </style>
