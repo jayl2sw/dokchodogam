@@ -103,7 +103,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<RankerProfileResponseDto> getTop5() {
-        return userRepository.findTop5ByOrderByRankPointDesc()
+        return userRepository.findTop5ByOrderByRankPointDescUserIdAsc()
                 .stream().map(s -> RankerProfileResponseDto.of(s)).collect(Collectors.toList());
     }
 

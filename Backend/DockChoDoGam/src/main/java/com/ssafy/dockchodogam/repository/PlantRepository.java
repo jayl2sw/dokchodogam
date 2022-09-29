@@ -15,6 +15,8 @@ public interface PlantRepository extends JpaRepository<Plant, Long> {
     // 모든 식물 리스트 찾기
     Page<Plant> findAll(Pageable pageable);
 
+    // ID로 식물 찾기
+    Optional<Plant> findPlantByPlantId(Long plantId);
     // 기본 이름을로 찾기
     Optional<Plant> findByName(String name);
 

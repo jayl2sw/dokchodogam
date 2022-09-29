@@ -107,7 +107,7 @@ public class DokchoController {
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
         Plant plant = (Plant) plantData.get("plant");
-        PlantDetailDto plantDto = dokchoService.createDto(plant);
+        PlantDetailDto plantDto = new PlantDetailDto().from(plant);
         res.put("plant", plantDto);
 
         boolean onDogam = false;

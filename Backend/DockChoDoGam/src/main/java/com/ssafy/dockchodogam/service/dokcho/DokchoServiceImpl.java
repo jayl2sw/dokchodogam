@@ -64,12 +64,8 @@ public class DokchoServiceImpl implements DokchoService {
 
     @Override
     public PlantDetailDto findPlantDetail(Long plantId) {
-        Optional<Plant> plant = plantRepository.findById(plantId);
-        if (plant.isPresent()) {
-            PlantDetailDto result = createDto(plant.get());
-            return result;
-        }
-        return null;
+        Plant plant = plantRepository.findPlantByPlantId(plantId).orElseThrow(PlantNotFoundException::new);
+        return PlantDetailDto.from(plant);
     }
 
     @Override
@@ -91,12 +87,8 @@ public class DokchoServiceImpl implements DokchoService {
 
     @Override
     public PlantDetailDto findPlantByPlantSpecsScnm(String plantSpecsScnm) {
-        Optional<Plant> plant = plantRepository.findByplantSpecsScnm(plantSpecsScnm);
-        if (plant.isPresent()) {
-            PlantDetailDto dto = createDto(plant.get());
-            return dto;
-        }
-        return null;
+        Plant plant = plantRepository.findByplantSpecsScnm(plantSpecsScnm).orElseThrow(PlantNotFoundException::new);
+        return new PlantDetailDto().from(plant);
     }
 
     @Override
@@ -263,17 +255,6 @@ public class DokchoServiceImpl implements DokchoService {
 
 
         return res;
-    }
-
-
-    public PlantDetailDto createDto(Plant p){
-        PlantDetailDto dto = new PlantDetailDto(p.getPlantId(), p.getName(), p.getEngNm(), p.getFamilyKorNm(),
-                p.getFamilyNm(), p.getGenusKorNm(), p.getGenusNm(), p.getPlantSpecsScnm(), p.getImgUrl(),
-                p.getShpe(), p.getSpft(), p.getOrplcNm(), p.getSz(), p.getSmlrPlntDesc(), p.getFlwrDesc(),
-                p.getLeafDesc(), p.getDstrb(), p.getStemDesc(), p.getFritDesc(), p.getBranchDesc(), p.getWoodDesc(),
-                p.getSporeDesc(), p.getRootDesc(), p.getFarmSpftDesc(), p.getGrwEvrntDesc(), p.getUseMthdDesc(),
-                p.getCprtCtnt(), p.getMonster().getMonsterId());
-        return dto;
     }
 
     public TodayPlantDto getTodayPlant(){
