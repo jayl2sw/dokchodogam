@@ -17,7 +17,7 @@
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 const IMP = window.IMP
 IMP.init('imp40805235')
@@ -32,6 +32,7 @@ export default {
   //   ...mapGetters(['userInfo'])
   // },
   methods: {
+    ...mapActions(['fetchUserInfo']),
     onPaymentCash: function () {
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
@@ -60,6 +61,7 @@ export default {
             })
               .then((data) => {
                 console.log(data)
+                this.fetchUserInfo()
                 // 서버 결제 API 성공시 로직
                 swal({
                   title: '냥 충전 완료! 💰',
@@ -71,6 +73,7 @@ export default {
               })
               .catch((err) => console.log(err))
           } else {
+            this.fetchUserInfo()
             // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',

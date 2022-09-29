@@ -55,10 +55,13 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
-    // ...mapActions(['fetchUserInfo']),
+    ...mapActions(['fetchUserInfo']),
     goToArenaMain() {
       this.$router.push({ path: '/game/arena' })
     }
+  },
+  created() {
+    this.fetchUserInfo()
   }
 }
 </script>

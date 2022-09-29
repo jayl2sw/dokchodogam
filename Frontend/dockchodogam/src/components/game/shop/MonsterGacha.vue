@@ -25,7 +25,7 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
-    ...mapActions(['fetchMonsterGacha']),
+    ...mapActions(['fetchMonsterGacha', 'fetchUserInfo']),
     doubleCheck() {
       // swal({
       //   text: '200냥을 내고 뽑기를 진행하시겠습니까?',
@@ -51,6 +51,7 @@ export default {
       if (confirm('200냥을 내고 뽑기를 진행하시겠습니까?') === true) {
         if (this.userInfo.money >= 200) {
           this.fetchMonsterGacha()
+          this.fetchUserInfo()
           this.$router.push({
             path: '/game/shop/gacha'
           })
