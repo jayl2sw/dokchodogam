@@ -11,7 +11,11 @@
       </div>
 
       <input v-model="username" placeholder="아이디를 입력하세요" />
-      <input v-model="email" placeholder="이메일을 입력하세요" />
+      <input
+        @keyup.enter="findpassword()"
+        v-model="email"
+        placeholder="이메일을 입력하세요"
+      />
 
       <div class="findpasswordpage__button">
         <button

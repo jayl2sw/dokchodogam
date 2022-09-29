@@ -74,6 +74,7 @@
         </div>
         <div>
           <input
+            @keyup.enter="signup()"
             v-model="password2"
             type="password"
             placeholder="비밀번호 확인"
