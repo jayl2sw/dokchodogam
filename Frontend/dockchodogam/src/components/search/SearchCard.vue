@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img :src="result.imgUrl" alt="" class="plantImage" />
+    <img :src="'http://' + result.imgUrl.slice(7)" alt="" class="plantImage" />
     <div class="plantName">
       {{ result.name }}
     </div>
