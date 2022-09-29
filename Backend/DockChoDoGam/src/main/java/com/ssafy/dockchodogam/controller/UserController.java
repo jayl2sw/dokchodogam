@@ -226,4 +226,11 @@ public class UserController {
         userService.selectRepresentMonster(monster_id);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
+
+    @PutMapping("/point")
+    @ApiOperation(value = "점수 변경")
+    public ResponseEntity<String> changeRankPoint(@RequestBody Integer point){
+        userService.changeRankPoint(point);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
 }
