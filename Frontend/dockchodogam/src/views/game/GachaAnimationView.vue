@@ -47,7 +47,7 @@ export default {
     ...mapGetters(['monsterGacha'])
   },
   methods: {
-    ...mapActions(['fetchUserInfo']),
+    // ...mapActions(['fetchUserInfo']),
     goToDogam() {
       this.$router.replace({
         path: '/encyclopedia'
