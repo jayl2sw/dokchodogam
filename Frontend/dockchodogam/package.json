@@ -33,7 +33,6 @@
     "vue": "^3.2.39",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
-    "vue-spinner": "^1.0.4",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
