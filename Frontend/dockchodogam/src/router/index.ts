@@ -111,6 +111,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/IntroView.vue'
       )
   },
+  // 닉네임지정
+  {
+    path: '/set/nickname',
+    name: 'setnickname',
+    component: () =>
+      import(
+        /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/SetNicknameView.vue'
+      )
+  },
   // 메인페이지
   {
     path: '/main',
@@ -298,7 +307,7 @@ router.beforeEach(async (to, from, next) => {
     if (!isAccessTokenExpired()) {
       return next()
     } else {
-      await doRefreshToken()
+      doRefreshToken()
     }
   } else {
     console.log('로그인 해주세용~💋')
