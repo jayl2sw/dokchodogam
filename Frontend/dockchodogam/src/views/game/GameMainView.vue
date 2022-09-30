@@ -45,34 +45,43 @@ export default {
 
 <style scoped>
 .game {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: -1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  background-image: url('@/assets/dogam_background.jpg');
 }
 .game__arena {
   background-image: url('@/assets/arena/001.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
   background-position: center;
-  border: 2px groove;
-  border-radius: 5px;
+  border-radius: 50px;
   width: 39.5vw;
   height: 50vh;
   margin: 3vh 2vw;
   cursor: pointer;
 }
+.game__arena:hover {
+  animation: bigger 0.5s linear 0s 1 normal forwards;
+}
 .game__gg {
   background-image: url('@/assets/arena/002.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
   background-position: center;
-  border: 2px groove;
-  border-radius: 5px;
+  border-radius: 50px;
   width: 39.5vw;
   height: 50vh;
   margin: 3vh 2vw;
   cursor: pointer;
+}
+.game__gg:hover {
+  animation: bigger 0.5s linear 0s 1 normal forwards;
 }
 @media screen and (max-width: 850px) {
   .game {
@@ -86,6 +95,14 @@ export default {
   .game__gg {
     width: 80vw;
     height: 38vh;
+  }
+}
+@keyframes bigger {
+  from {
+    background-size: 100%;
+  }
+  to {
+    background-size: 50vw;
   }
 }
 </style>

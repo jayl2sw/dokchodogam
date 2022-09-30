@@ -204,6 +204,7 @@ export default {
   height: 70vh;
 }
 .todayPlant__container {
+  position: relative;
   background-color: #ececec;
   border-width: 5px;
   border-radius: 40px;
@@ -216,8 +217,10 @@ export default {
   opacity: 1;
 }
 .todayPlant {
+  position: absolute;
+  top: 3vh;
   width: 40vw;
-  height: 56vh;
+  height: 54vh;
   display: flex;
   flex-direction: column;
   align-items: center;
