@@ -46,8 +46,18 @@ export const accounts: Module<accountsState, RootState> = {
     }
   },
   actions: {
-    async fetchUserInfo({ commit }, userInfo) {
-      commit('SET_USERINFO', userInfo)
+    fetchUserInfo({ commit }) {
+      axios
+        .get(BASE_URL + '/api/v1/user/myInfo', {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          commit('SET_USERINFO', res.data)
+          console.log('내 정보~', res.data)
+        })
+        .catch((err) => console.log(err))
     },
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
