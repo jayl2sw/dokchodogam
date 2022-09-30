@@ -27,14 +27,12 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 // import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
 import swal from 'sweetalert'
-import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     Camera,
     NavBar
-    FadeLoader
   },
   setup() {
     const camera = ref<InstanceType<typeof Camera>>()
