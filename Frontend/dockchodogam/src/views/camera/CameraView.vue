@@ -27,14 +27,17 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 // import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
 import swal from 'sweetalert'
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     Camera,
-    NavBar
+    NavBar,
+    FadeLoader
   },
   setup() {
+    const isLoading = false
     const camera = ref<InstanceType<typeof Camera>>()
 
     const cameras: Ref<MediaDeviceInfo[]> = ref([])
@@ -83,11 +86,8 @@ export default defineComponent({
         data: formdata
       })
         .then((res) => {
-          // console.log(res)
-          // console.log(res.data)
           result.value = res.data
           console.log('result value')
-          // console.log(result.value)
           console.log(result.value.plant)
           // router push 하면서 result.value 담아서 보내기
           router.push({
