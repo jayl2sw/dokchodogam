@@ -22,5 +22,4 @@ public interface MonsterRepository extends JpaRepository<Monster, Long> {
 
     @Query(nativeQuery = true, value = "select * from monster m where m.grade = :grade order by RAND() limit 1")
     Monster findRandomMonster(int grade);
-
 }

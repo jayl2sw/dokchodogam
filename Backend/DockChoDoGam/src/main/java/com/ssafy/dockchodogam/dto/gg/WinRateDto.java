@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WinRateDto {
+public class WinRateDto{
     private Integer totalGames;
     private Integer attackCnt;
     private Integer winAttack;

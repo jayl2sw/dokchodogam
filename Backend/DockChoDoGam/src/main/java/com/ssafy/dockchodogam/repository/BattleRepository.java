@@ -18,6 +18,14 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
     @Query(value = "select * from battle where user_id1 = :user or user_id2 = :user order by created_date desc", nativeQuery = true)
     Page<Battle> findBattlesByUser(@Param("user") Long user, Pageable pageable);
 
+    @Query(nativeQuery = true, value = "select * from battle" +
+            " where (user_id1 = :user and" +
+            " (monster_id0 = :monster or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster))" +
+            " or (user_id2 = :user and" +
+            " (monster_id5 = :monster or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster))" +
+            " order by created_date desc")
+    Page<Battle> findBattlesByUserAndMonster(Pageable pageable, @Param("user") Long user, @Param("monster") Long monster);
+
     @Query(nativeQuery = true, value = "select count(*) from battle where user_id1 = :user")
     Integer findAttackCountByUser(@Param("user") Long user);
 
@@ -45,4 +53,20 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
     @Query(nativeQuery = true, value = "select count(*) from battle where (monster_id5 = :monster" +
             " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster) and success = false")
     Integer findDefenceSuccessCountByMonster(@Param("monster") Long monster);
+
+    @Query(nativeQuery = true, value = "select count(*) from battle where user_id1 = :user and (monster_id0 = :monster" +
+            " or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster)")
+    Integer findAttackCountByMonsterAndUser(@Param("monster") Long monster, @Param("user") Long user);
+
+    @Query(nativeQuery = true, value = "select count(*) from battle where user_id1 = :user and (monster_id0 = :monster" +
+            " or monster_id1 = :monster or monster_id2 = :monster or monster_id3 = :monster or monster_id4 = :monster) and success = true")
+    Integer findAttackSuccessCountByMonsterAndUser(@Param("monster") Long monster, @Param("user") Long user);
+
+    @Query(nativeQuery = true, value = "select count(*) from battle where user_id2 = :user and (monster_id5 = :monster" +
+            " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster)")
+    Integer findDefenceCountByMonsterAndUser(@Param("monster") Long monster, @Param("user") Long user);
+
+    @Query(nativeQuery = true, value = "select count(*) from battle where user_id2 = :user and (monster_id5 = :monster" +
+            " or monster_id6 = :monster or monster_id7 = :monster or monster_id8 = :monster or monster_id9 = :monster) and success = false")
+    Integer findDefenceSuccessCountByMonsterAndUser(@Param("monster") Long monster, @Param("user") Long user);
 }
