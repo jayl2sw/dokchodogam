@@ -7,6 +7,48 @@
         게임입니다.
       </p>
     </div>
+    <div class="sangseong" v-if="this.isGameEndFlag === false">
+      <div
+        class="type TITLE"
+        :class="
+          this.myType === '잡초'
+            ? 'green'
+            : this.myType === '독초'
+            ? 'red'
+            : this.myType === '약초'
+            ? 'green'
+            : 'purple'
+        "
+      >
+        {{ this.myType }}
+      </div>
+      <div
+        class="sangseongResult TITLE"
+        :class="
+          this.sangseong === '상성 좋음'
+            ? 'good'
+            : this.sangseong === '상성 보통'
+            ? 'soso'
+            : 'bad'
+        "
+      >
+        {{ this.sangseong }}
+      </div>
+      <div
+        class="type TITLE"
+        :class="
+          this.yourType === '잡초'
+            ? 'green'
+            : this.yourType === '독초'
+            ? 'red'
+            : this.yourType === '약초'
+            ? 'green'
+            : 'purple'
+        "
+      >
+        {{ this.yourType }}
+      </div>
+    </div>
     <div class="inGame" v-if="!this.isGameEndFlag">
       <div class="inGame__top">
         <div class="yourDockChoList">
@@ -133,6 +175,9 @@ export default {
       currentYourIdx: 0,
       myDamage: '',
       yourDamage: '',
+      myType: '',
+      yourType: '',
+      sangseong: '',
       isMyDockchoDead: false,
       isGameEndFlag: false,
       resultInfo: [],
@@ -150,6 +195,9 @@ export default {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
         this.currentYourDockCho = this.yourDockChoList[0]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         console.log('지금 나의 스킬은?', this.skill)
         setTimeout(() => {
           this.attack()
@@ -283,6 +331,9 @@ export default {
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentMyDockCho = ''
           this.currentYourDockCho = ''
+          this.myType = ''
+          this.yourType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('둘다죽음')
           setTimeout(() => {
@@ -292,6 +343,8 @@ export default {
           this.isDead_myDockCho[this.currentMyIdx] = true
           this.currentMyIdx = this.isDead_myDockCho.indexOf(false)
           this.currentMyDockCho = ''
+          this.myType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('나 죽음')
           setTimeout(() => {
@@ -301,6 +354,8 @@ export default {
           this.isDead_yourDockCho[this.currentYourIdx] = true
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentYourDockCho = ''
+          this.yourType = ''
+          this.sangseong = ''
           console.log('상대 죽음')
           setTimeout(() => {
             this.isGameEnd()
@@ -343,6 +398,8 @@ export default {
         }, 1000)
       } else if (this.currentMyDockCho && this.currentYourDockCho === '') {
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -360,6 +417,9 @@ export default {
         this.currentMyIdx = idx
         this.currentMyDockCho = this.myDockChoList[this.currentMyIdx]
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         this.isMyDockchoDead = false
         setTimeout(() => {
           this.attack()
@@ -450,6 +510,70 @@ export default {
           }
         })
         .catch((err) => console.log(err))
+    },
+    calSangSeong() {
+      if (this.myType === '잡초') {
+        if (this.yourType === '잡초') {
+          return '상성 보통'
+        } else if (this.yourType === '독초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '독초') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 보통'
+        } else if (this.yourType === '약초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '약초') {
+        if (this.yourType === '잡초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 보통'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '히든') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 보통'
+        } else {
+          return ''
+        }
+      } else {
+        return this.sangseong === ''
+      }
+    },
+    setType(dokchoInfo) {
+      if (dokchoInfo.type === 'JAPCHO') {
+        return '잡초'
+      } else if (dokchoInfo.type === 'DOKCHO') {
+        return '독초'
+      } else if (dokchoInfo.type === 'YAKCHO') {
+        return '약초'
+      } else {
+        return '히든'
+      }
     }
   },
   created() {
@@ -501,6 +625,29 @@ export default {
   background-image: url('@/assets/game_background.png');
   background-repeat: no-repeat;
   background-size: cover;
+}
+.sangseong {
+  display: flex;
+  width: 24vw;
+  height: 3vw;
+  justify-content: space-between;
+  position: absolute;
+  top: 5vh;
+  left: 10vw;
+}
+.type {
+  width: 6vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vw;
+}
+.sangseongResult {
+  width: 12vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vw;
 }
 .inGame__top {
   display: flex;
@@ -668,5 +815,26 @@ export default {
   #warning-message {
     display: none;
   }
+}
+.green {
+  color: #467302;
+}
+.red {
+  color: #ff5555;
+}
+.yellow {
+  color: #ffe140;
+}
+.purple {
+  color: #c493ff;
+}
+.bad {
+  color: red;
+}
+.good {
+  color: blue;
+}
+.soso {
+  color: yellow;
 }
 </style>
