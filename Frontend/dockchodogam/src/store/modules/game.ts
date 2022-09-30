@@ -2,8 +2,12 @@ import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { Module } from 'vuex'
 import { RootState } from '../index'
-import router from './router'
+// import router from './router'
 import swal from 'sweetalert'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+// const route = useRoute()
 
 export interface gameState {
   enemyInfo: object
