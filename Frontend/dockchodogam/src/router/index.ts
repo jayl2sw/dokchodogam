@@ -237,12 +237,19 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "friend" */ '../views/game/FriendView.vue')
   },
-  // 친구 관리
+  // 독초지지
   {
     path: '/game/gg',
     name: 'gg',
     component: () =>
       import(/* webpackChunkName: "gg" */ '../views/game/DokchoGG.vue')
+  },
+  // 독초지지
+  {
+    path: '/dokcho/gg/',
+    name: 'dcgg',
+    component: () =>
+      import(/* webpackChunkName: "gg" */ '../views/game/DokchoData.vue')
   },
   // 어드민
   {
