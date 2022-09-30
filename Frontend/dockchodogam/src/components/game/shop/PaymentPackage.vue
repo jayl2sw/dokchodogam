@@ -1,5 +1,5 @@
 <template>
-  <div v-if="nowUserInfo.starter == true" class="package">
+  <!-- <div v-if="nowUserInfo.starter == true" class="package">
     <div class="package__header">
       <h3 class="TITLE">🐣 스타터팩 🐣</h3>
       <p>⭐계정 당 1회 한정</p>
@@ -11,9 +11,9 @@
         <span class="TITLE">💰 990원</span>
       </button>
     </div>
-  </div>
+  </div> -->
 
-  <div v-else class="package">
+  <div class="package">
     <div class="package__header">
       <h3 class="TITLE">패키지 🎮</h3>
       <p>새로운 패키지를 준비중입니다</p>
