@@ -209,6 +209,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void setNickname(String nickname){
+        if(checkNickName(nickname)) throw new DuplicateNicknameException();
+
+        User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        me.setNickname(nickname);
+        userRepository.save(me);
+    }
+
+    @Override
     public TokenDto refresh(TokenRequestDto requestDto){
         // Refresh Token 검증
         if(!tokenProvider.validateToken(requestDto.getRefreshToken())){

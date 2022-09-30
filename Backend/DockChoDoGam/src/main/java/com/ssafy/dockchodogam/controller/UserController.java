@@ -94,6 +94,13 @@ public class UserController {
         userService.changePW(id, passwordEncoder.encode(dto.getNewPW()));
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
+
+    @PutMapping("/set/nickname")
+    @ApiOperation(value = "닉네임 설정")
+    public ResponseEntity<String> setNickname(@RequestParam String nickname){
+        userService.setNickname(nickname);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
     
     @DeleteMapping("/")
     @ApiOperation(value = "회원 탈퇴")
