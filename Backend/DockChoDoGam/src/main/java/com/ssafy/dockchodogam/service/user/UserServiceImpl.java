@@ -94,14 +94,10 @@ public class UserServiceImpl implements UserService{
             throw new DuplicateEmailException();
         }
 
-        if(userRepository.findByNickname(requestDto.getNickname()).orElse(null)!=null){
-            throw new DuplicateNicknameException();
-        }
-
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .email(requestDto.getEmail())
-                .nickname(requestDto.getNickname())
+                .nickname("")
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                 .role(Role.ROLE_USER)
                 // 대표 독초몬은 개나리몬이 디폴트

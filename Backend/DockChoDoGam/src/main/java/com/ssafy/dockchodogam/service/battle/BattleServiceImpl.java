@@ -2,14 +2,11 @@ package com.ssafy.dockchodogam.service.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.User;
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
-import com.ssafy.dockchodogam.dto.gg.GGRequestDto;
 import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import com.ssafy.dockchodogam.repository.BattleLogRepository;
 import com.ssafy.dockchodogam.repository.BattleRepository;
