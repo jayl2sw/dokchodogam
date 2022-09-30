@@ -7,48 +7,6 @@
         게임입니다.
       </p>
     </div>
-    <div class="sangseong" v-if="this.isGameEndFlag === false">
-      <div
-        class="type TITLE"
-        :class="
-          this.myType === '잡초'
-            ? 'green'
-            : this.myType === '독초'
-            ? 'red'
-            : this.myType === '약초'
-            ? 'green'
-            : 'purple'
-        "
-      >
-        {{ this.myType }}
-      </div>
-      <div
-        class="sangseongResult TITLE"
-        :class="
-          this.sangseong === '상성 좋음'
-            ? 'good'
-            : this.sangseong === '상성 보통'
-            ? 'soso'
-            : 'bad'
-        "
-      >
-        {{ this.sangseong }}
-      </div>
-      <div
-        class="type TITLE"
-        :class="
-          this.yourType === '잡초'
-            ? 'green'
-            : this.yourType === '독초'
-            ? 'red'
-            : this.yourType === '약초'
-            ? 'green'
-            : 'purple'
-        "
-      >
-        {{ this.yourType }}
-      </div>
-    </div>
     <div class="inGame" v-if="!this.isGameEndFlag">
       <div class="inGame__top">
         <div class="yourDockChoList">
@@ -84,6 +42,8 @@
             <DockChoMon
               :data="this.currentMyDockCho"
               :damage="this.yourDamage"
+              :sangseong="this.sangseong"
+              :who="'me'"
             />
           </div>
         </div>
@@ -101,6 +61,8 @@
             <DockChoMon
               :data="this.currentYourDockCho"
               :damage="this.myDamage"
+              :sangseong="this.sangseong"
+              :who="'you'"
             />
           </div>
         </div>
@@ -626,29 +588,6 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
-.sangseong {
-  display: flex;
-  width: 24vw;
-  height: 3vw;
-  justify-content: space-between;
-  position: absolute;
-  top: 5vh;
-  left: 10vw;
-}
-.type {
-  width: 6vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2vw;
-}
-.sangseongResult {
-  width: 12vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3vw;
-}
 .inGame__top {
   display: flex;
   justify-content: flex-end;
@@ -815,26 +754,5 @@ export default {
   #warning-message {
     display: none;
   }
-}
-.green {
-  color: #467302;
-}
-.red {
-  color: #ff5555;
-}
-.yellow {
-  color: #ffe140;
-}
-.purple {
-  color: #c493ff;
-}
-.bad {
-  color: red;
-}
-.good {
-  color: blue;
-}
-.soso {
-  color: yellow;
 }
 </style>
