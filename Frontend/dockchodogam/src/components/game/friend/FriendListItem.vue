@@ -11,12 +11,13 @@
       <font-awesome-icon
         icon="fa-solid fa-gift"
         @click="this.giveGift()"
-        :class="this.friend.gift_today ? 'sentGift' : ''"
+        :class="this.friend.gift_today ? 'sentGift icon' : 'icon'"
         ref="button"
       />
       <font-awesome-icon
         icon="fa-solid fa-hand-fist"
         @click="getFriendDeck()"
+        class="icon"
       />
     </div>
   </div>
@@ -31,12 +32,14 @@ export default {
   props: ['friend'],
   data() {
     return {
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     ...mapActions(['fetchEnemyInfo']),
     giveGift() {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/gift', this.friend.user_id, {
           headers: {
@@ -51,6 +54,7 @@ export default {
         .catch((err) => console.log(err))
     },
     getFriendDeck() {
+      this.btn_audio.play()
       axios
         .get(BASE_URL + '/api/v1/game/deck/friendInfo/' + this.friend.user_id, {
           headers: {
@@ -119,5 +123,8 @@ svg {
 }
 svg:hover {
   color: #a7c957;
+}
+.icon {
+  cursor: pointer;
 }
 </style>
