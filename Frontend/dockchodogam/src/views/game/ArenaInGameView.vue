@@ -42,6 +42,8 @@
             <DockChoMon
               :data="this.currentMyDockCho"
               :damage="this.yourDamage"
+              :sangseong="this.sangseong"
+              :who="'me'"
             />
           </div>
         </div>
@@ -59,6 +61,8 @@
             <DockChoMon
               :data="this.currentYourDockCho"
               :damage="this.myDamage"
+              :sangseong="this.sangseong"
+              :who="'you'"
             />
           </div>
         </div>
@@ -133,6 +137,9 @@ export default {
       currentYourIdx: 0,
       myDamage: '',
       yourDamage: '',
+      myType: '',
+      yourType: '',
+      sangseong: '',
       isMyDockchoDead: false,
       isGameEndFlag: false,
       resultInfo: [],
@@ -150,6 +157,9 @@ export default {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
         this.currentYourDockCho = this.yourDockChoList[0]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         console.log('지금 나의 스킬은?', this.skill)
         setTimeout(() => {
           this.attack()
@@ -283,6 +293,9 @@ export default {
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentMyDockCho = ''
           this.currentYourDockCho = ''
+          this.myType = ''
+          this.yourType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('둘다죽음')
           setTimeout(() => {
@@ -292,6 +305,8 @@ export default {
           this.isDead_myDockCho[this.currentMyIdx] = true
           this.currentMyIdx = this.isDead_myDockCho.indexOf(false)
           this.currentMyDockCho = ''
+          this.myType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('나 죽음')
           setTimeout(() => {
@@ -301,6 +316,8 @@ export default {
           this.isDead_yourDockCho[this.currentYourIdx] = true
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentYourDockCho = ''
+          this.yourType = ''
+          this.sangseong = ''
           console.log('상대 죽음')
           setTimeout(() => {
             this.isGameEnd()
@@ -343,6 +360,8 @@ export default {
         }, 1000)
       } else if (this.currentMyDockCho && this.currentYourDockCho === '') {
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -360,6 +379,9 @@ export default {
         this.currentMyIdx = idx
         this.currentMyDockCho = this.myDockChoList[this.currentMyIdx]
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         this.isMyDockchoDead = false
         setTimeout(() => {
           this.attack()
@@ -450,6 +472,70 @@ export default {
           }
         })
         .catch((err) => console.log(err))
+    },
+    calSangSeong() {
+      if (this.myType === '잡초') {
+        if (this.yourType === '잡초') {
+          return '상성 보통'
+        } else if (this.yourType === '독초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '독초') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 보통'
+        } else if (this.yourType === '약초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '약초') {
+        if (this.yourType === '잡초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 보통'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '히든') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 보통'
+        } else {
+          return ''
+        }
+      } else {
+        return this.sangseong === ''
+      }
+    },
+    setType(dokchoInfo) {
+      if (dokchoInfo.type === 'JAPCHO') {
+        return '잡초'
+      } else if (dokchoInfo.type === 'DOKCHO') {
+        return '독초'
+      } else if (dokchoInfo.type === 'YAKCHO') {
+        return '약초'
+      } else {
+        return '히든'
+      }
     }
   },
   created() {

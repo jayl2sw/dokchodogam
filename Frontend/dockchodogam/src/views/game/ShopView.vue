@@ -45,7 +45,9 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      // nowUserInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo'))
+      // nowUserInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo')),
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/shop.mp3'),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   components: {
@@ -59,24 +61,35 @@ export default {
   methods: {
     ...mapActions(['fetchnowUserInfo']),
     goToArenaMain() {
+      this.btn_audio.play()
       this.$router.replace({ path: '/game/arena' })
-    },
-    unLoadEvent: function (event) {
-      if (this.isLeaveSite) return
-
-      event.preventDefault()
-      event.returnValue = ''
     }
+    // unLoadEvent: function (event) {
+    //   if (this.isLeaveSite) return
+
+    //   event.preventDefault()
+    //   event.returnValue = ''
+    // }
   },
   created() {
     this.fetchnowUserInfo()
   },
   mounted() {
-    window.addEventListener('beforeunload', this.unLoadEvent)
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    setTimeout(() => {
+      this.audio.play()
+    }, 1000)
   },
   beforeUnmount() {
-    window.removeEventListener('beforeunload', this.unLoadEvent)
+    this.audio.pause()
   }
+  // mounted() {
+  //   window.addEventListener('beforeunload', this.unLoadEvent)
+  // },
+  // beforeUnmount() {
+  //   window.removeEventListener('beforeunload', this.unLoadEvent)
+  // }
 }
 </script>
 

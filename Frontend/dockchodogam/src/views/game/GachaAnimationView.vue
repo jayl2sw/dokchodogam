@@ -2,6 +2,10 @@
   <div class="gacha">
     <div class="gacha__header">
       <h3 class="TITLE">🎉 축하합니다! {{ monsterGacha[0].name }}몬 획득 🎉</h3>
+      <br />
+      <p v-if="monsterGacha[0].got === true">
+        이미 획득한 몬스터입니다 🤟 100냥을 돌려드릴게요!
+      </p>
     </div>
     <div class="gacha__body">
       <img
@@ -40,7 +44,8 @@ export default {
     return {
       // newMonster: {},
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3')
     }
   },
   computed: {
@@ -72,6 +77,9 @@ export default {
     // document.cookie = 'crossCookie=bar; SameSite=None; Secure'
     this.startConfetti()
     // this.fetchUserInfo()
+  },
+  mounted() {
+    this.gotcha_audio.play()
   }
 }
 </script>

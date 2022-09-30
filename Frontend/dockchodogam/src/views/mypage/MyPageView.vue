@@ -29,10 +29,12 @@
             >냥
           </p>
           <p class="myProfile__contents">
-            아레나 순위 : <span class="emphasize">{ }</span>위
+            아레나 순위 : <span class="emphasize">{{ this.ranking }}</span
+            >위
           </p>
           <p class="myProfile__contents">
-            독초보감과 함께한 지 <span class="emphasize">{ }</span>일 째
+            가입일 :
+            <span class="emphasize">{{ this.userInfo.createDate }}</span>
           </p>
         </div>
       </div>
@@ -80,6 +82,7 @@ import NavBar from '@/components/main/NavBar.vue'
 import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import { mapActions } from 'vuex'
 import swal from 'sweetalert'
 
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
@@ -98,10 +101,12 @@ export default {
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
       newPassword2: this.newPassword2,
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      ranking: 0
     }
   },
   methods: {
+    ...mapActions(['fetchnowUserInfo']),
     overflow(value) {
       this.showMenu = value
     },
@@ -192,6 +197,19 @@ export default {
     showChangeDokchoMenu() {
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     }
+  },
+  created() {
+    this.fetchnowUserInfo()
+    const option = {
+      headers: {
+        'Content-type': 'application/json',
+        AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+      }
+    }
+    axios
+      .get(BASE_URL + '/api/v1/game/myranking', option)
+      .then((res) => (this.ranking = res.data))
+      .catch((err) => console.log(err))
   }
 }
 </script>
@@ -268,11 +286,11 @@ button {
   width: 5vw;
 }
 .myProfile__name {
-  font-size: 2vw;
+  font-size: 2.5vw;
   margin-bottom: 3vh;
 }
 .myProfile__contents {
-  font-size: 1vw;
+  font-size: 1.5vw;
   line-height: 4vh;
 }
 .emphasize {
@@ -386,7 +404,7 @@ button {
   .change__dockcho {
     width: 50vw;
     height: 8vw;
-    font-size: 3vw;
+    font-size: 4vw;
   }
   .mypage__right {
     margin: 0;
@@ -395,11 +413,11 @@ button {
   }
   .change__password {
     width: 20vw;
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .quit__btn {
     width: 20vw;
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .changePw__inputs input {
     height: 5vh;

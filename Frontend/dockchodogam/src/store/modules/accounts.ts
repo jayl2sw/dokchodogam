@@ -48,6 +48,7 @@ export const accounts: Module<accountsState, RootState> = {
       console.log(localStorage.getItem('userInfo'))
     },
     SET_NOWUSERINFO(state, nowUserInfo) {
+      localStorage.setItem('userInfo', JSON.stringify(nowUserInfo))
       state.nowUserInfo = nowUserInfo
     }
   },
