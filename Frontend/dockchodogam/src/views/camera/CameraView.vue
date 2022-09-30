@@ -33,11 +33,10 @@ export default defineComponent({
   name: 'App',
   components: {
     Camera,
-    NavBar,
+    NavBar
     FadeLoader
   },
   setup() {
-    const isLoading = false
     const camera = ref<InstanceType<typeof Camera>>()
 
     const cameras: Ref<MediaDeviceInfo[]> = ref([])
