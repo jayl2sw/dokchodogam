@@ -56,11 +56,12 @@ export default {
           pg: 'html5_inicis', // PG사
           // pay_method: 'card', // 결제수단
           merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-          amount: 990, // 결제금액
+          amount: 100, // 결제금액
           name: '독초도감:스타터팩', // 주문명
-          buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
+          buyer_name: `${this.nowUserInfo.username}` // 구매자 이름 //이거 username으로 넣기
         },
         (rsp) => {
+          console.log(rsp)
           if (rsp.sucess) {
             // 결제 성공시 로직
             // axios로 HTTP 요청
@@ -68,28 +69,32 @@ export default {
               url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+                // 'Content-Type': 'application/json'
               }
             })
               .then((res) => {
                 this.fetchMonsterPackage(res.data)
-                this.$router.replace({
+                console.log('스타터팩', res.data)
+                this.$router.push({
                   path: '/game/shop/package'
                 })
               })
-              .catch(
-                (err) => console.log(err),
+              .catch((err) => {
+                console.log(err)
                 swal({
                   title: '결제에 실패하였습니다 😢',
-                  text: '다시 시도해주세요 !',
+                  text: '스타터팩 구매를 실패하였습니다.',
                   icon: 'error',
-                  buttons: false,
+                  // buttons: false,
                   timer: 1500
                 })
-              )
+                this.$router.push({
+                  path: '/game/shop/package'
+                })
+              })
           } else {
-            this.fetchnowUserInfo()
+            // this.fetchnowUserInfo()
             // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',

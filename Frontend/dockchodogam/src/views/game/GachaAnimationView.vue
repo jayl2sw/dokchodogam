@@ -2,6 +2,10 @@
   <div class="gacha">
     <div class="gacha__header">
       <h3 class="TITLE">🎉 축하합니다! {{ monsterGacha[0].name }}몬 획득 🎉</h3>
+      <br />
+      <p v-if="monsterGacha[0].got === true">
+        이미 획득한 몬스터입니다 🤟 100냥을 돌려드릴게요!
+      </p>
     </div>
     <div class="gacha__body">
       <img

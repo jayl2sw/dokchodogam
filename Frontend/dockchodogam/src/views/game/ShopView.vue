@@ -60,23 +60,23 @@ export default {
     ...mapActions(['fetchnowUserInfo']),
     goToArenaMain() {
       this.$router.replace({ path: '/game/arena' })
-    },
-    unLoadEvent: function (event) {
-      if (this.isLeaveSite) return
-
-      event.preventDefault()
-      event.returnValue = ''
     }
+    // unLoadEvent: function (event) {
+    //   if (this.isLeaveSite) return
+
+    //   event.preventDefault()
+    //   event.returnValue = ''
+    // }
   },
   created() {
     this.fetchnowUserInfo()
-  },
-  mounted() {
-    window.addEventListener('beforeunload', this.unLoadEvent)
-  },
-  beforeUnmount() {
-    window.removeEventListener('beforeunload', this.unLoadEvent)
   }
+  // mounted() {
+  //   window.addEventListener('beforeunload', this.unLoadEvent)
+  // },
+  // beforeUnmount() {
+  //   window.removeEventListener('beforeunload', this.unLoadEvent)
+  // }
 }
 </script>
 
