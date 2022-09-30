@@ -102,13 +102,13 @@ export default {
       }
     },
     checkGrade() {
-      if (this.monster.type === 'COMMOM') {
+      if (this.monster.grade === 'COMMOM') {
         this.monterGrade = '일반'
-      } else if (this.monster.type === 'RARE') {
+      } else if (this.monster.grade === 'RARE') {
         this.monterGrade = '희귀'
-      } else if (this.monster.type === 'EPIC') {
+      } else if (this.monster.grade === 'EPIC') {
         this.monterGrade = '영웅'
-      } else if (this.monster.type === 'LEGENDARY') {
+      } else if (this.monster.grade === 'LEGENDARY') {
         this.monterGrade = '전설'
       } else {
         this.monterGrade = '스페셜'
