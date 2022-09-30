@@ -1,7 +1,16 @@
 <template>
-  <div>
+  <div class="card__container">
     <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
-    <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
+    <div
+      v-if="monster.got == true && monster.monsterId !== 0"
+      class="card"
+      :class="{
+        card__dokcho: monster.type == 'DOKCHO',
+        card__yakcho: monster.type == 'YAKCHO',
+        card__japcho: monster.type == 'JAPCHO',
+        card__hidden: monster.type == 'HIDDEN'
+      }"
+    >
       <div class="imgBx">
         <img
           :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
@@ -22,12 +31,12 @@
       >
         <div class="contentBx__name">
           <p class="TITLE">00{{ monster.monsterId }}</p>
-          <h3 class="TITLE">{{ monster.name }}몬</h3>
+          <p class="TITLE title">{{ monster.name }}몬</p>
         </div>
 
         <div class="size">
           <p>
-            타입 : {{ this.monster.type }} <br />등급 : {{ this.monster.grade }}
+            타입 : {{ this.monsterType }} <br />등급 : {{ this.monster.grade }}
             <br />
             체력 : {{ this.monster.hp }} <br />
             공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
@@ -69,6 +78,7 @@ export default {
     return {
       modal: false,
       monsterDetail: {},
+      monsterType: '',
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
@@ -79,7 +89,17 @@ export default {
       // console.log(a)
       // console.log(this.monsterDetail)
     },
-
+    checkType() {
+      if (this.monster.type === 'DOKCHO') {
+        this.monsterType = '독초😈'
+      } else if (this.monster.type === 'YAKCHO') {
+        this.monsterType = '약초🌿'
+      } else if (this.monster.type === 'JAPCHO') {
+        this.monsterType = '잡초🌻'
+      } else {
+        this.monsterType = '히든💜'
+      }
+    },
     fetchMonsterDetail() {
       axios({
         url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
@@ -98,11 +118,17 @@ export default {
   },
   created() {
     this.fetchMonsterDetail()
+    this.checkType()
   }
 }
 </script>
 
 <style scoped>
+.card__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 /* body {
   display: flex;
   justify-content: center;
@@ -241,10 +267,10 @@ export default {
   height: 25vh;
 }
 
-.container .card .contentBx h3 {
+.container .card .contentBx .title {
   position: relative;
   /* font-weight: 600; */
-  font-size: 15;
+  font-size: 1.3em;
   color: #000000;
   margin-bottom: 1vw;
 }
@@ -252,13 +278,14 @@ export default {
 .container .card .contentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   color: #000000;
   margin: 0;
 }
 
 .contentBx__name {
   margin-top: 1.5vh;
+  /* width: 80%; */
 }
 
 .dontHavecontentBx__name {
@@ -292,7 +319,7 @@ export default {
 .container .card .dontHavecontentBx p {
   position: relative;
   font-weight: 500;
-  font-size: 0.9vw;
+  font-size: 0.9em;
   font-family: 'UhBeeSe_hyun';
   color: #000000;
   margin: 0;
@@ -315,7 +342,7 @@ export default {
 }
 
 .card__common {
-  background-color: gray;
+  background-color: rgb(166, 166, 166);
   /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
@@ -329,5 +356,21 @@ export default {
 }
 .card__special {
   background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+
+.card__dokcho {
+  box-shadow: 0 0 8px #ff5555;
+}
+
+.card__yakcho {
+  box-shadow: 0 0 8px #467302;
+}
+
+.card__japcho {
+  box-shadow: 0 0 8px #ffe140;
+}
+
+.card__hidden {
+  box-shadow: 0 0 8px #c493ff;
 }
 </style>

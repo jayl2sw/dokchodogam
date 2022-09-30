@@ -7,27 +7,13 @@
       </p>
     </div>
 
-    <div class="card" v-for="monster in packageMonsters" :key="monster.id">
-      <div class="imgBx">
+    <div v-for="monster in monsterPackage" :key="monster.monsterId">
+      <div class="gacha__body">
         <img
+          class="gacha__img"
           :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-          class="card__img"
-          style="-webkit-user-drag: none"
         />
-      </div>
-      <div
-        :class="{
-          card__common: monster.grade == 'COMMON',
-          card__rare: monster.grade == 'RARE',
-          card__epic: monster.grade == 'EPIC',
-          card__legendary: monster.grade == 'LEGENDARY',
-          card__special: monster.grade == 'SPECIAL'
-        }"
-        class="contentBx"
-      >
-        <br />
-        <p class="TITLE">00{{ monster.monsterId }}</p>
-        <h3 class="TITLE">{{ monster.name }}몬</h3>
+        <p>{{ monster.name }}</p>
       </div>
     </div>
     <div class="gacha__footer">
@@ -43,25 +29,28 @@
 
 <script>
 import JSConfetti from 'js-confetti'
+import { mapGetters } from 'vuex'
 
 const jsConfetti = new JSConfetti()
 
 export default {
   data() {
     return {
-      packageMonsters: this.$route.params,
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
+  computed: {
+    ...mapGetters(['monsterPackage'])
+  },
   methods: {
     goToDogam() {
-      this.$router.push({
+      this.$router.replace({
         path: '/encyclopedia'
       })
     },
     startConfetti() {
       jsConfetti.addConfetti({
-        emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸']
+        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸']
       })
     }
   },

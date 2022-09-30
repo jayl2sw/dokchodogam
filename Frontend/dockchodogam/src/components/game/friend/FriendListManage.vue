@@ -11,6 +11,7 @@
       <font-awesome-icon
         icon="fa-solid fa-trash"
         @click="this.deleteFriend()"
+        class="icon"
       />
     </div>
   </div>
@@ -24,11 +25,13 @@ export default {
   props: ['friend'],
   data() {
     return {
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     deleteFriend() {
+      this.btn_audio.play()
       axios
         .delete(BASE_URL + '/api/v1/user/friend/' + this.friend.user_id, {
           headers: {
@@ -82,5 +85,8 @@ svg {
 }
 svg:hover {
   color: #a7c957;
+}
+.icon {
+  cursor: pointer;
 }
 </style>

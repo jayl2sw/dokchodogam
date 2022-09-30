@@ -48,7 +48,7 @@
         </TabItem>
       </TabWrapper>
       <div class="friend__exit" @click="goToArenaMain()">
-        <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+        <font-awesome-icon icon="fa-solid fa-circle-xmark" />
       </div>
     </div>
   </div>
@@ -78,11 +78,14 @@ export default {
   data() {
     return {
       friendList: [],
-      requestList: []
+      requestList: [],
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/friend.wav'),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     goToArenaMain() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game/arena' })
     },
     giveGiftAll() {
@@ -126,6 +129,14 @@ export default {
   created() {
     this.getFriendList()
     this.getRequestList()
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
@@ -147,6 +158,8 @@ export default {
   padding: 5vh 5vw;
   height: 80vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 .friendManage__tap {
   padding: 5vh 5vw;
@@ -204,15 +217,22 @@ export default {
 .friend__exit {
   width: 30px;
   height: 30px;
-  border: 2px groove black;
-  border-radius: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: 6vh;
-  right: 6vw;
+  right: 11vw;
   cursor: pointer;
+}
+svg {
+  width: 5vh;
+  height: 5vh;
+  color: #ffe140;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #ffef92;
 }
 ::-webkit-scrollbar {
   display: none;

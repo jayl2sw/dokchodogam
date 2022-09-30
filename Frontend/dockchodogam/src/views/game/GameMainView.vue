@@ -2,7 +2,7 @@
   <NavBar @overflow="overflow" />
   <div class="game">
     <div class="game__arena" @click="goToArena()"></div>
-    <div class="game__mandu"></div>
+    <div class="game__gg" @click="geToGG()"></div>
   </div>
 </template>
 
@@ -27,6 +27,9 @@ export default {
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
       audio.play()
       this.$router.push({ path: '/game/arena' })
+    },
+    geToGG() {
+      this.$router.push({ path: '/game/gg' })
     }
   },
   mounted() {
@@ -59,7 +62,7 @@ export default {
   margin: 3vh 2vw;
   cursor: pointer;
 }
-.game__mandu {
+.game__gg {
   background-image: url('@/assets/arena/002.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -80,7 +83,7 @@ export default {
     width: 80vw;
     height: 38vh;
   }
-  .game__mandu {
+  .game__gg {
     width: 80vw;
     height: 38vh;
   }
