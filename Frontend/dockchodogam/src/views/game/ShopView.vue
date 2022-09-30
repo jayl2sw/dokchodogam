@@ -9,10 +9,12 @@
     <div class="shop__boxes">
       <div class="shop__top">
         <div class="nickname">
-          <h1 class="TITLE">{{ this.userInfo.nickname }}님을 위한 상점 🎁</h1>
+          <h1 class="TITLE">
+            {{ this.nowUserInfo.nickname }}님을 위한 상점 🎁
+          </h1>
         </div>
         <div class="money">
-          <h1 class="TITLE">👛 : {{ this.userInfo.money }}냥</h1>
+          <h1 class="TITLE">👛 : {{ this.nowUserInfo.money }}냥</h1>
         </div>
       </div>
       <div class="shop__bottom">
@@ -43,7 +45,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      // nowUserInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo'))
     }
   },
   components: {
@@ -52,13 +54,28 @@ export default {
     MonsterGacha
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['nowUserInfo'])
   },
   methods: {
-    // ...mapActions(['fetchUserInfo']),
+    ...mapActions(['fetchnowUserInfo']),
     goToArenaMain() {
       this.$router.replace({ path: '/game/arena' })
+    },
+    unLoadEvent: function (event) {
+      if (this.isLeaveSite) return
+
+      event.preventDefault()
+      event.returnValue = ''
     }
+  },
+  created() {
+    this.fetchnowUserInfo()
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.unLoadEvent)
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.unLoadEvent)
   }
 }
 </script>

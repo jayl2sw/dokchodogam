@@ -13,11 +13,12 @@
     <div class="gacha__footer">
       <div class="buttons">
         <button class="btn" @click="goToDogam">도감에서 확인하기</button>
+        <button class="btn" @click="goToGameShop">상점으로 돌아가기</button>
       </div>
     </div>
-    <div class="shop__exit" @click="goToGameShop()">
+    <!-- <div class="shop__exit" @click="goToGameShop()">
       <font-awesome-icon icon="fa-solid fa-x" size="xl" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -46,7 +47,7 @@ export default {
     ...mapGetters(['monsterGacha'])
   },
   methods: {
-    ...mapActions(['fetchUserInfo']),
+    // ...mapActions(['fetchUserInfo']),
     goToDogam() {
       this.$router.replace({
         path: '/encyclopedia'

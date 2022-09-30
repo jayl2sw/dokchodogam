@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userInfo.starter == true" class="package">
+  <div v-if="nowUserInfo.starter == true" class="package">
     <div class="package__header">
       <h3 class="TITLE">🐣 스타터팩 🐣</h3>
       <p>⭐계정 당 1회 한정</p>
@@ -37,15 +37,15 @@ IMP.init('imp40805235')
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      // userInfo: JSON.parse(localStorage.getItem('userInfo')),
       packageMonsters: {}
     }
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['nowUserInfo'])
   },
   methods: {
-    ...mapActions(['monsterPackage, fetchUserInfo']),
+    ...mapActions(['monsterPackage, fetchnowUserInfo']),
     onPaymentPackage: function () {
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
@@ -72,20 +72,24 @@ export default {
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
               }
             })
-              .then((data) => {
-                // 몬스터 3개 정보 올 것,, 아마도 ?
-                // 담아서 PackageAnimationView으로 넘기기
-                this.fetchMonsterPackage()
-                this.fetchUserInfo()
-                // this.packageMonsters = data.data
+              .then((res) => {
+                this.fetchMonsterPackage(res.data)
                 this.$router.replace({
                   path: '/game/shop/package'
-                  // params: this.packageMonsters
                 })
               })
-              .catch((err) => console.log(err))
+              .catch(
+                (err) => console.log(err),
+                swal({
+                  title: '결제에 실패하였습니다 😢',
+                  text: '다시 시도해주세요 !',
+                  icon: 'error',
+                  buttons: false,
+                  timer: 1500
+                })
+              )
           } else {
-            this.fetchUserInfo()
+            this.fetchnowUserInfo()
             // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',
