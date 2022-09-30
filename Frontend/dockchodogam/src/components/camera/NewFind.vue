@@ -4,13 +4,28 @@
     <p v-if="monsterDetail.firstFinder" class="find_finder">
       최초 발견자 : {{ monsterDetail.firstFinder }}
     </p>
-    <div>
-      <div class="find__img" v-if="this.pick == false">
+    <div v-if="this.catch === false">
+      <div class="find__img">
         <p v-if="monsterDetail.line"></p>
         <img
           class="monster__silhouette"
           :src="this.imageBaseUrl + '/' + plant.monsterId + '.png'"
         />
+        <div>
+          <button @click="catchMonster" class="TITLE">눌러서 잡기!</button>
+        </div>
+      </div>
+    </div>
+    <div v-if="this.catch">
+      <div class="find__img">
+        <div class="card">
+          <img :src="this.imageBaseUrl + '/' + plant.monsterId + '.png'" />
+          <div class="contentBx">
+            <p>00{{ monsterDetail.monsterId }}</p>
+            <h3>{{ monsterDetail.name }}</h3>
+          </div>
+        </div>
+
         <div>
           <button @click="goToEncyclopedia" class="TITLE">
             도감에서 확인하기!
@@ -25,19 +40,20 @@
 import axios from 'axios'
 export default {
   props: {
-    plant: Object
+    monsterId: Number
   },
   data() {
     return {
       // pick: false,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      monsterDetail: {}
+      monsterDetail: {},
+      catch: false
     }
   },
   methods: {
-    // checkPick() {
-    //   return this.pick === !!this.pick
-    // },
+    catchMonster() {
+      this.catch = true
+    },
     goToEncyclopedia() {
       this.$router.push({
         path: '/encyclopedia'
@@ -45,7 +61,7 @@ export default {
     },
     fetchMonsterDetail() {
       axios({
-        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.plant.monsterId}`,
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monsterId}`,
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')

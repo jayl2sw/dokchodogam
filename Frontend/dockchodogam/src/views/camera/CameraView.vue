@@ -27,6 +27,8 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 // import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
 import swal from 'sweetalert'
+// import { mapActions } from 'vuex'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'App',
@@ -35,6 +37,10 @@ export default defineComponent({
     NavBar
   },
   setup() {
+    const store = useStore()
+
+    // this.store.dispatch
+
     const camera = ref<InstanceType<typeof Camera>>()
 
     const cameras: Ref<MediaDeviceInfo[]> = ref([])
@@ -86,10 +92,12 @@ export default defineComponent({
           result.value = res.data
           console.log('result value')
           console.log(result.value.plant)
-          // router push 하면서 result.value 담아서 보내기
+          store.dispatch('fetchphotoResult', res.data)
+          // 받은 데이터 store에 저장
+          // this.fetchphotoResult(res.data)
+          setTimeout(() => console.log('결과값 저장~'), 2000)
           router.push({
-            path: '/camera/result',
-            query: { result1: result.value, plant: result.value.plant }
+            path: '/camera/result'
           })
         })
         .catch((err) => {
