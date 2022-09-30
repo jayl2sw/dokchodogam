@@ -262,11 +262,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public void requestFriend(Long id) {
         User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-//        if(getFriendCount(me.getUserId()) >= 10){
-//            throw new TooManyFriendsException();
-//        }
 
         User other = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        Optional<Propose> propose = proposeRepository.findByTwoId(me.getUserId(), other.getUserId());
+        if(propose.isPresent()){
+            throw new DuplicateProposeException();
+        }
 
         Optional<Friend> friend = friendRepository.findByTwoId(me.getUserId(), other.getUserId());
         if(friend.isPresent()){
