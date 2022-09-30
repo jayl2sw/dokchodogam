@@ -73,20 +73,8 @@ export const game: Module<gameState, RootState> = {
         })
         .catch((err) => console.log(err))
     },
-    fetchMonsterPackage({ commit }) {
-      axios({
-        url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
-        method: 'GET',
-        headers: {
-          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-          // 'Content-Type': 'application/json'
-        }
-      })
-        .then((res) => {
-          commit('SET_MONSTERPACKAGE', res.data)
-          console.log('몬스터 패키지', res.data)
-        })
-        .catch((err) => console.log(err))
+    fetchMonsterPackage({ commit }, monsterPackage) {
+      commit('SET_MONSTERPACKAGE', monsterPackage)
     }
   }
 }

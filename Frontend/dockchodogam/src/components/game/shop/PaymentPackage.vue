@@ -72,18 +72,22 @@ export default {
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
               }
             })
-              .then((data) => {
-                // 몬스터 3개 정보 올 것,, 아마도 ?
-                // 담아서 PackageAnimationView으로 넘기기
-                this.fetchMonsterPackage()
-                // this.fetchnowUserInfo()
-                // this.packageMonsters = data.data
+              .then((res) => {
+                this.fetchMonsterPackage(res.data)
                 this.$router.replace({
                   path: '/game/shop/package'
-                  // params: this.packageMonsters
                 })
               })
-              .catch((err) => console.log(err))
+              .catch(
+                (err) => console.log(err),
+                swal({
+                  title: '결제에 실패하였습니다 😢',
+                  text: '다시 시도해주세요 !',
+                  icon: 'error',
+                  buttons: false,
+                  timer: 1500
+                })
+              )
           } else {
             this.fetchnowUserInfo()
             // 결제 실패시 로직
