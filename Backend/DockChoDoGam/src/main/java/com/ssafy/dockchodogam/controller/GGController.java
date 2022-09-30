@@ -21,11 +21,20 @@ public class GGController {
     private final GameService gameService;
 
     @GetMapping("/log/user/{page}")
-    @ApiOperation(value = "회원 전적 검색")
+    @ApiOperation(value = "내 전적 검색")
     public ResponseEntity<Map<String, Object>> searchLog(@PathVariable int page){
         Map<String, Object> map = new HashMap<>();
         map.put("BattleDto", battleService.searchLog(page));
         map.put("winRate", battleService.getWinRate());
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/log/user/{nickname}/{page}")
+    @ApiOperation(value = "회원 전적 검색")
+    public ResponseEntity<Map<String, Object>> searchLog(@PathVariable String nickname, @PathVariable int page){
+        Map<String, Object> map = new HashMap<>();
+        map.put("BattleDto", battleService.searchLog(nickname, page));
+        map.put("winRate", battleService.getWinRate(nickname));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
