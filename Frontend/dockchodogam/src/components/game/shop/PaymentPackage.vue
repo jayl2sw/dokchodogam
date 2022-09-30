@@ -68,12 +68,12 @@ export default {
               url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
               }
             })
-              .then((res) => {
-                this.fetchMonsterPackage(res.data)
+              .then((data) => {
+                this.fetchMonsterPackage(data.data)
                 this.$router.replace({
                   path: '/game/shop/package'
                 })
