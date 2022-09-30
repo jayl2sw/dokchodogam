@@ -100,6 +100,19 @@ export default {
         this.monsterType = '히든💜'
       }
     },
+    checkGrade() {
+      if (this.monster.type === 'COMMOM') {
+        this.monsterType = '일반'
+      } else if (this.monster.type === 'RARE') {
+        this.monsterType = '희귀'
+      } else if (this.monster.type === 'EPIC') {
+        this.monsterType = '영웅'
+      } else if (this.monster.type === 'LEGENDARY') {
+        this.monsterType = '전설'
+      } else {
+        this.monsterType = '스페셜'
+      }
+    },
     fetchMonsterDetail() {
       axios({
         url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
@@ -119,6 +132,7 @@ export default {
   created() {
     this.fetchMonsterDetail()
     this.checkType()
+    this.checkGrade()
   }
 }
 </script>

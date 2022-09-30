@@ -43,7 +43,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo'))
     }
   },
   components: {
@@ -51,14 +51,17 @@ export default {
     PaymentPackage,
     MonsterGacha
   },
-  computed: {
-    ...mapGetters(['userInfo'])
-  },
+  // computed: {
+  //   ...mapGetters(['fetchnowUserInfo'])
+  // },
   methods: {
-    // ...mapActions(['fetchUserInfo']),
+    ...mapActions(['fetchnowUserInfo']),
     goToArenaMain() {
       this.$router.replace({ path: '/game/arena' })
     }
+  },
+  created() {
+    this.fetchnowUserInfo()
   }
 }
 </script>

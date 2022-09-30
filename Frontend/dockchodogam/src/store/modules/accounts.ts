@@ -5,14 +5,17 @@ import { RootState } from '../index'
 
 export interface accountsState {
   userInfo: object
+  nowUserInfo: object
 }
 
 export const accounts: Module<accountsState, RootState> = {
   state: {
-    userInfo: {}
+    userInfo: {},
+    nowUserInfo: {}
   },
   getters: {
     userInfo: (state) => state.userInfo,
+    nowUserInfo: (state) => state.nowUserInfo,
     // 로그인 여부를 가져옵니다.
     // isLogin(state) {
     //   return localStorage.getItem('refreshToken') === '' ? false : true
@@ -43,11 +46,29 @@ export const accounts: Module<accountsState, RootState> = {
       state.userInfo = userInfo
       localStorage.setItem('userInfo', JSON.stringify(userInfo))
       console.log(localStorage.getItem('userInfo'))
+    },
+    SET_NOWUSERINFO(state, nowUserInfo) {
+      state.nowUserInfo = nowUserInfo
     }
   },
   actions: {
     async fetchUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
+    },
+    fetchnowUserInfo({ commit }) {
+      axios({
+        url: 'https://j7e201.p.ssafy.io/api/v1/user/myinfo',
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          // 'Content-Type': 'application/json'
+        }
+      })
+        .then((res) => {
+          commit('SET_NOWUSERINFO', res.data)
+          console.log('현재 유저 데이터~', res.data)
+        })
+        .catch((err) => console.log(err))
     },
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
