@@ -28,7 +28,7 @@ export default {
           .then((res) => {
             this.fetchUserInfo(res.data)
             if (res.data.newbie) {
-              this.$router.push({ name: 'intro' })
+              this.$router.push({ name: 'setnickname' })
             } else {
               this.$router.push({ name: 'main' })
             }

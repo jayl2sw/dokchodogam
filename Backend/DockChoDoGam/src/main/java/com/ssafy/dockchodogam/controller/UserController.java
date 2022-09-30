@@ -86,9 +86,19 @@ public class UserController {
 //    }
     @PutMapping("/password")
     @ApiOperation(value = "비밀번호 변경")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto dto){
+    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordDto dto, BindingResult result){
+        if(result.hasErrors()){
+            throw new InvalidParameterException(result);
+        }
         Long id = userService.getMyInfo().getUser_id();
         userService.changePW(id, passwordEncoder.encode(dto.getNewPW()));
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @PutMapping("/set/nickname")
+    @ApiOperation(value = "닉네임 설정")
+    public ResponseEntity<String> setNickname(@RequestParam String nickname){
+        userService.setNickname(nickname);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
     

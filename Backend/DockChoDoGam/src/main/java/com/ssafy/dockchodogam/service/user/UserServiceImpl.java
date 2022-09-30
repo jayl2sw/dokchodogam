@@ -94,14 +94,10 @@ public class UserServiceImpl implements UserService{
             throw new DuplicateEmailException();
         }
 
-        if(userRepository.findByNickname(requestDto.getNickname()).orElse(null)!=null){
-            throw new DuplicateNicknameException();
-        }
-
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .email(requestDto.getEmail())
-                .nickname(requestDto.getNickname())
+                .nickname("")
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                 .role(Role.ROLE_USER)
                 // 대표 독초몬은 개나리몬이 디폴트
@@ -209,6 +205,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void setNickname(String nickname){
+        if(checkNickName(nickname)) throw new DuplicateNicknameException();
+
+        User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        me.setNickname(nickname);
+        userRepository.save(me);
+    }
+
+    @Override
     public TokenDto refresh(TokenRequestDto requestDto){
         // Refresh Token 검증
         if(!tokenProvider.validateToken(requestDto.getRefreshToken())){
@@ -262,11 +267,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public void requestFriend(Long id) {
         User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-//        if(getFriendCount(me.getUserId()) >= 10){
-//            throw new TooManyFriendsException();
-//        }
 
         User other = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        Optional<Propose> propose = proposeRepository.findByTwoId(me.getUserId(), other.getUserId());
+        if(propose.isPresent()){
+            throw new DuplicateProposeException();
+        }
 
         Optional<Friend> friend = friendRepository.findByTwoId(me.getUserId(), other.getUserId());
         if(friend.isPresent()){

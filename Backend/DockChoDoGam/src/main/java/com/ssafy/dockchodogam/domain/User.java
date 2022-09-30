@@ -75,6 +75,7 @@ public class User extends BaseTime {
     public void changeRankPoint(int point){this.rankPoint += point;}
 
     public void changePW(String password){this.password = password;}
+    public void setNickname(String nickname){this.nickname = nickname;}
     public void setRepresentMonster(Monster monster){this.representMonster = monster;}
     public void changeNB(){this.newbie = false;}
     public void buyStarter(){this.starter = false;}
