@@ -2,12 +2,6 @@ import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { Module } from 'vuex'
 import { RootState } from '../index'
-// import router from './router'
-import swal from 'sweetalert'
-import { useRouter, useRoute } from 'vue-router'
-
-const router = useRouter()
-// const route = useRoute()
 
 export interface gameState {
   enemyInfo: object
@@ -79,35 +73,8 @@ export const game: Module<gameState, RootState> = {
         })
         .catch((err) => console.log(err))
     },
-    fetchMonsterPackage({ commit }) {
-      axios({
-        url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
-        method: 'GET',
-        headers: {
-          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-          // 'Content-Type': 'application/json'
-        }
-      })
-        .then((res) => {
-          commit('SET_MONSTERPACKAGE', res.data)
-          console.log('스타터팩', res.data)
-          router.push({
-            path: '/game/shop/package'
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-          swal({
-            title: '결제에 실패하였습니다 😢',
-            text: '스타터팩 구매를 실패하였습니다.',
-            icon: 'error',
-            // buttons: false,
-            timer: 1500
-          })
-          router.push({
-            path: '/game/shop/package'
-          })
-        })
+    fetchMonsterPackage({ commit }, monsterPackage) {
+      commit('SET_MONSTERPACKAGE', monsterPackage)
     }
   }
 }
