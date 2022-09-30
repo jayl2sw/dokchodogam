@@ -88,17 +88,16 @@ export default {
           console.log(result)
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
-          // const option = {
-          //   headers: {
-          //     AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-          //   }
-          // }
-          // await axios
-          //   .get(BASE_URL + '/api/v1/user/myinfo', option)
-          //   .then((res) => {
-          //     this.fetchUserInfo(res.data)
-          //   })
-          this.fetchUserInfo()
+          const option = {
+            headers: {
+              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          }
+          await axios
+            .get(BASE_URL + '/api/v1/user/myinfo', option)
+            .then((res) => {
+              this.fetchUserInfo(res.data)
+            })
           await this.$router.push({ name: 'main' })
         }
       } catch (err) {
