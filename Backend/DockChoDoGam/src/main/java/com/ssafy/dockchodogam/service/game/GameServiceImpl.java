@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,15 +127,25 @@ public class GameServiceImpl implements GameService {
         purchasesRepository.save(Purchases.builder().user(user).item(item).build());
         // 개수만큼 독초몬 랜덤하게 뽑기
         List<MonstersResponseDto> list = new ArrayList<>();
-        List<Monster> monsters = monsterRepository.findRandomMonster(item.getItemCnt());
+        Random random = new Random();
         for (int i = 0; i < item.getItemCnt(); i++) {
             Monster monster;
-            // 중복 허용 (1개라면 중복 허용으로 넣기)
-            if (item.isDuplicate()) {
-                monster = monsterRepository.findRandomMonster();
-            // 중복 비허용
+            int grade = random.nextInt(99);
+            if (grade < 60) {
+                // common
+                monster = monsterRepository.findRandomMonster(0);
+            } else if (grade < 85) {
+                // rare
+                monster = monsterRepository.findRandomMonster(1);
+            } else if (grade < 97) {
+                // epic
+                monster = monsterRepository.findRandomMonster(2);
+            } else if (grade < 99) {
+                // legendary
+                monster = monsterRepository.findRandomMonster(3);
             } else {
-                monster = monsters.get(i);
+                // hidden
+                monster = monsterRepository.findRandomMonster(4);
             }
             boolean isGot = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user).isPresent();
             if (isGot) {

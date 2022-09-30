@@ -30,11 +30,13 @@ export default {
   data() {
     return {
       giftList: [],
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     receiptGift(friendId) {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/receipt', friendId, {
           headers: {
@@ -49,6 +51,7 @@ export default {
         .catch((err) => console.log(err))
     },
     receiptGiftAll() {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/receipt/all', null, {
           headers: {
@@ -140,6 +143,7 @@ svg.icon {
   height: 100% !important;
   margin-right: 3vw;
   transition: 0.3s;
+  cursor: pointer;
 }
 svg:hover {
   color: #a7c957;

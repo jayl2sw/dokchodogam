@@ -5,10 +5,15 @@
       <p class="TITLE name">{{ this.request.sender_nickname }}</p>
     </div>
     <div class="right">
-      <font-awesome-icon icon="fa-solid fa-ban" @click="this.refuseFriend()" />
+      <font-awesome-icon
+        icon="fa-solid fa-ban"
+        @click="this.refuseFriend()"
+        class="icon"
+      />
       <font-awesome-icon
         icon="fa-solid fa-heart"
         @click="this.acceptFriend()"
+        class="icon"
       />
     </div>
   </div>
@@ -20,8 +25,14 @@ import { BASE_URL } from '@/constant/BASE_URL'
 
 export default {
   props: ['request', 'getRequestList'],
+  data() {
+    return {
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+    }
+  },
   methods: {
     acceptFriend() {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/accept', this.request.propose_id, {
           headers: {
@@ -37,6 +48,7 @@ export default {
         .catch((err) => console.log(err))
     },
     refuseFriend() {
+      this.btn_audio.play()
       axios
         .delete(
           BASE_URL + '/api/v1/user/friend/refuse/' + this.request.propose_id,
@@ -98,5 +110,8 @@ svg {
 }
 svg:hover {
   color: red;
+}
+.icon {
+  cursor: pointer;
 }
 </style>

@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.service.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
+import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.User;
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
@@ -107,6 +108,25 @@ public class BattleServiceImpl implements BattleService {
         int attackSuccess = battleRepository.findAttackSuccessCountByUser(userId);
         int defenceCnt = battleRepository.findDefenceCountByUser(userId);
         int defenceSuccess = battleRepository.findDefenceSuccessCountByUser(userId);
+        int totalCnt = attackCnt + defenceCnt;
+        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
+
+        return WinRateDto.builder()
+                .totalGames(totalCnt)
+                .attackCnt(attackCnt)
+                .winAttack(attackSuccess)
+                .defenceCnt(defenceCnt)
+                .winDefence(defenceSuccess)
+                .winRate(winRate)
+                .build();
+    }
+
+    @Override
+    public WinRateDto getWinRate(Long monsterId){
+        int attackCnt = battleRepository.findAttackCountByMonster(monsterId);
+        int attackSuccess = battleRepository.findAttackSuccessCountByMonster(monsterId);
+        int defenceCnt = battleRepository.findDefenceCountByMonster(monsterId);
+        int defenceSuccess = battleRepository.findDefenceSuccessCountByMonster(monsterId);
         int totalCnt = attackCnt + defenceCnt;
         double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
 

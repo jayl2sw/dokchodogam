@@ -21,6 +21,8 @@ public interface UserService {
     void changePW(String email, String newPW);
     void changePW(Long id, String newPW);
     UserResponseDto getMyInfo();
+
+    UserResponseDto getUserInfo(Long userId);
     TokenDto refresh(TokenRequestDto requestDto);
     void logout();
     UserResponseDto search(String keyword);
