@@ -36,7 +36,6 @@
 
         <div class="size">
           <p>
-            <br />
             타입 : {{ this.monsterType }} <br />등급 : {{ this.monterGrade }}
             <br />
             체력 : {{ this.monster.hp }} <br />
@@ -292,7 +291,7 @@ export default {
 }
 
 .container .card .contentBx p {
-  position: relative;
+  /* position: relative; */
   font-weight: 500;
   font-size: 0.9em;
   color: #000000;
@@ -311,7 +310,7 @@ export default {
 .container .card .contentBx .size,
 .container .card .contentBx .color {
   display: flex;
-  height: inherit;
+  /* height: inherit; */
   flex-direction: column;
   justify-content: center;
   align-items: center;

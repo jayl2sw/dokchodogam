@@ -3,46 +3,67 @@
   <div class="result">
     <div class="result__body">
       <div class="result__left">
-        <div>{{ result1 }}</div>
-        <!-- !onDogam  -->
-        <div
-          v-if="!results.onDogam && !results.isOverlapped"
-          class="dockchoMonster"
-        >
+        {{ photoResult }}
+        <!-- 도감에 없을 때  -->
+        <div v-if="photoResult.onDogam === false" class="dockchoMonster">
           <undefined-find />
         </div>
-        <!-- !isOverlapped & onDogam -->
+        <!-- 도감 O 새로 찾음 -->
         <div
-          v-else-if="!results.isOverlapped && results.onDogam"
+          v-else-if="
+            photoResult.onDogam === true && photoResult.isOverlapped === false
+          "
           class="dockchoMonster"
         >
-          <new-find :plant="results.plant" />
+          <new-find :monsterId="photoResult.plant.monsterId" />
         </div>
-        <!-- isOverlapped & onDogam -->
+        <!-- 도감 O 중복 찾음 -->
         <div
-          v-else-if="results.isOverlapped && results.onDogam"
+          v-else-if="
+            photoResult.onDogam === true && photoResult.isOverlapped === true
+          "
           class="dockchoMonster"
         >
-          <duplicate-find :plant="results.plant" />
+          <duplicate-find :monsterId="photoResult.plant.monsterId" />
         </div>
       </div>
       <div class="result__right">
         <img src="@/assets/cat.png" alt="cat" />
         <div class="dockchoExplanation__container">
-          <div v-if="results.plant" class="dockchoExplanation">
+          <div v-if="photoResult.plant" class="dockchoExplanation">
             <img src="@/assets/flower_ex.png" alt="flower" />
-            <!-- <h3 v-if="results.docko == true">
+            <h3 v-if="photoResult.isDokcho == true">
               독초입니다! 채집 및 섭취에 주의하세요.
-            </h3> -->
-            <h3>{{ plant.name }}</h3>
-            <p>{{ plant.familyKorNm }} {{ plant.genusKorNm }}</p>
-            <p>원산지 : {{ plant.dstrb }}</p>
-            <p>{{ plant.flwrDesc }}</p>
-            <p>{{ plant.grwEvrntDesc }}</p>
+            </h3>
+            <h3>{{ photoResult.plant.name }}</h3>
+            <p
+              v-if="
+                photoResult.plant.familyKorNm && photoResult.plant.genusKorNm
+              "
+            >
+              {{ photoResult.plant.familyKorNm }}
+              {{ photoResult.plant.genusKorNm }}
+            </p>
+            <p v-if="photoResult.plant.dstrb">
+              원산지 : {{ photoResult.plant.dstrb }}
+            </p>
+            <p v-if="photoResult.plant.flwrDesc">
+              꽃 모양 설명 : {{ photoResult.plant.flwrDesc }}
+            </p>
+            <p v-if="photoResult.plant.fritDesc">
+              열매 설명 : {{ photoResult.plant.fritDesc }}
+            </p>
+            <p v-if="photoResult.plant.grwEvrntDesc">
+              키우는 법 : {{ photoResult.plant.grwEvrntDesc }}
+            </p>
           </div>
-          <!-- <div v-else>
-            <p>제가 잘 모르는 식물이에요 😥 스승님께 알려드릴게요!</p>
-          </div> -->
+          <div v-else class="dockchoExplanation">
+            <p>
+              제가 잘 모르는 식물이에요 😥 <br />
+              스승님께 알려드릴게요!
+            </p>
+          </div>
+          <p>{{ photoResult.plant.cprtCtnt }}</p>
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
             <img class="tree2" src="@/assets/tree.png" alt="tree" />
@@ -62,21 +83,19 @@
 <script>
 import NavBar from '@/components/main/NavBar.vue'
 import NewFind from '@/components/camera/NewFind.vue'
-// import DuplicateFind from '@/components/camera/DuplicateFind.vue'
-// import UndefinedFind from '@/components/camera/UndefinedFind.vue'
+import DuplicateFind from '@/components/camera/DuplicateFind.vue'
+import UndefinedFind from '@/components/camera/UndefinedFind.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     NavBar,
-    NewFind
-    // DuplicateFind,
-    // UndefinedFind
+    NewFind,
+    DuplicateFind,
+    UndefinedFind
   },
-  data() {
-    return {
-      results: JSON.parse(this.$route.query.result1),
-      plant: this.$route.query.plant
-    }
+  getters: {
+    ...mapGetters(['photoResult'])
   },
 
   methods: {
