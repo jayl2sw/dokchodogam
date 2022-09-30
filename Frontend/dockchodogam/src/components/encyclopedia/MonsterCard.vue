@@ -36,7 +36,7 @@
 
         <div class="size">
           <p>
-            타입 : {{ this.monsterType }} <br />등급 : {{ this.monster.grade }}
+            타입 : {{ this.monsterType }} <br />등급 : {{ this.monterGrade }}
             <br />
             체력 : {{ this.monster.hp }} <br />
             공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
@@ -79,6 +79,7 @@ export default {
       modal: false,
       monsterDetail: {},
       monsterType: '',
+      monterGrade: '',
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
@@ -101,16 +102,16 @@ export default {
       }
     },
     checkGrade() {
-      if (this.monster.type === 'COMMOM') {
-        this.monsterType = '일반'
-      } else if (this.monster.type === 'RARE') {
-        this.monsterType = '희귀'
-      } else if (this.monster.type === 'EPIC') {
-        this.monsterType = '영웅'
-      } else if (this.monster.type === 'LEGENDARY') {
-        this.monsterType = '전설'
+      if (this.monster.grade === 'COMMOM') {
+        this.monterGrade = '일반'
+      } else if (this.monster.grade === 'RARE') {
+        this.monterGrade = '희귀'
+      } else if (this.monster.grade === 'EPIC') {
+        this.monterGrade = '영웅'
+      } else if (this.monster.grade === 'LEGENDARY') {
+        this.monterGrade = '전설'
       } else {
-        this.monsterType = '스페셜'
+        this.monterGrade = '스페셜'
       }
     },
     fetchMonsterDetail() {
