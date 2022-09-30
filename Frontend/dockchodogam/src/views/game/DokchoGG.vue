@@ -1,14 +1,8 @@
 <template>
   <NavBar @overflow="overflow" />
   <div class="dcgg" :class="this.showMenu ? 'open-menu' : ''">
-    <div class="menuBar">
-      <div class="userDataBtn" @click="this.onClickMyData()">내데이터</div>
-      <div class="DokchoDataBtn" @click="this.onClickDokcho()">
-        독초몬데이터
-      </div>
-    </div>
     <div class="dcgg__main">
-      <UserData v-if="this.nowPage === 'myData'" />
+      <UserData />
     </div>
   </div>
 </template>
@@ -24,19 +18,12 @@ export default {
   },
   data() {
     return {
-      showMenu: false,
-      nowPage: 'myData'
+      showMenu: false
     }
   },
   methods: {
     overflow(value) {
       this.showMenu = value
-    },
-    onClickMyData() {
-      this.nowPage = 'myData'
-    },
-    onClickDokcho() {
-      this.nowPage = 'Dokcho'
     }
   }
 }
@@ -47,20 +34,8 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.menuBar {
-  display: flex;
-  justify-content: center;
-  height: 10vh;
-}
-.userDataBtn {
-  width: 20vw;
-  text-align: center;
-}
-.DokchoDataBtn {
-  width: 20vw;
-  text-align: center;
-}
 .dcgg__main {
+  margin-top: 10vh;
   padding: 0 10vw;
 }
 @media screen and (max-width: 850px) {
