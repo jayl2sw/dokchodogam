@@ -44,7 +44,8 @@ export default {
     return {
       // newMonster: {},
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3')
     }
   },
   computed: {
@@ -76,6 +77,9 @@ export default {
     // document.cookie = 'crossCookie=bar; SameSite=None; Secure'
     this.startConfetti()
     // this.fetchUserInfo()
+  },
+  mounted() {
+    this.gotcha_audio.play()
   }
 }
 </script>

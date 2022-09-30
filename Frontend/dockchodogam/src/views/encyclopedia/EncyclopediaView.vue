@@ -154,7 +154,8 @@ export default {
       checkedGot: ['true'],
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3')
     }
   },
   computed: {
@@ -280,6 +281,14 @@ export default {
     setTimeout(() => {
       this.isLoading = false
     }, 2000)
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>

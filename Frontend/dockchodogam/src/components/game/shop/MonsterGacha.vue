@@ -21,12 +21,18 @@ export default {
   // data() {
   //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
   // },
+  data() {
+    return {
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+    }
+  },
   computed: {
     ...mapGetters(['nowUserInfo'])
   },
   methods: {
     ...mapActions(['fetchMonsterGacha', 'fetchnowUserInfo']),
     doubleCheck() {
+      this.btn_audio.play()
       // swal({
       //   text: '200냥을 내고 뽑기를 진행하시겠습니까?',
       //   buttons: ['취소', '확인']
