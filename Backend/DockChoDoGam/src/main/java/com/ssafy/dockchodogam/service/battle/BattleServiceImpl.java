@@ -103,6 +103,12 @@ public class BattleServiceImpl implements BattleService {
     }
 
     @Override
+    public List<BattleDto> searchLog(String nickname, int page){
+        Long myId = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new).getUserId();
+        return battleRepository.findBattlesByUser(myId, PageRequest.of(page, 20)).stream().map(battle -> BattleDto.from(battle)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<BattleDto> searchLog(Long monsterId, int page){
         Long myId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
         return battleRepository.findBattlesByUserAndMonster(PageRequest.of(page, 20), myId, monsterId).stream().map(battle -> BattleDto.from(battle)).collect(Collectors.toList());
@@ -111,6 +117,26 @@ public class BattleServiceImpl implements BattleService {
     @Override
     public WinRateDto getWinRate(){
         Long myId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
+        int attackCnt = battleRepository.findAttackCountByUser(myId);
+        int attackSuccess = battleRepository.findAttackSuccessCountByUser(myId);
+        int defenceCnt = battleRepository.findDefenceCountByUser(myId);
+        int defenceSuccess = battleRepository.findDefenceSuccessCountByUser(myId);
+        int totalCnt = attackCnt + defenceCnt;
+        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
+
+        return WinRateDto.builder()
+                .totalGames(totalCnt)
+                .attackCnt(attackCnt)
+                .winAttack(attackSuccess)
+                .defenceCnt(defenceCnt)
+                .winDefence(defenceSuccess)
+                .winRate(winRate)
+                .build();
+    }
+
+    @Override
+    public WinRateDto getWinRate(String nickname){
+        Long myId = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new).getUserId();
         int attackCnt = battleRepository.findAttackCountByUser(myId);
         int attackSuccess = battleRepository.findAttackSuccessCountByUser(myId);
         int defenceCnt = battleRepository.findDefenceCountByUser(myId);
