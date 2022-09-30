@@ -72,7 +72,7 @@
             value="COMMON"
             v-model="checkedGrade"
           />
-          <label for="COMMON">COMMON</label>
+          <label for="COMMON">일반</label>
 
           <input
             type="checkbox"
@@ -80,7 +80,7 @@
             value="RARE"
             v-model="checkedGrade"
           />
-          <label for="RARE">RARE</label>
+          <label for="RARE">희귀</label>
 
           <input
             type="checkbox"
@@ -88,7 +88,7 @@
             value="EPIC"
             v-model="checkedGrade"
           />
-          <label for="EPIC">EPIC</label>
+          <label for="EPIC">영웅</label>
 
           <input
             type="checkbox"
@@ -96,7 +96,7 @@
             value="LEGENDARY"
             v-model="checkedGrade"
           />
-          <label for="LEGENDARY">LEGENDARY</label>
+          <label for="LEGENDARY">전설</label>
 
           <input
             type="checkbox"
@@ -104,7 +104,7 @@
             value="SPECIAL"
             v-model="checkedGrade"
           />
-          <label for="SPECIAL">SPECIAL</label>
+          <label for="SPECIAL">스페셜</label>
         </div>
         <div class="selected">
           {{ filteredMonsters.length }} / 98
