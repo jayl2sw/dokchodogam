@@ -286,11 +286,11 @@ button {
   width: 5vw;
 }
 .myProfile__name {
-  font-size: 2vw;
+  font-size: 2.5vw;
   margin-bottom: 3vh;
 }
 .myProfile__contents {
-  font-size: 1vw;
+  font-size: 1.5vw;
   line-height: 4vh;
 }
 .emphasize {
@@ -404,7 +404,7 @@ button {
   .change__dockcho {
     width: 50vw;
     height: 8vw;
-    font-size: 3vw;
+    font-size: 4vw;
   }
   .mypage__right {
     margin: 0;
@@ -413,11 +413,11 @@ button {
   }
   .change__password {
     width: 20vw;
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .quit__btn {
     width: 20vw;
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .changePw__inputs input {
     height: 5vh;

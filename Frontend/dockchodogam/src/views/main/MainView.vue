@@ -304,13 +304,13 @@ input:focus {
   }
   .todayPlant__container {
     width: 70vw;
-    height: auto;
+    height: 50vh;
     padding-bottom: 3vh;
     opacity: 1;
   }
   .todayPlant {
     width: 70vw;
-    height: auto;
+    height: 45vh;
     font-size: 2vw;
   }
   .todayPlant h2 {
@@ -320,7 +320,7 @@ input:focus {
     font-size: 4vw;
   }
   .todayPlant h6 {
-    font-size: 1vw;
+    font-size: 2vw;
     font-style: italic;
     color: gray;
   }

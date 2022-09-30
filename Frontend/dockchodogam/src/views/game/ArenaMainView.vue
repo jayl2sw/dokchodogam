@@ -343,6 +343,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.nickname > h1 {
+  font-size: 5vh;
+}
 .myDeckDetail {
   height: 13vh;
   display: flex;
@@ -378,7 +381,7 @@ export default {
   font-size: 2vh;
   margin: 0;
 }
-.myDeckPower > h2 {
+.myDeckPower > h1 {
   font-size: 3vh;
   margin: 0;
 }
@@ -402,7 +405,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vh;
+  font-size: 1.2vw;
   width: 10vw;
   height: 5vh;
   background-color: #a7c957;
@@ -458,7 +461,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
 }
 .rankerDeck {
   width: 23vw;
@@ -531,7 +534,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5vw;
+  width: 7vw;
 }
 .enemyName {
   font-size: 1.5vw;
@@ -553,7 +556,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   width: 5vw;
   height: 5vh;
   background-color: #ccc;
@@ -575,7 +578,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vh;
+  font-size: 2.5vh;
   width: 10vw;
   height: 6vh;
   background-color: white;
@@ -615,11 +618,11 @@ export default {
   border: none;
 }
 .modal-title {
-  font-size: 2vh;
+  font-size: 4vh;
 }
 .modal-body {
-  font-size: 1.5vh;
-  line-height: 3vh;
+  font-size: 1.2vw;
+  line-height: 2.5vw;
   padding: 2vh 2vw;
   overflow: scroll;
 }
@@ -629,9 +632,12 @@ export default {
 .emphasize {
   font-family: 'UhBeeSe_hyun';
   color: #467302;
-  font-size: 1.8vh;
+  font-size: 1.5vw;
 }
-@media screen and (max-width: 850px) {
+/* @media screen and (max-width: 850px) {
+  .nickname > h1 {
+    font-size: 1vw;
+  }
   .game__info {
     top: 10px;
     right: 10px;
@@ -648,7 +654,7 @@ export default {
     border: none;
     overflow: scroll;
   }
-}
+} */
 @media only screen and (orientation: portrait) {
   .main {
     background-image: none;

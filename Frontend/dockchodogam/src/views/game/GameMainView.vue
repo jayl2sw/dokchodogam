@@ -83,18 +83,20 @@ export default {
 .game__gg:hover {
   animation: bigger 0.5s linear 0s 1 normal forwards;
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 660px) {
   .game {
     flex-direction: column;
-    height: auto;
+    height: 110%;
   }
   .game__arena {
     width: 80vw;
     height: 38vh;
+    background-size: cover;
   }
   .game__gg {
     width: 80vw;
     height: 38vh;
+    background-size: cover;
   }
 }
 @keyframes bigger {
