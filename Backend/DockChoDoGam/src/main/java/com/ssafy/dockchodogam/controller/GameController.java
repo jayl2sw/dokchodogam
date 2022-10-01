@@ -156,6 +156,18 @@ public class GameController {
         return new ResponseEntity<>(gameService.getMyRank(rankPoint), HttpStatus.OK);
     }
 
+    @GetMapping("/yourranking/{user_id}")
+    @ApiOperation(value = "특정 유저 랭킹 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = Long.class)
+    })
+    public ResponseEntity<?> getYourRanking(
+            @PathVariable @ApiParam(value = "유저 아이디") Long user_id){
+        // 랭킹 조회
+        int rankPoint = userService.getUserInfo(user_id).getRank_point();
+        return new ResponseEntity<>(gameService.getMyRank(rankPoint), HttpStatus.OK);
+    }
+
     @GetMapping("/shop")
     @ApiOperation(value = "판매 상품 리스트 조회")
     @ApiResponses({

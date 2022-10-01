@@ -2,6 +2,10 @@
   <div class="gacha">
     <div class="gacha__header">
       <h3 class="TITLE">🎉 축하합니다! {{ monsterGacha[0].name }}몬 획득 🎉</h3>
+      <br />
+      <p v-if="monsterGacha[0].got === true">
+        이미 획득한 몬스터입니다 🤟 100냥을 돌려드릴게요!
+      </p>
     </div>
     <div class="gacha__body">
       <img
@@ -13,17 +17,18 @@
     <div class="gacha__footer">
       <div class="buttons">
         <button class="btn" @click="goToDogam">도감에서 확인하기</button>
+        <button class="btn" @click="goToGameShop">상점으로 돌아가기</button>
       </div>
     </div>
-    <div class="shop__exit" @click="goToGameShop()">
+    <!-- <div class="shop__exit" @click="goToGameShop()">
       <font-awesome-icon icon="fa-solid fa-x" size="xl" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 import JSConfetti from 'js-confetti'
@@ -39,20 +44,22 @@ export default {
     return {
       // newMonster: {},
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3')
     }
   },
   computed: {
     ...mapGetters(['monsterGacha'])
   },
   methods: {
+    // ...mapActions(['fetchUserInfo']),
     goToDogam() {
-      this.$router.push({
+      this.$router.replace({
         path: '/encyclopedia'
       })
     },
     goToGameShop() {
-      this.$router.push({
+      this.$router.replace({
         path: '/game/shop'
       })
     },
@@ -69,6 +76,10 @@ export default {
     // document.cookie = 'safeCookie2=foo'
     // document.cookie = 'crossCookie=bar; SameSite=None; Secure'
     this.startConfetti()
+    // this.fetchUserInfo()
+  },
+  mounted() {
+    this.gotcha_audio.play()
   }
 }
 </script>

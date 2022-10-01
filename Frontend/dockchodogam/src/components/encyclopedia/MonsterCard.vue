@@ -1,7 +1,16 @@
 <template>
   <div class="card__container">
     <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
-    <div v-if="monster.got == true && monster.monsterId !== 0" class="card">
+    <div
+      v-if="monster.got == true && monster.monsterId !== 0"
+      class="card"
+      :class="{
+        card__dokcho: monster.type == 'DOKCHO',
+        card__yakcho: monster.type == 'YAKCHO',
+        card__japcho: monster.type == 'JAPCHO',
+        card__hidden: monster.type == 'HIDDEN'
+      }"
+    >
       <div class="imgBx">
         <img
           :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
@@ -16,22 +25,18 @@
           card__rare: monster.grade == 'RARE',
           card__epic: monster.grade == 'EPIC',
           card__legendary: monster.grade == 'LEGENDARY',
-          card__special: monster.grade == 'SPECIAL',
-          card__dokcho: monster.type == 'DOKCHO',
-          card__yakcho: monster.type == 'YAKCHO',
-          card__japcho: monster.type == 'JAPCHO',
-          card__hidden: monster.type == 'HIDDEN'
+          card__special: monster.grade == 'SPECIAL'
         }"
         class="contentBx"
       >
         <div class="contentBx__name">
           <p class="TITLE">00{{ monster.monsterId }}</p>
-          <h3 class="TITLE">{{ monster.name }}몬</h3>
+          <p class="TITLE title">{{ monster.name }}몬</p>
         </div>
 
         <div class="size">
           <p>
-            타입 : {{ this.monster.type }} <br />등급 : {{ this.monster.grade }}
+            타입 : {{ this.monsterType }} <br />등급 : {{ this.monterGrade }}
             <br />
             체력 : {{ this.monster.hp }} <br />
             공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
@@ -73,6 +78,8 @@ export default {
     return {
       modal: false,
       monsterDetail: {},
+      monsterType: '',
+      monterGrade: '',
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
@@ -83,7 +90,30 @@ export default {
       // console.log(a)
       // console.log(this.monsterDetail)
     },
-
+    checkType() {
+      if (this.monster.type === 'DOKCHO') {
+        this.monsterType = '독초😈'
+      } else if (this.monster.type === 'YAKCHO') {
+        this.monsterType = '약초🌿'
+      } else if (this.monster.type === 'JAPCHO') {
+        this.monsterType = '잡초🌻'
+      } else {
+        this.monsterType = '히든💜'
+      }
+    },
+    checkGrade() {
+      if (this.monster.grade === 'COMMOM') {
+        this.monterGrade = '일반'
+      } else if (this.monster.grade === 'RARE') {
+        this.monterGrade = '희귀'
+      } else if (this.monster.grade === 'EPIC') {
+        this.monterGrade = '영웅'
+      } else if (this.monster.grade === 'LEGENDARY') {
+        this.monterGrade = '전설'
+      } else {
+        this.monterGrade = '스페셜'
+      }
+    },
     fetchMonsterDetail() {
       axios({
         url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
@@ -102,6 +132,8 @@ export default {
   },
   created() {
     this.fetchMonsterDetail()
+    this.checkType()
+    this.checkGrade()
   }
 }
 </script>
@@ -229,7 +261,7 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 15vh;
+  height: 35%;
   text-align: center;
   transition: 1s;
   z-index: 10;
@@ -240,7 +272,7 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 20vh;
+  height: 45%;
   text-align: center;
   transition: 1s;
   z-index: 10;
@@ -250,16 +282,16 @@ export default {
   height: 25vh;
 }
 
-.container .card .contentBx h3 {
+.container .card .contentBx .title {
   position: relative;
   /* font-weight: 600; */
-  font-size: 13;
+  font-size: 1.3em;
   color: #000000;
   margin-bottom: 1vw;
 }
 
 .container .card .contentBx p {
-  position: relative;
+  /* position: relative; */
   font-weight: 500;
   font-size: 0.9em;
   color: #000000;
@@ -278,6 +310,7 @@ export default {
 .container .card .contentBx .size,
 .container .card .contentBx .color {
   display: flex;
+  /* height: inherit; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -342,18 +375,18 @@ export default {
 }
 
 .card__dokcho {
-  box-shadow: 0 0 20px #ff5555;
+  box-shadow: 0 0 8px #ff5555;
 }
 
 .card__yakcho {
-  box-shadow: 0 0 20px #467302;
+  box-shadow: 0 0 8px #467302;
 }
 
 .card__japcho {
-  box-shadow: 0 0 20px #ffe140;
+  box-shadow: 0 0 8px #ffe140;
 }
 
 .card__hidden {
-  box-shadow: 0 0 20px #c493ff;
+  box-shadow: 0 0 8px #c493ff;
 }
 </style>

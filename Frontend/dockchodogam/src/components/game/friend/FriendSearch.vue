@@ -23,6 +23,7 @@
           <font-awesome-icon
             icon="fa-solid fa-clover"
             @click="this.requestFriend(searchUser.user_id)"
+            class="icon"
           />
         </div>
       </div>
@@ -42,11 +43,13 @@ export default {
     return {
       inputData: '',
       searchUser: '',
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     requestFriend(userId) {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/request', userId, {
           headers: {
@@ -157,6 +160,9 @@ svg {
 }
 svg:hover {
   color: #a7c957;
+}
+.icon {
+  cursor: pointer;
 }
 .noResult {
   font-size: 4vh;

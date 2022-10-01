@@ -25,7 +25,8 @@ IMP.init('imp40805235')
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   // computed: {
@@ -33,6 +34,7 @@ export default {
   // },
   methods: {
     onPaymentCash: function () {
+      this.btn_audio.play()
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
       // IMP.init('imp40805235')

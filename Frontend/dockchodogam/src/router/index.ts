@@ -111,6 +111,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/IntroView.vue'
       )
   },
+  // 닉네임지정
+  {
+    path: '/set/nickname',
+    name: 'setnickname',
+    component: () =>
+      import(
+        /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/SetNicknameView.vue'
+      )
+  },
   // 메인페이지
   {
     path: '/main',
@@ -237,12 +246,19 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "friend" */ '../views/game/FriendView.vue')
   },
-  // 친구 관리
+  // 독초지지
   {
     path: '/game/gg',
     name: 'gg',
     component: () =>
       import(/* webpackChunkName: "gg" */ '../views/game/DokchoGG.vue')
+  },
+  // 독초지지
+  {
+    path: '/dokcho/gg/',
+    name: 'dcgg',
+    component: () =>
+      import(/* webpackChunkName: "gg" */ '../views/game/DokchoData.vue')
   },
   // 어드민
   {
@@ -298,7 +314,7 @@ router.beforeEach(async (to, from, next) => {
     if (!isAccessTokenExpired()) {
       return next()
     } else {
-      await doRefreshToken()
+      doRefreshToken()
     }
   } else {
     console.log('로그인 해주세용~💋')

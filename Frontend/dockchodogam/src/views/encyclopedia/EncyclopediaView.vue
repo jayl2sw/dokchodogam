@@ -2,6 +2,8 @@
   <div class="dogam__container">
     <LoadingPage v-if="this.isLoading" />
     <NavBar v-show="!this.isLoading" @overflow="overflow" />
+
+    <h3 v-show="!this.isLoading" @click="backToTop" class="toTheTop">👆</h3>
     <div v-show="!this.isLoading">
       <div class="dogam__title">
         <h1 class="TITLE">☘️ {{ userInfo.nickname }}의 도감 ☘️</h1>
@@ -70,7 +72,7 @@
             value="COMMON"
             v-model="checkedGrade"
           />
-          <label for="COMMON">COMMON</label>
+          <label for="COMMON">일반</label>
 
           <input
             type="checkbox"
@@ -78,7 +80,7 @@
             value="RARE"
             v-model="checkedGrade"
           />
-          <label for="RARE">RARE</label>
+          <label for="RARE">희귀</label>
 
           <input
             type="checkbox"
@@ -86,7 +88,7 @@
             value="EPIC"
             v-model="checkedGrade"
           />
-          <label for="EPIC">EPIC</label>
+          <label for="EPIC">영웅</label>
 
           <input
             type="checkbox"
@@ -94,7 +96,7 @@
             value="LEGENDARY"
             v-model="checkedGrade"
           />
-          <label for="LEGENDARY">LEGENDARY</label>
+          <label for="LEGENDARY">전설</label>
 
           <input
             type="checkbox"
@@ -102,7 +104,7 @@
             value="SPECIAL"
             v-model="checkedGrade"
           />
-          <label for="SPECIAL">SPECIAL</label>
+          <label for="SPECIAL">스페셜</label>
         </div>
         <div class="selected">
           {{ filteredMonsters.length }} / 98
@@ -152,7 +154,8 @@ export default {
       checkedGot: ['true'],
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3')
     }
   },
   computed: {
@@ -229,6 +232,10 @@ export default {
     }
   },
   methods: {
+    backToTop() {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    },
     fetchMonsterList() {
       axios({
         url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/list?size=100',
@@ -274,11 +281,35 @@ export default {
     setTimeout(() => {
       this.isLoading = false
     }, 2000)
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
 
 <style scoped>
+.toTheTop {
+  /* background-color: #a7c957; */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* display: none; */
+  /* border-radius: 50px; */
+}
+
+.toTheTop:hover {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* display: none; */
+}
+
 .dogam__container {
   height: 100%;
   min-height: 100vh;

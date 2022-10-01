@@ -9,10 +9,12 @@
     <div class="shop__boxes">
       <div class="shop__top">
         <div class="nickname">
-          <h1 class="TITLE">{{ this.userInfo.nickname }}님을 위한 상점 🎁</h1>
+          <h1 class="TITLE">
+            {{ this.nowUserInfo.nickname }}님을 위한 상점 🎁
+          </h1>
         </div>
         <div class="money">
-          <h1 class="TITLE">👛 : {{ this.userInfo.money }}냥</h1>
+          <h1 class="TITLE">👛 : {{ this.nowUserInfo.money }}냥</h1>
         </div>
       </div>
       <div class="shop__bottom">
@@ -43,7 +45,9 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+      // nowUserInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo')),
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/shop.mp3'),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   components: {
@@ -52,14 +56,40 @@ export default {
     MonsterGacha
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['nowUserInfo'])
   },
   methods: {
-    // ...mapActions(['fetchUserInfo']),
+    ...mapActions(['fetchnowUserInfo']),
     goToArenaMain() {
-      this.$router.push({ path: '/game/arena' })
+      this.btn_audio.play()
+      this.$router.replace({ path: '/game/arena' })
     }
+    // unLoadEvent: function (event) {
+    //   if (this.isLeaveSite) return
+
+    //   event.preventDefault()
+    //   event.returnValue = ''
+    // }
+  },
+  created() {
+    this.fetchnowUserInfo()
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    setTimeout(() => {
+      this.audio.play()
+    }, 1000)
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
+  // mounted() {
+  //   window.addEventListener('beforeunload', this.unLoadEvent)
+  // },
+  // beforeUnmount() {
+  //   window.removeEventListener('beforeunload', this.unLoadEvent)
+  // }
 }
 </script>
 

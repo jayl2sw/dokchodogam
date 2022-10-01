@@ -20,7 +20,10 @@ public interface UserService {
     void deleteUser(Long id);
     void changePW(String email, String newPW);
     void changePW(Long id, String newPW);
+    void setNickname(String nickname);
     UserResponseDto getMyInfo();
+
+    UserResponseDto getUserInfo(Long userId);
     TokenDto refresh(TokenRequestDto requestDto);
     void logout();
     UserResponseDto search(String keyword);

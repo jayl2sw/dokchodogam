@@ -204,6 +204,7 @@ export default {
   height: 70vh;
 }
 .todayPlant__container {
+  position: relative;
   background-color: #ececec;
   border-width: 5px;
   border-radius: 40px;
@@ -216,8 +217,10 @@ export default {
   opacity: 1;
 }
 .todayPlant {
+  position: absolute;
+  top: 3vh;
   width: 40vw;
-  height: 56vh;
+  height: 54vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -301,13 +304,13 @@ input:focus {
   }
   .todayPlant__container {
     width: 70vw;
-    height: auto;
+    height: 50vh;
     padding-bottom: 3vh;
     opacity: 1;
   }
   .todayPlant {
     width: 70vw;
-    height: auto;
+    height: 45vh;
     font-size: 2vw;
   }
   .todayPlant h2 {
@@ -317,7 +320,7 @@ input:focus {
     font-size: 4vw;
   }
   .todayPlant h6 {
-    font-size: 1vw;
+    font-size: 2vw;
     font-style: italic;
     color: gray;
   }

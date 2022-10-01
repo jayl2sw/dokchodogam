@@ -18,15 +18,21 @@ import { mapActions, mapGetters } from 'vuex'
 import swal from 'sweetalert'
 
 export default {
+  // data() {
+  //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
+  // },
   data() {
-    return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
+    return {
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+    }
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['nowUserInfo'])
   },
   methods: {
-    ...mapActions(['fetchMonsterGacha']),
+    ...mapActions(['fetchMonsterGacha', 'fetchnowUserInfo']),
     doubleCheck() {
+      this.btn_audio.play()
       // swal({
       //   text: '200냥을 내고 뽑기를 진행하시겠습니까?',
       //   buttons: ['취소', '확인']
@@ -51,7 +57,8 @@ export default {
       if (confirm('100냥을 내고 뽑기를 진행하시겠습니까?') === true) {
         if (this.userInfo.money >= 100) {
           this.fetchMonsterGacha()
-          this.$router.push({
+          // this.fetchUserInfo()
+          this.$router.replace({
             path: '/game/shop/gacha'
           })
         } else {
@@ -91,6 +98,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 50vh;
 }
 
 .gatcha__img {
