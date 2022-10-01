@@ -36,6 +36,7 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 var emailCheck =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
@@ -49,13 +50,25 @@ export default {
   methods: {
     async findpassword() {
       if (!emailCheck.test(this.email)) {
-        alert('정확한 이메일 주소인지 확인해주세요🙏')
+        swal({
+          title: '정확한 이메일 주소인지 확인해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else {
         await axios
           .put(BASE_URL + '/api/v1/user/auth/findpw?email=' + this.email)
           .then((res) => {
             console.log(res)
-            alert('비밀번호 변경 메일을 보내드렸어요!')
+            swal({
+              title: '비밀번호 변경 메일을 보내드렸어요😋',
+              text: '🐯',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
           })
           .catch((err) => {
             console.log(err)

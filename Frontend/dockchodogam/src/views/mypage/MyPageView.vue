@@ -51,16 +51,29 @@
             type="password"
             placeholder="현재 비밀번호"
           />
+          <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
           <input
+            @keyup="checkPassword()"
             v-model="newPassword"
             type="password"
             placeholder="새 비밀번호"
           />
+          <span class="allowedtext" v-if="this.isPasswordChecked"
+            >이 비밀번호는 사용하셔도 좋아요👌</span
+          >
+          <span class="warningtext" v-else
+            >비밀번호 생성 조건을 확인해주세요🙏</span
+          >
           <input
             v-model="newPassword2"
             type="password"
             placeholder="새 비밀번호 확인"
           />
+          <span
+            class="warningtext"
+            v-if="this.newPassword !== this.newPassword2"
+            >비밀번호를 확인해주세요🙏</span
+          >
         </div>
         <div class="changePw__btn">
           <button @click="this.displayNone()" class="cancel__btn">취소</button>
@@ -102,7 +115,8 @@ export default {
       newPassword: this.newPassword,
       newPassword2: this.newPassword2,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      ranking: 0
+      ranking: 0,
+      isPasswordChecked: false
     }
   },
   methods: {
@@ -119,12 +133,20 @@ export default {
     onClickChangeDokcho() {
       this.showChangeDokchoMenu = true
     },
+    checkPassword() {
+      if (passwordCheck.test(this.newPassword)) {
+        this.isPasswordChecked = true
+      } else {
+        this.isPasswordChecked = false
+      }
+    },
     changePassword() {
       if (!passwordCheck.test(this.newPassword)) {
         swal({
           title:
             '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏',
           icon: 'error',
+          text: '🤔',
           buttons: false,
           timer: 2000
         })
@@ -149,6 +171,7 @@ export default {
             swal({
               title: '비밀번호가 변경되었습니다!😘',
               icon: 'success',
+              text: '바뀐 비밀번호로 로그인 해주세요😉',
               buttons: false,
               timer: 1500
             })
@@ -160,6 +183,7 @@ export default {
         swal({
           title: '새 비밀번호를 한번 더 확인해 주세요😢',
           icon: 'error',
+          text: '두 비밀번호가 다른 것 같아요..😅',
           buttons: false,
           timer: 1500
         })
@@ -179,6 +203,7 @@ export default {
             swal({
               title: '탈퇴가 완료되었어요!😭',
               icon: 'success',
+              text: '독초도감은 기억할것입니다.',
               buttons: false,
               timer: 1500
             })
@@ -368,6 +393,13 @@ button {
   height: 0;
   transition: 0.6s;
 }
+.allowedtext {
+  color: #29cd2e;
+}
+.warningtext {
+  color: #be0000;
+}
+
 @media screen and (max-width: 850px) {
   .mypage {
     flex-direction: column;
