@@ -3,7 +3,16 @@
     <!-- <img class="background" src="@/assets/game_background.png" alt="" /> -->
     <div class="loginpage">
       <div class="loginpage__left">
-        <img class="loginpage__img" src="@/assets/dokcho_escaping.png" alt="" />
+        <img class="loginpage__img" src="@/assets/login/book.gif" alt="" />
+        <div class="dokcho1Box">
+          <img class="dokchoImage" src="@/assets/login/1.png" alt="" />
+        </div>
+        <div class="dokcho2Box">
+          <img class="dokchoImage" src="@/assets/login/2.png" alt="" />
+        </div>
+        <div class="dokcho3Box">
+          <img class="dokchoImage" src="@/assets/login/3.png" alt="" />
+        </div>
       </div>
       <div class="loginpage__right">
         <img class="logo__img" src="@/assets/dokcho_logo.png" alt="" />
@@ -139,8 +148,76 @@ button {
 }
 
 .loginpage__img {
-  width: 40vw;
-  height: 60vh;
+  width: 35vw;
+  height: 50vh;
+  margin-top: 10vh;
+}
+
+@keyframes motion {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -15px, 0);
+  }
+}
+
+@keyframes dokcho1 {
+  0% {
+    bottom: 10vh;
+  }
+  100% {
+    left: 20vw;
+    bottom: 38vh;
+  }
+}
+@keyframes dokcho2 {
+  0% {
+    bottom: 10vh;
+  }
+  100% {
+    left: 0vw;
+    bottom: 33vh;
+  }
+}
+
+@keyframes dokcho3 {
+  0% {
+    bottom: 10vh;
+  }
+  100% {
+    left: 6vw;
+    bottom: 48vh;
+  }
+}
+.dokcho1Box {
+  width: 10vw;
+  height: 10vw;
+  position: absolute;
+  bottom: 10vh;
+  left: 10vw;
+  animation: dokcho1 1s linear 0s 1 forwards;
+}
+.dokcho2Box {
+  width: 10vw;
+  height: 10vw;
+  position: absolute;
+  bottom: 10vh;
+  left: 10vw;
+  animation: dokcho2 1s linear 0s 1 forwards;
+}
+.dokcho3Box {
+  width: 10vw;
+  height: 10vw;
+  position: absolute;
+  bottom: 10vh;
+  left: 10vw;
+  animation: dokcho3 1s linear 0s 1 forwards;
+}
+.dokchoImage {
+  width: 10vw;
+  height: 10vw;
+  animation: motion 0.5s linear 1s infinite alternate;
 }
 
 .loginpage__left {
@@ -152,6 +229,7 @@ button {
   flex-direction: row;
   justify-content: center;
   align-content: center;
+  position: relative;
 }
 
 .loginpage__right {
@@ -238,9 +316,69 @@ input:focus {
     display: flex;
     flex-direction: column;
   }
+  .loginpage__left {
+    width: 100%;
+  }
   .loginpage__img {
     height: 30vh;
     width: 40vh;
+  }
+  @keyframes dokcho1 {
+    0% {
+      bottom: 10vh;
+    }
+    100% {
+      left: 60vw;
+      bottom: 24vh;
+    }
+  }
+  @keyframes dokcho2 {
+    0% {
+      bottom: 10vh;
+    }
+    100% {
+      left: 18vw;
+      bottom: 20vh;
+    }
+  }
+
+  @keyframes dokcho3 {
+    0% {
+      bottom: 10vh;
+    }
+    100% {
+      left: 35vw;
+      bottom: 28vh;
+    }
+  }
+  .dokcho1Box {
+    width: 10vw;
+    height: 10vw;
+    position: absolute;
+    bottom: 10vh;
+    left: 40vw;
+    animation: dokcho1 1s linear 0s 1 forwards;
+  }
+  .dokcho2Box {
+    width: 10vh;
+    height: 10vh;
+    position: absolute;
+    bottom: 10vh;
+    left: 40vw;
+    animation: dokcho2 1s linear 0s 1 forwards;
+  }
+  .dokcho3Box {
+    width: 10vh;
+    height: 10vh;
+    position: absolute;
+    bottom: 10vh;
+    left: 40vw;
+    animation: dokcho3 1s linear 0s 1 forwards;
+  }
+  .dokchoImage {
+    width: 10vh;
+    height: 10vh;
+    animation: motion 0.5s linear 1s infinite alternate;
   }
   .loginpage__right {
     width: 80vw;
