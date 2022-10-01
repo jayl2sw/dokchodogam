@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL } from '@/constant/BASE_URL'
+// import { BASE_URL } from '@/constant/BASE_URL'
 import { Module } from 'vuex'
 import { RootState } from '../index'
 

@@ -54,8 +54,8 @@ export default {
       //       })
       //     }
       //   }
-      if (confirm('200냥을 내고 뽑기를 진행하시겠습니까?') === true) {
-        if (this.nowUserInfo.money >= 200) {
+      if (confirm('100냥을 내고 뽑기를 진행하시겠습니까?') === true) {
+        if (this.userInfo.money >= 100) {
           this.fetchMonsterGacha()
           // this.fetchUserInfo()
           this.$router.replace({
@@ -63,7 +63,7 @@ export default {
           })
         } else {
           swal({
-            title: '보유하신 냥이 부족합니다. 😢',
+            title: '보유하신 냥이 부족합니다 😢',
             text: '냥을 모아서 다시 도전하세요!',
             icon: 'error',
             buttons: false,
