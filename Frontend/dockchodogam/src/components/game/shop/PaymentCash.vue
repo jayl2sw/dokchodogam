@@ -6,6 +6,9 @@
 
     <div class="cash__body">
       <img class="cash__img" :src="require('@/assets/shop/cash.png')" />
+    </div>
+
+    <div class="cash__footer">
       <button class="btn" @click="onPaymentCash">
         <span class="TITLE">💰 9,900원</span>
       </button>
@@ -102,27 +105,37 @@ export default {
 .cash__header {
   text-align: center;
   margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-bottom: 1vmin;
 }
 .cash__body {
   display: flex;
   flex-direction: column;
-  height: 20vh;
+  justify-content: center;
+  min-height: 30vh;
 }
 .cash__img {
-  width: 20vw;
+  /* margin-top: 5; */
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
 }
 
+.cash__footer {
+  margin-top: 2.5vh;
+  display: flex;
+  justify-content: center;
+}
+
 .btn {
-  width: 10vw;
+  min-width: 50px;
+  /* width: 10vw; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  margin: auto;
+
+  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;
