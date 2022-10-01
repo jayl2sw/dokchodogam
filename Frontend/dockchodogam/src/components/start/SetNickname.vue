@@ -76,6 +76,7 @@ export default {
         axios
           .put(
             BASE_URL + '/api/v1/user/set/nickname?nickname=' + this.nickname,
+            null,
             option
           )
           .then((res) => {
