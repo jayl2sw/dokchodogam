@@ -35,10 +35,18 @@
         </div>
 
         <div>
+          <span>영문자나 숫자의 조합으로 5~20자리</span>
           <input
+            @keyup="checkUsername()"
             v-model="username"
-            placeholder="아이디 (영문자나 숫자의 조합으로 5~20자리)"
+            placeholder="아이디"
           />
+          <span class="allowedtext" v-if="this.isUsernameChecked"
+            >이 아이디는 사용하셔도 좋아요👌</span
+          >
+          <span class="warningtext" v-else
+            >아이디 생성 조건을 확인해주세요🙏</span
+          >
         </div>
         <div>
           <input v-model="email" placeholder="이메일" />
@@ -51,11 +59,19 @@
           </button>
         </div>
         <div>
+          <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
           <input
+            @keyup="checkPassword()"
             v-model="password"
             type="password"
-            placeholder="비밀번호 (영문자+숫자+특수문자 조합으로 8~25자리)"
+            placeholder="비밀번호"
           />
+          <span class="allowedtext" v-if="this.isPasswordChecked"
+            >이 비밀번호는 사용하셔도 좋아요👌</span
+          >
+          <span class="warningtext" v-else
+            >비밀번호 생성 조건을 확인해주세요🙏</span
+          >
         </div>
         <div>
           <input
@@ -64,6 +80,9 @@
             type="password"
             placeholder="비밀번호 확인"
           />
+          <span class="warningtext" v-if="this.password !== this.password2"
+            >비밀번호를 확인해주세요🙏</span
+          >
         </div>
         <div class="signup">
           <button class="signup__btn" type="submit" @click="signup()">
@@ -79,9 +98,9 @@
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions, mapGetters } from 'vuex'
+import swal from 'sweetalert'
 
 var usernameCheck = /^[a-zA-Z0-9]{5,20}$/
-
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
 var emailCheck =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
@@ -90,20 +109,40 @@ export default {
   data() {
     return {
       email: this.email,
-
       password: this.password,
       password2: this.password2,
       username: this.username,
-      nicknameDuplicate: true,
-      emailDuplicate: true
+      emailDuplicate: true,
+      isUsernameChecked: false,
+      isPasswordChecked: false
     }
   },
   methods: {
     ...mapActions(['doRefreshToken', 'fetchUserInfo']),
     ...mapGetters(['isAccessTokenExpired']),
+    checkUsername() {
+      if (usernameCheck.test(this.username)) {
+        this.isUsernameChecked = true
+      } else {
+        this.isUsernameChecked = false
+      }
+    },
+    checkPassword() {
+      if (passwordCheck.test(this.password)) {
+        this.isPasswordChecked = true
+      } else {
+        this.isPasswordChecked = false
+      }
+    },
     isEmailDuplicate() {
       if (!emailCheck.test(this.email)) {
-        alert('정확한 이메일 주소인지 확인해주세요🙏')
+        swal({
+          title: '정확한 이메일 주소인지 확인해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else {
         axios
           .get(BASE_URL + '/api/v1/user/auth/check/email/' + this.email, {
@@ -113,10 +152,22 @@ export default {
             console.log(res)
             if (res.data === false) {
               this.emailDuplicate = false
-              alert('이 이메일은 사용하셔도 좋아용.')
+              swal({
+                title: '이 이메일은 사용하셔도 좋아용😘',
+                text: '👍👍👍👍👍',
+                icon: 'success',
+                buttons: false,
+                timer: 1500
+              })
             } else {
               this.emailDuplicate = true
-              alert('이미 존재하는 이메일 주소입니다.')
+              swal({
+                title: '이미 존재하는 이메일입니다😥',
+                text: '👮‍♂️👮‍♀️👮‍♂️👮‍♀️👮‍♂️👮‍♀️',
+                icon: 'warning',
+                buttons: false,
+                timer: 1500
+              })
             }
           })
           .catch((err) => {
@@ -168,15 +219,38 @@ export default {
 
     signup() {
       if (this.emailDuplicate === true) {
-        alert('이메일중복검사를 먼저 진행해주세요.')
+        swal({
+          title: '이메일중복검사를 먼저 진행해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else if (!passwordCheck.test(this.password)) {
-        alert(
-          '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏'
-        )
+        swal({
+          title:
+            '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else if (!usernameCheck.test(this.username)) {
-        alert('아이디는 영문자나 숫자의 조합으로 5~20자리를 사용해야 해요🙏')
+        swal({
+          title: '아이디는 영문자나 숫자의 조합으로 5~20자리를 사용해야 해요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else if (!emailCheck.test(this.email)) {
-        alert('정확한 이메일 주소인지 확인해주세요🙏')
+        swal({
+          title: '정확한 이메일 주소인지 확인해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else if (this.password === this.password2) {
         axios
           .post(BASE_URL + '/api/v1/user/auth/signup', {
@@ -188,14 +262,26 @@ export default {
           })
           .then((res) => {
             console.log(res)
-            alert('회원가입을 축하드립니다!')
+            swal({
+              title: '회원가입을 축하드립니다!🤗',
+              text: '😸😸😸😸😸',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
             this.login()
           })
           .catch((err) => {
             console.log(err)
           })
       } else {
-        return alert('비밀번호가 일치하지 않습니다.')
+        return swal({
+          title: '비밀번호가 일치하지 않아요😥.',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       }
     }
   }
@@ -305,6 +391,12 @@ input {
   justify-content: center;
   justify-content: center;
   text-align: center;
+}
+.allowedtext {
+  color: #29cd2e;
+}
+.warningtext {
+  color: #be0000;
 }
 
 @media screen and (max-width: 850px) {
