@@ -15,7 +15,7 @@ export default {}
 <style scoped>
 .find {
   border-style: groove;
-  border-color: black;
+  border-color: blue;
   border-width: 5px;
   border-radius: 10px;
   width: 40vw;

@@ -116,7 +116,7 @@ export default {
 .gacha__footer {
   display: flex;
   justify-content: center;
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
 }
 
 .btn {

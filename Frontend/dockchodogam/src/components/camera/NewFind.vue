@@ -1,5 +1,6 @@
 <template>
   <div class="find">
+    <p>새로찾음</p>
     <h3 class="find__title TITLE">찾았다, {{ monsterDetail.name }}몬!</h3>
     <p v-if="monsterDetail.firstFinder" class="find_finder">
       최초 발견자 : {{ monsterDetail.firstFinder }}
@@ -38,17 +39,23 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
+
 export default {
-  props: {
-    monsterId: Number
-  },
+  // props: {
+  //   monsterId: Number
+  // },
   data() {
     return {
       // pick: false,
+      monsterId: this.photoResult.plant.monsterId,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
       monsterDetail: {},
       catch: false
     }
+  },
+  computed: {
+    ...mapGetters(['photoResult'])
   },
   methods: {
     catchMonster() {
@@ -87,6 +94,7 @@ export default {
   /* border-color: black; */
   /* border-width: 5px; */
   border-radius: 10px;
+  border-color: green;
   width: 40vw;
   /* height: 70vh; */
   display: flex;
