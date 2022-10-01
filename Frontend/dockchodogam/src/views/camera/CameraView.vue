@@ -30,6 +30,28 @@ import swal from 'sweetalert'
 // import { mapActions } from 'vuex'
 import { useStore } from 'vuex'
 
+const useRouterCustom = () => {
+  const router = useRouter()
+
+  const goToResult = () => {
+    router.push('/camera/result')
+  }
+  return {
+    goToResult
+  }
+}
+
+const useRouterMain = () => {
+  const router = useRouter()
+
+  const goToMain = () => {
+    router.push('/')
+  }
+  return {
+    goToMain
+  }
+}
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -39,6 +61,9 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
+    const { goToResult } = useRouterCustom()
+
+    const { goToMain } = useRouterMain()
     // this.store.dispatch
 
     const camera = ref<InstanceType<typeof Camera>>()
@@ -54,8 +79,18 @@ export default defineComponent({
       }
     })
 
-    const route = useRoute()
-    const router = useRouter()
+    // const route = useRoute()
+    // const router = useRouter()
+    // const useRouterCustom = () => {
+    //   const router = useRouter()
+
+    //   const goToResult = () => {
+    //     router.push('/camera/result')
+    //   }
+    //   return {
+    //     goToResult
+    //   }
+    // }
     const start = () => camera.value?.start()
     const stop = () => camera.value?.stop()
     const pause = () => camera.value?.pause()
@@ -96,9 +131,8 @@ export default defineComponent({
           // 받은 데이터 store에 저장
           // this.fetchphotoResult(res.data)
           setTimeout(() => console.log('결과값 저장~'), 2000)
-          router.push({
-            path: '/camera/result'
-          })
+
+          goToResult()
         })
         .catch((err) => {
           swal({
@@ -120,11 +154,11 @@ export default defineComponent({
       camera.value?.changeCamera(target.value)
     }
 
-    const goToMain = () => {
-      router.push({
-        name: 'main'
-      })
-    }
+    // const goToMain = () => {
+    //   router.push({
+    //     name: 'main'
+    //   })
+    // }
 
     return {
       camera,

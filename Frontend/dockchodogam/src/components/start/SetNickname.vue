@@ -10,7 +10,13 @@
       <input v-model="nickname" placeholder="닉네임" />
 
       <div class="setnicknamepage__button">
-        <button type="submit" @click="isNicknameDuplicate()">중복확인</button>
+        <button
+          class="setnickname__button"
+          type="submit"
+          @click="isNicknameDuplicate()"
+        >
+          중복확인
+        </button>
 
         <button class="login__button" type="submit" @click="setnickname()">
           완료
@@ -37,9 +43,14 @@ export default {
   methods: {
     isNicknameDuplicate() {
       if (!nicknameCheck.test(this.nickname)) {
-        alert(
-          '닉네임은 한글이나 영문자, 숫자의 조합으로 1~4자리를 사용해야 해요🙏'
-        )
+        swal({
+          title:
+            '닉네임은 한글이나 영문자, 숫자의 조합으로 1~4자리를 사용해야 해요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else {
         axios
           .get(BASE_URL + '/api/v1/user/auth/check/nickname/' + this.nickname, {
@@ -49,10 +60,23 @@ export default {
             console.log(res)
             if (res.data === false) {
               this.nicknameDuplicate = false
-              alert('이 닉네임은 사용하셔도 좋아용.')
+
+              swal({
+                title: '이 닉네임은 사용하셔도 좋아용😎',
+                text: '🐯',
+                icon: 'success',
+                buttons: false,
+                timer: 1500
+              })
             } else {
               this.nicknameDuplicate = true
-              alert('이미 존재하는 닉네임입니다.')
+              swal({
+                title: '이미 존재하는 닉네임입니다😥',
+                text: '🐯',
+                icon: 'warning',
+                buttons: false,
+                timer: 1500
+              })
             }
           })
           .catch((err) => {
@@ -64,9 +88,14 @@ export default {
       if (this.nicknameDuplicate === true) {
         alert('닉네임중복검사를 먼저 진행해주세요.')
       } else if (!nicknameCheck.test(this.nickname)) {
-        alert(
-          '닉네임은 한글이나 영문자, 숫자의 조합으로 1~4자리를 사용해야 해요🙏'
-        )
+        swal({
+          title:
+            '닉네임은 한글이나 영문자, 숫자의 조합으로 1~4자리를 사용해야 해요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else {
         const option = {
           headers: {
@@ -76,11 +105,18 @@ export default {
         axios
           .put(
             BASE_URL + '/api/v1/user/set/nickname?nickname=' + this.nickname,
+            null,
             option
           )
           .then((res) => {
             console.log(res)
-            alert(this.nickname + '님, 환영합니다!')
+            swal({
+              title: this.nickname + '님, 환영합니다!🥰',
+              text: '부디 허준을 도와 독초도감을 채워주세요!',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
             this.$router.push({ name: 'intro' })
           })
       }

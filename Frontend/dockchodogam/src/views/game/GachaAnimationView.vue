@@ -1,7 +1,21 @@
 <template>
   <div class="gacha">
     <div class="gacha__header">
-      <h3 class="TITLE">🎉 축하합니다! {{ monsterGacha[0].name }}몬 획득 🎉</h3>
+      <h3 class="TITLE">
+        🎉 축하합니다!
+        <span
+          class="TITLE"
+          :class="{
+            card__common: monsterGacha[0].grade == 'COMMON',
+            card__rare: monsterGacha[0].grade == 'RARE',
+            card__epic: monsterGacha[0].grade == 'EPIC',
+            card__legendary: monsterGacha[0].grade == 'LEGENDARY',
+            card__special: monsterGacha[0].grade == 'SPECIAL'
+          }"
+          >{{ monsterGacha[0].name }}몬</span
+        >
+        획득 🎉
+      </h3>
       <br />
       <p v-if="monsterGacha[0].got === true">
         이미 획득한 몬스터입니다 🤟 10냥을 돌려드릴게요!
@@ -97,7 +111,7 @@ export default {
 .gacha__header {
   text-align: center;
   margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-bottom: 3vh;
 }
 
 .gacha__body {
@@ -105,8 +119,8 @@ export default {
 }
 
 .gacha__img {
-  width: 30vw;
-  height: auto;
+  width: 20vw;
+  height: 40vh;
   margin: auto;
 }
 
@@ -114,6 +128,10 @@ export default {
   display: flex;
   flex-direction: row;
   align-self: center;
+}
+
+.buttons {
+  margin-top: 2vh;
 }
 
 .buttons button {
@@ -152,5 +170,22 @@ export default {
   top: 20px;
   right: 30px;
   cursor: pointer;
+}
+
+.card__common {
+  color: rgb(166, 166, 166);
+  /* box-shadow: 0 0 10px #467302; */
+}
+.card__rare {
+  color: skyblue;
+}
+.card__epic {
+  color: violet;
+}
+.card__legendary {
+  color: yellow;
+}
+.card__special {
+  color: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
 }
 </style>
