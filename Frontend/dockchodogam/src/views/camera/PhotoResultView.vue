@@ -19,7 +19,7 @@
           "
           class="dockchoMonster"
         >
-          <new-find />
+          <new-find :monsterDetail="monsterDetail" />
         </div>
         <!-- 도감 O 중복 찾음 -->
         <div
@@ -41,7 +41,7 @@
               src="{{this.photoResult.plant.imgUrl}}"
               alt="flower"
             />
-            <h3 v-show="this.photoResult.isDokcho == true">
+            <h3 v-show="this.photoResult.isDokcho == true" class="TITLE">
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3>
             <h3 class="TITLE">{{ this.photoResult.plant.name }}</h3>
@@ -76,12 +76,12 @@
               {{ this.photoResult.plant.cprtCtnt }}
             </p>
           </div>
-          <div v-else class="dockchoExplanation">
-            <p>
+          <!-- <div v-else class="dockchoExplanation_none">
+            <p class="TITLE">
               제가 잘 모르는 식물이에요 😥 <br />
               스승님께 알려드릴게요!
             </p>
-          </div>
+          </div> -->
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
             <img class="tree2" src="@/assets/tree.png" alt="tree" />
@@ -252,6 +252,11 @@ export default {
   margin-bottom: 1vh;
   object-fit: cover;
 }
+
+/* .dockchoExplanation_none p {
+  align-self: center;
+  text-align: center;
+} */
 
 .tree_container img {
   height: 8vh;
