@@ -1,61 +1,69 @@
 <template>
   <NavBar @overflow="overflow" />
-  <div class="result">
+  <div v-if="photoResult !== null" class="result">
     <div class="result__body">
       <div class="result__left">
-        {{ photoResult }}
+        <!-- <p>결과창페이지</p> -->
+        <!-- <p>{{ this.photoResult }}</p> -->
+        <!-- {{ photoResult.plant }} -->
         <!-- 도감에 없을 때  -->
-        <div v-if="photoResult.onDogam === false" class="dockchoMonster">
+        <div v-if="this.photoResult.onDogam === false" class="dockchoMonster">
           <undefined-find />
         </div>
         <!-- 도감 O 새로 찾음 -->
         <div
           v-else-if="
-            photoResult.onDogam === true && photoResult.isOverlapped === false
+            this.photoResult.onDogam === true &&
+            this.photoResult.isOverlapped === false
           "
           class="dockchoMonster"
         >
-          <new-find :monsterId="photoResult.plant.monsterId" />
+          <new-find :monsterId="this.photoResult.plant.monsterId" />
         </div>
         <!-- 도감 O 중복 찾음 -->
         <div
           v-else-if="
-            photoResult.onDogam === true && photoResult.isOverlapped === true
+            this.photoResult.onDogam === true &&
+            this.photoResult.isOverlapped === true
           "
           class="dockchoMonster"
         >
-          <duplicate-find :monsterId="photoResult.plant.monsterId" />
+          <duplicate-find :monsterId="this.photoResult.plant.monsterId" />
         </div>
       </div>
       <div class="result__right">
         <img src="@/assets/cat.png" alt="cat" />
         <div class="dockchoExplanation__container">
-          <div v-if="photoResult.plant" class="dockchoExplanation">
+          <div v-if="this.photoResult.plant" class="dockchoExplanation">
             <img src="@/assets/flower_ex.png" alt="flower" />
-            <h3 v-if="photoResult.isDokcho == true">
+            <h3 v-if="this.photoResult.isDokcho == true">
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3>
-            <h3>{{ photoResult.plant.name }}</h3>
+            <h3>{{ this.photoResult.plant.name }}</h3>
             <p
               v-if="
-                photoResult.plant.familyKorNm && photoResult.plant.genusKorNm
+                this.photoResult.plant.familyKorNm &&
+                this.photoResult.plant.genusKorNm
               "
             >
-              {{ photoResult.plant.familyKorNm }}
-              {{ photoResult.plant.genusKorNm }}
+              {{ this.photoResult.plant.familyKorNm }}
+              {{ this.photoResult.plant.genusKorNm }}
             </p>
-            <p v-if="photoResult.plant.dstrb">
-              원산지 : {{ photoResult.plant.dstrb }}
+            <p v-if="this.photoResult.plant.dstrb">
+              원산지 : {{ this.photoResult.plant.dstrb }}
             </p>
-            <p v-if="photoResult.plant.flwrDesc">
-              꽃 모양 설명 : {{ photoResult.plant.flwrDesc }}
+            <p v-if="this.photoResult.plant.flwrDesc">
+              꽃 모양 설명 : {{ this.photoResult.plant.flwrDesc }}
             </p>
-            <p v-if="photoResult.plant.fritDesc">
-              열매 설명 : {{ photoResult.plant.fritDesc }}
+            <p v-if="this.photoResult.plant.fritDesc">
+              열매 설명 : {{ this.photoResult.plant.fritDesc }}
             </p>
-            <p v-if="photoResult.plant.grwEvrntDesc">
-              키우는 법 : {{ photoResult.plant.grwEvrntDesc }}
+            <p v-if="this.photoResult.plant.grwEvrntDesc">
+              키우는 법 : {{ this.photoResult.plant.grwEvrntDesc }}
             </p>
+            <br />
+            <p></p>
+            <p>{{ this.photoResult.plant.cprtCtnt }}</p>
           </div>
           <div v-else class="dockchoExplanation">
             <p>
@@ -63,18 +71,12 @@
               스승님께 알려드릴게요!
             </p>
           </div>
-          <p>{{ photoResult.plant.cprtCtnt }}</p>
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
             <img class="tree2" src="@/assets/tree.png" alt="tree" />
             <img class="tree3" src="@/assets/tree2.png" alt="tree" />
           </div>
         </div>
-      </div>
-    </div>
-    <div class="result__footer">
-      <div>
-        <button @click="goToCamera">다시 촬영하기</button>
       </div>
     </div>
   </div>
@@ -89,12 +91,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    NavBar,
-    NewFind,
-    DuplicateFind,
-    UndefinedFind
+    NavBar
+    // NewFind,
+    // DuplicateFind,
+    // UndefinedFind
   },
-  getters: {
+
+  computed: {
     ...mapGetters(['photoResult'])
   },
 
@@ -105,6 +108,10 @@ export default {
       })
     }
   }
+  // mounted() {
+  //   this.result = mapGetters(['photoResult'])
+  //   console.log('mounted', this.result)
+  // }
 }
 </script>
 
