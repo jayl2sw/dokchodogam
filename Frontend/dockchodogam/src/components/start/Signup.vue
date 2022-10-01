@@ -41,15 +41,29 @@
             v-model="username"
             placeholder="아이디"
           />
-          <span class="allowedtext" v-if="this.isUsernameChecked"
+          <button
+            class="duplicate__button"
+            type="submit"
+            @click="isUsernameDuplicate()"
+          >
+            아이디중복확인
+          </button>
+          <span
+            class="allowedtext"
+            v-if="this.isUsernameChecked && !this.usernameDuplicate"
             >이 아이디는 사용하셔도 좋아요👌</span
+          >
+          <span
+            class="warningtext"
+            v-else-if="this.isUsernameChecked && this.usernameDuplicate"
+            >아이디가 중복인지 확인해주세요🙏</span
           >
           <span class="warningtext" v-else
             >아이디 생성 조건을 확인해주세요🙏</span
           >
         </div>
         <div>
-          <input v-model="email" placeholder="이메일" />
+          <input @keyup="checkEmail()" v-model="email" placeholder="이메일" />
           <button
             class="duplicate__button"
             type="submit"
@@ -57,6 +71,19 @@
           >
             이메일중복확인
           </button>
+          <span
+            class="allowedtext"
+            v-if="this.isEmailChecked && !this.emailDuplicate"
+            >이 이메일은 사용하셔도 좋아요👌</span
+          >
+          <span
+            class="warningtext"
+            v-else-if="this.isEmailChecked && this.emailDuplicate"
+            >이메일이 중복인지 확인해주세요🙏</span
+          >
+          <span class="warningtext" v-else
+            >이메일 입력 조건을 확인해주세요🙏</span
+          >
         </div>
         <div>
           <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
@@ -82,6 +109,12 @@
           />
           <span class="warningtext" v-if="this.password !== this.password2"
             >비밀번호를 확인해주세요🙏</span
+          >
+          <span class="warningtext" v-else-if="this.password == null"
+            >비밀번호를 확인해주세요🙏</span
+          >
+          <span class="allowedtext" v-else
+            >비밀번호 확인이 완료되었습니다👌</span
           >
         </div>
         <div class="signup">
@@ -113,6 +146,8 @@ export default {
       password2: this.password2,
       username: this.username,
       emailDuplicate: true,
+      usernameDuplicate: true,
+      isEmailChecked: false,
       isUsernameChecked: false,
       isPasswordChecked: false
     }
@@ -133,6 +168,51 @@ export default {
       } else {
         this.isPasswordChecked = false
       }
+    },
+    checkEmail() {
+      if (emailCheck.test(this.email)) {
+        this.isEmailChecked = true
+      } else {
+        this.isEmailChecked = false
+      }
+    },
+    isUsernameDuplicate() {
+      // if (!usernameCheck.test(this.username)) {
+      //   swal({
+      //     title: '정확한 아이디인지 확인해주세요🙏',
+      //     text: '🐯',
+      //     icon: 'warning',
+      //     buttons: false,
+      //     timer: 1500
+      //   })
+      // } else {
+      axios
+        .get(BASE_URL + '/api/v1/user/auth/check/username/' + this.username)
+        .then((res) => {
+          console.log(res)
+          if (res.data === false) {
+            this.usernameDuplicate = false
+            swal({
+              title: '이 아이디는 사용하셔도 좋아용😘',
+              text: '👍👍👍👍👍',
+              icon: 'success',
+              buttons: false,
+              timer: 1500
+            })
+          } else {
+            this.usernameDuplicate = true
+            swal({
+              title: '이미 존재하는 아이디입니다😥',
+              text: '👮‍♂️👮‍♀️👮‍♂️👮‍♀️👮‍♂️👮‍♀️',
+              icon: 'warning',
+              buttons: false,
+              timer: 1500
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     isEmailDuplicate() {
       if (!emailCheck.test(this.email)) {
