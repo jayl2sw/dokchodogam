@@ -97,7 +97,7 @@ export default {
 .gacha__header {
   text-align: center;
   margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-bottom: 3vh;
 }
 
 .gacha__body {
@@ -105,8 +105,8 @@ export default {
 }
 
 .gacha__img {
-  width: 30vw;
-  height: auto;
+  width: 20vw;
+  height: 40vh;
   margin: auto;
 }
 
@@ -114,6 +114,10 @@ export default {
   display: flex;
   flex-direction: row;
   align-self: center;
+}
+
+.buttons {
+  margin-top: 2vh;
 }
 
 .buttons button {

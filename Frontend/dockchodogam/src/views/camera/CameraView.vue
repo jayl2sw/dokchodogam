@@ -131,9 +131,7 @@ export default defineComponent({
           // 받은 데이터 store에 저장
           // this.fetchphotoResult(res.data)
           setTimeout(() => console.log('결과값 저장~'), 2000)
-          // router.push({
-          //   path: '/camera/result'
-          // })
+
           goToResult()
         })
         .catch((err) => {
