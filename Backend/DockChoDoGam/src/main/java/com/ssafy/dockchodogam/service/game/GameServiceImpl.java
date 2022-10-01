@@ -130,7 +130,7 @@ public class GameServiceImpl implements GameService {
         Random random = new Random();
         for (int i = 0; i < item.getItemCnt(); i++) {
             Monster monster;
-            int grade = random.nextInt(99);
+            int grade = random.nextInt(100);
             if (grade < 60) {
                 // common
                 monster = monsterRepository.findRandomMonster(0);
