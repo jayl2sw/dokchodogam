@@ -7,7 +7,7 @@
     <div class="gacha__body">
       <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
       <button class="btn" @click="doubleCheck">
-        <span class="TITLE">💰 200냥</span>
+        <span class="TITLE">💰 100냥</span>
       </button>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
       //     }
       //   }
       if (confirm('100냥을 내고 뽑기를 진행하시겠습니까?') === true) {
-        if (this.userInfo.money >= 100) {
+        if (this.nowUserInfo.money >= 100) {
           this.fetchMonsterGacha()
           // this.fetchUserInfo()
           this.$router.replace({
