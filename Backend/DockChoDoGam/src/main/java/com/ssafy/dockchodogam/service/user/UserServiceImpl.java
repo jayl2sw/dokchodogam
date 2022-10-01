@@ -49,6 +49,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkUsername(String username){
+        Optional<User> entity = userRepository.findByUsername(username);
+
+        return entity.isPresent();
+    }
+
+    @Override
     public boolean checkNickName(String nickname) {
         // 이미 있으면 true, 없으면 false
         Optional<User> entity = userRepository.findByNickname(nickname);

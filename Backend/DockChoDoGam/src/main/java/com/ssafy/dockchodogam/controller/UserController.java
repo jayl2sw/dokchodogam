@@ -35,6 +35,12 @@ public class UserController {
         return new ResponseEntity<>(userService.checkNickName(nickname), HttpStatus.OK);
     }
 
+    @GetMapping("/auth/check/username/{username}")
+    @ApiOperation(value = "아이디 중복 검사")
+    public ResponseEntity<Boolean> checkUsername(@PathVariable String username){
+        return new ResponseEntity<>(userService.checkUsername(username), HttpStatus.OK);
+    }
+
     @GetMapping("/auth/check/email/{email}")
     @ApiOperation(value = "이메일 중복 검사")
     public ResponseEntity<Boolean> checkEmail(@PathVariable String email){

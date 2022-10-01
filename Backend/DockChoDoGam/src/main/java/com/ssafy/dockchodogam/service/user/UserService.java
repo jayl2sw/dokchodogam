@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserService {
 
     boolean checkEmail(String email);
+    boolean checkUsername(String username);
     boolean checkNickName(String nickname);
     TokenDto doLogin(LoginRequestDto requestDto);
     UserResponseDto doSignUp(SignUpRequestDto requestDto);
