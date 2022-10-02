@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.gg.GGRequestDto;
+import com.ssafy.dockchodogam.dto.gg.WinRate;
 import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import com.ssafy.dockchodogam.service.battle.BattleService;
 import com.ssafy.dockchodogam.service.game.GameService;
@@ -26,6 +27,7 @@ public class GGController {
         Map<String, Object> map = new HashMap<>();
         map.put("BattleDto", battleService.searchLog(page));
         map.put("winRate", battleService.getWinRate());
+        map.put("pickRate", battleService.getPickRate());
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
@@ -35,6 +37,7 @@ public class GGController {
         Map<String, Object> map = new HashMap<>();
         map.put("BattleDto", battleService.searchLog(nickname, page));
         map.put("winRate", battleService.getWinRate(nickname));
+        map.put("pickRate", battleService.getPickRate(nickname));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
@@ -47,5 +50,11 @@ public class GGController {
         map.put("winRate", battleService.getWinRate(monster_id));
         map.put("totalWinRate", battleService.getTotalWinRate(monster_id));
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/monster/ranking")
+    @ApiOperation(value = "전체 독초몬 승률 랭킹")
+    public ResponseEntity<List<WinRate>> getMonsterRanking(){
+        return new ResponseEntity<>(battleService.getMonsterRanking(), HttpStatus.OK);
     }
 }
