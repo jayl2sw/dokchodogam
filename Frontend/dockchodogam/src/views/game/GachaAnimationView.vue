@@ -21,10 +21,17 @@
       </p>
     </div>
     <div class="gacha__body">
+      <div class="bubble">
+        <p v-if="monsterGacha[0].line !== null">
+          " {{ monsterGacha[0].line }} "
+        </p>
+      </div>
       <img
         class="gacha__img"
         :src="this.imageBaseUrl + '/' + monsterGacha[0].monsterId + '.png'"
       />
+
+      <!-- <img src="@/assets/speech.png" /> -->
     </div>
 
     <div class="gacha__footer">
@@ -115,12 +122,42 @@ export default {
 
 .gacha__body {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* height: 70%; */
 }
 
 .gacha__img {
   width: 20vw;
   height: 40vh;
-  margin: auto;
+  /* margin: 5%; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bubble {
+  /* height: 250px; */
+  height: 3vmax;
+  width: 40%;
+  min-width: 200px;
+  /* background: ivory; */
+  display: block;
+  margin: 0 auto;
+  border-radius: 50px;
+  /* margin-top: 50px; */
+  /* font-size: 200px; */
+  text-align: center;
+  display: table;
+}
+
+.bubble p {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  align-self: center;
+  /* margin-bottom: 0; */
+  font-family: 'UhBeeSe_hyun';
 }
 
 .gacha__footer {
@@ -140,7 +177,7 @@ export default {
 }
 
 .btn {
-  width: ;
+  /* width: ; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -200,6 +237,6 @@ export default {
   background-color: #f1c012;
 }
 .card__special {
-  background-color: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+  background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
 }
 </style>
