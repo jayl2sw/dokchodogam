@@ -37,6 +37,7 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 export default {
   data() {
@@ -60,6 +61,11 @@ export default {
         .then((res) => {
           console.log(res.data)
           this.$emit('getRequestList')
+          swal({
+            text: '친구 신청을 보냈어요 🚀',
+            buttons: false,
+            timer: 1000
+          })
         })
         .catch((err) => console.log(err))
     },
