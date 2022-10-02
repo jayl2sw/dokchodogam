@@ -27,6 +27,11 @@
             <div class="friendRequest">
               <div class="friendRequest__top">
                 <p class="TITLE">NEW 친구 신청</p>
+                <font-awesome-icon
+                  icon="fa-solid fa-repeat"
+                  class="resetRequest"
+                  @click="this.getRequestList()"
+                />
               </div>
               <div class="friendRequest__bottom">
                 <div v-for="(request, i) in this.requestList" :key="i">
@@ -191,10 +196,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .friendRequest__top > p {
   font-weight: bold;
   font-size: 2vw;
+}
+.resetRequest {
+  position: absolute;
+  right: 3vw;
+  top: 2vh;
+  width: 3vw;
+  color: #467302;
+  cursor: pointer;
+}
+.resetRequest:hover {
+  color: #a7c957;
 }
 .friendRequest__bottom {
   border: none;
@@ -215,8 +232,7 @@ export default {
   width: 100%;
 }
 .friend__exit {
-  width: 30px;
-  height: 30px;
+  width: 4vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,7 +261,7 @@ svg:hover {
     height: 25px;
   }
   svg {
-    width: 10px;
+    width: 20px;
   }
 }
 @media only screen and (orientation: portrait) {
