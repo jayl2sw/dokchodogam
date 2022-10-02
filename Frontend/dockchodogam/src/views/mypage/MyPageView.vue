@@ -20,21 +20,33 @@
     <div class="mypage__right">
       <div class="myProfile">
         <div class="myProfile__medal">
-          <img src="@/assets/medal.png" alt="" />
+          <img
+            :src="
+              this.imageBaseUrl +
+              '/tier' +
+              (Math.floor(this.userInfo.rank_point / 100) + 1) +
+              '.png'
+            "
+            alt=""
+          />
         </div>
         <div>
           <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
           <p class="myProfile__contents">
-            현재 재화 : <span class="emphasize">{{ this.userInfo.money }}</span
-            >냥
+            지금 내 주머니에는
+            <span class="emphasize">{{ this.userInfo.money }}</span
+            >냥이 있어요!
           </p>
           <p class="myProfile__contents">
-            아레나 순위 : <span class="emphasize">{{ this.ranking }}</span
-            >위
+            오늘 아레나 <span class="emphasize">{{ this.ranking }}</span
+            >위를 달성했습니다!
           </p>
           <p class="myProfile__contents">
-            가입일 :
-            <span class="emphasize">{{ this.userInfo.createDate }}</span>
+            어느덧 독초도감과 함께한 지
+            <span class="emphasize">{{
+              Math.ceil((this.today - this.cdate) / (1000 * 60 * 60 * 24))
+            }}</span
+            >일 째
           </p>
         </div>
       </div>
@@ -116,7 +128,9 @@ export default {
       newPassword2: this.newPassword2,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
       ranking: 0,
-      isPasswordChecked: false
+      isPasswordChecked: false,
+      today: '',
+      cdate: ''
     }
   },
   methods: {
@@ -235,6 +249,8 @@ export default {
       .get(BASE_URL + '/api/v1/game/myranking', option)
       .then((res) => (this.ranking = res.data))
       .catch((err) => console.log(err))
+    this.today = new Date()
+    this.cdate = new Date(this.userInfo.createDate)
   }
 }
 </script>
@@ -287,7 +303,7 @@ button {
 }
 .mypage__right {
   height: 100%;
-  width: 30vw;
+  width: 35vw;
   margin-right: 10vw;
   display: flex;
   flex-direction: column;
