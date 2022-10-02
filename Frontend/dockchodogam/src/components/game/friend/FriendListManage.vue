@@ -132,6 +132,7 @@ svg:hover {
 }
 .icon {
   cursor: pointer;
+  width: 1.8vw;
 }
 
 .custom-title-class {
