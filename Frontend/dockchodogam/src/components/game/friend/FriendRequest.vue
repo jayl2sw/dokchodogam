@@ -1,7 +1,10 @@
 <template>
   <div class="lists">
     <div class="left">
-      <img src="@/assets/loading/1.png" alt="" />
+      <img
+        :src="this.imageBaseUrl + '/' + this.request.sender_monster + '.png'"
+        alt=""
+      />
       <p class="TITLE name">{{ this.request.sender_nickname }}</p>
     </div>
     <div class="right">
@@ -27,6 +30,7 @@ export default {
   props: ['request', 'getRequestList'],
   data() {
     return {
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
       btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
