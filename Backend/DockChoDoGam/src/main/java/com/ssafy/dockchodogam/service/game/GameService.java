@@ -32,6 +32,8 @@ public interface GameService {
     Long getMyRank(int rankPoint);
     // 배틀 상위 5 유저 조회
     List<RankerProfileResponseDto> getTop5();
+    // 모든 랭킹 조회
+    Page<RankerProfileResponseDto> getRanker(Pageable pageable);
     // 모든 판매 상품 리스트 조회
     List<Item> getItems();
     // 랜덤하게 독초몬 N개 조회

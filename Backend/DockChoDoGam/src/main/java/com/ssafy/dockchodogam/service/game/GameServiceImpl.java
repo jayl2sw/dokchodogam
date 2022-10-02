@@ -108,6 +108,11 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public Page<RankerProfileResponseDto> getRanker(Pageable pageable) {
+        return userRepository.findUsersByOrderByRankPointDesc(pageable).map(s -> RankerProfileResponseDto.of(s));
+    }
+
+    @Override
     public List<Item> getItems() {
         return itemRepository.findAll();
     }

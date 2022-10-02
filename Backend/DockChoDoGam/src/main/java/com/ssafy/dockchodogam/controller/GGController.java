@@ -1,13 +1,17 @@
 package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
+import com.ssafy.dockchodogam.dto.game.RankerProfileResponseDto;
 import com.ssafy.dockchodogam.dto.gg.GGRequestDto;
 import com.ssafy.dockchodogam.dto.gg.WinRate;
 import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import com.ssafy.dockchodogam.service.battle.BattleService;
 import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +58,17 @@ public class GGController {
 
     @GetMapping("/monster/ranking")
     @ApiOperation(value = "전체 독초몬 승률 랭킹")
-    public ResponseEntity<List<WinRate>> getMonsterRanking(){
+    public ResponseEntity<List<WinRate>> getMonsterRanking() {
         return new ResponseEntity<>(battleService.getMonsterRanking(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking")
+    @ApiOperation(value = "랭킹 전체 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = RankerProfileResponseDto.class)
+    })
+    public ResponseEntity<?> getRanking(Pageable pageable){
+        // 랭킹 전체 조회
+        return new ResponseEntity<>(gameService.getRanker(pageable), HttpStatus.OK);
     }
 }
