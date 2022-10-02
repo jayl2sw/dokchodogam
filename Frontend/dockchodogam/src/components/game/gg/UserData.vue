@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       inputData: '',
-      searchUser: ''
+      searchUser: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {

@@ -2,7 +2,7 @@
   <NavBar @overflow="overflow" />
   <div class="search">
     <div class="search__text">
-      <h1>"{{ this.inputData }}" 의 검색 결과</h1>
+      <h1 class="TITLE">"{{ this.inputData }}" 의 검색 결과</h1>
     </div>
     <div class="search__result">
       <div class="row row-cols-2 row-cols-md-3 g-4">
@@ -16,7 +16,13 @@
         </div>
       </div>
     </div>
-    <InfiniteLoading @infinite="load" />
+    <InfiniteLoading
+      @infinite="load"
+      :slots="{
+        complete: '더 이상 검색 결과가 없어요..',
+        error: '무언가 잘못되었어요!'
+      }"
+    />
     <div class="block"></div>
   </div>
 </template>
@@ -85,9 +91,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 10vw;
+  padding: 8vh 10vw 0 10vw;
   overflow: auto;
-  height: 90vh;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -9999;
   background-image: url('@/assets/hanji.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
