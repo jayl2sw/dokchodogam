@@ -18,6 +18,7 @@ public class ProposeResponseDto {
     private Long sender_id;
     private String sender_nickname;
     private String sender_username;
+    private Long sender_monster;
 
     public static ProposeResponseDto from(Propose entity){
         User sender = entity.getSender();
@@ -27,6 +28,7 @@ public class ProposeResponseDto {
                 .sender_id(sender.getUserId())
                 .sender_nickname(sender.getNickname())
                 .sender_username(sender.getUsername())
+                .sender_monster(sender.getRepresentMonster().getMonsterId())
                 .build();
     }
 }
