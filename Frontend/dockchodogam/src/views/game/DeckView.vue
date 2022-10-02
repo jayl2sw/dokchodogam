@@ -27,92 +27,10 @@
         </div>
       </div>
       <div class="myDockcho">
-        <div class="dokcho__filter">
-          <div class="checkbox2">
-            <span class="TITLE">독초몬 타입 :</span>
-
-            <input
-              type="checkbox"
-              id="DOKCHO"
-              value="DOKCHO"
-              v-model="checkedType"
-            />
-            <label for="DOKCHO">독초😈</label>
-
-            <input
-              type="checkbox"
-              id="YAKCHO"
-              value="YAKCHO"
-              v-model="checkedType"
-            />
-            <label for="YAKCHO">약초🌿</label>
-
-            <input
-              type="checkbox"
-              id="JAPCHO"
-              value="JAPCHO"
-              v-model="checkedType"
-            />
-            <label for="JAPCHO">잡초🌻</label>
-
-            <input
-              type="checkbox"
-              id="HIDDEN"
-              value="HIDDEN"
-              v-model="checkedType"
-            />
-            <label for="HIDDEN">히든💜</label>
-          </div>
-
-          <!-- 등급별 -->
-          <div class="checkbox3">
-            <span class="TITLE">독초몬 등급 :</span>
-
-            <input
-              type="checkbox"
-              id="COMMON"
-              value="COMMON"
-              v-model="checkedGrade"
-            />
-            <label for="COMMON">일반</label>
-
-            <input
-              type="checkbox"
-              id="RARE"
-              value="RARE"
-              v-model="checkedGrade"
-            />
-            <label for="RARE">희귀</label>
-
-            <input
-              type="checkbox"
-              id="EPIC"
-              value="EPIC"
-              v-model="checkedGrade"
-            />
-            <label for="EPIC">영웅</label>
-
-            <input
-              type="checkbox"
-              id="LEGENDARY"
-              value="LEGENDARY"
-              v-model="checkedGrade"
-            />
-            <label for="LEGENDARY">전설</label>
-
-            <input
-              type="checkbox"
-              id="SPECIAL"
-              value="SPECIAL"
-              v-model="checkedGrade"
-            />
-            <label for="SPECIAL">스페셜</label>
-          </div>
-        </div>
         <div
           class="myDockchoItemBox TITLE"
           :class="this.selectDockcho === i ? 'candidate__checked' : ''"
-          v-for="(item, i) in filteredMonsters()"
+          v-for="(item, i) in this.myDockcho"
           :key="i"
           @click="onClickDockcho(i)"
         >
@@ -162,8 +80,6 @@ export default {
     return {
       myDeck: [],
       myDockcho: [],
-      checkedType: [],
-      checkedGrade: [],
       check: [],
       selectDeck: '',
       selectDockcho: '',
@@ -172,25 +88,6 @@ export default {
     }
   },
   methods: {
-    filteredMonsters() {
-      if (!this.checkedType.length && !this.checkedGrade.length) {
-        return this.myDockcho
-      } else if (this.checkedType.length && !this.checkedGrade.length) {
-        return this.myDockcho.filter((monster) =>
-          this.checkedType.includes(monster.type)
-        )
-      } else if (this.checkedType.length && this.checkedGrade.length) {
-        return this.myDockcho.filter(
-          (monster) =>
-            this.checkedType.includes(monster.type) &&
-            this.checkedGrade.includes(monster.grade)
-        )
-      } else {
-        return this.myDockcho.filter((monster) =>
-          this.checkedGrade.includes(monster.grade)
-        )
-      }
-    },
     goToArena() {
       this.$router.push({ path: '/game/arena' })
     },
@@ -512,31 +409,23 @@ export default {
 .dokcho__filter {
   display: flex;
   flex-direction: row;
-  margin-top: 2vh;
-  justify-content: start;
+  margin-top: 1.5vh;
+  justify-content: space-around;
 }
 
-.checkbox2 {
+.checkbox2 .checkbox3 {
   display: flex;
   flex-direction: row;
-  margin-left: 3vw;
-}
-.checkbox3 {
-  display: flex;
-  flex-direction: row;
-  margin-left: 3vw;
 }
 
 .checkbox2 label,
 .checkbox3 label {
   font-size: 1.2vw;
-  margin-right: 0.3vw;
 }
 
 .checkbox2 span,
 .checkbox3 span {
   font-size: 1.2vw;
-  margin-right: 0.5vw;
 }
 @media only screen and (orientation: portrait) {
   .deckPage {
