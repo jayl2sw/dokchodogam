@@ -273,7 +273,7 @@ export default {
 }
 .myDockcho {
   border-radius: 20px;
-  height: 35vh;
+  height: 30vh;
   width: 85vw;
   padding: 0 1vw;
   overflow-x: auto;
@@ -286,7 +286,7 @@ export default {
   width: 20vh;
   border: 4px dotted #a7c957;
   margin: 0 0.5vw;
-  /* margin-top: 2vh; */
+  margin-top: 2vh;
   /* padding-bottom: 2vh; */
   display: inline-flex;
   flex-direction: column;
@@ -357,8 +357,8 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   top: -10%;
-  left: 0;
-  width: 100%;
+  left: -7%;
+  width: 115%;
   height: 140%;
   z-index: 9999;
   display: none;
@@ -371,6 +371,7 @@ export default {
 
 .myDockchoItem__name {
   margin-top: 0.5vmin;
+  z-index: 9999;
 }
 
 .card__common {
@@ -391,19 +392,19 @@ export default {
 }
 
 .card__dokcho {
-  box-shadow: 0 0 10px #ff5555;
+  box-shadow: 0 0 20px #ff5555;
 }
 
 .card__yakcho {
-  box-shadow: 0 0 10px #467302;
+  box-shadow: 0 0 20px #467302;
 }
 
 .card__japcho {
-  box-shadow: 0 0 10px #ffe140;
+  box-shadow: 0 0 20px #ffe140;
 }
 
 .card__hidden {
-  box-shadow: 0 0 10px #c493ff;
+  box-shadow: 0 0 20px #c493ff;
 }
 
 .dokcho__filter {
