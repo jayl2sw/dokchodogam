@@ -6,9 +6,13 @@
 
     <div class="find__body">
       <!-- <img src="img_snow_wide.jpg" alt="말풍선" style="width: 100%" /> -->
-      <p>스승님께 새로운 식물을 찾았다고 알려드릴게요 🍀</p>
+      <p class="TITLE">" 스승님께 새로운 식물을 찾았다고 알려드릴게요 🍀 "</p>
       <img src="@/assets/5.png" />
     </div>
+
+    <p class="notice">
+      학습을 통해 새로운 풀깨비들이 도감에 추가 될 예정입니다.
+    </p>
   </div>
 </template>
 
@@ -34,16 +38,25 @@ export default {}
 }
 
 .find__header {
+  margin-top: 5vh;
   margin-bottom: 5vmin;
 }
 
 .find__body {
   height: 80%;
   display: flex;
+  flex-direction: column;
   /* margin-top: 3vh; */
 }
 
 .find__body img {
-  width: 90%;
+  width: 50%;
+  margin: auto;
+}
+
+.notice {
+  margin-top: 5vh;
+  font-size: small;
+  color: darkgray;
 }
 </style>
