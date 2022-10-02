@@ -127,7 +127,7 @@ export default {
 }
 .top3Box {
   width: 80vw;
-  height: 70vh;
+  height: 65vh;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
