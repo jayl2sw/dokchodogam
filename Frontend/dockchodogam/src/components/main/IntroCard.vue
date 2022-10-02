@@ -2,7 +2,9 @@
   <div class="introCard">
     <div class="introCard__top">
       <p class="TITLE">허준의 제자,</p>
-      <p class="TITLE">username 님을 도와 줄 식물이 찾아왔어요!</p>
+      <p class="TITLE">
+        {{ this.nickname }} 님을 도와 줄 풀깨비들이 찾아왔어요!
+      </p>
     </div>
     <div class="introCard__middle">
       <div class="dockchoCard" v-for="(dockcho, i) in this.dockchos" :key="i">
@@ -47,7 +49,8 @@ export default {
   data() {
     return {
       dockchos: ['개나리몬', '해바라기몬', '도꼬마리몬', '석류몬', '박하몬'],
-      isChecked: false
+      isChecked: false,
+      nickname: JSON.parse(localStorage.getItem('userInfo')).nickname
     }
   },
   methods: {
@@ -120,7 +123,7 @@ export default {
   width: 12vw;
   margin: 2.5vw;
   margin-bottom: 5vw;
-  background-color: white;
+  background-color: #ececec;
 }
 .card__image {
   height: 12vw;
@@ -137,19 +140,23 @@ export default {
   justify-content: center;
 }
 .checkBtn {
-  border: 2px groove black;
-  border-radius: 10px;
-  width: 200px;
-  height: 40px;
+  border-radius: 20px;
+  width: 30vw;
+  height: 7vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #a7c957;
+  transition: 0.3s;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.checkBtn:hover {
+  background-color: #467302;
+  color: white;
 }
 .none {
   display: none;
@@ -164,6 +171,29 @@ export default {
 @media screen and (max-width: 850px) {
   .introCard__top > p {
     font-size: 15px;
+  }
+  .introCard__middle {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 70vw;
+    width: 70vw;
+    margin: 0;
+  }
+  .dockchoCard {
+    margin-top: 5vw;
+    height: 30vw;
+    width: 20vw;
+  }
+  .imageBG {
+    height: 16vw;
+    width: 16vw;
+  }
+  .card__image {
+    height: 16vw;
+    width: 16vw;
+  }
+  .introCard__bottom {
+    margin-top: 5vh;
   }
 }
 </style>
