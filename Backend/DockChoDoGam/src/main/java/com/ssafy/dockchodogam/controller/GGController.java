@@ -1,12 +1,16 @@
 package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.dto.battle.BattleDto;
+import com.ssafy.dockchodogam.dto.game.RankerProfileResponseDto;
 import com.ssafy.dockchodogam.dto.gg.GGRequestDto;
 import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import com.ssafy.dockchodogam.service.battle.BattleService;
 import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +51,15 @@ public class GGController {
         map.put("winRate", battleService.getWinRate(monster_id));
         map.put("totalWinRate", battleService.getTotalWinRate(monster_id));
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking")
+    @ApiOperation(value = "랭킹 전체 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = RankerProfileResponseDto.class)
+    })
+    public ResponseEntity<?> getRanking(Pageable pageable){
+        // 랭킹 전체 조회
+        return new ResponseEntity<>(gameService.getRanker(pageable), HttpStatus.OK);
     }
 }

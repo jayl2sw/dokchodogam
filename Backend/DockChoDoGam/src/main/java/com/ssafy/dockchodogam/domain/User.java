@@ -72,7 +72,13 @@ public class User extends BaseTime {
         this.token = token;
     }
 
-    public void changeRankPoint(int point){this.rankPoint += point;}
+    public void changeRankPoint(int point){
+        this.rankPoint += point;
+
+        if(this.rankPoint < 0){
+            this.rankPoint = 0;
+        }
+    }
 
     public void changePW(String password){this.password = password;}
     public void setNickname(String nickname){this.nickname = nickname;}

@@ -64,6 +64,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkPW(Long id, String nowPW){
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getPassword() == nowPW;
+    }
+
+    @Override
+    public boolean checkSameUser(String email, String username){
+        Long emailId = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new).getUserId();
+        Long nameId = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new).getUserId();
+
+        return emailId == nameId;
+    }
+
+    @Override
     public TokenDto doLogin(LoginRequestDto requestDto) {
         // Login id/pw로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
