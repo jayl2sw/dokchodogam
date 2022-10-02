@@ -45,7 +45,7 @@ export default {
         .fire({
           title: '친구를 삭제하시겠어요?',
           text: '되돌릴 수 없어요 🚨',
-          icon: 'warning',
+          icon: 'question',
           showCancelButton: true,
           confirmButtonText: '예',
           cancelButtonText: '아니오',
