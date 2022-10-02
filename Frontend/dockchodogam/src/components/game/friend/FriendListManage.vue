@@ -24,6 +24,7 @@ import Swal from 'sweetalert2'
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
+    title: 'custom-title-class',
     confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   }
@@ -67,25 +68,11 @@ export default {
             // console.log(res)
             swalWithBootstrapButtons.fire(
               '삭제가 취소되었습니다!',
-              '친구를 유지하게 되었어요 :)'
-              // 'error'
+              '친구를 유지하게 되었어요 :)',
+              'error'
             )
           }
         })
-
-      // 기존 axios
-      // this.btn_audio.play()
-      // axios
-      //   .delete(BASE_URL + '/api/v1/user/friend/' + this.friend.user_id, {
-      //     headers: {
-      //       AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-      //     }
-      //   })
-      //   .then((res) => {
-      //     console.log(res.data)
-      //     this.$emit('getFriendList')
-      //   })
-      //   .catch((err) => console.log(err))
     },
     fetchDelete() {
       this.btn_audio.play()
@@ -145,5 +132,10 @@ svg:hover {
 }
 .icon {
   cursor: pointer;
+}
+
+.custom-title-class {
+  /* font-size: 1.6rem !important; */
+  font-family: 'UhBeeSe_hyun' !important;
 }
 </style>
