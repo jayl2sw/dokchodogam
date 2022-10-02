@@ -564,7 +564,7 @@ export default {
   width: 7vw;
 }
 .enemyName {
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   margin-left: 1vw;
 }
 .enemyDeck {
@@ -718,6 +718,16 @@ export default {
 @media only screen and (orientation: landscape) {
   #warning-message {
     display: none;
+  }
+  .enemyInfo {
+    width: 9vw;
+  }
+  .enemyDeck {
+    width: 28vw;
+  }
+  .gameStartBtn {
+    width: 7vw;
+    font-size: 1vh;
   }
 }
 </style>
