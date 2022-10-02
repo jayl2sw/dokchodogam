@@ -20,6 +20,16 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 
 export default {
   props: ['friend'],
@@ -31,6 +41,40 @@ export default {
   },
   methods: {
     deleteFriend() {
+      swalWithBootstrapButtons
+        .fire({
+          title: '친구를 삭제하시겠어요?',
+          text: '되돌릴 수 없어요 🚨',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            // console.log(result)
+            this.fetchDelete()
+
+            swalWithBootstrapButtons.fire(
+              '친구가 삭제되었습니다!',
+              '안녕 친구야 ...',
+              'success'
+            )
+          } else if (
+            /* Read more about handling dismissals below */
+            res.dismiss === 'cancel'
+          ) {
+            // console.log(res)
+            swalWithBootstrapButtons.fire(
+              '삭제가 취소되었습니다!',
+              '친구를 유지하게 되었어요 :)',
+              'error'
+            )
+          }
+        })
+    },
+    fetchDelete() {
       this.btn_audio.play()
       axios
         .delete(BASE_URL + '/api/v1/user/friend/' + this.friend.user_id, {
@@ -88,5 +132,10 @@ svg:hover {
 }
 .icon {
   cursor: pointer;
+}
+
+.custom-title-class {
+  /* font-size: 1.6rem !important; */
+  font-family: 'UhBeeSe_hyun' !important;
 }
 </style>
