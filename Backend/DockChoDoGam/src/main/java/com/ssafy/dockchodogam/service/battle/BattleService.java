@@ -6,7 +6,6 @@ import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
 import com.ssafy.dockchodogam.dto.gg.PickRate;
 import com.ssafy.dockchodogam.dto.gg.WinRate;
-import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.List;
@@ -19,10 +18,10 @@ public interface BattleService {
     List<BattleDto> searchLog(int page);
     List<BattleDto> searchLog(String nickname, int page);
     List<BattleDto> searchLog(Long monsterId, int page);
-    WinRateDto getWinRate();
-    WinRateDto getWinRate(String nickname);
-    WinRateDto getTotalWinRate(Long monsterId);
-    WinRateDto getWinRate(Long monsterId);
+    WinRate getWinRate();
+    WinRate getWinRate(String nickname);
+    WinRate getTotalWinRate(Long monsterId);
+    WinRate getWinRate(Long monsterId);
     List<PickRate> getPickRate();
     List<PickRate> getPickRate(String nickname);
     List<WinRate> getMonsterRanking();

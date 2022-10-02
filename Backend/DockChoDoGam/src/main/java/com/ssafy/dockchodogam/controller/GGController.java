@@ -1,10 +1,7 @@
 package com.ssafy.dockchodogam.controller;
 
-import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.game.RankerProfileResponseDto;
-import com.ssafy.dockchodogam.dto.gg.GGRequestDto;
 import com.ssafy.dockchodogam.dto.gg.WinRate;
-import com.ssafy.dockchodogam.dto.gg.WinRateDto;
 import com.ssafy.dockchodogam.service.battle.BattleService;
 import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
