@@ -12,6 +12,7 @@
       }"
     >
       <div class="imgBx">
+        <!-- <font-awesome-icon icon="fa-solid fa-magnifying-glass-chart" /> -->
         <img
           :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
           class="card__img"
@@ -31,7 +32,14 @@
       >
         <div class="contentBx__name">
           <p class="TITLE">00{{ monster.monsterId }}</p>
-          <p class="TITLE title">{{ monster.name }}몬</p>
+          <p class="TITLE title">
+            {{ monster.name }}몬<span class="moveGG">
+              |
+              <font-awesome-icon
+                @click="goToGG"
+                icon="fa-solid fa-magnifying-glass-chart"
+            /></span>
+          </p>
         </div>
 
         <div class="size">
@@ -89,6 +97,12 @@ export default {
       // alert(a.name)
       // console.log(a)
       // console.log(this.monsterDetail)
+    },
+    goToGG() {
+      this.$router.push({
+        path: '/dokcho/gg',
+        query: { query: this.monster.monsterId }
+      })
     },
     checkType() {
       if (this.monster.type === 'DOKCHO') {
@@ -191,6 +205,14 @@ export default {
 .container .card:hover .imgBx p {
   visibility: visible;
   display: inline-block;
+}
+
+.contentBx__name .moveGG {
+  display: none;
+}
+
+.card:hover .moveGG {
+  display: inline;
 }
 
 .container .card:hover .imgBx {

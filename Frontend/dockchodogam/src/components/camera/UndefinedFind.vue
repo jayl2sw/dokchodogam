@@ -1,8 +1,12 @@
 <template>
   <div class="find">
-    <h3 class="TITLE">도감에 없는 식물을 찾았어요!</h3>
-    <div>
-      <p>스승님께 알려드릴게요!</p>
+    <div class="find__header">
+      <h3 class="TITLE">도감에 없는 식물을 찾았어요!</h3>
+    </div>
+
+    <div class="find__body">
+      <!-- <img src="img_snow_wide.jpg" alt="말풍선" style="width: 100%" /> -->
+      <p>스승님께 새로운 식물을 찾았다고 알려드릴게요 🍀</p>
       <img src="@/assets/5.png" />
     </div>
   </div>
@@ -14,15 +18,32 @@ export default {}
 
 <style scoped>
 .find {
-  border-style: groove;
-  border-color: black;
-  border-width: 5px;
-  border-radius: 10px;
-  width: 40vw;
-  height: 70vh;
+  /* border-style: groove; */
+  /* border-color: yellow; */
+  /* border-width: 5px; */
+  /* border-radius: 10px; */
+  /* width: 40vw;
+  height: 70vh; */
+  width: 100%;
+  height: 100%;
+  padding: 3vmin;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
+}
+
+.find__header {
+  margin-bottom: 5vmin;
+}
+
+.find__body {
+  height: 80%;
+  display: flex;
+  /* margin-top: 3vh; */
+}
+
+.find__body img {
+  width: 90%;
 }
 </style>

@@ -2,6 +2,9 @@
   <NavBar @overflow="overflow" />
   <div class="searchDetail">
     <div class="resultBox">
+      <div class="backBtnBox">
+        <div class="backBtn" @click="this.onClickBack()">뒤로가기</div>
+      </div>
       <div class="plantText">
         <h1>{{ this.data.name }}</h1>
         <p>{{ this.data.engNm }}</p>
@@ -68,6 +71,9 @@ export default {
           this.data = res.data.data
         })
         .catch((err) => console.log(err))
+    },
+    onClickBack() {
+      this.$router.back()
     }
   },
   created() {
@@ -95,9 +101,34 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.backBtnBox {
+  width: 100%;
+  height: 5vh;
+  display: flex;
+  justify-content: flex-end;
+}
+.backBtn {
+  border-radius: 20px;
+  width: 20vw;
+  height: 4vh;
+  margin: 0 5vw 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a7c957;
+  transition: 0.3s;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.backBtn:hover {
+  background-color: #467302;
+  color: white;
+}
 .plantText {
   text-align: center;
-  margin-top: 5vh;
 }
 .plantInfo {
   height: 60vh;

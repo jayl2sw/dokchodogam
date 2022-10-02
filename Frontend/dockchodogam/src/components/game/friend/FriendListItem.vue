@@ -11,7 +11,11 @@
       <font-awesome-icon
         icon="fa-solid fa-gift"
         @click="this.giveGift()"
-        :class="this.friend.gift_today ? 'sentGift icon' : 'icon'"
+        :class="
+          this.friend.gift_today || this.friend.gift_exist
+            ? 'sentGift icon'
+            : 'icon'
+        "
         ref="button"
       />
       <font-awesome-icon

@@ -16,7 +16,7 @@
       <div class="main__left">
         <div class="myDockcho">
           <div class="dockchoName">
-            <h3 class="TITLE">같이 여행을 떠날 잡초몬</h3>
+            <h3 class="TITLE">같이 여행을 떠날 풀깨비</h3>
           </div>
           <img
             :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"

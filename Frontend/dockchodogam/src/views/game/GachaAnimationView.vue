@@ -1,19 +1,18 @@
 <template>
-  <div class="gacha">
+  <div
+    class="gacha"
+    :class="{
+      card__common: monsterGacha[0].grade == 'COMMON',
+      card__rare: monsterGacha[0].grade == 'RARE',
+      card__epic: monsterGacha[0].grade == 'EPIC',
+      card__legendary: monsterGacha[0].grade == 'LEGENDARY',
+      card__special: monsterGacha[0].grade == 'SPECIAL'
+    }"
+  >
     <div class="gacha__header">
       <h3 class="TITLE">
         🎉 축하합니다!
-        <span
-          class="TITLE"
-          :class="{
-            card__common: monsterGacha[0].grade == 'COMMON',
-            card__rare: monsterGacha[0].grade == 'RARE',
-            card__epic: monsterGacha[0].grade == 'EPIC',
-            card__legendary: monsterGacha[0].grade == 'LEGENDARY',
-            card__special: monsterGacha[0].grade == 'SPECIAL'
-          }"
-          >{{ monsterGacha[0].name }}몬</span
-        >
+        <span class="TITLE">{{ monsterGacha[0].name }}몬</span>
         획득 🎉
       </h3>
       <br />
@@ -141,7 +140,7 @@ export default {
 }
 
 .btn {
-  width: 10vw;
+  width: ;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -172,20 +171,35 @@ export default {
   cursor: pointer;
 }
 
-.card__common {
-  color: rgb(166, 166, 166);
-  /* box-shadow: 0 0 10px #467302; */
+/* .card__common {
+  color: #8f8f8f;
 }
 .card__rare {
-  color: skyblue;
+  color: #4dbcfb;
 }
 .card__epic {
   color: violet;
 }
 .card__legendary {
-  color: yellow;
-}
+  color: #f1c012;
+}px
 .card__special {
   color: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+} */
+
+.card__common {
+  background-color: #8f8f8f;
+}
+.card__rare {
+  background-color: #4dbcfb;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: #f1c012;
+}
+.card__special {
+  background-color: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
 }
 </style>

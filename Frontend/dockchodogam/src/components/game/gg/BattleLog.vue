@@ -8,7 +8,22 @@
       />
       <div class="profileMiddle">
         <div class="nicknameBox">
-          <img src="" alt="" class="tierImage" />
+          <img
+            :src="
+              this.imageBaseUrl +
+              '/tier' +
+              Math.min(
+                (this.searchUser.rank_point -
+                  (this.searchUser.rank_point % 100)) /
+                  100 +
+                  1,
+                5
+              ) +
+              '.png'
+            "
+            alt="tierImage"
+            class="tierImage"
+          />
           <div class="nickname">{{ this.searchUser.nickname }}</div>
         </div>
         <div class="ranking">현재 랭킹 : {{ this.ranking }}위</div>
@@ -66,7 +81,13 @@
         </div>
         <div class="logNickname">{{ item.defender }}</div>
       </div>
-      <InfiniteLoading @infinite="load" />
+      <InfiniteLoading
+        @infinite="load"
+        :slots="{
+          complete: '더 이상 결과가 없어요..',
+          error: '무언가 잘못되었어요!'
+        }"
+      />
       <div class="block"></div>
     </div>
   </div>
