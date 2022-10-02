@@ -46,7 +46,7 @@ export default {
       this.showMenu = value
     },
     goToUserSearch() {
-      this.currentMenu = 'user'
+      this.$router.go()
     },
     goToRanking() {
       this.currentMenu = 'rank'
@@ -102,6 +102,11 @@ export default {
   }
   .dcgg__menu {
     margin: 0;
+  }
+}
+@media screen and (max-height: 500px) {
+  .dcgg {
+    padding-top: 25vh;
   }
 }
 </style>

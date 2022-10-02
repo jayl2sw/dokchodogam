@@ -13,13 +13,9 @@
       />
       <div class="profileMiddle">
         <div class="nicknameBox">
-          <div class="nickname">{{ this.dokchoInfo.name }}몬</div>
+          <div class="nickname TITLE">{{ this.dokchoInfo.name }}몬</div>
         </div>
-        <!-- <div class="ranking">현재 랭킹 : {{ this.ranking }}위</div>
-        <div class="ranking">
-          랭킹 포인트 : {{ this.searchUser.rank_point }}
-        </div> -->
-        <div class="ranking">함께한 경기 수 : {{ this.allMatch }}</div>
+        <div class="ranking TITLE">함께한 경기 수 : {{ this.allMatch }}</div>
       </div>
       <div class="chart">
         <vue3-chart-js v-bind="this.myDoughnutChart" ref="myGraph" />
@@ -28,6 +24,7 @@
         <vue3-chart-js v-bind="this.allDoughnutChart" ref="allGraph" />
       </div>
     </div>
+    <div class="infoText TITLE">역대 전적</div>
     <div class="battleLog">
       <div
         class="battleLogItem"
@@ -218,22 +215,19 @@ export default {
       .then((res) => {
         console.log(res.data)
         this.dokchoInfo = res.data.monsterDto
-        const allWin =
-          res.data.totalWinRate.winAttack + res.data.totalWinRate.winDefence
         this.allDoughnutChart.data.datasets[0].data = [
-          allWin,
-          res.data.totalWinRate.totalGames - allWin
+          res.data.totalWinRate.winGame,
+          res.data.totalWinRate.totalGame - res.data.totalWinRate.winGame
         ]
-        const myWin = res.data.winRate.winAttack + res.data.winRate.winDefence
         this.myDoughnutChart.data.datasets[0].data = [
-          myWin,
-          res.data.winRate.totalGames - myWin
+          res.data.winRate.winGame,
+          res.data.winRate.totalGame - res.data.winRate.winGame
         ]
         this.myDoughnutChart.options.plugins.subtitle.text =
           Math.round(res.data.winRate.winRate * 1000) / 10 + '%'
         this.allDoughnutChart.options.plugins.subtitle.text =
           Math.round(res.data.totalWinRate.winRate * 1000) / 10 + '%'
-        this.allMatch = res.data.winRate.totalGames
+        this.allMatch = res.data.winRate.totalGame
         this.$refs.myGraph.update(100)
         this.$refs.allGraph.update(100)
       })
@@ -243,8 +237,16 @@ export default {
 
 <style scoped>
 .dokchoData {
-  padding: 0 10vw;
-  margin-top: 10vh;
+  padding: 13vh 10vw 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  z-index: -9999;
+  padding-top: 13vh;
+  background-image: url('@/assets/dogam_background.jpg');
 }
 .profile {
   display: flex;
@@ -278,6 +280,12 @@ export default {
   width: 25vh;
   height: 25vh;
   margin: 0 2vw;
+}
+.infoText {
+  font-size: 3vw;
+  height: 5vw;
+  margin: 3vh;
+  text-align: center;
 }
 .battleLog {
   display: flex;
@@ -344,6 +352,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .infoText {
+    font-size: 5vw;
   }
   .battleLogItem {
     width: 90vw;
