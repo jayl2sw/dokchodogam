@@ -80,7 +80,9 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
             "order by pickRate desc;")
     List<PickRate> findPickRate(@Param("user") Long user);
 
-    @Query(nativeQuery = true, value = "select m.monster_id as monsterId, count(*) / (select count(*) from battle " +
+    @Query(nativeQuery = true, value = "select m.monster_id as monsterId, count(*) as winGame, (select count(*) from battle " +
+                        "where monster_id0 = m.monster_id or monster_id1 = m.monster_id or monster_id2 = m.monster_id or monster_id3 = m.monster_id or monster_id4 = m.monster_id or  "+
+                        "monster_id5 = m.monster_id or monster_id6= m.monster_id or monster_id7 = m.monster_id or monster_id8 = m.monster_id or monster_id9 = m.monster_id) as totalGame, count(*) / (select count(*) from battle " +
             "where monster_id0 = m.monster_id or monster_id1 = m.monster_id or monster_id2 = m.monster_id or monster_id3 = m.monster_id or monster_id4 = m.monster_id or " +
             "monster_id5 = m.monster_id or monster_id6= m.monster_id or monster_id7 = m.monster_id or monster_id8 = m.monster_id or monster_id9 = m.monster_id) as winRate " +
             "from battle b join monster m " +
