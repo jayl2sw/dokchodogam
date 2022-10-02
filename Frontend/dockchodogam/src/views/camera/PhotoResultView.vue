@@ -1,7 +1,11 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
   <NavBar v-show="!this.isLoading" @overflow="overflow" />
-  <div v-show="!this.isLoading" v-if="photoResult !== null" class="result">
+  <div
+    v-show="!this.isLoading"
+    v-if="photoResult !== null && monsterDetail !== null"
+    class="result"
+  >
     <div class="result__body">
       <div class="result__left">
         <!-- <p>결과창페이지</p> -->
@@ -38,7 +42,7 @@
           <div v-if="this.photoResult.plant" class="dockchoExplanation">
             <img
               v-if="this.photoResult.plant.imgUrl !== 'NONE'"
-              src="{{this.photoResult.plant.imgUrl}}"
+              :src="this.photoResult.plant.imgUrl"
               alt="flower"
             />
             <h3 v-show="this.photoResult.isDokcho == true" class="TITLE">
@@ -245,11 +249,14 @@ export default {
 }
 
 .dockchoExplanation > img {
-  float: left;
-  width: 10vw;
-  height: 60vh;
-  margin-right: 1vw;
-  margin-bottom: 1vh;
+  display: block;
+  /* float: left; */
+  width: 100%;
+  /* width: 10vw; */
+  height: 40%;
+  margin: auto;
+  /* margin-right: 1vw;
+  margin-bottom: 1vh; */
   object-fit: cover;
 }
 

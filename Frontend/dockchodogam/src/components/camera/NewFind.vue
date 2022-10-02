@@ -8,7 +8,7 @@
       </p>
     </div>
 
-    <div v-if="this.catch === false">
+    <!-- <div v-if="this.catch === false">
       <div class="find__body">
         <p v-if="monsterDetail.line">{{ monsterDetail.line }}</p>
         <img
@@ -20,9 +20,9 @@
       <div class="find__footer">
         <button @click="catchMonster" class="btn">눌러서 잡기!</button>
       </div>
-    </div>
+    </div> -->
 
-    <div v-if="this.catch">
+    <div>
       <div class="find__body">
         <div
           class="card"
@@ -80,18 +80,18 @@ export default {
     return {
       // pick: false,
       // monsterId: this.photoResult.plant.monsterId,
-      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      imageBaseUrl: process.env.VUE_APP_S3_URL
       // monsterDetail: {},
-      catch: false
+      // catch: false
     }
   },
   computed: {
     ...mapGetters(['photoResult'])
   },
   methods: {
-    catchMonster() {
-      this.catch = true
-    },
+    // catchMonster() {
+    //   this.catch = true
+    // },
     goToEncyclopedia() {
       this.$router.push({
         path: '/encyclopedia'
