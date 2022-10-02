@@ -1,5 +1,8 @@
 <template>
   <div class="friendGifts">
+    <div class="resetGiftBox" @click="this.getGiftList()">
+      <font-awesome-icon icon="fa-solid fa-repeat" class="resetGift" />
+    </div>
     <button class="all__button" @click="this.receiptGiftAll()">
       한 번에 받기
     </button>
@@ -104,6 +107,25 @@ export default {
 }
 .all__button:hover {
   color: #467302;
+}
+.resetGiftBox {
+  background-color: white;
+  border-radius: 1vw;
+  width: 5vh;
+  height: 5vh;
+  float: left;
+  color: #467302;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.resetGift {
+  width: 4vh;
+  height: 4vh;
+}
+.resetGift:hover {
+  color: #a7c957;
 }
 .lists {
   border: none;
