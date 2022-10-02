@@ -13,6 +13,8 @@ public interface UserService {
     boolean checkEmail(String email);
     boolean checkUsername(String username);
     boolean checkNickName(String nickname);
+    boolean checkPW(Long id, String nowPW);
+    boolean checkSameUser(String email, String username);
     TokenDto doLogin(LoginRequestDto requestDto);
     UserResponseDto doSignUp(SignUpRequestDto requestDto);
     void changeNB();
