@@ -34,7 +34,20 @@
           :key="i"
           @click="onClickDockcho(i)"
         >
-          <div class="myDockchoItem">
+          <div
+            class="myDockchoItem"
+            :class="{
+              card__common: item.grade == 'COMMON',
+              card__rare: item.grade == 'RARE',
+              card__epic: item.grade == 'EPIC',
+              card__legendary: item.grade == 'LEGENDARY',
+              card__special: item.grade == 'SPECIAL',
+              card__dokcho: item.type == 'DOKCHO',
+              card__yakcho: item.type == 'YAKCHO',
+              card__japcho: item.type == 'JAPCHO',
+              card__hidden: item.type == 'HIDDEN'
+            }"
+          >
             <div
               class="dokchoBlur"
               :class="this.check[i] ? 'inMyDeck' : ''"
@@ -274,7 +287,7 @@ export default {
   border: 4px dotted #a7c957;
   margin: 0 0.5vw;
   margin-top: 2vh;
-  padding-bottom: 2vh;
+  /* padding-bottom: 2vh; */
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -344,8 +357,8 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   top: -10%;
-  left: 0;
-  width: 100%;
+  left: -7%;
+  width: 115%;
   height: 140%;
   z-index: 9999;
   display: none;
@@ -354,6 +367,66 @@ export default {
 }
 .inMyDeck {
   display: block;
+}
+
+.myDockchoItem__name {
+  margin-top: 0.5vmin;
+  z-index: 9999;
+}
+
+.card__common {
+  background-color: rgb(166, 166, 166);
+  /* box-shadow: 0 0 10px #467302; */
+}
+.card__rare {
+  background-color: skyblue;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: yellow;
+}
+.card__special {
+  background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+
+.card__dokcho {
+  box-shadow: 0 0 20px #ff5555;
+}
+
+.card__yakcho {
+  box-shadow: 0 0 20px #467302;
+}
+
+.card__japcho {
+  box-shadow: 0 0 20px #ffe140;
+}
+
+.card__hidden {
+  box-shadow: 0 0 20px #c493ff;
+}
+
+.dokcho__filter {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5vh;
+  justify-content: space-around;
+}
+
+.checkbox2 .checkbox3 {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox2 label,
+.checkbox3 label {
+  font-size: 1.2vw;
+}
+
+.checkbox2 span,
+.checkbox3 span {
+  font-size: 1.2vw;
 }
 @media only screen and (orientation: portrait) {
   .deckPage {

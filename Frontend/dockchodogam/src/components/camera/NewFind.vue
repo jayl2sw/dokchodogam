@@ -2,27 +2,32 @@
   <div v-if="monsterDetail !== null" class="find">
     <!-- <p>새로찾음</p> -->
     <div class="find__header">
-      <h3 class="TITLE">찾았다, {{ monsterDetail.name }}몬!</h3>
+      <h3 v-if="this.catch === false" class="TITLE">
+        찾았다, {{ monsterDetail.name }}몬!
+      </h3>
+      <h3 v-else class="TITLE">잡았다! {{ monsterDetail.name }}몬!</h3>
       <p v-if="monsterDetail.firstFinder">
         최초 발견자 : {{ monsterDetail.firstFinder }}
       </p>
     </div>
 
-    <!-- <div v-if="this.catch === false">
-      <div class="find__body">
-        <p v-if="monsterDetail.line">{{ monsterDetail.line }}</p>
+    <div v-if="this.catch === false">
+      <div class="find__body__false">
+        <p v-if="monsterDetail.line" class="TITLE">
+          " {{ monsterDetail.line }} "
+        </p>
         <img
           class="silhouette__img"
           :src="this.imageBaseUrl + '/' + monsterDetail.monsterId + '.png'"
           style="-webkit-user-drag: none"
         />
       </div>
-      <div class="find__footer">
+      <div class="find__footer__false">
         <button @click="catchMonster" class="btn">눌러서 잡기!</button>
       </div>
-    </div> -->
+    </div>
 
-    <div>
+    <div v-else>
       <div class="find__body">
         <div
           class="card"
@@ -80,18 +85,18 @@ export default {
     return {
       // pick: false,
       // monsterId: this.photoResult.plant.monsterId,
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
       // monsterDetail: {},
-      // catch: false
+      catch: false
     }
   },
   computed: {
     ...mapGetters(['photoResult'])
   },
   methods: {
-    // catchMonster() {
-    //   this.catch = true
-    // },
+    catchMonster() {
+      this.catch = true
+    },
     goToEncyclopedia() {
       this.$router.push({
         path: '/encyclopedia'
@@ -125,11 +130,27 @@ export default {
   margin-bottom: 5vmin;
 }
 .find__body {
-  height: 80%;
+  /* height: 80%; */
+  /* width: 100%; */
+  padding: 0;
   display: flex;
-  /* margin-top: 3vh; */
+  /* flex-direction: column; */
+  margin-top: 3vh;
 }
 
+.find__body__false {
+  display: flex;
+  flex-direction: column;
+}
+
+.find__body__false img {
+  width: 60%;
+  margin: auto;
+}
+
+.find__footer__false {
+  margin-top: 5vh;
+}
 .card {
   align-self: center;
   position: relative;
@@ -146,7 +167,7 @@ export default {
 .card .imgBx {
   /* position: absolute; */
   /* top: 35%; */
-  transform: translate(0%, 10%);
+  /* transform: translate(0%, 10%); */
   width: 100%;
   height: 120px;
   transition: 0.5s;
@@ -162,7 +183,7 @@ export default {
   /* left: 50%; */
   /* transition: transform 0.25s ease; */
   /* transform: translate(-20%, -20%); */
-  width: 100%;
+  width: 95%;
 }
 
 .silhouette__img {
@@ -181,7 +202,7 @@ export default {
   padding: 1vh;
 }
 .contentBx__name {
-  margin-top: 1.5vh;
+  margin-top: 2vh;
   /* width: 80%; */
 }
 .card .contentBx .title {
@@ -189,7 +210,7 @@ export default {
   /* font-weight: 600; */
   font-size: 1.3em;
   color: #000000;
-  margin-bottom: 1vw;
+  /* margin-top: 1vw; */
 }
 
 .card .contentBx p {
@@ -198,10 +219,11 @@ export default {
   font-size: 0.9em;
   color: #000000;
   margin: 0;
+  /* margin-top: 1vw; */
 }
 
-.container .card .contentBx .size,
-.container .card .contentBx .color {
+.card .contentBx .size,
+.card .contentBx .color {
   display: flex;
   /* height: inherit; */
   flex-direction: column;
@@ -221,7 +243,8 @@ export default {
 }
 
 .find__footer {
-  margin-top: 3vh;
+  margin-top: 7vh;
+  margin-bottom: 5vh;
 }
 
 .btn {
