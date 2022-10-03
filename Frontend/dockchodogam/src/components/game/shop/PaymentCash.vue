@@ -50,7 +50,7 @@ export default {
           merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
           amount: 100, // 결제금액
           name: '재화충전:1,000냥', // 주문명
-          // m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
+          m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
           buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
         },
         (rsp) => {
