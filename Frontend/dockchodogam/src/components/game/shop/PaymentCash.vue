@@ -42,16 +42,25 @@ export default {
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
       // IMP.init('imp40805235')
+      // {
+      //   pg: 'html5_inicis',
 
+      //   merchant_uid: `mid_${new Date().getTime()}`,
+      //   amount: 100,
+      //   name: '재화충전:1,000냥',
+      //   m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
+      //   buyer_name: `${this.userInfo.username}`
+      // },
       IMP.request_pay(
         {
-          pg: 'html5_inicis', // 카카오페이
-          // pay_method: 'card', // 결제수단
-          merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-          amount: 100, // 결제금액
-          name: '재화충전:1,000냥', // 주문명
-          m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
-          buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
+          pg: 'danal_tpay',
+          pay_method: 'card',
+          merchant_uid: `mid_${new Date().getTime()}`,
+          name: '재화충전:1,000냥',
+          amount: 100,
+          buyer_email: `${this.userInfo.email}`,
+          buyer_name: `${this.userInfo.username}`,
+          buyer_tel: '010-1234-5678'
         },
         (rsp) => {
           console.log(rsp)
