@@ -231,7 +231,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck']),
+    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck', 'fetchnowUserInfo']),
     goToGameMain() {
       this.btn_audio.play()
       this.$router.push({ path: '/game' })
@@ -294,10 +294,12 @@ export default {
   },
   created() {
     this.getMyEnemy()
+    this.fetchnowUserInfo()
     this.fetchUserDeck()
     this.getRanking()
     setTimeout(() => {
       this.isLoading = false
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
       if (this.enemyInfo.nickname) {
         this.fetchEnemyInfo('')
       }

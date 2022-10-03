@@ -86,4 +86,9 @@ input:focus {
   outline: none;
   border: #467302 solid 2px;
 }
+@media screen and (max-width: 650px) {
+  .userData {
+    align-items: center;
+  }
+}
 </style>
