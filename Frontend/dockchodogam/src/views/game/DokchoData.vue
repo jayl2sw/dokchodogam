@@ -199,10 +199,10 @@ export default {
       }
     }
     axios
-      .get(BASE_URL + '/api/v1/game/monster/mylist?size=100', option)
+      .get(BASE_URL + '/api/v1/game/monster/mylist', option)
       .then((res) => {
         console.log(res.data)
-        res.data.content.forEach((element) => {
+        res.data.forEach((element) => {
           if (this.queryData === String(element.monsterId)) {
             this.isMyDokcho = true
           }
