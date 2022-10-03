@@ -1,6 +1,11 @@
 <template>
-  <NavBar @overflow="overflow" />
-  <div v-if="photoResult !== null" class="result">
+  <LoadingPage v-if="this.isLoading" />
+  <NavBar v-show="!this.isLoading" @overflow="overflow" />
+  <div
+    v-show="!this.isLoading"
+    v-if="photoResult !== null && monsterDetail !== null"
+    class="result"
+  >
     <div class="result__body">
       <div class="result__left">
         <!-- <p>결과창페이지</p> -->
@@ -18,7 +23,7 @@
           "
           class="dockchoMonster"
         >
-          <new-find :monsterId="this.photoResult.plant.monsterId" />
+          <new-find :monsterDetail="monsterDetail" />
         </div>
         <!-- 도감 O 중복 찾음 -->
         <div
@@ -28,18 +33,23 @@
           "
           class="dockchoMonster"
         >
-          <duplicate-find :monsterId="this.photoResult.plant.monsterId" />
+          <duplicate-find :monsterDetail="monsterDetail" />
         </div>
       </div>
       <div class="result__right">
-        <img src="@/assets/cat.png" alt="cat" />
+        <!-- <img src="@/assets/cat.png" alt="cat" /> -->
         <div class="dockchoExplanation__container">
           <div v-if="this.photoResult.plant" class="dockchoExplanation">
-            <img src="@/assets/flower_ex.png" alt="flower" />
-            <h3 v-if="this.photoResult.isDokcho == true">
+            <img
+              v-if="this.photoResult.plant.imgUrl !== 'NONE'"
+              :src="this.photoResult.plant.imgUrl"
+              alt="flower"
+            />
+            <h3 v-show="this.photoResult.isDokcho == true" class="notice TITLE">
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3>
-            <h3>{{ this.photoResult.plant.name }}</h3>
+            <h3 class="TITLE">{{ this.photoResult.plant.name }}</h3>
+            <!-- <p>{{ this.photoResult.plant.monsterId }}</p> -->
             <p
               v-if="
                 this.photoResult.plant.familyKorNm &&
@@ -50,25 +60,24 @@
               {{ this.photoResult.plant.genusKorNm }}
             </p>
             <p v-if="this.photoResult.plant.dstrb">
-              원산지 : {{ this.photoResult.plant.dstrb }}
+              <span class="subheading">원산지 :</span>
+              {{ this.photoResult.plant.dstrb }}
             </p>
             <p v-if="this.photoResult.plant.flwrDesc">
-              꽃 모양 설명 : {{ this.photoResult.plant.flwrDesc }}
+              <span class="subheading">꽃 🌺 :</span>
+              {{ this.photoResult.plant.flwrDesc }}
             </p>
             <p v-if="this.photoResult.plant.fritDesc">
-              열매 설명 : {{ this.photoResult.plant.fritDesc }}
+              <span class="subheading">열매 🍈 :</span>
+              {{ this.photoResult.plant.fritDesc }}
             </p>
             <p v-if="this.photoResult.plant.grwEvrntDesc">
-              키우는 법 : {{ this.photoResult.plant.grwEvrntDesc }}
+              <span class="subheading"> 어디서 자라나요? 🌿 </span>:
+              {{ this.photoResult.plant.grwEvrntDesc }}
             </p>
             <br />
-            <p></p>
-            <p>{{ this.photoResult.plant.cprtCtnt }}</p>
-          </div>
-          <div v-else class="dockchoExplanation">
-            <p>
-              제가 잘 모르는 식물이에요 😥 <br />
-              스승님께 알려드릴게요!
+            <p style="color: gray; font-size: small; text-align: center">
+              {{ this.photoResult.plant.cprtCtnt }}
             </p>
           </div>
           <div class="tree_container">
@@ -88,13 +97,22 @@ import NewFind from '@/components/camera/NewFind.vue'
 import DuplicateFind from '@/components/camera/DuplicateFind.vue'
 import UndefinedFind from '@/components/camera/UndefinedFind.vue'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+import LoadingPage from '@/components/main/LoadingPage.vue'
 
 export default {
   components: {
-    NavBar
-    // NewFind,
-    // DuplicateFind,
-    // UndefinedFind
+    NavBar,
+    LoadingPage,
+    NewFind,
+    DuplicateFind,
+    UndefinedFind
+  },
+  data() {
+    return {
+      isLoading: true,
+      monsterDetail: {}
+    }
   },
 
   computed: {
@@ -102,16 +120,34 @@ export default {
   },
 
   methods: {
+    fetchMonsterDetail() {
+      axios({
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.photoResult.plant.monsterId}`,
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+        .then((res) => {
+          console.log(res.data)
+          this.monsterDetail = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     goToCamera() {
       this.$router.push({
         path: '/camera'
       })
     }
+  },
+  created() {
+    this.fetchMonsterDetail()
+    setTimeout(() => {
+      this.isLoading = false
+    }, 2000)
   }
-  // mounted() {
-  //   this.result = mapGetters(['photoResult'])
-  //   console.log('mounted', this.result)
-  // }
 }
 </script>
 
@@ -121,6 +157,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   margin-top: 7vh;
+  /* height: 90vh;
+  background-image: url('@/assets/dogam_background.jpg'); */
 }
 .result__body {
   display: flex;
@@ -153,12 +191,12 @@ export default {
   justify-content: center;
 }
 .dockchoMonster {
-  border-style: groove;
-  border-color: black;
-  border-width: 5px;
-  border-radius: 10px;
-  width: 40vw;
-  height: 40vh;
+  /* border-style: groove; */
+  /* border-color: black; */
+  /* border-width: 5px; */
+  /* border-radius: 10px; */
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,20 +216,55 @@ export default {
   text-align: left;
   position: relative;
 }
+
 .dockchoExplanation {
   height: 60vh;
   overflow: auto;
-  color: #215f00;
+}
+
+.dockchoExplanation h3 {
+  /* height: 60vh;
+  overflow: auto; */
+  margin-top: 3vmin;
+  margin-bottom: 3vmin;
+}
+
+.notice {
+  font-size: medium;
+  text-align: center;
+  color: red;
+}
+.dockchoExplanation p {
+  /* height: 60vh;
+  overflow: auto; */
+  color: #000000;
+}
+
+.subheading {
+  color: #000000;
+  font-weight: bold;
+}
+
+.copyright {
+  color: #d0d0d0;
 }
 
 .dockchoExplanation > img {
-  float: left;
-  width: 10vw;
-  height: 60vh;
-  margin-right: 1vw;
-  margin-bottom: 1vh;
+  display: block;
+  /* float: left; */
+  width: 100%;
+  /* width: 10vw; */
+  height: 40%;
+  margin: auto;
+  /* margin-right: 1vw;
+  margin-bottom: 1vh; */
   object-fit: cover;
 }
+
+/* .dockchoExplanation_none p {
+  align-self: center;
+  text-align: center;
+} */
 
 .tree_container img {
   height: 8vh;
@@ -200,6 +273,7 @@ export default {
 }
 .tree_container .tree1 {
   left: -1vw;
+  /* bottom: 1vh; */
 }
 .tree_container .tree2 {
   height: 5vh;

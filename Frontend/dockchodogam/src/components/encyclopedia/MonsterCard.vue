@@ -12,9 +12,10 @@
       }"
     >
       <div class="imgBx">
+        <!-- <font-awesome-icon icon="fa-solid fa-magnifying-glass-chart" /> -->
         <img
           :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
-          class="card__img"
+          class="card__img monster__img"
           style="-webkit-user-drag: none"
         />
         <!-- <p>대사 : {{ monster.line }}</p> -->
@@ -31,7 +32,19 @@
       >
         <div class="contentBx__name">
           <p class="TITLE">00{{ monster.monsterId }}</p>
-          <p class="TITLE title">{{ monster.name }}몬</p>
+          <p class="TITLE title">
+            {{ monster.name }}몬<span class="moveGG">
+              |
+              <font-awesome-icon
+                @click="goToGG"
+                icon="fa-solid fa-magnifying-glass-chart"
+              /><span>&nbsp;</span>
+              <font-awesome-icon
+                @click="shareKakao()"
+                icon="fa-solid fa-arrow-up-from-bracket"
+              />
+            </span>
+          </p>
         </div>
 
         <div class="size">
@@ -69,6 +82,7 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -83,12 +97,21 @@ export default {
       imageBaseUrl: process.env.VUE_APP_S3_URL
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
       // alert(a.name)
       // console.log(a)
       // console.log(this.monsterDetail)
+    },
+    goToGG() {
+      this.$router.push({
+        path: '/dokcho/gg',
+        query: { query: this.monster.monsterId }
+      })
     },
     checkType() {
       if (this.monster.type === 'DOKCHO') {
@@ -128,6 +151,32 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    shareKakao() {
+      const img = this.imageBaseUrl + '/' + this.monster.monsterId + '.png'
+      const name = this.monster.name
+      const user = this.userInfo.nickname
+      window.Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `${name}몬을 잡았어요!`,
+          description: `${user}님이 ${name}몬을 획득하셨습니다 ✨`,
+          imageUrl: img,
+          link: {
+            // mobileWebUrl: '이미지 클릭시 이동할 사이트',
+            webUrl: 'https://j7e201.p.ssafy.io'
+          }
+        },
+        buttons: [
+          {
+            title: '도감 모으러 이동!',
+            link: {
+              // mobileWebUrl: '이미지 클릭시 이동할 사이트',
+              webUrl: 'https://j7e201.p.ssafy.io'
+            }
+          }
+        ]
+      })
     }
   },
   created() {
@@ -176,7 +225,7 @@ export default {
 .container .card .imgBx {
   /* position: absolute; */
   /* top: 35%; */
-  transform: translate(10%, 10%);
+  transform: translate(10%, 20%);
   width: 100%;
   height: 120px;
   transition: 0.5s;
@@ -193,13 +242,21 @@ export default {
   display: inline-block;
 }
 
+.contentBx__name .moveGG {
+  display: none;
+}
+
+.card:hover .moveGG {
+  display: inline;
+}
+
 .container .card:hover .imgBx {
   /* top: 30%; */
-  transform: translate(20%, 22%);
+  transform: translate(20%, 20%);
   width: 80%;
 }
 
-.container .card .imgBx img {
+.container .card .imgBx .monster__img {
   position: absolute;
   display: block;
   margin: auto;
@@ -208,6 +265,18 @@ export default {
   /* transition: transform 0.25s ease; */
   /* transform: translate(-20%, -20%); */
   width: 80%;
+}
+
+.kakao__img {
+  /* margin-top: 5px;
+  margin-left: 15px; */
+  margin: 2vmin;
+  width: 20px;
+  position: absolute;
+  align-items: flex-end;
+  /* top: 5%; */
+  top: 1%;
+  /* left: 77%; */
 }
 
 /* .arrow_box {

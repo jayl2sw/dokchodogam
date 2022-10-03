@@ -79,7 +79,7 @@ export default {
     this.audio.volume = 0.5
     setTimeout(() => {
       this.audio.play()
-    }, 1000)
+    }, 300)
   },
   beforeUnmount() {
     this.audio.pause()

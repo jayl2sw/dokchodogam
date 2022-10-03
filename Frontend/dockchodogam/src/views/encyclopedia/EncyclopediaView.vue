@@ -106,15 +106,7 @@
           />
           <label for="SPECIAL">스페셜</label>
         </div>
-        <div class="selected">
-          {{ filteredMonsters.length }} / 98
-          <span>
-            <img
-              class="new-result-btn"
-              @click="shareKakao"
-              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-          /></span>
-        </div>
+        <div class="selected">{{ filteredMonsters.length }} / 98</div>
       </div>
       <div class="container">
         <div class="row">
@@ -250,30 +242,6 @@ export default {
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
-    },
-    shareKakao() {
-      window.Kakao.Link.sendDefault({
-        objectType: 'feed',
-        content: {
-          title: '독초도감☘',
-          description: '독초? 약초? 독초도감에서 즐겨봐 ...',
-          imageUrl:
-            'https://1.gall-img.com/hygall/files/attach/images/82/378/769/165/5f617e6da9ed21981ad1280f727dd8b3.jpg',
-          link: {
-            // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-            webUrl: 'https://j7e201.p.ssafy.io'
-          }
-        },
-        buttons: [
-          {
-            title: '도감 모으러 이동!',
-            link: {
-              // mobileWebUrl: '이미지 클릭시 이동할 사이트',
-              webUrl: 'https://j7e201.p.ssafy.io'
-            }
-          }
-        ]
-      })
     }
   },
   created() {

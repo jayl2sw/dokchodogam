@@ -8,7 +8,22 @@
       />
       <div class="profileMiddle">
         <div class="nicknameBox">
-          <img src="" alt="" class="tierImage" />
+          <img
+            :src="
+              this.imageBaseUrl +
+              '/tier' +
+              Math.min(
+                (this.searchUser.rank_point -
+                  (this.searchUser.rank_point % 100)) /
+                  100 +
+                  1,
+                5
+              ) +
+              '.png'
+            "
+            alt="tierImage"
+            class="tierImage"
+          />
           <div class="nickname">{{ this.searchUser.nickname }}</div>
         </div>
         <div class="ranking">현재 랭킹 : {{ this.ranking }}위</div>
@@ -20,13 +35,23 @@
         <vue3-chart-js v-bind="this.doughnutChart" ref="graph" />
       </div>
     </div>
+    <div class="infoText TITLE">선택한 풀깨비들</div>
     <div class="myChoiceDokcho">
-      <div class="myChoiceDokchoItem">
-        <div class="itemImage"></div>
-        <div class="itemName"></div>
-        <div class="itemPer"></div>
+      <div
+        class="myChoiceDokchoItem"
+        v-for="(item, i) in this.pickRate"
+        :key="i"
+      >
+        <img
+          class="itemImage"
+          :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+          alt=""
+        />
+        <div class="itemName">{{ item.monsterName }}</div>
+        <div class="itemPer">픽률 : {{ item.pickRate }} %</div>
       </div>
     </div>
+    <div class="infoText TITLE">역대 전적</div>
     <div class="battleLog" v-if="this.searchUser.nickname">
       <div
         class="battleLogItem"
@@ -66,7 +91,13 @@
         </div>
         <div class="logNickname">{{ item.defender }}</div>
       </div>
-      <InfiniteLoading @infinite="load" />
+      <InfiniteLoading
+        @infinite="load"
+        :slots="{
+          complete: '더 이상 결과가 없어요..',
+          error: '무언가 잘못되었어요!'
+        }"
+      />
       <div class="block"></div>
     </div>
   </div>
@@ -90,6 +121,7 @@ export default {
     return {
       userBattleLog: [],
       battleLogPage: 0,
+      pickRate: [],
       array1: ['monster0', 'monster1', 'monster2', 'monster3', 'monster4'],
       array2: ['monster5', 'monster6', 'monster7', 'monster8', 'monster9'],
       ranking: 0,
@@ -139,6 +171,7 @@ export default {
         )
         .then((res) => {
           if (res.data.BattleDto.length) {
+            console.log(res.data)
             this.userBattleLog = this.userBattleLog.concat(res.data.BattleDto)
             this.battleLogPage += 1
             $state.loaded()
@@ -168,15 +201,15 @@ export default {
         option
       )
       .then((res) => {
-        const win = res.data.winRate.winAttack + res.data.winRate.winDefence
         this.doughnutChart.data.datasets[0].data = [
-          win,
-          res.data.winRate.totalGames - win
+          res.data.winRate.winGame,
+          res.data.winRate.totalGame - res.data.winRate.winGame
         ]
         this.doughnutChart.options.plugins.subtitle.text =
           Math.round(res.data.winRate.winRate * 1000) / 10 + '%'
         console.log(this.winRate, this.doughnutChart.data.datasets[0].data)
         this.$refs.graph.update(100)
+        this.pickRate = res.data.pickRate
       })
       .catch((err) => console.log(err))
     axios
@@ -228,22 +261,35 @@ export default {
   height: 25vh;
   margin: 0 2vw;
 }
+.infoText {
+  font-size: 3vw;
+  height: 5vw;
+  margin: 3vh;
+  text-align: center;
+}
 .myChoiceDokcho {
-  border: 2px groove black;
-  border-radius: 10px;
+  border-radius: 15px;
+  background-color: #a7c957;
   overflow-x: auto;
-  height: 20vh;
+  white-space: nowrap;
+  height: 25vh;
   margin: 2vh 0;
 }
 .myChoiceDokchoItem {
-  border: 2px groove black;
+  padding: 1vh 0;
   border-radius: 10px;
   width: 10vh;
-  height: 15vh;
+  height: 18vh;
   margin: 1vh;
   display: inline-flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
+  background-color: #ececec;
+}
+.itemImage {
+  width: 9vh;
+  height: 9vh;
 }
 .itemName {
   font-size: 1vh;
@@ -305,7 +351,7 @@ export default {
 .blue {
   background-color: rgb(167, 167, 244);
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 650px) {
   .profile {
     height: auto;
     flex-direction: column;
@@ -317,6 +363,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .infoText {
+    font-size: 5vw;
+  }
+  .myChoiceDokcho {
+    width: 90vw;
   }
   .battleLogItem {
     width: 90vw;
@@ -341,5 +393,28 @@ export default {
     width: 8vw;
     height: 8vw;
   }
+}
+@media screen and (max-height: 500px) {
+  .chart {
+    width: 40vh;
+    height: 40vh;
+  }
+  .profile {
+    height: 40vh;
+  }
+  .myChoiceDokcho {
+    height: 40vh;
+  }
+  .myChoiceDokchoItem {
+    width: 10vw;
+    height: 30vh;
+  }
+  .itemImage {
+    width: 9vw;
+    height: 9vw;
+  }
+}
+::-webkit-scrollbar {
+  display: block;
 }
 </style>

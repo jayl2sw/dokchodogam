@@ -11,7 +11,11 @@
       <font-awesome-icon
         icon="fa-solid fa-gift"
         @click="this.giveGift()"
-        :class="this.friend.gift_today ? 'sentGift icon' : 'icon'"
+        :class="
+          this.friend.gift_today || this.friend.gift_exist
+            ? 'sentGift icon'
+            : 'icon'
+        "
         ref="button"
       />
       <font-awesome-icon
@@ -75,7 +79,7 @@ export default {
       this.fetchEnemyInfo(info)
       console.log('상대 덱 저장?', info)
       setTimeout(() => {
-        this.$router.push({ path: '/game/arena/ingame' })
+        this.$router.push({ path: '/game/arena/chinsunGame' })
       }, 200)
     }
   }

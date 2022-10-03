@@ -18,6 +18,16 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 
 export default {
   // data() {
@@ -35,45 +45,38 @@ export default {
     ...mapActions(['fetchMonsterGacha', 'fetchnowUserInfo']),
     doubleCheck() {
       this.btn_audio.play()
-      // swal({
-      //   text: '200냥을 내고 뽑기를 진행하시겠습니까?',
-      //   buttons: ['취소', '확인']
-      // }).then(function (result) {
-      //   console.log(result)
-
-      //   if (result === true) {
-      //     if (this.userInfo.money >= 200) {
-      //       this.$router.push({
-      //         path: '/game/shop/gacha'
-      //       })
-      //     } else {
-      //       swal({
-      //         title: '보유하신 냥이 부족합니다. 😢',
-      //         text: '냥을 모아서 다시 도전하세요!',
-      //         icon: 'error',
-      //         buttons: false,
-      //         timer: 1500
-      //       })
-      //     }
-      //   }
-      if (confirm('100냥을 내고 뽑기를 진행하시겠습니까?') === true) {
-        if (this.nowUserInfo.money >= 100) {
-          this.fetchMonsterGacha()
-          // this.fetchUserInfo()
-          this.$router.replace({
-            path: '/game/shop/gacha'
-          })
-        } else {
-          swal({
-            title: '보유하신 냥이 부족합니다 😢',
-            text: '냥을 모아서 다시 도전하세요!',
-            icon: 'error',
-            buttons: false,
-            timer: 1500
-          })
-          return false
-        }
+      swalWithBootstrapButtons
+        .fire({
+          title: '100냥을 내고 뽑기를 하시겠어요?',
+          text: '원하는 독초몬을 생각하며 고고고 🙂',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            // console.log(result)
+            this.fetchGacha()
+          }
+        })
+    },
+    fetchGacha() {
+      if (this.nowUserInfo.money >= 100) {
+        this.fetchMonsterGacha()
+        // this.fetchUserInfo()
+        this.$router.replace({
+          path: '/game/shop/gacha'
+        })
       } else {
+        swal({
+          title: '보유하신 냥이 부족합니다 😢',
+          text: '냥을 모아서 다시 도전하세요!',
+          icon: 'error',
+          buttons: false,
+          timer: 1500
+        })
         return false
       }
     }
@@ -116,7 +119,7 @@ export default {
 .gacha__footer {
   display: flex;
   justify-content: center;
-  margin-bottom: 2vh;
+  /* margin-bottom: 2vh; */
 }
 
 .btn {

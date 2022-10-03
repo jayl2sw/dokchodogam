@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       inputData: '',
-      searchUser: ''
+      searchUser: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
@@ -85,5 +85,10 @@ input::placeholder {
 input:focus {
   outline: none;
   border: #467302 solid 2px;
+}
+@media screen and (max-width: 650px) {
+  .userData {
+    align-items: center;
+  }
 }
 </style>

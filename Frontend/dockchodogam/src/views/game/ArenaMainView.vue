@@ -14,7 +14,22 @@
             <h1 class="TITLE">{{ this.userInfo.nickname }}</h1>
           </div>
           <div class="expBar">
-            <span>몰라 진행도</span>
+            <img
+              :src="
+                this.imageBaseUrl +
+                '/tier' +
+                Math.min(
+                  (this.userInfo.rank_point -
+                    (this.userInfo.rank_point % 100)) /
+                    100 +
+                    1,
+                  5
+                ) +
+                '.png'
+              "
+              alt="tier"
+              class="tier"
+            />
             <div class="progress">
               <div
                 class="progress-bar"
@@ -142,29 +157,32 @@
             ></button>
           </div>
           <div class="modal-body">
+            <p class="TITLE danger">
+              뒤로가기를 누르면 패배로 기록되니 주의 또 주의!
+            </p>
             <p class="TITLE">
               아레나에서는 여러분과 비슷한 점수의 사람들과 배틀을 할 수 있어요!
             </p>
             <p class="TITLE">
-              대전 상대를 골라 배틀을 시작하면<br />상대의 첫 번째 독초몬과 나의
-              첫 번째 독초몬이 서로를 공격해요.<br /><span class="emphasize"
-                >데미지는 각 독초몬의 최소 데미지와 최대 데미지 사이의
+              대전 상대를 골라 배틀을 시작하면<br />상대의 첫 번째 풀깨비와 나의
+              첫 번째 풀깨비가 서로를 공격해요.<br /><span class="emphasize"
+                >데미지는 각 풀깨비의 최소 데미지와 최대 데미지 사이의
                 랜덤값</span
-              >으로, 매번 달라진답니다.<br />상대의 독초몬의 체력이 먼저 닳게
-              되면 그 다음 순서로 자동으로 넘어가요.<br />나의 독초몬의 체력이
-              모두 닳으면 다음으로 상대를 맞설 독초몬을 덱에서 골라야 해요.
+              >으로, 매번 달라진답니다.<br />상대의 풀깨비의 체력이 먼저 닳게
+              되면 그 다음 순서로 자동으로 넘어가요.<br />나의 풀깨비의 체력이
+              모두 닳으면 다음으로 상대를 맞설 풀깨비을 덱에서 골라야 해요.
             </p>
             <p class="TITLE">
               배틀 도중 <span class="emphasize">딱 한 번 스킬을 발동</span>시킬
               수 있어요.<br />오른쪽 아래의 버튼을 눌러 스킬을 사용해봐요!
-              스킬은 게임이 시작될 때 세 가지 중 랜덤으로 하나를 준답니다.<br />ㅇㅇㅇ은
-              딱 한 번 나의 독초몬을 두 배로 강하게 만들어줘요!<br />ㅁㅁㅁ은 딱
-              한 번 상대의 공격을 무효화시켜요!<br />ㅂㅂㅂ은 딱 한 번 상대의
-              공격을 그대로 상대에게 반사시켜줘요! 대신, 나의 독초몬은 상대를
-              공격할 수 없답니다.
+              스킬은 게임이 시작될 때 세 가지 중 랜덤으로 하나를 준답니다.<br />"승리의
+              불꽃"은 딱 한 번 나의 풀깨비를 두 배로 강하게 만들어줘요!<br />"무적의
+              방패"는 딱 한 번 상대의 공격을 무효화시켜요!<br />"소망의 거울"은
+              딱 한 번 상대의 공격을 그대로 상대에게 반사시켜줘요! 대신, 나의
+              풀깨비는 상대를 공격할 수 없답니다.
             </p>
             <p class="TITLE">
-              독초몬끼리는 상성이 있는데,
+              풀깨비끼리는 상성이 있는데,
               <span class="emphasize">서로가 붙었을 때 공격 버프</span>를 받을
               수 있어요.<br />잡초몬과 독초몬이 만나면 독초몬이 20% 강해져요!<br />독초몬과
               약초몬이 만나면 약초몬이 20% 강해져요!<br />약초몬과 잡초몬이
@@ -175,6 +193,10 @@
               <span class="emphasize"
                 >만약 무승부로 게임이 끝난다면 이는 상대의 승리</span
               >랍니다.
+              <span class="emphasize"
+                >승리하면 10점을 얻고, 진다면 5점을 잃으니</span
+              >
+              조심하세요!
             </p>
             <p class="TITLE">그럼 즐거운 아레나를 시작해볼까요?</p>
           </div>
@@ -209,7 +231,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck']),
+    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck', 'fetchnowUserInfo']),
     goToGameMain() {
       this.btn_audio.play()
       this.$router.push({ path: '/game' })
@@ -272,10 +294,12 @@ export default {
   },
   created() {
     this.getMyEnemy()
+    this.fetchnowUserInfo()
     this.fetchUserDeck()
     this.getRanking()
     setTimeout(() => {
       this.isLoading = false
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
       if (this.enemyInfo.nickname) {
         this.fetchEnemyInfo('')
       }
@@ -285,6 +309,7 @@ export default {
     this.audio.loop = true
     this.audio.volume = 0.5
     this.audio.play()
+    console.log('tier : ' + this.mytier)
   },
   beforeUnmount() {
     this.audio.pause()
@@ -360,6 +385,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 2vh;
+}
+.tier {
+  width: 5vw;
+  margin-left: 2vh;
 }
 .progress {
   background-color: white;
@@ -537,7 +566,7 @@ export default {
   width: 7vw;
 }
 .enemyName {
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   margin-left: 1vw;
 }
 .enemyDeck {
@@ -634,6 +663,12 @@ export default {
   color: #467302;
   font-size: 1.5vw;
 }
+.danger {
+  color: red;
+  font-size: 1.7vw;
+  margin-bottom: 2vw;
+  font-weight: bold;
+}
 /* @media screen and (max-width: 850px) {
   .nickname > h1 {
     font-size: 1vw;
@@ -675,10 +710,26 @@ export default {
     font-weight: bold;
     color: #467302;
   }
+  .danger {
+    font-size: 7vw;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 1vw;
+  }
 }
 @media only screen and (orientation: landscape) {
   #warning-message {
     display: none;
+  }
+  .enemyInfo {
+    width: 9vw;
+  }
+  .enemyDeck {
+    width: 28vw;
+  }
+  .gameStartBtn {
+    width: 7vw;
+    font-size: 1vh;
   }
 }
 </style>
