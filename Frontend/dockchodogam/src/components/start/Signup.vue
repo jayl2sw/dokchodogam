@@ -4,29 +4,120 @@
       <div class="signuppage__left">
         <div class="termsofservice">
           <div class="termsofservice__text">
-            이름과 그리고 가을 별 하나에 것은 걱정도 계십니다. 별 우는 이런 내린
-            아무 덮어 불러 버리었습니다. 노루, 까닭이요, 못 그러나 별이
-            듯합니다. 것은 위에 다 흙으로 계십니다. 어머니, 무성할 남은 그리고
-            비둘기, 시인의 토끼, 다하지 어머니 까닭입니다. 어머님, 아스라히
-            이름자 별 새겨지는 언덕 파란 무성할 별 까닭입니다. 너무나 밤을
-            하나에 아무 파란 까닭입니다. 벌레는 마리아 다하지 어머님, 다 겨울이
-            다 있습니다. 별빛이 자랑처럼 가을 릴케 노새, 나의 나의 듯합니다.
-            소학교 어머님, 별빛이 계십니다. 아침이 풀이 이름과, 봅니다. 지나가는
-            노루, 별 한 속의 멀듯이, 있습니다. 멀듯이, 사람들의 이름을 라이너
-            했던 계십니다. 이름과, 둘 계집애들의 버리었습니다. 마디씩 보고,
-            아스라히 라이너 불러 새겨지는 어머니, 언덕 비둘기, 버리었습니다.
-            별에도 이름과, 묻힌 아무 이 까닭입니다. 어머니 별이 하나에 다 딴은
-            걱정도 별에도 그리워 벌써 버리었습니다. 잔디가 나의 않은 멀리 헤일
-            내일 나는 까닭입니다. 비둘기, 그러나 오는 불러 어머님, 무성할 옥
-            나의 봅니다. 패, 별에도 이제 했던 아이들의 어머니 가득 어머니,
-            어머님, 듯합니다. 슬퍼하는 나는 노새, 계십니다. 헤일 어머님, 이국
-            노새, 어머니 당신은 봅니다. 그러나 별 새겨지는 무엇인지 그리고
-            이름을 버리었습니다. 하나 파란 옥 까닭입니다. 라이너 이제 걱정도 별
-            못 보고, 하나에 내 봅니다. 별 딴은 아이들의 책상을 어머니, 나는
-            거외다. 다 북간도에 다 이국 아직 흙으로 있습니다. 하나에 이네들은
-            이웃 그러나 불러 묻힌 어머님, 소녀들의 봅니다. 릴케 내 어머니, 토끼,
-            계십니다. 위에 어머님, 된 이 있습니다. 오면 내일 하나 까닭입니다.
+            제 1 장 총 칙 제 1 조 (목적) 이 약관은 {독초도감}(이하 "사이트"라
+            합니다)에서 제공하는 인터넷서비스(이하 "서비스"라 합니다)의 이용
+            조건 및 절차에 관한 기본적인 사항을 규정함을 목적으로 합니다. 제 2
+            조 (약관의 효력 및 변경) ① 이 약관은 서비스 화면이나 기타의 방법으로
+            이용고객에게 공지함으로써 효력을 발생합니다. ② 사이트는 이 약관의
+            내용을 변경할 수 있으며, 변경된 약관은 제1항과 같은 방법으로 공지
+            또는 통지함으로써 효력을 발생합니다. 제 3 조 (용어의 정의) 이
+            약관에서 사용하는 용어의 정의는 다음과 같습니다. ① 회원 : 사이트와
+            서비스 이용계약을 체결하거나 이용자 아이디(ID)를 부여받은 개인 또는
+            단체를 말합니다. ② 신청자 : 회원가입을 신청하는 개인 또는 단체를
+            말합니다. ③ 아이디(ID) : 회원의 식별과 서비스 이용을 위하여 회원이
+            정하고 사이트가 승인하는 문자와 숫자의 조합을 말합니다. ④ 비밀번호 :
+            회원이 부여 받은 아이디(ID)와 일치된 회원임을 확인하고, 회원 자신의
+            비밀을 보호하기 위하여 회원이 정한 문자와 숫자의 조합을 말합니다. ⑤
+            해지 : 사이트 또는 회원이 서비스 이용계약을 취소하는 것을 말합니다.
+            제 2 장 서비스 이용계약 제 4 조 (이용계약의 성립) ① 이용약관 하단의
+            동의 버튼을 누르면 이 약관에 동의하는 것으로 간주됩니다. ②
+            이용계약은 서비스 이용희망자의 이용약관 동의 후 이용 신청에 대하여
+            사이트가 승낙함으로써 성립합니다. 제 5 조 (이용신청) ① 신청자가 본
+            서비스를 이용하기 위해서는 사이트 소정의 가입신청 양식에서 요구하는
+            이용자 정보를 기록하여 제출해야 합니다. ② 가입신청 양식에 기재하는
+            모든 이용자 정보는 모두 실제 데이터인 것으로 간주됩니다. 실명이나
+            실제 정보를 입력하지 않은 사용자는 법적인 보호를 받을 수 없으며,
+            서비스의 제한을 받을 수 있습니다. 제 6 조 (이용신청의 승낙) ①
+            사이트는 신청자에 대하여 제2항, 제3항의 경우를 예외로 하여 서비스
+            이용신청을 승낙합니다. ② 사이트는 다음에 해당하는 경우에 그 신청에
+            대한 승낙 제한사유가 해소될 때까지 승낙을 유보할 수 있습니다. 가.
+            서비스 관련 설비에 여유가 없는 경우 나. 기술상 지장이 있는 경우 다.
+            기타 사이트가 필요하다고 인정되는 경우 ③ 사이트는 신청자가 다음에
+            해당하는 경우에는 승낙을 거부할 수 있습니다. 가. 다른 개인(사이트)의
+            명의를 사용하여 신청한 경우 나. 이용자 정보를 허위로 기재하여 신청한
+            경우 다. 사회의 안녕질서 또는 미풍양속을 저해할 목적으로 신청한 경우
+            라. 기타 사이트 소정의 이용신청요건을 충족하지 못하는 경우 제 7 조
+            (이용자정보의 변경) 회원은 이용 신청시에 기재했던 회원정보가
+            변경되었을 경우에는, 온라인으로 수정하여야 하며 변경하지 않음으로
+            인하여 발생되는 모든 문제의 책임은 회원에게 있습니다. 제 3 장 계약
+            당사자의 의무 제 8 조 (사이트의 의무) ① 사이트는 회원에게 각 호의
+            서비스를 제공합니다. 가. 신규서비스와 도메인 정보에 대한 뉴스레터
+            발송 나. 추가 도메인 등록시 개인정보 자동 입력 다. 도메인 등록,
+            관리를 위한 각종 부가서비스 ② 사이트는 서비스 제공과 관련하여 취득한
+            회원의 개인정보를 회원의 동의없이 타인에게 누설, 공개 또는 배포할 수
+            없으며, 서비스관련 업무 이외의 상업적 목적으로 사용할 수 없습니다.
+            단, 다음 각 호의 1에 해당하는 경우는 예외입니다. 가. 전기통신기본법
+            등 법률의 규정에 의해 국가기관의 요구가 있는 경우 나. 범죄에 대한
+            수사상의 목적이 있거나 정보통신윤리 위원회의 요청이 있는 경우 다.
+            기타 관계법령에서 정한 절차에 따른 요청이 있는 경우 ③ 사이트는 이
+            약관에서 정한 바에 따라 지속적, 안정적으로 서비스를 제공할 의무가
+            있습니다. 제 9 조 (회원의 의무) ① 회원은 서비스 이용 시 다음 각 호의
+            행위를 하지 않아야 합니다. 가. 다른 회원의 ID를 부정하게 사용하는
+            행위 나. 서비스에서 얻은 정보를 사이트의 사전승낙 없이 회원의 이용
+            이외의 목적으로 복제하거나 이를 변경, 출판 및 방송 등에 사용하거나
+            타인에게 제공하는 행위 다. 사이트의 저작권, 타인의 저작권 등 기타
+            권리를 침해하는 행위 라. 공공질서 및 미풍양속에 위반되는 내용의
+            정보, 문장, 도형 등을 타인에게 유포하는 행위 마. 범죄와 결부된다고
+            객관적으로 판단되는 행위 바. 기타 관계법령에 위배되는 행위 ② 회원은
+            관계법령, 이 약관에서 규정하는 사항, 서비스 이용 안내 및 주의 사항을
+            준수하여야 합니다. ③ 회원은 내용별로 사이트가 서비스 공지사항에
+            게시하거나 별도로 공지한 이용 제한 사항을 준수하여야 합니다. 제 4 장
+            서비스 제공 및 이용 제 10 조 (회원 아이디(ID)와 비밀번호 관리에 대한
+            회원의 의무) ① 아이디(ID)와 비밀번호에 대한 모든 관리는 회원에게
+            책임이 있습니다. 회원에게 부여된 아이디(ID)와 비밀번호의 관리소홀,
+            부정사용에 의하여 발생하는 모든 결과에 대한 전적인 책임은 회원에게
+            있습니다. ② 자신의 아이디(ID)가 부정하게 사용된 경우 또는 기타 보안
+            위반에 대하여, 회원은 반드시 사이트에 그 사실을 통보해야 합니다. 제
+            11 조 (서비스 제한 및 정지) ① 사이트는 전시, 사변, 천재지변 또는
+            이에 준하는 국가비상사태가 발생하거나 발생할 우려가 있는 경우와
+            전기통신사업법에 의한 기간통신 사업자가 전기통신서비스를 중지하는 등
+            기타 불가항력적 사유가 있는 경우에는 서비스의 전부 또는 일부를
+            제한하거나 정지할 수 있습니다. ② 사이트는 제1항의 규정에 의하여
+            서비스의 이용을 제한하거나 정지할 때에는 그 사유 및 제한기간 등을
+            지체없이 회원에게 알려야 합니다. 제5장 계약사항의 변경, 해지 제 12
+            조 (정보의 변경) 회원이 주소, 비밀번호 등 고객정보를 변경하고자 하는
+            경우에는 홈페이지의 회원정보 변경 서비스를 이용하여 변경할 수
+            있습니다. 제 13 조 (계약사항의 해지) 회원은 서비스 이용계약을 해지할
+            수 있으며, 해지할 경우에는 본인이 직접 서비스를 통하거나 전화 또는
+            온라인 등으로 사이트에 해지신청을 하여야 합니다. 사이트는 해지신청이
+            접수된 당일부터 해당 회원의 서비스 이용을 제한합니다. 사이트는
+            회원이 다음 각 항의 1에 해당하여 이용계약을 해지하고자 할 경우에는
+            해지조치 7일전까지 그 뜻을 이용고객에게 통지하여 소명할 기회를
+            주어야 합니다. ① 이용고객이 이용제한 규정을 위반하거나 그 이용제한
+            기간 내에 제한 사유를 해소하지 않는 경우 ② 정보통신윤리위원회가
+            이용해지를 요구한 경우 ③ 이용고객이 정당한 사유 없이 의견진술에
+            응하지 아니한 경우 ④ 타인 명의로 신청을 하였거나 신청서 내용의 허위
+            기재 또는 허위서류를 첨부하여 이용계약을 체결한 경우 사이트는 상기
+            규정에 의하여 해지된 이용고객에 대해서는 별도로 정한 기간동안 가입을
+            제한할 수 있습니다. 제6장 손해배상 제 14 조 (면책조항) ① 사이트는
+            회원이 서비스 제공으로부터 기대되는 이익을 얻지 못하였거나 서비스
+            자료에 대한 취사선택 또는 이용으로 발생하는 손해 등에 대해서는
+            책임이 면제됩니다. ② 사이트는 회원의 귀책사유나 제3자의 고의로
+            인하여 서비스에 장애가 발생하거나 회원의 데이터가 훼손된 경우에
+            책임이 면제됩니다. ③ 사이트는 회원이 게시 또는 전송한 자료의 내용에
+            대해서는 책임이 면제됩니다. ④ 상표권이 있는 도메인의 경우, 이로 인해
+            발생할 수도 있는 손해나 배상에 대한 책임은 구매한 회원 당사자에게
+            있으며, 사이트는 이에 대한 일체의 책임을 지지 않습니다. 제 15 조
+            (관할법원) 서비스와 관련하여 사이트와 회원간에 분쟁이 발생할 경우
+            사이트의 본사 소재지를 관할하는 법원을 관할법원으로 합니다.
           </div>
+        </div>
+        <div class="agreement">
+          <div class="checkbox__label">
+            <label for="checkbox">약관에 동의하기</label>
+          </div>
+          <input
+            id="checkbox"
+            class="checkbox"
+            type="checkbox"
+            v-model="termsAgreed"
+          />
+        </div>
+        <div class="checkbox__text">
+          <span class="allowedtext" v-if="termsAgreed"
+            >회원가입을 계속해서 진행해주세요😎</span
+          >
+          <span class="warningtext" v-else>약관에 동의해주세요🙏</span>
         </div>
       </div>
       <div class="signuppage__right">
@@ -35,12 +126,29 @@
         </div>
 
         <div>
-          <span>영문자나 숫자의 조합으로 5~20자리</span>
+          <div class="oktext">
+            <span>영문자나 숫자의 조합으로 5~20자리</span>
+          </div>
           <input
             @keyup="checkUsername()"
             v-model="username"
             placeholder="아이디"
           />
+          <div class="oktext">
+            <span
+              class="allowedtext"
+              v-if="this.isUsernameChecked && !this.usernameDuplicate"
+              >이 아이디는 사용하셔도 좋아요👌</span
+            >
+            <span
+              class="warningtext"
+              v-else-if="this.isUsernameChecked && this.usernameDuplicate"
+              >아이디가 중복인지 확인해주세요🙏</span
+            >
+            <span class="warningtext" v-else
+              >아이디 생성 조건을 확인해주세요🙏</span
+            >
+          </div>
           <button
             class="duplicate__button"
             type="submit"
@@ -48,22 +156,24 @@
           >
             아이디중복확인
           </button>
-          <span
-            class="allowedtext"
-            v-if="this.isUsernameChecked && !this.usernameDuplicate"
-            >이 아이디는 사용하셔도 좋아요👌</span
-          >
-          <span
-            class="warningtext"
-            v-else-if="this.isUsernameChecked && this.usernameDuplicate"
-            >아이디가 중복인지 확인해주세요🙏</span
-          >
-          <span class="warningtext" v-else
-            >아이디 생성 조건을 확인해주세요🙏</span
-          >
         </div>
         <div>
           <input @keyup="checkEmail()" v-model="email" placeholder="이메일" />
+          <div class="oktext">
+            <span
+              class="allowedtext"
+              v-if="this.isEmailChecked && !this.emailDuplicate"
+              >이 이메일은 사용하셔도 좋아요👌</span
+            >
+            <span
+              class="warningtext"
+              v-else-if="this.isEmailChecked && this.emailDuplicate"
+              >이메일이 중복인지 확인해주세요🙏</span
+            >
+            <span class="warningtext" v-else
+              >이메일 입력 조건을 확인해주세요🙏</span
+            >
+          </div>
           <button
             class="duplicate__button"
             type="submit"
@@ -71,34 +181,25 @@
           >
             이메일중복확인
           </button>
-          <span
-            class="allowedtext"
-            v-if="this.isEmailChecked && !this.emailDuplicate"
-            >이 이메일은 사용하셔도 좋아요👌</span
-          >
-          <span
-            class="warningtext"
-            v-else-if="this.isEmailChecked && this.emailDuplicate"
-            >이메일이 중복인지 확인해주세요🙏</span
-          >
-          <span class="warningtext" v-else
-            >이메일 입력 조건을 확인해주세요🙏</span
-          >
         </div>
         <div>
-          <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
+          <div class="oktext">
+            <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
+          </div>
           <input
             @keyup="checkPassword()"
             v-model="password"
             type="password"
             placeholder="비밀번호"
           />
-          <span class="allowedtext" v-if="this.isPasswordChecked"
-            >이 비밀번호는 사용하셔도 좋아요👌</span
-          >
-          <span class="warningtext" v-else
-            >비밀번호 생성 조건을 확인해주세요🙏</span
-          >
+          <div class="oktext">
+            <span class="allowedtext" v-if="this.isPasswordChecked"
+              >이 비밀번호는 사용하셔도 좋아요👌</span
+            >
+            <span class="warningtext" v-else
+              >비밀번호 생성 조건을 확인해주세요🙏</span
+            >
+          </div>
         </div>
         <div>
           <input
@@ -107,15 +208,17 @@
             type="password"
             placeholder="비밀번호 확인"
           />
-          <span class="warningtext" v-if="this.password !== this.password2"
-            >비밀번호를 확인해주세요🙏</span
-          >
-          <span class="warningtext" v-else-if="this.password == null"
-            >비밀번호를 확인해주세요🙏</span
-          >
-          <span class="allowedtext" v-else
-            >비밀번호 확인이 완료되었습니다👌</span
-          >
+          <div class="oktext">
+            <span class="warningtext" v-if="this.password !== this.password2"
+              >비밀번호를 확인해주세요🙏</span
+            >
+            <span class="warningtext" v-else-if="this.password == null"
+              >비밀번호를 확인해주세요🙏</span
+            >
+            <span class="allowedtext" v-else
+              >비밀번호 확인이 완료되었습니다👌</span
+            >
+          </div>
         </div>
         <div class="signup">
           <button class="signup__btn" type="submit" @click="signup()">
@@ -149,7 +252,8 @@ export default {
       usernameDuplicate: true,
       isEmailChecked: false,
       isUsernameChecked: false,
-      isPasswordChecked: false
+      isPasswordChecked: false,
+      termsAgreed: false
     }
   },
   methods: {
@@ -298,7 +402,23 @@ export default {
     },
 
     signup() {
-      if (this.emailDuplicate === true) {
+      if (this.termsAgreed === false) {
+        swal({
+          title: '약관 동의를 먼저 진행해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
+      } else if (this.usernameDuplicate === true) {
+        swal({
+          title: '아이디중복검사를 먼저 진행해주세요🙏',
+          text: '🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
+      } else if (this.emailDuplicate === true) {
         swal({
           title: '이메일중복검사를 먼저 진행해주세요🙏',
           text: '🐯',
@@ -430,7 +550,7 @@ button {
 .signup__btn {
   background-color: #a7c957;
   transition: 0.3s;
-  height: 6vh;
+  height: 5vh;
 }
 .signup__btn:hover {
   background-color: #467302;
@@ -469,8 +589,37 @@ input {
   height: 40vh;
   flex-direction: column;
   justify-content: center;
-  justify-content: center;
   text-align: center;
+}
+
+.checkbox {
+  width: 2vw;
+  margin: 0;
+  margin-left: 0.5vw;
+  height: 3vh;
+}
+.checkbox__label {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  text-align: center;
+  align-items: center;
+}
+
+.agreement {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  text-align: center;
+  margin-right: 3vw;
+}
+.checkbox__text {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  text-align: center;
+  margin-top: 1vh;
+  margin-right: 3vw;
 }
 .allowedtext {
   color: #29cd2e;
@@ -528,6 +677,38 @@ input {
     justify-content: center;
     text-align: center;
   }
+  .checkbox {
+    width: 6vw;
+    margin: 0;
+    margin-left: 0.5vw;
+    height: 3vh;
+  }
+  .checkbox__label {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: center;
+    align-items: center;
+    margin-right: 2vw;
+  }
+
+  .agreement {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: center;
+    margin-top: 1vh;
+    margin-right: 5vw;
+  }
+  .checkbox__text {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: center;
+    margin-top: 1vh;
+    margin-right: 5vw;
+  }
+
   .signuppage__right {
     margin-left: 5vw;
     margin-right: 5vw;
@@ -541,26 +722,29 @@ input {
     width: 60vw;
   }
   input {
-    width: 70vw;
+    width: 80vw;
     height: 7vh;
     font-size: 1.5vh;
     background-size: 3vw 3vw;
     padding-left: 4vw;
   }
+  .oktext {
+    margin-left: 3vw;
+  }
   button {
-    height: 4vh;
+    height: 5vh;
     border-radius: 50px;
     border: none;
     width: 40vw;
     margin-left: 0;
     margin-right: 0;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
   }
   .signup__btn {
     background-color: #a7c957;
     transition: 0.3s;
-    height: 7vh;
+    height: 6vh;
   }
 }
 </style>
