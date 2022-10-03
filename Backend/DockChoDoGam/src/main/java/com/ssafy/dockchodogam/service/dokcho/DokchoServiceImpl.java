@@ -5,12 +5,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.Plant;
-import com.ssafy.dockchodogam.domain.User;
-import com.ssafy.dockchodogam.domain.UserMonster;
+import com.ssafy.dockchodogam.domain.*;
 import com.ssafy.dockchodogam.dto.exception.plant.PlantNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
@@ -22,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +47,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final AmazonS3Client amazonS3Client;
     private final PlantMongoRepository plantMongoRepository;
     private final MonsterRepository monsterRepository;
+    private final ArchiveRepository archiveRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
@@ -117,8 +118,9 @@ public class DokchoServiceImpl implements DokchoService {
         // MongoDB에 저장
         plantMongoRepository.save(new JSONObject(jsonData));
 
+        saveArchive(jsonData);
         Map<String, Object> data = getGenusAndProb(jsonData);
-        System.out.println(data);
+
         double probability = (double) data.get("probability");
         Map<String, Object> res = new HashMap<>();
         res.put("plantExist", false);
@@ -172,6 +174,15 @@ public class DokchoServiceImpl implements DokchoService {
         } else{
             return false;
         }
+    }
+
+    @Override
+    public List<ArchiveResponseDto> getArchives(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        List<ArchiveResponseDto> archiveDtos = archiveRepository.findArchivesBy(
+                pageRequest).stream().map(a -> ArchiveResponseDto.from(a))
+                .collect(Collectors.toList());
+        return archiveDtos;
     }
 
     private static String base64EncodeFromFile(String imgurl) throws Exception {
@@ -268,5 +279,36 @@ public class DokchoServiceImpl implements DokchoService {
         int day = Integer.parseInt(today.substring(8, 10));
 
         return TodayPlantDto.of(todayPlantRepository.findByMonthAndDay(month, day).orElseThrow(PlantNotFoundException::new));
+    }
+
+    public void saveArchive(String jsonData) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonData);
+        JSONArray images = (JSONArray) jsonObject.get("images");
+        JSONObject image = (JSONObject) images.get(0);
+        String imgURL = (String) image.get("url");
+        boolean is_plant = (boolean) jsonObject.get("is_plant");
+        JSONArray suggestions = (JSONArray) jsonObject.get("suggestions");
+        System.out.println(1);
+        JSONObject suggestion = (JSONObject) suggestions.get(0);
+        String name = (String) suggestion.get("plant_name");
+        double probability = (double) suggestion.get("probability");
+        JSONArray similar_images = (JSONArray) suggestion.get("similar_images");
+        System.out.println(4);
+        JSONObject similar_image = (JSONObject) similar_images.get(0);
+        String similar_img = (String) similar_image.get("url");
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+
+        System.out.println(user.getNickname());
+        Archive archive = new Archive().builder()
+                .imgURL(imgURL)
+                .userNickname(user.getNickname())
+                .isPlant(is_plant)
+                .probability(probability)
+                .suggestionPlantNm(name)
+                .suggestionImg(similar_img)
+                .build();
+
+        archiveRepository.save(archive);
     }
 }
