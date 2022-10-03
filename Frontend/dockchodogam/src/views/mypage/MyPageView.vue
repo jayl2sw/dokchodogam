@@ -100,6 +100,13 @@
     @closeChangeDokcho="closeChangeDokcho"
     :showChangeDokchoMenu="showChangeDokchoMenu"
   />
+  <footer>
+    <p>
+      <!-- 쾌락과 독초 <br />
+      서상균 김성빈 박지현 오하민 이재준 최지원 <br /> -->
+      © 2022. 쾌락과 독초 All rights reserved
+    </p>
+  </footer>
 </template>
 
 <script>
@@ -294,9 +301,23 @@ button {
   display: flex;
   justify-content: space-between;
   width: 80vw;
-  height: 80vh;
+  height: 75vh;
+  /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
+  /* padding-bottom: 10%; */
+}
+
+footer {
+  height: 10%;
+  padding-top: 2%;
+  position: relative;
+  transform: translateY(-10%);
+  text-align: center;
+}
+
+footer p {
+  color: #989797;
 }
 .mypage__left {
   height: 100%;
