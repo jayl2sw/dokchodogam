@@ -6,32 +6,47 @@
         <div class="backBtn" @click="this.onClickBack()">뒤로가기</div>
       </div>
       <div class="plantText">
-        <h1>{{ this.data.name }}</h1>
-        <p>{{ this.data.engNm }}</p>
+        <h1 class="TITLE">{{ this.data.name }}</h1>
+        <span class="TITLE">{{ this.data.engNm }}</span>
       </div>
       <div class="plantInfo">
         <img :src="this.data.imgUrl" alt="" class="plantImage" />
         <div class="plantDetail__container">
           <div class="plantDetail">
-            <p v-if="this.data.familyKorNm">
-              과 : {{ this.data.familyKorNm }} / {{ this.data.familyNm }}
+            <span v-if="this.data.familyKorNm">
+              {{ this.data.familyKorNm }} ({{ this.data.familyNm }})
+            </span>
+            <span v-if="this.data.genusKorNm">
+              {{ this.data.genusKorNm }} ({{ this.data.genusNm }})
+            </span>
+            <p></p>
+            <p v-if="this.data.dstrb">
+              <span class="detail__subheading">어디서 자라나요? </span
+              >{{ this.data.dstrb }}
             </p>
-            <p v-if="this.data.genusKorNm">
-              속 : {{ this.data.genusKorNm }} / {{ this.data.genusNm }}
+            <p v-if="this.data.flwrDesc">
+              <span class="detail__subheading">꽃 🌸 : </span
+              >{{ this.data.flwrDesc }}
             </p>
-            <p v-if="this.data.dstrb">분포지 : {{ this.data.dstrb }}</p>
-            <p v-if="this.data.flwrDesc">꽃 정보 : {{ this.data.flwrDesc }}</p>
-            <p v-if="this.data.leafDesc">잎 정보 : {{ this.data.leafDesc }}</p>
+            <p v-if="this.data.leafDesc">
+              <span class="detail__subheading">잎 🍀 : </span
+              >{{ this.data.leafDesc }}
+            </p>
             <p v-if="this.data.stemDesc">
-              줄기 정보 : {{ this.data.stemDesc }}
+              <span class="detail__subheading">줄기 🌿 : </span
+              >{{ this.data.stemDesc }}
             </p>
             <p v-if="this.data.fritDesc">
-              열매 정보 : {{ this.data.fritDesc }}
+              <span class="detail__subheading">열매 🍊 : </span
+              >{{ this.data.fritDesc }}
             </p>
             <p v-if="this.data.rootDesc">
-              뿌리 정보 : {{ this.data.rootDesc }}
+              <span class="detail__subheading">뿌리 🥔: </span
+              >{{ this.data.rootDesc }}
             </p>
-            <p>출처 : {{ this.data.cprtCtnt }}</p>
+            <p style="color: gray; font-size: small; text-align: center">
+              {{ this.data.cprtCtnt }}
+            </p>
           </div>
         </div>
       </div>
@@ -109,7 +124,7 @@ export default {
 }
 .backBtn {
   border-radius: 20px;
-  width: 20vw;
+  width: 20vmin;
   height: 4vh;
   margin: 0 5vw 1vh;
   display: flex;
@@ -159,8 +174,13 @@ export default {
   height: 40vh;
   padding: 2vh 1vw;
 }
-.plantDetail > p {
-  font-size: 15px;
+.plantDetail > span {
+  font-size: 17px;
+  font-weight: bolder;
+}
+
+.detail__subheading {
+  font-weight: bolder;
 }
 @media screen and (max-width: 850px) {
   .resultBox {
