@@ -94,12 +94,13 @@ export default {
       monsterDetail: {},
       monsterType: '',
       monterGrade: '',
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
-  computed: {
-    ...mapGetters(['userInfo'])
-  },
+  // computed: {
+  //   ...mapGetters(['userInfo'])
+  // },
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
