@@ -156,9 +156,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* margin-top: 7vh; */
-  height: 90vh;
-  background-image: url('@/assets/dogam_background.jpg');
+  margin-top: 7vh;
+  /* height: 90vh;
+  background-image: url('@/assets/dogam_background.jpg'); */
 }
 .result__body {
   display: flex;
