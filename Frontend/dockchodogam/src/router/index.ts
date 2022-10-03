@@ -229,7 +229,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'arenaInGame',
     component: () =>
       import(
-        /* webpackChunkName: "arena" */ '../views/game/ArenaInGameView.vue'
+        /* webpackChunkName: "ingame" */ '../views/game/ArenaInGameView.vue'
+      )
+  },
+  {
+    path: '/game/arena/chinsunGame',
+    name: 'arenaChinsunGame',
+    component: () =>
+      import(
+        /* webpackChunkName: "ingame" */ '../views/game/ArenaChinsunInGameView.vue'
       )
   },
   // 덱 수정
