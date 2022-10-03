@@ -52,10 +52,9 @@ public class GameController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = MonsterInfoResponseDto.class)
     })
-    public ResponseEntity<?> getMyMonsters(Pageable pageable){
+    public ResponseEntity<?> getMyMonsters(){
         Long userId = userService.getMyInfo().getUser_id();
-        Slice<MonsterInfoResponseDto> list = gameService.getMyMonsterList(userId, pageable);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(gameService.getMyMonsterList(userId), HttpStatus.OK);
     }
 
     @GetMapping("/monster/detail/{monster_id}")
