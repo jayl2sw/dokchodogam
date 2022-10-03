@@ -11,6 +11,7 @@ import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
 import com.ssafy.dockchodogam.dto.game.RankerProfileResponseDto;
 import com.ssafy.dockchodogam.dto.user.UserResponseDto;
 import com.ssafy.dockchodogam.repository.*;
+import com.ssafy.dockchodogam.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,8 +45,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Page<MonsterInfoResponseDto> getMyMonsterList(Long userId, Pageable pageable) {
-        return userMonsterRepository.findUserMonsterByUserUserId(userId, pageable).map(s -> MonsterInfoResponseDto.of(s.getMonster()));
+    public List<MonsterInfoResponseDto> getMyMonsterList(Long userId) {
+        return userMonsterRepository.findUserMonstersByUserUserIdOrderByMonsterGradeDesc(userId).stream().map(s -> MonsterInfoResponseDto.of(s.getMonster())).collect(Collectors.toList());
     }
 
     @Override
@@ -105,6 +106,11 @@ public class GameServiceImpl implements GameService {
     public List<RankerProfileResponseDto> getTop5() {
         return userRepository.findRanker()
                 .stream().map(s -> RankerProfileResponseDto.of(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<RankerProfileResponseDto> getRanker(Pageable pageable) {
+        return userRepository.findUsersByOrderByRankPointDesc(pageable).map(s -> RankerProfileResponseDto.of(s));
     }
 
     @Override
@@ -178,6 +184,12 @@ public class GameServiceImpl implements GameService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
         userMonsterRepository.save(UserMonster.builder().user(user).monster(monster).build());
+    }
+
+    @Override
+    public void setFirstFinder(Plant plant) {
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        plant.getMonster().setFirstFinder(user.getNickname());
     }
 
 }

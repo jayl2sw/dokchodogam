@@ -30,4 +30,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(nativeQuery = true, value = "select * from users u order by u.rank_point desc limit 3")
     List<User> findRanker();
 
+    Page<User> findUsersByOrderByRankPointDesc(Pageable pageable);
+
 }

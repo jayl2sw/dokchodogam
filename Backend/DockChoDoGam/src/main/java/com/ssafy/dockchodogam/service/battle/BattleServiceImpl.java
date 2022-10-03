@@ -7,7 +7,8 @@ import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
 import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
-import com.ssafy.dockchodogam.dto.gg.WinRateDto;
+import com.ssafy.dockchodogam.dto.gg.PickRate;
+import com.ssafy.dockchodogam.dto.gg.WinRate;
 import com.ssafy.dockchodogam.repository.BattleLogRepository;
 import com.ssafy.dockchodogam.repository.BattleRepository;
 import com.ssafy.dockchodogam.repository.MonsterRepository;
@@ -112,82 +113,45 @@ public class BattleServiceImpl implements BattleService {
     }
 
     @Override
-    public WinRateDto getWinRate(){
+    public WinRate getWinRate(){
         Long myId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
-        int attackCnt = battleRepository.findAttackCountByUser(myId);
-        int attackSuccess = battleRepository.findAttackSuccessCountByUser(myId);
-        int defenceCnt = battleRepository.findDefenceCountByUser(myId);
-        int defenceSuccess = battleRepository.findDefenceSuccessCountByUser(myId);
-        int totalCnt = attackCnt + defenceCnt;
-        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
-
-        return WinRateDto.builder()
-                .totalGames(totalCnt)
-                .attackCnt(attackCnt)
-                .winAttack(attackSuccess)
-                .defenceCnt(defenceCnt)
-                .winDefence(defenceSuccess)
-                .winRate(winRate)
-                .build();
+        return battleRepository.findWinRateByUser(myId);
     }
 
     @Override
-    public WinRateDto getWinRate(String nickname){
+    public WinRate getWinRate(String nickname){
         Long myId = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new).getUserId();
-        int attackCnt = battleRepository.findAttackCountByUser(myId);
-        int attackSuccess = battleRepository.findAttackSuccessCountByUser(myId);
-        int defenceCnt = battleRepository.findDefenceCountByUser(myId);
-        int defenceSuccess = battleRepository.findDefenceSuccessCountByUser(myId);
-        int totalCnt = attackCnt + defenceCnt;
-        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
-
-        return WinRateDto.builder()
-                .totalGames(totalCnt)
-                .attackCnt(attackCnt)
-                .winAttack(attackSuccess)
-                .defenceCnt(defenceCnt)
-                .winDefence(defenceSuccess)
-                .winRate(winRate)
-                .build();
+        return battleRepository.findWinRateByUser(myId);
     }
 
     @Override
-    public WinRateDto getTotalWinRate(Long monsterId){
-        int attackCnt = battleRepository.findAttackCountByMonster(monsterId);
-        int attackSuccess = battleRepository.findAttackSuccessCountByMonster(monsterId);
-        int defenceCnt = battleRepository.findDefenceCountByMonster(monsterId);
-        int defenceSuccess = battleRepository.findDefenceSuccessCountByMonster(monsterId);
-        int totalCnt = attackCnt + defenceCnt;
-        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
-
-        return WinRateDto.builder()
-                .totalGames(totalCnt)
-                .attackCnt(attackCnt)
-                .winAttack(attackSuccess)
-                .defenceCnt(defenceCnt)
-                .winDefence(defenceSuccess)
-                .winRate(winRate)
-                .build();
+    public WinRate getTotalWinRate(Long monsterId){
+        return battleRepository.findWinRateByMonster(monsterId);
     }
 
     @Override
-    public WinRateDto getWinRate(Long monsterId){
+    public WinRate getWinRate(Long monsterId){
         Long myId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
 
-        int attackCnt = battleRepository.findAttackCountByMonsterAndUser(monsterId, myId);
-        int attackSuccess = battleRepository.findAttackSuccessCountByMonsterAndUser(monsterId, myId);
-        int defenceCnt = battleRepository.findDefenceCountByMonsterAndUser(monsterId, myId);
-        int defenceSuccess = battleRepository.findDefenceSuccessCountByMonsterAndUser(monsterId, myId);
-        int totalCnt = attackCnt + defenceCnt;
-        double winRate = (double) (attackSuccess + defenceSuccess) / (double) totalCnt;
+        return battleRepository.findWinRateByMonsterAndUser(monsterId, myId);
+    }
 
-        return WinRateDto.builder()
-                .totalGames(totalCnt)
-                .attackCnt(attackCnt)
-                .winAttack(attackSuccess)
-                .defenceCnt(defenceCnt)
-                .winDefence(defenceSuccess)
-                .winRate(winRate)
-                .build();
+    @Override
+    public List<PickRate> getPickRate() {
+        Long userId = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new).getUserId();
+
+        return battleRepository.findPickRateByUser(userId);
+    }
+
+    @Override
+    public List<PickRate> getPickRate(String nickname) {
+        Long userId = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new).getUserId();
+
+        return battleRepository.findPickRateByUser(userId);
+    }
+
+    @Override
+    public List<WinRate> getMonsterRanking() {
+        return battleRepository.findWinRateRanking();
     }
 }

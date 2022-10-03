@@ -49,11 +49,31 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkUsername(String username){
+        Optional<User> entity = userRepository.findByUsername(username);
+
+        return entity.isPresent();
+    }
+
+    @Override
     public boolean checkNickName(String nickname) {
         // 이미 있으면 true, 없으면 false
         Optional<User> entity = userRepository.findByNickname(nickname);
 
         return entity.isPresent();
+    }
+
+    @Override
+    public boolean checkPW(Long id, String nowPW){
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getPassword() == nowPW;
+    }
+
+    @Override
+    public boolean checkSameUser(String email, String username){
+        Long emailId = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new).getUserId();
+        Long nameId = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new).getUserId();
+
+        return emailId == nameId;
     }
 
     @Override

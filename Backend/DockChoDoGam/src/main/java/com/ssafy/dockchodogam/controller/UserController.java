@@ -35,6 +35,12 @@ public class UserController {
         return new ResponseEntity<>(userService.checkNickName(nickname), HttpStatus.OK);
     }
 
+    @GetMapping("/auth/check/username/{username}")
+    @ApiOperation(value = "아이디 중복 검사")
+    public ResponseEntity<Boolean> checkUsername(@PathVariable String username){
+        return new ResponseEntity<>(userService.checkUsername(username), HttpStatus.OK);
+    }
+
     @GetMapping("/auth/check/email/{email}")
     @ApiOperation(value = "이메일 중복 검사")
     public ResponseEntity<Boolean> checkEmail(@PathVariable String email){
@@ -91,6 +97,9 @@ public class UserController {
             throw new InvalidParameterException(result);
         }
         Long id = userService.getMyInfo().getUser_id();
+        if(!userService.checkPW(id, passwordEncoder.encode(dto.getNowPW()))){
+            throw new RuntimeException("비밀번호가 다릅니다.");
+        }
         userService.changePW(id, passwordEncoder.encode(dto.getNewPW()));
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -112,10 +121,17 @@ public class UserController {
 
     @PutMapping("/auth/findpw")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPW(@RequestParam String email){
+    public ResponseEntity<String> findPW(@RequestBody FindPasswordDto dto){
+        String email = dto.getEmail();
+        String username = dto.getUsername();
+
         try {
             if(!userService.checkEmail(email)){
                 throw new UserNotFoundException();
+            }
+
+            if(!userService.checkSameUser(email, username)){
+                throw new RuntimeException("이메일과 아이디가 일치하지 않습니다.");
             }
 
             String newPW = mailService.sendSimpleMessage(email);
