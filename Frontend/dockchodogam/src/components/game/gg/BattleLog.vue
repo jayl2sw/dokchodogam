@@ -47,8 +47,8 @@
           :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
           alt=""
         />
-        <div class="itemName"></div>
-        <div class="itemPer">픽률 : {{ item.pickRate }}</div>
+        <div class="itemName">{{ item.monsterName }}</div>
+        <div class="itemPer">픽률 : {{ item.pickRate }} %</div>
       </div>
     </div>
     <div class="infoText TITLE">역대 전적</div>
@@ -367,6 +367,9 @@ export default {
   .infoText {
     font-size: 5vw;
   }
+  .myChoiceDokcho {
+    width: 90vw;
+  }
   .battleLogItem {
     width: 90vw;
   }
@@ -398,6 +401,17 @@ export default {
   }
   .profile {
     height: 40vh;
+  }
+  .myChoiceDokcho {
+    height: 40vh;
+  }
+  .myChoiceDokchoItem {
+    width: 10vw;
+    height: 30vh;
+  }
+  .itemImage {
+    width: 9vw;
+    height: 9vw;
   }
 }
 ::-webkit-scrollbar {
