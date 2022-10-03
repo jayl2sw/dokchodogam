@@ -5,6 +5,7 @@ import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import com.ssafy.dockchodogam.service.dokcho.DokchoService;
+import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class DokchoController {
 
     private final DokchoService dokchoService;
+    private final GameService gameService;
 
     @GetMapping("/test")
     public ResponseEntity<Map<String, Object>> test() {
@@ -110,6 +112,7 @@ public class DokchoController {
         PlantDetailDto plantDto = new PlantDetailDto().from(plant);
         res.put("plant", plantDto);
 
+
         boolean onDogam = false;
         boolean isOverlapped = false;
         boolean isDokcho = false;
@@ -119,6 +122,10 @@ public class DokchoController {
             isOverlapped = dokchoService.checkUserDogam(plant.getMonster().getMonsterId());
             if (!isOverlapped) {
                 dokchoService.addFoundMonster(plant.getMonster());
+            }
+
+            if (plant.getMonster().getFirstFinder()==null) {
+                gameService.setFirstFinder(plant);
             }
 
             if (plant.getMonster().getType().toString() == "DOKCHO") {
