@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.service.game;
 
 
 import com.ssafy.dockchodogam.domain.Item;
+import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
 import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
@@ -42,6 +43,8 @@ public interface GameService {
     void chargeCash(Long userId, int cash);
     // 로그인 유저 몬스터 추가
     void addMonster(Long userId, Long monsterId);
+    // 최초 발견자 업데이트
+    void setFirstFinder(Plant plant);
     // 로그인 유저 보유 독초몬 수정
     // 로그인 유저 게임 정보 조회
 
