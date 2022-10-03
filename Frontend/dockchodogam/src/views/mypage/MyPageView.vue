@@ -296,6 +296,7 @@ button {
 .change__dockcho {
   background-color: #a7c957;
   transition: 0.3s;
+  width: 14vw;
 }
 .change__dockcho:hover {
   background-color: #467302;
@@ -331,7 +332,8 @@ button {
   margin-bottom: 3vh;
 }
 .myProfile__contents {
-  font-size: 1.5vw;
+  word-break: keep-all;
+  font-size: 1vw;
   line-height: 4vh;
 }
 .emphasize {
@@ -363,7 +365,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 25vh;
+  height: 35vh;
   transition: 0.6s;
 }
 .changePw__inputs {
@@ -378,6 +380,10 @@ button {
   padding: 1vh 1vw;
   border: 3px solid white;
   border-radius: 20px;
+}
+.changePw__inputs > span {
+  margin: 1vh 3vw;
+  font-size: 1vw;
 }
 .changePw__inputs input:focus {
   outline: none;
@@ -466,6 +472,16 @@ button {
   .quit__btn {
     width: 20vw;
     font-size: 3vw;
+  }
+  .changePw__form {
+    height: 30vh;
+  }
+  .changePw__inputs > span {
+    margin: 1vh 3vw;
+    font-size: 2.5vw;
+  }
+  .displayNone {
+    height: 0;
   }
   .changePw__inputs input {
     height: 5vh;

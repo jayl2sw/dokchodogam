@@ -9,7 +9,13 @@
       card__special: monsterGacha[0].grade == 'SPECIAL'
     }"
   >
-    <div class="gacha__header">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
+    <div class="gacha__header dpNone">
       <h3 class="TITLE">
         🎉 축하합니다!
         <span class="TITLE">{{ monsterGacha[0].name }}몬</span>
@@ -20,21 +26,21 @@
         이미 획득한 몬스터입니다 🤟 10냥을 돌려드릴게요!
       </p>
     </div>
-    <div class="gacha__body">
+    <div class="gacha__body dpNone">
       <div class="bubble">
         <p v-if="monsterGacha[0].line !== null">
           " {{ monsterGacha[0].line }} "
         </p>
       </div>
       <img
-        class="gacha__img"
+        class="gacha__img dpNone"
         :src="this.imageBaseUrl + '/' + monsterGacha[0].monsterId + '.png'"
       />
 
       <!-- <img src="@/assets/speech.png" /> -->
     </div>
 
-    <div class="gacha__footer">
+    <div class="gacha__footer dpNone">
       <div class="buttons">
         <button class="btn" @click="goToDogam">도감에서 확인하기</button>
         <button class="btn" @click="goToGameShop">상점으로 돌아가기</button>
@@ -238,5 +244,37 @@ export default {
 }
 .card__special {
   background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+@media only screen and (orientation: portrait) {
+  .gacha {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .dpNone {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+  .danger {
+    font-size: 7vw;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 1vw;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
+  }
 }
 </style>
