@@ -93,14 +93,14 @@ export default {
     },
     getMyDokcho() {
       axios
-        .get(BASE_URL + '/api/v1/game/monster/mylist?size=100', {
+        .get(BASE_URL + '/api/v1/game/monster/mylist', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
-          console.log(res.data)
-          res.data.content.forEach((element) => {
+          console.log('데이터', res.data)
+          res.data.forEach((element) => {
             let tmpBool = false
             this.myDeck.forEach((el) => {
               if (el.monsterId === element.monsterId) {

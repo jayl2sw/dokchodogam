@@ -260,7 +260,7 @@ button {
   height: 4vh;
   border-radius: 50px;
   border: none;
-  width: 10vw;
+  width: 12vw;
   margin: 0 auto;
 }
 .mypage {
