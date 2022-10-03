@@ -28,7 +28,7 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
             " order by created_date desc")
     Page<Battle> findBattlesByUserAndMonster(Pageable pageable, @Param("user") Long user, @Param("monster") Long monster);
 
-    @Query(nativeQuery = true, value = "select m.monster_id as monsterId, count(*) as pickCount, (select count(*) from battle where user_id1 = :user) as totalGame, count(*) / (select count(*) from battle where user_id1 = :user) as pickRate " +
+    @Query(nativeQuery = true, value = "select m.monster_id as monsterId, m.name as monsterName, count(*) as pickCount, (select count(*) from battle where user_id1 = :user) as totalGame, count(*) * 100 / (select count(*) from battle where user_id1 = :user) as pickRate " +
             "from battle b join monster m " +
             "on b.monster_id0 = m.monster_id or b.monster_id1 = m.monster_id or b.monster_id2 = m.monster_id or b.monster_id3 = m.monster_id or b.monster_id4 = m.monster_id " +
             "where b.user_id1 = :user " +
