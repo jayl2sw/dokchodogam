@@ -458,4 +458,11 @@ export default {
 .card__hidden {
   box-shadow: 0 0 8px #c493ff;
 }
+svg {
+  cursor: pointer;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #467302;
+}
 </style>

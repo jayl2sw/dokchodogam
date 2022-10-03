@@ -79,7 +79,7 @@ export default {
       this.fetchEnemyInfo(info)
       console.log('상대 덱 저장?', info)
       setTimeout(() => {
-        this.$router.push({ path: '/game/arena/ingame' })
+        this.$router.push({ path: '/game/arena/chinsunGame' })
       }, 200)
     }
   }

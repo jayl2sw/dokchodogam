@@ -5,7 +5,7 @@
       alt="왜 안불러와져요"
       class="loading__image"
     />
-    <div class="loading__text">{{ this.text[this.random - 1] }}</div>
+    <div class="loading__text TITLE">{{ this.text[this.random - 1] }}</div>
   </div>
 </template>
 

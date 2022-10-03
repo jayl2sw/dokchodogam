@@ -107,13 +107,15 @@ export default {
 .cash__header {
   text-align: center;
   margin-top: 5vh;
+}
+.cash__header h3 {
   margin-bottom: 1vmin;
 }
 .cash__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 30vh;
+  height: 40vh;
 }
 .cash__img {
   /* margin-top: 5; */
@@ -123,7 +125,6 @@ export default {
 }
 
 .cash__footer {
-  margin-top: 2.5vh;
   display: flex;
   justify-content: center;
 }
@@ -147,5 +148,29 @@ export default {
   background-position: right center;
   background-color: #467302;
   color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 2vw;
+  }
+  .btn > .TITLE {
+    font-size: 2vw;
+  }
+  .btn {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cash__img {
+    width: 15vw;
+  }
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 </style>

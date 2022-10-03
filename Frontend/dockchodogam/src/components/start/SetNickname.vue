@@ -29,6 +29,7 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import { mapActions } from 'vuex'
 import swal from 'sweetalert'
 
 var nicknameCheck = /^[가-힣a-zA-Z0-9]{1,4}$/
@@ -41,6 +42,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchnowUserInfo']),
     isNicknameDuplicate() {
       if (!nicknameCheck.test(this.nickname)) {
         swal({
@@ -109,6 +111,7 @@ export default {
             option
           )
           .then((res) => {
+            this.fetchnowUserInfo()
             console.log(res)
             swal({
               title: this.nickname + '님, 환영합니다!🥰',

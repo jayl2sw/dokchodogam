@@ -167,4 +167,14 @@ export default {
   display: block;
   z-index: 9999;
 }
+@media screen and (max-width: 850px) {
+  .intro__btn {
+    font-size: 5vw;
+    left: 20vw;
+    bottom: 30vh;
+  }
+  .goToMainBtn {
+    width: 40vw;
+  }
+}
 </style>
