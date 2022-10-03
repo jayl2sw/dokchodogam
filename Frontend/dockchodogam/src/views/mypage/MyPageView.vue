@@ -109,6 +109,16 @@ import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions } from 'vuex'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
 
@@ -204,32 +214,47 @@ export default {
       }
     },
     deleteUser() {
-      if (confirm('정말 탈퇴하시겠어요? 독초도감을 완성하지 못했는데..😥')) {
-        axios
-          .delete(BASE_URL + '/api/v1/user/', {
-            headers: {
-              'Content-type': 'application/json',
-              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+      swalWithBootstrapButtons
+        .fire({
+          title: '허준의 제자를 그만두시겠어요?',
+          text: `풀깨비들이 ${this.userInfo.nickname}님을 많이 좋아하는데...😥`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            this.fetchDeleteUser()
+          }
+        })
+    },
+    fetchDeleteUser() {
+      axios
+        .delete(BASE_URL + '/api/v1/user/', {
+          headers: {
+            'Content-type': 'application/json',
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          swal({
+            title: '탈퇴가 완료되었어요😭',
+            icon: 'success',
+            text: '언제든지 돌아오세요!',
+            buttons: false,
+            timer: 1500
           })
-          .then((res) => {
-            console.log(res)
-            swal({
-              title: '탈퇴가 완료되었어요!😭',
-              icon: 'success',
-              text: '독초도감은 기억할것입니다.',
-              buttons: false,
-              timer: 1500
-            })
-            localStorage.clear()
-            this.$router.push({
-              path: '/'
-            })
+          localStorage.clear()
+          this.$router.push({
+            path: '/'
           })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   watch: {
