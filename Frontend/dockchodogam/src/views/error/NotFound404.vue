@@ -3,14 +3,16 @@
     <div class="page404">
       <div class="page404__top">
         <div class="page404__text">
-          <h1>404</h1>
-          <h3>길을 잘못 드셨습니다.</h3>
+          <h1 class="TITLE">404</h1>
+          <h3 class="TITLE">길을 잘못 드셨습니다.</h3>
         </div>
         <img src="@/assets/404Image.png" alt="" class="page404__image" />
       </div>
       <div class="page404__bottom">
-        <div class="backBtn" @click="goToBack()">뒤로가기</div>
-        <div class="mainBtn" @click="goToMain()">메인 페이지로 돌아가기</div>
+        <div class="backBtn TITLE" @click="goToBack()">뒤로가기</div>
+        <div class="mainBtn TITLE" @click="goToMain()">
+          메인 페이지로 돌아가기
+        </div>
       </div>
     </div>
   </div>
