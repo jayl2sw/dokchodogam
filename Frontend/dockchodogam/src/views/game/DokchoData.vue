@@ -64,7 +64,13 @@
         </div>
         <div class="logNickname">{{ item.defender }}</div>
       </div>
-      <InfiniteLoading @infinite="load" />
+      <InfiniteLoading
+        @infinite="load"
+        :slots="{
+          complete: '더 이상 결과가 없어요..',
+          error: '무언가 잘못되었어요!'
+        }"
+      />
       <div class="block"></div>
     </div>
   </div>
