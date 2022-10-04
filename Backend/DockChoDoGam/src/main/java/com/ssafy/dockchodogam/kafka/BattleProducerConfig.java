@@ -13,7 +13,7 @@ import java.util.Map;
 @Configuration
 public class BattleProducerConfig {
 
-    @Value("localhost:9092")
+    @Value("localhost:29092")
     private String bootstrapServer;
 
     @Bean
