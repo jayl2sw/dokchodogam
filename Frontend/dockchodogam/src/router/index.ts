@@ -277,6 +277,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "gg" */ '../views/game/DokchoData.vue')
   },
+  // 갤러리
+  {
+    path: '/gallery',
+    name: 'gallery',
+    component: () =>
+      import(
+        /* webpackChunkName: "gallery" */ '../views/gallery/GalleryView.vue'
+      )
+  },
   // 어드민
   {
     path: '/admin',
