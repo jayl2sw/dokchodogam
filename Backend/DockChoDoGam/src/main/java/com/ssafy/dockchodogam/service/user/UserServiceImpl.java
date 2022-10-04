@@ -65,7 +65,16 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean checkPW(Long id, String nowPW){
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getPassword() == nowPW;
+        String username = userRepository.findById(id).orElseThrow(UserNotFoundException::new).getUsername();
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, nowPW);
+
+        Authentication authentication = authenticationManagerBuilder.getObject()
+                .authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return true;
     }
 
     @Override

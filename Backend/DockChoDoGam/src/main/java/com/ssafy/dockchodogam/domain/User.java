@@ -61,6 +61,12 @@ public class User extends BaseTime {
     private List<Friend> friendA;
     @OneToMany(mappedBy = "userB", cascade = CascadeType.ALL)
     private List<Friend> friendB;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Propose> proposeA;
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private List<Propose> proposeB;
+
     public void update(UpdateUserRequestDto requestDto){
         this.email = requestDto.getEmail();
         this.nickname = requestDto.getNickname();
