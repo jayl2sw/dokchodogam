@@ -354,12 +354,15 @@ export default {
 
 .container .card .contentBx .title {
   position: relative;
-  /* font-weight: 600; */
-  font-size: 1.3em;
+  font-weight: 500;
+  font-size: 1.2em;
   color: #000000;
   margin-bottom: 1vw;
 }
 
+/* .container .card .contentBx .contentBx__name {
+
+} */
 .container .card .contentBx p {
   /* position: relative; */
   font-weight: 500;
