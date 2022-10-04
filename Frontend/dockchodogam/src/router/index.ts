@@ -52,6 +52,7 @@ const doRefreshToken = async function doRefreshToken() {
         console.log('accessToken : ', result.data.accessToken)
         console.log('refreshToken : ', result.data.refreshToken)
         axios.defaults.headers.common.AUTHORIZATION = result.data.accessToken
+        location.reload()
       } else {
         console.log('다시 로그인 하셈')
         // let err = new Error("Request failed with status code 401");
@@ -61,6 +62,7 @@ const doRefreshToken = async function doRefreshToken() {
       }
     } catch (err) {
       console.log('다시 로그인 하셈')
+      console.log(err)
       // if (!err.response) {
       // err.response = {data:{"success":false, "errormessage":err.message}};
       // }
