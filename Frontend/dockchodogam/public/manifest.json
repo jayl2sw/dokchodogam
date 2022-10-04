@@ -2,8 +2,8 @@
   "theme_color": "#3eaf7c",
   "background_color": "#3eaf7c",
   "display": "standalone",
-  "scope": "https://j7e201.p.ssafy.io/",
-  "start_url": "https://j7e201.p.ssafy.io/",
+  "scope": "/",
+  "start_url": "/",
   "name": "DOKCHO",
   "short_name": "DOKCHO",
   "icons": [
