@@ -2,20 +2,26 @@
   <NavBar @overflow="overflow" />
   <div class="gallery" :class="this.showMenu ? 'open-menu' : ''">
     <div class="gallery__top TITLE">{{ this.userInfo.nickname }}의 갤러리</div>
-    <div class="gallery__main">
-      <div
-        class="galleryItem"
-        :class="item.plant ? 'plantTrue' : ''"
-        v-for="(item, i) in this.userGallery"
-        :key="i"
-      >
-        {{ item.picturedTime }}
-        <img :src="item.imgURL" alt="" class="galleryImage front" />
-        <img :src="item.suggestionImg" alt="" class="galleryImage back" />
-        <div v-if="item.plant">
-          {{ item.suggestionPlantNm }}
+    <div class="container">
+      <div class="row">
+        <div
+          class="col"
+          :class="item.plant ? 'plantTrue' : ''"
+          v-for="(item, i) in this.userGallery"
+          :key="i"
+        >
+          <div class="galleryItem">
+            <img :src="item.imgURL" alt="" class="galleryImage front" />
+            <img :src="item.suggestionImg" alt="" class="galleryImage back" />
+            <div class="galleryItemText TITLE">
+              {{ item.picturedTime }}
+              <div v-if="item.plant">
+                {{ item.suggestionPlantNm }}
+              </div>
+              <div v-else>null</div>
+            </div>
+          </div>
         </div>
-        <div v-else>null</div>
       </div>
     </div>
     <InfiniteLoading
@@ -98,42 +104,47 @@ export default {
   background-image: url('@/assets/hanji.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 13vh;
 }
 .gallery__top {
-  height: 10vh;
+  margin-top: 100px;
+  min-height: 70px;
+  font-size: 30px;
 }
 .gallery__main {
-  width: 80vw;
+  display: grid;
+}
+.col {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
 }
 .galleryItem {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 20vw;
-  height: 26vw;
-  margin: 3vw;
-  perspective: 80vw;
-  background-color: #ececec;
+  box-shadow: 0 0 8px black;
+  width: 200px;
+  height: 270px;
+  margin-bottom: 30px;
+  perspective: 1000px;
+  background-color: white;
 }
 .galleryImage {
-  max-height: 19vw;
-  max-width: 19vw;
-  border-radius: 5px;
+  height: 180px;
+  width: 180px;
+  margin: 15px 10px;
   object-fit: contain;
   backface-visibility: hidden;
   transition: 1s;
+}
+.galleryItemText {
+  height: 60px;
 }
 .plantTrue {
   cursor: pointer;
 }
 .front {
+  top: 0;
   position: absolute;
   transform: rotateY(0deg);
 }
@@ -156,16 +167,16 @@ export default {
     height: 100%;
     position: fixed;
   }
-  .galleryItem {
+  /* .galleryItem {
     width: 30vw;
     height: 38vw;
   }
   .galleryImage {
     max-width: 28vw;
     max-height: 28vw;
-  }
+  } */
 }
-@media screen and (max-width: 450px) {
+/* @media screen and (max-width: 450px) {
   .open-menu {
     overflow: hidden;
     width: 100%;
@@ -180,10 +191,10 @@ export default {
     max-width: 55vw;
     max-height: 55vw;
   }
-}
-@media screen and (max-height: 450px) {
+} */
+/* @media screen and (max-height: 450px) {
   .gallery {
     padding-top: 23vh;
   }
-}
+} */
 </style>
