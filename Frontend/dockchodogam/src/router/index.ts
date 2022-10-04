@@ -102,6 +102,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/SignUpView.vue'
       )
   },
+  // 카카오로그인 약관동의
+  {
+    path: '/kakaologinagreement',
+    name: 'kakaologinagreement',
+    component: () =>
+      import(
+        /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/KakaoLoginAgreementView.vue'
+      )
+  },
   // 인트로
   {
     path: '/intro',
@@ -313,7 +322,8 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/signup' ||
     to.path === '/findpassword' ||
     to.path === '/oauth' ||
-    to.path === '/oauth2/authorization/kakao'
+    to.path === '/oauth2/authorization/kakao' ||
+    to.path === '/kakaologinagreement'
   ) {
     next()
   } else if (token) {

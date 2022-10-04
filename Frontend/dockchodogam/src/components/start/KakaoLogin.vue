@@ -28,9 +28,10 @@ export default {
           .then((res) => {
             this.fetchUserInfo(res.data)
             if (res.data.newbie) {
-              this.$router.push({ name: 'setnickname' })
+              // this.$router.replace({ name: 'setnickname' })
+              this.$router.replace({ name: 'kakaologinagreement' })
             } else {
-              this.$router.push({ name: 'main' })
+              this.$router.replace({ name: 'main' })
             }
           })
         // await this.$router.push({ name: 'main' })

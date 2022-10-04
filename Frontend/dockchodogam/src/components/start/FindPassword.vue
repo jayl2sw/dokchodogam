@@ -10,7 +10,11 @@
         회원가입할 때 입력하신 이메일로 비밀번호 변경 메일을 보내드릴게요 🐯
       </div>
 
-      <input v-model="username" placeholder="아이디를 입력하세요" />
+      <input
+        @keyup.enter="findpassword()"
+        v-model="username"
+        placeholder="아이디를 입력하세요"
+      />
       <input
         @keyup.enter="findpassword()"
         v-model="email"
@@ -44,6 +48,7 @@ var emailCheck =
 export default {
   data() {
     return {
+      username: this.username,
       email: this.email
     }
   },
@@ -59,9 +64,11 @@ export default {
         })
       } else {
         await axios
-          .put(BASE_URL + '/api/v1/user/auth/findpw?email=' + this.email)
-          .then((res) => {
-            console.log(res)
+          .put(BASE_URL + '/api/v1/user/auth/findpw', {
+            email: this.email,
+            username: this.username
+          })
+          .then(() => {
             swal({
               title: '비밀번호 변경 메일을 보내드렸어요😋',
               text: '🐯',
@@ -70,8 +77,14 @@ export default {
               timer: 1500
             })
           })
-          .catch((err) => {
-            console.log(err)
+          .catch(() => {
+            swal({
+              title: '아이디나 이메일을 확인해주세요🙏',
+              text: '🐯',
+              icon: 'warning',
+              buttons: false,
+              timer: 1500
+            })
           })
       }
     },
