@@ -66,9 +66,11 @@ export default {
       if (this.nowUserInfo.money >= 100) {
         this.fetchMonsterGacha()
         // this.fetchUserInfo()
-        this.$router.replace({
-          path: '/game/shop/gacha'
-        })
+        setTimeout(() => {
+          this.$router.replace({
+            path: '/game/shop/gacha'
+          })
+        }, 1000)
       } else {
         swal({
           title: '보유하신 냥이 부족합니다 😢',

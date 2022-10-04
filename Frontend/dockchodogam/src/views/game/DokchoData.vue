@@ -116,6 +116,7 @@ export default {
       queryData: this.$route.query.query,
       isMyDokcho: false,
       allMatch: 0,
+      line_audio: '',
       myDoughnutChart: {
         type: 'doughnut',
         data: {
@@ -253,6 +254,19 @@ export default {
         this.$refs.myGraph.update(100)
         this.$refs.allGraph.update(100)
       })
+  },
+  mounted() {
+    if (this.isMyDokcho) {
+      this.line_audio = new Audio(
+        process.env.VUE_APP_S3_URL + '/' + this.dokchoInfo.monsterId + '.m4a'
+      )
+      this.line_audio.play()
+    }
+  },
+  beforeUnmount() {
+    if (this.isMyDokcho) {
+      this.line_audio.pause()
+    }
   }
 }
 </script>

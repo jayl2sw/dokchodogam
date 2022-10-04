@@ -71,7 +71,8 @@ export default {
       // newMonster: {},
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3')
+      gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3'),
+      line_audio: ''
     }
   },
   computed: {
@@ -106,6 +107,13 @@ export default {
   },
   mounted() {
     this.gotcha_audio.play()
+    this.line_audio = new Audio(
+      process.env.VUE_APP_S3_URL + '/' + this.monsterGacha[0].monsterId + '.m4a'
+    )
+    this.line_audio.play()
+  },
+  beforeUnmount() {
+    this.line_audio.pause()
   }
 }
 </script>
