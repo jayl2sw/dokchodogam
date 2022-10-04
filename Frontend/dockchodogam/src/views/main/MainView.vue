@@ -186,6 +186,7 @@ export default {
 .dockchoName h3 {
   font-weight: bold;
   color: #fff;
+  word-break: keep-all;
 }
 .easter {
   text-decoration: none;

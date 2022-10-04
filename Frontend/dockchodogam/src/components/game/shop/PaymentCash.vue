@@ -42,16 +42,25 @@ export default {
       /* 1. 가맹점 식별하기 */
       // const IMP = window.IMP
       // IMP.init('imp40805235')
+      // {
+      //   pg: 'html5_inicis',
 
+      //   merchant_uid: `mid_${new Date().getTime()}`,
+      //   amount: 100,
+      //   name: '재화충전:1,000냥',
+      //   m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
+      //   buyer_name: `${this.userInfo.username}`
+      // },
       IMP.request_pay(
         {
-          pg: 'html5_inicis', // 카카오페이
-          // pay_method: 'card', // 결제수단
-          merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-          amount: 100, // 결제금액
-          name: '재화충전:1,000냥', // 주문명
-          // m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
-          buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
+          pg: 'danal_tpay',
+          pay_method: 'card',
+          merchant_uid: `mid_${new Date().getTime()}`,
+          name: '재화충전:1,000냥',
+          amount: 100,
+          buyer_email: `${this.userInfo.email}`,
+          buyer_name: `${this.userInfo.username}`,
+          buyer_tel: '010-1234-5678'
         },
         (rsp) => {
           console.log(rsp)
@@ -107,13 +116,15 @@ export default {
 .cash__header {
   text-align: center;
   margin-top: 5vh;
+}
+.cash__header h3 {
   margin-bottom: 1vmin;
 }
 .cash__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 30vh;
+  height: 40vh;
 }
 .cash__img {
   /* margin-top: 5; */
@@ -123,7 +134,6 @@ export default {
 }
 
 .cash__footer {
-  margin-top: 2.5vh;
   display: flex;
   justify-content: center;
 }
@@ -147,5 +157,29 @@ export default {
   background-position: right center;
   background-color: #467302;
   color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 2vw;
+  }
+  .btn > .TITLE {
+    font-size: 2vw;
+  }
+  .btn {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cash__img {
+    width: 15vw;
+  }
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 </style>

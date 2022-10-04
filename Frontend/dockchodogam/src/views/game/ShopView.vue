@@ -20,18 +20,18 @@
       <div class="shop__bottom">
         <div class="shop__item">
           <!-- <p class="special__cash">특별가격!</p> -->
-          <payment-cash />
+          <PaymentCash />
         </div>
         <div class="shop__item">
-          <payment-package />
+          <PaymentPackage />
         </div>
         <div class="shop__item">
-          <monster-gacha />
+          <MonsterGacha />
         </div>
       </div>
     </div>
     <div class="shop__exit" @click="goToArenaMain()">
-      <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+      <font-awesome-icon icon="fa-solid fa-circle-xmark" />
     </div>
   </div>
 </template>
@@ -103,6 +103,25 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.shop__exit {
+  width: 4vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 4vh;
+  right: 8vw;
+  cursor: pointer;
+}
+svg {
+  width: 5vh;
+  height: 5vh;
+  color: #ffe140;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #ffef92;
+}
 .shop__boxes {
   display: flex;
   flex-direction: column;
@@ -124,20 +143,6 @@ export default {
   background-color: #f6f6f6;
   border-radius: 20px;
 }
-.shop__exit {
-  width: 30px;
-  height: 30px;
-  border: 2px groove black;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  cursor: pointer;
-}
-
 .special__cash {
   width: 50%;
   color: white;
@@ -169,21 +174,24 @@ export default {
     font-weight: bold;
     color: #467302;
   }
+  .shop__exit {
+    display: none;
+  }
 }
 @media only screen and (orientation: landscape) {
   #warning-message {
     display: none;
   }
 }
-/* @media screen and (max-width: 850px) {
-  .game__exit {
-    top: 10px;
-    right: 10px;
+@media screen and (max-width: 850px) {
+  .shop__exit {
+    top: 3vh;
+    right: 6vw;
     width: 25px;
     height: 25px;
   }
-  svg {
-    width: 10px;
+  .TITLE {
+    font-size: 3vw;
   }
-} */
+}
 </style>

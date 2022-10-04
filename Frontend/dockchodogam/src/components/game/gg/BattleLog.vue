@@ -24,11 +24,15 @@
             alt="tierImage"
             class="tierImage"
           />
-          <div class="nickname">{{ this.searchUser.nickname }}</div>
+          <div class="nickname TITLE">&nbsp;{{ this.searchUser.nickname }}</div>
         </div>
-        <div class="ranking">현재 랭킹 : {{ this.ranking }}위</div>
         <div class="ranking">
-          랭킹 포인트 : {{ this.searchUser.rank_point }}
+          현재 랭킹 : <span class="TITLE emphasize">{{ this.ranking }}</span
+          >위
+        </div>
+        <div class="ranking">
+          랭킹 포인트 :
+          <span class="TITLE emphasize">{{ this.searchUser.rank_point }}</span>
         </div>
       </div>
       <div class="chart">
@@ -47,8 +51,11 @@
           :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
           alt=""
         />
-        <div class="itemName">{{ item.monsterName }}</div>
-        <div class="itemPer">픽률 : {{ item.pickRate }} %</div>
+        <div class="itemName TITLE">{{ item.monsterName }}몬</div>
+        <div class="itemPer">
+          픽률 :
+          <span class="TITLE emphasize pickrate">{{ item.pickRate }}</span> %
+        </div>
       </div>
     </div>
     <div class="infoText TITLE">역대 전적</div>
@@ -67,7 +74,13 @@
             : 'blue'
         "
       >
-        <div class="logNickname">{{ item.attacker }}</div>
+        <div class="logNickname">
+          <p class="TITLE">{{ item.attacker }}</p>
+          <font-awesome-icon
+            :class="item.success ? 'winner__icon' : 'dpNone'"
+            icon="fa-solid fa-crown"
+          />
+        </div>
         <div class="decks">
           <div class="deck">
             <img
@@ -78,7 +91,7 @@
               alt=""
             />
           </div>
-          <div class="VS">VS</div>
+          <div class="VS TITLE">vs</div>
           <div class="deck">
             <img
               class="deckItem"
@@ -89,7 +102,13 @@
             />
           </div>
         </div>
-        <div class="logNickname">{{ item.defender }}</div>
+        <div class="logNickname">
+          <p class="TITLE">{{ item.defender }}</p>
+          <font-awesome-icon
+            :class="item.success ? 'dpNone' : 'winner__icon'"
+            icon="fa-solid fa-crown"
+          />
+        </div>
       </div>
       <InfiniteLoading
         @infinite="load"
@@ -129,12 +148,14 @@ export default {
       doughnutChart: {
         type: 'doughnut',
         data: {
-          labels: ['win', 'lose'],
+          labels: ['승리', '패배'],
           type: 'donut',
           datasets: [
             {
-              backgroundColor: ['rgb(167, 167, 244)', 'rgb(255, 161, 161)'],
-              data: [40, 20]
+              backgroundColor: ['rgb(153, 204, 255)', 'rgb(255, 161, 161)'],
+              data: [40, 20],
+              borderColor: ['rgb(0, 0, 0)'],
+              borderWidth: 4
             }
           ]
         },
@@ -245,6 +266,7 @@ export default {
 .nicknameBox {
   display: flex;
   align-items: center;
+  margin-bottom: 1vw;
 }
 .tierImage {
   width: 4vh;
@@ -253,8 +275,13 @@ export default {
 .nickname {
   font-size: 4vh;
 }
+.emphasize {
+  font-size: 3vh;
+  color: #467302;
+}
 .ranking {
   font-size: 2vh;
+  line-height: 4vh;
 }
 .chart {
   width: 25vh;
@@ -264,7 +291,7 @@ export default {
 .infoText {
   font-size: 3vw;
   height: 5vw;
-  margin: 3vh;
+  margin: 8vh 3vh 3vh;
   text-align: center;
 }
 .myChoiceDokcho {
@@ -272,13 +299,12 @@ export default {
   background-color: #a7c957;
   overflow-x: auto;
   white-space: nowrap;
-  height: 25vh;
   margin: 2vh 0;
 }
 .myChoiceDokchoItem {
   padding: 1vh 0;
   border-radius: 10px;
-  width: 10vh;
+  width: 13vh;
   height: 18vh;
   margin: 1vh;
   display: inline-flex;
@@ -292,10 +318,13 @@ export default {
   height: 9vh;
 }
 .itemName {
-  font-size: 1vh;
+  font-size: 1.3vh;
 }
 .itemPer {
   font-size: 1vh;
+}
+.pickrate {
+  font-size: 2vh;
 }
 .battleLog {
   display: flex;
@@ -303,9 +332,9 @@ export default {
   align-items: center;
 }
 .battleLogItem {
-  border-radius: 15px;
+  border-radius: 30px;
   width: 75vw;
-  height: 12vh;
+  height: 15vh;
   display: flex;
   justify-content: space-evenly;
   margin: 2vh 0;
@@ -316,6 +345,18 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+.logNickname > p {
+  z-index: 999;
+  margin-top: 3vh;
+}
+.winner__icon {
+  position: absolute;
+  width: 5vw;
+  height: 5vw;
+  color: #ffe140;
+  transform: translateY(-5%);
 }
 .decks {
   width: 65vw;
@@ -346,10 +387,13 @@ export default {
   margin: 5vh;
 }
 .red {
-  background-color: rgb(255, 161, 161);
+  background-color: rgb(255, 161, 161, 0.3);
 }
 .blue {
-  background-color: rgb(167, 167, 244);
+  background-color: rgb(153, 204, 255, 0.3);
+}
+.dpNone {
+  display: none;
 }
 @media screen and (max-width: 650px) {
   .profile {
@@ -375,6 +419,14 @@ export default {
   }
   .logNickname {
     width: 17.5vw;
+  }
+  .logNickname > p {
+    font-size: 1.3vh;
+  }
+  .winner__icon {
+    top: initial;
+    width: 6vw;
+    height: 6vw;
   }
   .VS {
     width: 10vw;

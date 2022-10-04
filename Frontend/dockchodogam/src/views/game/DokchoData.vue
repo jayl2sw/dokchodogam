@@ -40,7 +40,13 @@
             : 'blue'
         "
       >
-        <div class="logNickname">{{ item.attacker }}</div>
+        <div class="logNickname">
+          <p class="TITLE">{{ item.attacker }}</p>
+          <font-awesome-icon
+            :class="item.success ? 'winner__icon' : 'dpNone'"
+            icon="fa-solid fa-crown"
+          />
+        </div>
         <div class="decks">
           <div class="deck">
             <img
@@ -51,7 +57,7 @@
               alt=""
             />
           </div>
-          <div class="VS">VS</div>
+          <div class="VS TITLE">vs</div>
           <div class="deck">
             <img
               class="deckItem"
@@ -62,9 +68,21 @@
             />
           </div>
         </div>
-        <div class="logNickname">{{ item.defender }}</div>
+        <div class="logNickname">
+          <p class="TITLE">{{ item.defender }}</p>
+          <font-awesome-icon
+            :class="item.success ? 'dpNone' : 'winner__icon'"
+            icon="fa-solid fa-crown"
+          />
+        </div>
       </div>
-      <InfiniteLoading @infinite="load" />
+      <InfiniteLoading
+        @infinite="load"
+        :slots="{
+          complete: '더 이상 결과가 없어요..',
+          error: '무언가 잘못되었어요!'
+        }"
+      />
       <div class="block"></div>
     </div>
   </div>
@@ -101,11 +119,13 @@ export default {
       myDoughnutChart: {
         type: 'doughnut',
         data: {
-          labels: ['win', 'lose'],
+          labels: ['승리', '패배'],
           type: 'donut',
           datasets: [
             {
-              backgroundColor: ['rgb(167, 167, 244)', 'rgb(255, 161, 161)'],
+              backgroundColor: ['rgb(153, 204, 255)', 'rgb(255, 161, 161)'],
+              borderColor: ['rgb(0, 0, 0)'],
+              borderWidth: 4,
               data: [40, 20]
             }
           ]
@@ -126,12 +146,14 @@ export default {
       allDoughnutChart: {
         type: 'doughnut',
         data: {
-          labels: ['win', 'lose'],
+          labels: ['승리', '패배'],
           type: 'donut',
           datasets: [
             {
-              backgroundColor: ['rgb(167, 167, 244)', 'rgb(255, 161, 161)'],
-              data: [40, 20]
+              backgroundColor: ['rgb(153, 204, 255)', 'rgb(255, 161, 161)'],
+              data: [40, 20],
+              borderColor: ['rgb(255, 255, 255)'],
+              borderWidth: 5
             }
           ]
         },
@@ -193,10 +215,10 @@ export default {
       }
     }
     axios
-      .get(BASE_URL + '/api/v1/game/monster/mylist?size=100', option)
+      .get(BASE_URL + '/api/v1/game/monster/mylist', option)
       .then((res) => {
         console.log(res.data)
-        res.data.content.forEach((element) => {
+        res.data.forEach((element) => {
           if (this.queryData === String(element.monsterId)) {
             this.isMyDokcho = true
           }
@@ -263,7 +285,6 @@ export default {
 }
 .profileMiddle {
   width: 15vw;
-  height: 20vh;
   margin: 0 2vw;
 }
 .nicknameBox {
@@ -284,7 +305,7 @@ export default {
 .infoText {
   font-size: 3vw;
   height: 5vw;
-  margin: 3vh;
+  margin: 8vh 3vh 3vh;
   text-align: center;
 }
 .battleLog {
@@ -295,7 +316,7 @@ export default {
 .battleLogItem {
   border-radius: 15px;
   width: 75vw;
-  height: 12vh;
+  height: 15vh;
   display: flex;
   justify-content: space-evenly;
   margin: 2vh 0;
@@ -306,6 +327,18 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+.logNickname > p {
+  z-index: 999;
+  margin-top: 3vh;
+}
+.winner__icon {
+  position: absolute;
+  width: 5vw;
+  height: 5vw;
+  color: #ffe140;
+  transform: translateY(-5%);
 }
 .decks {
   width: 65vw;
@@ -336,10 +369,13 @@ export default {
   margin: 5vh;
 }
 .red {
-  background-color: rgb(255, 161, 161);
+  background-color: rgb(255, 161, 161, 0.3);
 }
 .blue {
-  background-color: rgb(167, 167, 244);
+  background-color: rgb(153, 204, 255, 0.3);
+}
+.dpNone {
+  display: none;
 }
 @media screen and (max-width: 850px) {
   .profile {
@@ -361,6 +397,14 @@ export default {
   }
   .logNickname {
     width: 17.5vw;
+  }
+  .logNickname > p {
+    font-size: 1.3vh;
+  }
+  .winner__icon {
+    top: initial;
+    width: 6vw;
+    height: 6vw;
   }
   .VS {
     width: 10vw;

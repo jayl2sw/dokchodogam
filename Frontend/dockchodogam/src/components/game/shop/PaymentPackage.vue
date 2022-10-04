@@ -123,8 +123,6 @@ export default {
 </script>
 
 <style scoped>
-.package {
-}
 .package__header {
   text-align: center;
   margin-top: 5vh;
@@ -164,5 +162,13 @@ h3 {
   background-position: right center;
   background-color: #467302;
   color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 1.5vw;
+  }
 }
 </style>
