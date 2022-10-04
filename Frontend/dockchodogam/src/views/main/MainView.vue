@@ -210,7 +210,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70vh;
+  height: 68vh;
 }
 .todayPlant__container {
   position: relative;
