@@ -153,6 +153,9 @@ public class GameServiceImpl implements GameService {
                 // hidden
                 monster = monsterRepository.findRandomMonster(4);
             }
+            ////
+            monster = monsterRepository.findById(Long.parseLong("42")).orElseThrow(MonsterNotFoundException::new);
+            ////
             boolean isGot = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user).isPresent();
             if (isGot) {
                 // 일부 환불 (10%)
