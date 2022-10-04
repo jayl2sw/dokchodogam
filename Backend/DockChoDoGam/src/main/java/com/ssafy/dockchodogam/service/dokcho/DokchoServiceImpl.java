@@ -177,11 +177,10 @@ public class DokchoServiceImpl implements DokchoService {
     }
 
     @Override
-    public List<ArchiveResponseDto> getArchives(int page, int size) {
+    public List<ArchiveResponseDto> getArchives(Pageable pageable) {
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
         List<ArchiveResponseDto> archiveDtos = archiveRepository.findArchivesBy(
-                pageRequest, user.getNickname()).stream().map(a -> ArchiveResponseDto.from(a))
+                pageable, user.getNickname()).stream().map(a -> ArchiveResponseDto.from(a))
                 .collect(Collectors.toList());
         return archiveDtos;
     }
