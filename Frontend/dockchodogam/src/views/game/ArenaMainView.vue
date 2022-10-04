@@ -11,7 +11,9 @@
       <div class="box__left">
         <div class="myDeck">
           <div class="nickname">
-            <h1 class="TITLE">{{ this.userInfo.nickname }}</h1>
+            <h1 class="TITLE" @click="goToGG()">
+              {{ this.userInfo.nickname }}
+            </h1>
           </div>
           <div class="expBar">
             <img
@@ -79,7 +81,9 @@
                   alt=""
                 />
               </div>
-              <div class="rankerName TITLE">{{ item.nickname }}</div>
+              <div class="rankerName TITLE">
+                {{ item.nickname }}
+              </div>
               <div class="rankerDeck">
                 <div v-for="(dokcho, j) in item.deck" :key="j">
                   <img
@@ -114,7 +118,9 @@
               class="userListItem"
             >
               <div class="enemyInfo">
-                <div class="enemyName TITLE">{{ enemy.nickname }}</div>
+                <div class="enemyName TITLE">
+                  {{ enemy.nickname }}
+                </div>
               </div>
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
@@ -248,6 +254,10 @@ export default {
       this.btn_audio.play()
       this.$router.push({ path: '/game/deck' })
     },
+    goToGG() {
+      this.btn_audio.play()
+      this.$router.push({ path: '/game/gg' })
+    },
     getMyEnemy() {
       axios
         .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
@@ -371,6 +381,9 @@ export default {
 .nickname > h1 {
   font-size: 5vh;
 }
+.nickname > h1:hover {
+  color: #467302;
+}
 .myDeckDetail {
   height: 13vh;
   display: flex;
@@ -492,6 +505,7 @@ export default {
   align-items: center;
   font-size: 1.1vw;
 }
+
 .rankerDeck {
   width: 23vw;
   display: flex;
@@ -569,6 +583,7 @@ export default {
   font-size: 1.2vw;
   margin-left: 1vw;
 }
+
 .enemyDeck {
   width: 30vw;
   height: 10vh;
