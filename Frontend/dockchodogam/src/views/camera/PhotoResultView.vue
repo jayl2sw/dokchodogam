@@ -42,7 +42,12 @@
           <div v-if="this.photoResult.plant" class="dockchoExplanation">
             <img
               v-if="this.photoResult.plant.imgUrl !== 'NONE'"
-              :src="this.photoResult.plant.imgUrl"
+              :src="
+                this.imageBaseUrl +
+                '/' +
+                this.photoResult.plant.plantId +
+                '.png'
+              "
               alt="flower"
             />
             <h3 v-show="this.photoResult.isDokcho == true" class="notice TITLE">
@@ -111,7 +116,8 @@ export default {
   data() {
     return {
       isLoading: true,
-      monsterDetail: {}
+      monsterDetail: {},
+      imageBaseUrl: process.env.VUE_APP_PLANTS_S3_URL
     }
   },
 
@@ -172,6 +178,7 @@ export default {
   justify-content: space-around;
   text-align: center;
   margin-right: 2%;
+  height: 100%;
 }
 .result__right {
   display: flex;

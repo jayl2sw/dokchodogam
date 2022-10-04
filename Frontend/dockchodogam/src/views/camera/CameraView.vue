@@ -130,7 +130,7 @@ export default defineComponent({
           store.dispatch('fetchphotoResult', res.data)
           // 받은 데이터 store에 저장
           // this.fetchphotoResult(res.data)
-          setTimeout(() => console.log('결과값 저장~'), 2000)
+          // setTimeout(() => console.log('결과값 저장~'), 2000)
 
           goToResult()
         })
