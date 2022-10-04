@@ -156,7 +156,7 @@ export default {
       this.$router.replace('/')
     },
     signup() {
-      console.log(localStorage.getItem('userInfo').newbie)
+      console.log(JSON.parse(localStorage.getItem('userInfo')).newbie)
       console.log(localStorage.getItem('userInfo'))
       if (this.termsAgreed === false) {
         swal({
@@ -167,7 +167,7 @@ export default {
           timer: 1500
         })
       } else {
-        if (localStorage.getItem('userInfo').newbie) {
+        if (JSON.parse(localStorage.getItem('userInfo')).newbie) {
           // this.$router.replace({ name: 'setnickname' })
           this.$router.replace({ name: 'setnickname' })
         } else {
