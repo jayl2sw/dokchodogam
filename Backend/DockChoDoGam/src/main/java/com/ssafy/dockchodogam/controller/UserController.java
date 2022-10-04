@@ -97,7 +97,7 @@ public class UserController {
             throw new InvalidParameterException(result);
         }
         Long id = userService.getMyInfo().getUser_id();
-        if(!userService.checkPW(id, passwordEncoder.encode(dto.getNowPW()))){
+        if(!userService.checkPW(id, dto.getNowPW())){
             throw new RuntimeException("비밀번호가 다릅니다.");
         }
         userService.changePW(id, passwordEncoder.encode(dto.getNewPW()));

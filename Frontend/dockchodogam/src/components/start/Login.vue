@@ -78,6 +78,7 @@ export default {
     kakaoLogin() {
       // window.open(BASE_URL + '/oauth2/authorization/kakao')
       window.location.href = this.kakaoLoginURL
+      // this.$router.replace({ name: 'kakaologinagreement' })
     },
     findpassword() {
       this.$router.push({ name: 'findpassword' })
@@ -115,7 +116,7 @@ export default {
             .then((res) => {
               this.fetchUserInfo(res.data)
             })
-          await this.$router.push({ name: 'main' })
+          await this.$router.replace({ name: 'main' })
         }
       } catch (err) {
         swal({

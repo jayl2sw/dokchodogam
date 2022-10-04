@@ -188,7 +188,8 @@ export default {
           .put(
             BASE_URL + '/api/v1/user/password',
             {
-              newPW: this.newPassword
+              newPW: this.newPassword,
+              nowPW: this.oldPassword
             },
             {
               headers: {
@@ -209,6 +210,13 @@ export default {
           })
           .catch((err) => {
             console.log(err)
+            swal({
+              title: '현재 비밀번호를 확인해주세요😥',
+              icon: 'warning',
+              text: '입력해주신 비밀번호와 현재 비밀번호가 다른 것 같아요😅',
+              buttons: false,
+              timer: 1500
+            })
           })
       } else {
         swal({

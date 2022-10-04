@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.service.dokcho;
 
 import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.Plant;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
@@ -35,5 +36,6 @@ public interface DokchoService {
 
     boolean checkUserDogam(Long monsterId);
 
+    List<ArchiveResponseDto> getArchives(int page, int size);
     TodayPlantDto getTodayPlant();
 }
