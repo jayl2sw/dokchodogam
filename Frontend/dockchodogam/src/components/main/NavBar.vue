@@ -274,7 +274,7 @@ a {
   right: -60vw;
   background: #cde29d;
   padding: 1vh 2vw;
-  z-index: 9999;
+  z-index: 2;
   overflow: auto;
 }
 .sideBar__menu {
@@ -291,7 +291,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9998;
+  z-index: 1;
   display: none;
 }
 .sideBar__items {
