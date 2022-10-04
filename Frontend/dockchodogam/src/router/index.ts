@@ -323,10 +323,15 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/findpassword' ||
     to.path === '/oauth' ||
     to.path === '/oauth2/authorization/kakao' ||
-    to.path === '/kakaologinagreement'
+    to.path === '/kakaologinagreement' ||
+    to.path === '/set/nickname'
   ) {
     if (localStorage.getItem('accessToken')) {
-      return next({ path: '/main' })
+      if (!JSON.parse(localStorage.getItem('userInfo')).newbie) {
+        return next({ path: '/main' })
+      } else {
+        next()
+      }
     }
     next()
   } else if (token) {
