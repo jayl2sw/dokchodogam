@@ -39,12 +39,20 @@
                 : ''
             "
           >
-            <DockChoMon
-              :data="this.currentMyDockCho"
-              :damage="this.yourDamage"
-              :sangseong="this.sangseong"
-              :who="'me'"
-            />
+            <div class="myDockchoBox">
+              <img
+                :src="this.imageBaseUrl + '/skill' + this.skill + '.png'"
+                alt=""
+                class="skillEffect"
+                :class="this.skillEffect ? 'onEffect' : ''"
+              />
+              <DockChoMon
+                :data="this.currentMyDockCho"
+                :damage="this.yourDamage"
+                :sangseong="this.sangseong"
+                :who="'me'"
+              />
+            </div>
           </div>
         </div>
         <div class="currentYourDockCho">
@@ -148,7 +156,8 @@ export default {
       isUseSkill: false,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      isPortrait: true
+      isPortrait: true,
+      skillEffect: false
     }
   },
   methods: {
@@ -258,13 +267,16 @@ export default {
             if (this.skill === 1) {
               console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
               this.myDamage *= 2
+              this.skillEffect = true
             } else if (this.skill === 2) {
               console.log('상대 공격 무효')
               this.yourDamage = 0
+              this.skillEffect = true
             } else {
               console.log('상대 공격 반사')
               this.myDamage = this.yourDamage
               this.yourDamage = 0
+              this.skillEffect = true
             }
           }
           this.judged()
@@ -280,6 +292,7 @@ export default {
         this.nowUseSkill = false
       }
       setTimeout(() => {
+        this.skillEffect = false
         this.round += 1
         this.myDamage = ''
         this.yourDamage = ''
@@ -609,6 +622,28 @@ export default {
   top: 25vh;
   left: -20vw;
   transition: all 1s;
+}
+.myDockchoBox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.skillEffect {
+  width: 15vw;
+  height: 15vw;
+  transition: 1s;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+.onEffect {
+  opacity: 0.5;
+  transition: 1s;
+  display: block;
 }
 .currentYourDockCho {
   width: 50vw;
