@@ -155,6 +155,7 @@ export default {
   },
   created() {
     this.getTodayPlant()
+    console.log(process.env)
   }
 }
 </script>
