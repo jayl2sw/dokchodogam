@@ -149,7 +149,7 @@ public class DokchoController {
         return new ResponseEntity<TodayPlantDto>(dokchoService.getTodayPlant(), HttpStatus.OK);
     }
 
-    @GetMapping("/archive/{page}/{size}")
+    @GetMapping("/archive")
     @ApiOperation(value = "사진 아카이브")
     public ResponseEntity<Map<String, Object>> getArchives(
             Pageable pageable){
