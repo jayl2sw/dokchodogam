@@ -6,6 +6,7 @@ import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -36,6 +37,6 @@ public interface DokchoService {
 
     boolean checkUserDogam(Long monsterId);
 
-    List<ArchiveResponseDto> getArchives(int page, int size);
+    List<ArchiveResponseDto> getArchives(Pageable pageable);
     TodayPlantDto getTodayPlant();
 }

@@ -12,10 +12,12 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -147,12 +149,11 @@ public class DokchoController {
         return new ResponseEntity<TodayPlantDto>(dokchoService.getTodayPlant(), HttpStatus.OK);
     }
 
-    @GetMapping("/archive/{page}/{size}")
+    @GetMapping("/archive")
     @ApiOperation(value = "사진 아카이브")
     public ResponseEntity<Map<String, Object>> getArchives(
-            @PathVariable @ApiParam(value="검색 페이지", required = true) int page,
-            @PathVariable @ApiParam(value="페이지당 레코드 수", required = true) int size){
-        List<ArchiveResponseDto> archives = dokchoService.getArchives(page, size);
+            Pageable pageable){
+        List<ArchiveResponseDto> archives = dokchoService.getArchives(pageable);
         Map<String, Object> result = new HashMap<>();
         result.put("data", archives);
         return new ResponseEntity<>(result, HttpStatus.OK);

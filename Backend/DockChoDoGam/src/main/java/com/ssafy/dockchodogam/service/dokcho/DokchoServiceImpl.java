@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -177,10 +176,10 @@ public class DokchoServiceImpl implements DokchoService {
     }
 
     @Override
-    public List<ArchiveResponseDto> getArchives(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        List<ArchiveResponseDto> archiveDtos = archiveRepository.findArchivesBy(
-                pageRequest).stream().map(a -> ArchiveResponseDto.from(a))
+    public List<ArchiveResponseDto> getArchives(Pageable pageable) {
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        List<ArchiveResponseDto> archiveDtos = archiveRepository.findArchivesByUserNicknameOrderByArchiveIdDesc(
+                pageable, user.getNickname()).stream().map(a -> ArchiveResponseDto.from(a))
                 .collect(Collectors.toList());
         return archiveDtos;
     }
