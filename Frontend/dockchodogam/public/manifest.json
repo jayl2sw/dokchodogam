@@ -3,9 +3,9 @@
   "background_color": "#3eaf7c",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/",
-  "name": "Vue PWA",
-  "short_name": "PWA",
+  "start_url": "https://j7e201.p.ssafy.io/",
+  "name": "DOKCHO",
+  "short_name": "DOKCHO",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
