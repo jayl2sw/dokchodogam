@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ArchiveRepository extends JpaRepository<Archive, Long> {
 
-    @Query("select a from Archive a where a.userNickname=:nickname")
-    Page<Archive> findArchivesBy(Pageable pageable, @Param("nickname") String nickname);
+    Page<Archive> findArchivesByUserNicknameOrderByArchiveIdDesc(Pageable pageable, @Param("nickname") String nickname);
 
 }
