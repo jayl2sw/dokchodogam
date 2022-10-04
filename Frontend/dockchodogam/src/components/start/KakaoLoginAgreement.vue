@@ -156,6 +156,8 @@ export default {
       this.$router.replace('/')
     },
     signup() {
+      console.log(localStorage.getItem('userInfo').newbie)
+      console.log(localStorage.getItem('userInfo'))
       if (this.termsAgreed === false) {
         swal({
           title: '약관 동의를 먼저 진행해주세요🙏',
