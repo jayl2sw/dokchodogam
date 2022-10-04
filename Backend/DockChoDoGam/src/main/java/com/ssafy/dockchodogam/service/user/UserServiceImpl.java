@@ -268,6 +268,7 @@ public class UserServiceImpl implements UserService{
 
         // DB 정보 업데이트
         entity.saveToken(tokenDto.getRefreshToken());
+        userRepository.save(entity);
 
         // 토큰 발급
         return tokenDto;
