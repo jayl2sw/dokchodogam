@@ -26,18 +26,24 @@ export default {
   data() {
     return {
       inputData: '',
-      searchUser: JSON.parse(localStorage.getItem('userInfo'))
+      searchUser: JSON.parse(localStorage.getItem('userInfo')),
+      keyword: ''
     }
   },
   methods: {
     search() {
+      console.log(this.inputData)
+      this.keyword =
+        this.inputData === ''
+          ? JSON.parse(localStorage.getItem('userInfo')).nickname
+          : this.inputData
       const option = {
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
         }
       }
       axios
-        .get(BASE_URL + '/api/v1/user/search/' + this.inputData, option)
+        .get(BASE_URL + '/api/v1/user/search/' + this.keyword, option)
         .then((res) => {
           console.log(res.data)
           this.searchUser = res.data
