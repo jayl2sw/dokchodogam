@@ -325,6 +325,9 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/oauth2/authorization/kakao' ||
     to.path === '/kakaologinagreement'
   ) {
+    if (localStorage.getItem('accessToken')) {
+      return next({ path: '/main' })
+    }
     next()
   } else if (token) {
     console.log(isAccessTokenExpired())
