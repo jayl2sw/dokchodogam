@@ -1,10 +1,12 @@
 package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.domain.Plant;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import com.ssafy.dockchodogam.service.dokcho.DokchoService;
+import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class DokchoController {
 
     private final DokchoService dokchoService;
+    private final GameService gameService;
 
     @GetMapping("/test")
     public ResponseEntity<Map<String, Object>> test() {
@@ -110,6 +113,7 @@ public class DokchoController {
         PlantDetailDto plantDto = new PlantDetailDto().from(plant);
         res.put("plant", plantDto);
 
+
         boolean onDogam = false;
         boolean isOverlapped = false;
         boolean isDokcho = false;
@@ -119,6 +123,10 @@ public class DokchoController {
             isOverlapped = dokchoService.checkUserDogam(plant.getMonster().getMonsterId());
             if (!isOverlapped) {
                 dokchoService.addFoundMonster(plant.getMonster());
+            }
+
+            if (plant.getMonster().getFirstFinder()==null) {
+                gameService.setFirstFinder(plant);
             }
 
             if (plant.getMonster().getType().toString() == "DOKCHO") {
@@ -137,5 +145,16 @@ public class DokchoController {
     public ResponseEntity<TodayPlantDto> getTodayPlant(){
 
         return new ResponseEntity<TodayPlantDto>(dokchoService.getTodayPlant(), HttpStatus.OK);
+    }
+
+    @GetMapping("/archive/{page}/{size}")
+    @ApiOperation(value = "사진 아카이브")
+    public ResponseEntity<Map<String, Object>> getArchives(
+            @PathVariable @ApiParam(value="검색 페이지", required = true) int page,
+            @PathVariable @ApiParam(value="페이지당 레코드 수", required = true) int size){
+        List<ArchiveResponseDto> archives = dokchoService.getArchives(page, size);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", archives);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

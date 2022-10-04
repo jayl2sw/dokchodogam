@@ -13,7 +13,7 @@ import java.util.Map;
 @Configuration
 public class BattleProducerConfig {
 
-    @Value("https://j7e201.p.ssafy.io:9092")
+    @Value("localhost:9092")
     private String bootstrapServer;
 
     @Bean

@@ -2,6 +2,7 @@ package com.ssafy.dockchodogam.service.game;
 
 
 import com.ssafy.dockchodogam.domain.Item;
+import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
 import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
@@ -18,7 +19,7 @@ public interface GameService {
     Page<MonstersResponseDto> getMonsterList(Long userId, Pageable pageable);
     // 로그인 유저가 가진 독초몬 리스트 조회
 
-    Page<MonsterInfoResponseDto> getMyMonsterList(Long userId, Pageable pageable);
+    List<MonsterInfoResponseDto> getMyMonsterList(Long userId);
     // 몬스터 아이디를 통해 특정 독초몬 상세 정보 조회
     MonsterInfoResponseDto getMonsterInfo(Long monsterId);
     // 로그인 유저의 덱 수정
@@ -42,6 +43,8 @@ public interface GameService {
     void chargeCash(Long userId, int cash);
     // 로그인 유저 몬스터 추가
     void addMonster(Long userId, Long monsterId);
+    // 최초 발견자 업데이트
+    void setFirstFinder(Plant plant);
     // 로그인 유저 보유 독초몬 수정
     // 로그인 유저 게임 정보 조회
 

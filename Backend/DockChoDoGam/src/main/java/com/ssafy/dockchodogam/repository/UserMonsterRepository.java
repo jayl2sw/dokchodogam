@@ -17,6 +17,6 @@ public interface UserMonsterRepository extends JpaRepository<UserMonster, Long> 
 
     Optional<UserMonster> findUserMonsterByMonsterAndUser(Monster monster, User user);
 
-    Page<UserMonster> findUserMonsterByUserUserId(Long userId, Pageable pageable);
+    List<UserMonster> findUserMonstersByUserUserIdOrderByMonsterGradeDesc(Long userId);
 
 }

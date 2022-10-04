@@ -48,6 +48,10 @@ public class Monster {
     @Column(name = "first_finder")
     private String firstFinder;
 
+    public void setFirstFinder(String firstFinder) {
+        this.firstFinder = firstFinder;
+    }
+
     public void update(MonsterRequestDto dto){
         this.name = dto.getName();
         this.maxAttack = dto.getMaxAttack();
