@@ -2,7 +2,7 @@
   <div class="lists">
     <div class="left">
       <img
-        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        :src="require('@/assets/monster/' + this.friend.profile_img + '.png')"
         alt=""
       />
       <p class="TITLE name">{{ this.friend.nickname }}</p>

@@ -2,7 +2,9 @@
   <div class="lists">
     <div class="left">
       <img
-        :src="this.imageBaseUrl + '/' + this.request.sender_monster + '.png'"
+        :src="
+          require('@/assets/monster/' + this.request.sender_monster + '.png')
+        "
         alt=""
       />
       <p class="TITLE name">{{ this.request.sender_nickname }}</p>

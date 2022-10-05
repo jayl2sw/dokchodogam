@@ -29,7 +29,7 @@
         <div class="rankerDeck">
           <div v-for="(dokcho, j) in item.deck" :key="j">
             <img
-              :src="this.imageBaseUrl + '/' + dokcho + '.png'"
+              :src="require('@/assets/monster/' + dokcho + '.png')"
               alt=""
               class="rankerDeckItem"
             />
@@ -54,7 +54,7 @@
       <div class="rankerDeck">
         <div v-for="(dokcho, j) in item.deck" :key="j">
           <img
-            :src="this.imageBaseUrl + '/' + dokcho + '.png'"
+            :src="require('@/assets/monster/' + dokcho + '.png')"
             alt=""
             class="rankerDeckItem"
           />

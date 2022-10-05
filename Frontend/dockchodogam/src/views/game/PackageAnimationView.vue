@@ -11,7 +11,7 @@
       <div class="gacha__body">
         <img
           class="gacha__img"
-          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+          :src="require('@/assets/monster/' + monster.monsterId + '.png')"
         />
         <p>{{ monster.name }}</p>
       </div>

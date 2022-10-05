@@ -2,7 +2,9 @@
   <div v-if="this.searchUser !== '*'">
     <div class="profile">
       <img
-        :src="this.imageBaseUrl + '/' + this.searchUser.profile_img + '.png'"
+        :src="
+          require('@/assets/monster/' + this.searchUser.profile_img + '.png')
+        "
         alt=""
         class="profileImage"
       />
@@ -48,7 +50,7 @@
       >
         <img
           class="itemImage"
-          :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+          :src="require('@/assets/monster/' + item.monsterId + '.png')"
           alt=""
         />
         <div class="itemName TITLE">{{ item.monsterName }}몬</div>
@@ -87,7 +89,7 @@
               class="deckItem"
               v-for="idx in this.array1"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>
@@ -97,7 +99,7 @@
               class="deckItem"
               v-for="idx in this.array2"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>

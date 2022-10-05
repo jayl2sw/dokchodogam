@@ -49,7 +49,7 @@
       </div>
       <img
         v-if="this.data.monsterId"
-        :src="this.imageBaseUrl + '/' + this.data.monsterId + '.png'"
+        :src="require('@/assets/monster/' + this.data.monsterId + '.png')"
         alt=""
         class="dockChoImage"
         :class="this.damage !== '' ? 'damaged' : ''"

@@ -59,7 +59,9 @@
       <div class="sideBar__menu">
         <div class="sideBar__profile">
           <img
-            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            :src="
+              require('@/assets/monster/' + this.userInfo.profile_img + '.png')
+            "
             alt="profile"
           />
           <p class="TITLE">{{ this.userInfo.nickname }}</p>

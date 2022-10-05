@@ -7,7 +7,7 @@
   >
     <div class="profile">
       <img
-        :src="this.imageBaseUrl + '/' + this.dokchoInfo.monsterId + '.png'"
+        :src="require('@/assets/monster/' + this.dokchoInfo.monsterId + '.png')"
         alt=""
         class="profileImage"
       />
@@ -53,7 +53,7 @@
               class="deckItem"
               v-for="idx in this.array1"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>
@@ -63,7 +63,7 @@
               class="deckItem"
               v-for="idx in this.array2"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>

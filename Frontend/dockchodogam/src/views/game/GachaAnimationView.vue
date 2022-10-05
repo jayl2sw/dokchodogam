@@ -34,7 +34,7 @@
       </div>
       <img
         class="gacha__img dpNone"
-        :src="this.imageBaseUrl + '/' + monsterGacha[0].monsterId + '.png'"
+        :src="require('@/assets/monster/' + monsterGacha[0].monsterId + '.png')"
       />
 
       <!-- <img src="@/assets/speech.png" /> -->

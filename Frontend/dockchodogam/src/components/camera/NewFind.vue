@@ -18,7 +18,7 @@
         </p>
         <img
           class="silhouette__img"
-          :src="this.imageBaseUrl + '/' + monsterDetail.monsterId + '.png'"
+          :src="require('@/assets/monster/' + monsterDetail.monsterId + '.png')"
           style="-webkit-user-drag: none"
         />
       </div>
@@ -40,7 +40,9 @@
         >
           <div class="imgBx">
             <img
-              :src="this.imageBaseUrl + '/' + monsterDetail.monsterId + '.png'"
+              :src="
+                require('@/assets/monster/' + monsterDetail.monsterId + '.png')
+              "
               class="card__img"
               style="-webkit-user-drag: none"
             />

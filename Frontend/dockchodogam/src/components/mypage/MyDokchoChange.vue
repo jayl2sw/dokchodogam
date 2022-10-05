@@ -16,7 +16,7 @@
             @click="this.onClickDokcho(item.monsterId)"
           >
             <img
-              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              :src="require('@/assets/monster/' + item.monsterId + '.png')"
               alt=""
               class="myDokchoItemImage"
             />

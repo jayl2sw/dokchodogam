@@ -13,7 +13,9 @@
         <div class="left">
           <img
             :src="
-              this.imageBaseUrl + '/' + this.searchUser.profile_img + '.png'
+              require('@/assets/monster/' +
+                this.searchUser.profile_img +
+                '.png')
             "
             alt=""
           />

@@ -14,7 +14,7 @@
       <div class="imgBx">
         <!-- <font-awesome-icon icon="fa-solid fa-magnifying-glass-chart" /> -->
         <img
-          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+          :src="require('@/assets/monster/' + monster.monsterId + '.png')"
           class="card__img monster__img"
           style="-webkit-user-drag: none"
         />
@@ -64,7 +64,7 @@
     >
       <div class="dontHaveimgBx">
         <img
-          :src="this.imageBaseUrl + '/' + monster.monsterId + '.png'"
+          :src="require('@/assets/monster/' + monster.monsterId + '.png')"
           class="card__dontHaveimg"
           style="-webkit-user-drag: none"
         />

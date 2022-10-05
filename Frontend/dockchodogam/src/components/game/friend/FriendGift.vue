@@ -9,7 +9,7 @@
     <div class="lists" v-for="(gift, i) in this.giftList" :key="i">
       <div class="left">
         <img
-          :src="this.imageBaseUrl + '/' + gift.profile_img + '.png'"
+          :src="require('@/assets/monster/' + gift.profile_img + '.png')"
           alt=""
         />
         <p class="TITLE name">{{ gift.nickname }} 님이 선물을 보냈습니다!</p>

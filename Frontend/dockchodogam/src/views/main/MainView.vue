@@ -21,7 +21,9 @@
             </h3>
           </div>
           <img
-            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            :src="
+              require('@/assets/monster/' + this.userInfo.profile_img + '.png')
+            "
             alt=""
             class="dockchoImg"
           />

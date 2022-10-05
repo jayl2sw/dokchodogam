@@ -16,7 +16,9 @@
             class="yourDockChoItem"
           >
             <img
-              :src="this.imageBaseUrl + '/' + yourDockCho.monsterId + '.png'"
+              :src="
+                require('@/assets/monster/' + yourDockCho.monsterId + '.png')
+              "
               alt=""
               class="yourDockChoItemImage"
             />
@@ -85,7 +87,7 @@
             @click="this.selectNextDockcho(i)"
           >
             <img
-              :src="this.imageBaseUrl + '/' + myDockCho.monsterId + '.png'"
+              :src="require('@/assets/monster/' + myDockCho.monsterId + '.png')"
               alt=""
               class="myDockChoItemImage"
             />

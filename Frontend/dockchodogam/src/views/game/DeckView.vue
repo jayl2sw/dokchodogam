@@ -17,7 +17,7 @@
             :class="this.selectDeck === i ? 'checked' : ''"
           >
             <img
-              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              :src="require('@/assets/monster/' + item.monsterId + '.png')"
               alt=""
               class="myDeckItemImage"
             />
@@ -53,7 +53,7 @@
               :class="this.check[i] ? 'inMyDeck' : ''"
             ></div>
             <img
-              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              :src="require('@/assets/monster/' + item.monsterId + '.png')"
               alt=""
               class="myDockchoItemImage"
             />

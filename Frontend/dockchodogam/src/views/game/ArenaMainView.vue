@@ -53,7 +53,7 @@
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
                 <img
-                  :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+                  :src="require('@/assets/monster/' + item.monsterId + '.png')"
                   alt=""
                   class="myDeckImage"
                 />
@@ -87,7 +87,7 @@
               <div class="rankerDeck">
                 <div v-for="(dokcho, j) in item.deck" :key="j">
                   <img
-                    :src="this.imageBaseUrl + '/' + dokcho + '.png'"
+                    :src="require('@/assets/monster/' + dokcho + '.png')"
                     alt=""
                     class="rankerDeckItem"
                   />
@@ -125,7 +125,9 @@
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
                   <img
-                    :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+                    :src="
+                      require('@/assets/monster/' + item.monsterId + '.png')
+                    "
                     alt=""
                     class="enemyDeck__item"
                   />
