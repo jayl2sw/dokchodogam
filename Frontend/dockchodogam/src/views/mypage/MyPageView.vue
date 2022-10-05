@@ -7,6 +7,11 @@
     "
   >
     <div class="mypage__left">
+      <div class="goToGalleryBox">
+        <button class="goToGallery" @click="this.goToGallery()">
+          내 갤러리로 이동
+        </button>
+      </div>
       <div class="myDockcho">
         <img
           :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
@@ -18,6 +23,8 @@
       </button>
     </div>
     <div class="mypage__right">
+      <div class="block"></div>
+
       <div class="myProfile">
         <div class="myProfile__medal">
           <img
@@ -31,7 +38,9 @@
           />
         </div>
         <div>
-          <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
+          <div class="nickname">
+            <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
+          </div>
           <p class="myProfile__contents">
             지금 내 주머니에는
             <span class="emphasize">{{ this.userInfo.money }}</span
@@ -170,6 +179,9 @@ export default {
       } else {
         this.isPasswordChecked = false
       }
+    },
+    goToGallery() {
+      this.$router.push({ path: '/gallery' })
     },
     changePassword() {
       if (!passwordCheck.test(this.newPassword)) {
@@ -335,6 +347,9 @@ footer p {
   flex-direction: column;
   justify-content: center;
 }
+.block {
+  height: 6vh;
+}
 .myDockcho {
   height: 30vh;
   margin: 2vh 0;
@@ -381,9 +396,35 @@ footer p {
 .myProfile__medal > img {
   width: 5vw;
 }
+.nickname {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+}
 .myProfile__name {
   font-size: 2.5vw;
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
+}
+.goToGalleryBox {
+  height: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.goToGallery {
+  border-radius: 50px;
+  height: 4vh;
+  width: 14vw;
+  background-color: #d0d0d0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+.goToGallery:hover {
+  background-color: #aaa;
+  transition: 0.3s;
 }
 .myProfile__contents {
   word-break: keep-all;
@@ -503,7 +544,13 @@ footer p {
   }
   .myProfile__name {
     font-size: 4vw;
-    margin-bottom: 3vh;
+    margin-bottom: 1vh;
+  }
+  .goToGallery {
+    margin-top: 3vh;
+    width: 50vw;
+    height: 8vw;
+    font-size: 4vw;
   }
   .myProfile__contents {
     font-size: 2.5vw;
