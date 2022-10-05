@@ -5,9 +5,8 @@
     </div>
 
     <div class="find__body">
-      <!-- <img src="img_snow_wide.jpg" alt="말풍선" style="width: 100%" /> -->
       <p class="TITLE">" 스승님께 새로운 식물을 찾았다고 알려드릴게요 🍀 "</p>
-      <img src="@/assets/5.png" />
+      <img src="@/assets/5.png" alt="지현몬" />
     </div>
 
     <p class="notice">
@@ -22,12 +21,6 @@ export default {}
 
 <style scoped>
 .find {
-  /* border-style: groove; */
-  /* border-color: yellow; */
-  /* border-width: 5px; */
-  /* border-radius: 10px; */
-  /* width: 40vw;
-  height: 70vh; */
   width: 100%;
   height: 100%;
   padding: 3vmin;
@@ -46,7 +39,6 @@ export default {}
   height: 80%;
   display: flex;
   flex-direction: column;
-  /* margin-top: 3vh; */
 }
 
 .find__body img {

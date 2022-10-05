@@ -154,7 +154,6 @@ export default {
         })
         .then((res) => {
           if (res.value) {
-            // console.log(result)
             this.fetchLogout()
           }
         })
@@ -163,12 +162,10 @@ export default {
       axios
         .put(BASE_URL + '/api/v1/user/logout', null, {
           headers: {
-            // 'Content-type': 'application/json',
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
-          console.log(res)
           swal({
             title: '로그아웃이 완료되었습니다!',
             text: ' 다시 도감을 펼치는 날을 기다릴게요 🌻 ',

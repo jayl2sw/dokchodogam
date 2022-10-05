@@ -58,7 +58,6 @@ export default {
     },
     onClickDokcho(i) {
       this.selectDokcho = i
-      console.log('독초 선택', this.selectDokcho)
     },
     onClickChange() {
       const option = {
@@ -100,7 +99,6 @@ export default {
             this.myDokcho.push(element)
           }
         })
-        console.log(this.myDokcho)
       })
       .catch((err) => console.log(err))
   }

@@ -59,7 +59,6 @@ export default {
             nickname: this.nickname
           })
           .then((res) => {
-            console.log(res)
             if (res.data === false) {
               this.nicknameDuplicate = false
 
@@ -88,7 +87,13 @@ export default {
     },
     setnickname() {
       if (this.nicknameDuplicate === true) {
-        alert('닉네임중복검사를 먼저 진행해주세요.')
+        swal({
+          title: '잠깐! 🚨',
+          text: '닉네임 중복 검사를 먼저 진행해주세요.',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       } else if (!nicknameCheck.test(this.nickname)) {
         swal({
           title:
@@ -112,7 +117,6 @@ export default {
           )
           .then((res) => {
             this.fetchnowUserInfo()
-            console.log(res)
             swal({
               title: this.nickname + '님, 환영합니다!🥰',
               text: '부디 허준을 도와 독초도감을 채워주세요!',
@@ -180,13 +184,9 @@ input {
   height: 7vh;
   margin: 8px 0 8px 0;
   padding: 10px 15px 10px 25px;
-  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
-  background-size: 20px 20px; */
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 
 input::placeholder {

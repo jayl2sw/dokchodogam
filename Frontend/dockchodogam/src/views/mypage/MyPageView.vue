@@ -115,11 +115,7 @@
     :showChangeDokchoMenu="showChangeDokchoMenu"
   />
   <footer>
-    <p>
-      <!-- 쾌락과 독초 <br />
-      서상균 김성빈 박지현 오하민 이재준 최지원 <br /> -->
-      © 2022. 쾌락과 독초 All rights reserved
-    </p>
+    <p>© 2022. 쾌락과 독초 All rights reserved</p>
   </footer>
 </template>
 
@@ -138,7 +134,6 @@ const swalWithBootstrapButtons = Swal.mixin({
     confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   }
-  // buttonsStyling: false
 })
 
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
@@ -199,8 +194,6 @@ export default {
           timer: 2000
         })
       } else if (this.newPassword === this.newPassword2) {
-        console.log(this.newPassword)
-        console.log(this.newPassword2)
         axios
           .put(
             BASE_URL + '/api/v1/user/password',
@@ -216,7 +209,6 @@ export default {
             }
           )
           .then((res) => {
-            console.log(res)
             swal({
               title: '비밀번호가 변경되었습니다!😘',
               icon: 'success',
@@ -271,7 +263,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res)
           swal({
             title: '탈퇴가 완료되었어요😭',
             icon: 'success',
@@ -327,10 +318,8 @@ button {
   justify-content: space-evenly;
   width: 90vw;
   height: 75vh;
-  /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
-  /* padding-bottom: 10%; */
 }
 
 footer {
@@ -347,7 +336,6 @@ footer p {
 .mypage__left {
   height: 100%;
   width: 20vw;
-  /* margin-left: 10vw; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -376,7 +364,6 @@ footer p {
 .mypage__mid {
   height: 100%;
   width: 35vw;
-  /* margin-right: 10vw; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -389,7 +376,6 @@ footer p {
   margin: 2vh 0;
   padding: 3vh;
   display: flex;
-  /* transition: 1s; */
 }
 .myProfile__medal {
   margin-top: 1vh;

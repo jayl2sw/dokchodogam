@@ -147,13 +147,9 @@ input {
   height: 7vh;
   margin: 8px 0 8px 0;
   padding: 10px 15px 10px 25px;
-  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
-  background-size: 20px 20px; */
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 
 input::placeholder {

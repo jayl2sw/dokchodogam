@@ -2,7 +2,7 @@
   <div class="loading">
     <img
       :src="require('@/assets/loading/' + this.random + '.png')"
-      alt="왜 안불러와져요"
+      alt="loading__img"
       class="loading__image"
     />
     <div class="loading__text TITLE">{{ this.text[this.random - 1] }}</div>

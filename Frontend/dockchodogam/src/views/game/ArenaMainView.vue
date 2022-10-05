@@ -268,7 +268,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.Enemys.userInfo = res.data.opponents
           this.Enemys.deck = res.data.yourDecks
         })
@@ -282,7 +281,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('랭커', res.data)
           this.ranking = res.data
         })
         .catch((err) => console.log(err))
@@ -295,7 +293,6 @@ export default {
         enemyDeck: this.Enemys.deck[i]
       }
       this.fetchEnemyInfo(info)
-      console.log('상대 덱 저장?', info)
       setTimeout(() => {
         this.$router.push({ path: '/game/arena/ingame' })
       }, 200)
@@ -321,7 +318,6 @@ export default {
     this.audio.loop = true
     this.audio.volume = 0.5
     this.audio.play()
-    console.log('tier : ' + this.mytier)
   },
   beforeUnmount() {
     this.audio.pause()
@@ -332,12 +328,10 @@ export default {
   watch: {
     userDeck() {
       this.myDeck = this.userDeck
-      console.log('와치', this.myDeck)
       for (let index = 0; index < 5; index++) {
         this.tot +=
           (this.myDeck[index].maxAttack + this.myDeck[index].minAttack) / 2
       }
-      console.log(this.tot)
     }
   }
 }
@@ -686,27 +680,7 @@ export default {
   margin-bottom: 2vw;
   font-weight: bold;
 }
-/* @media screen and (max-width: 850px) {
-  .nickname > h1 {
-    font-size: 1vw;
-  }
-  .game__info {
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-  }
-  svg {
-    width: 10px;
-  }
-  .modal-content {
-    min-width: 50vw;
-    max-height: 80vh;
-    border-radius: 20px;
-    border: none;
-    overflow: scroll;
-  }
-} */
+
 @media only screen and (orientation: portrait) {
   .main {
     background-image: none;

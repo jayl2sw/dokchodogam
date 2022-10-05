@@ -1,6 +1,5 @@
 <template>
   <div class="card__container">
-    <!-- <img class="speech" src="@/assets/speech_ballon.png" /> -->
     <div
       v-if="monster.got == true && monster.monsterId !== 0"
       class="card"
@@ -12,13 +11,12 @@
       }"
     >
       <div class="imgBx">
-        <!-- <font-awesome-icon icon="fa-solid fa-magnifying-glass-chart" /> -->
         <img
           :src="require('@/assets/monster/' + monster.monsterId + '.png')"
           class="card__img monster__img"
           style="-webkit-user-drag: none"
+          alt="풀깨비 그림"
         />
-        <!-- <p>대사 : {{ monster.line }}</p> -->
       </div>
       <div
         :class="{
@@ -67,6 +65,7 @@
           :src="require('@/assets/monster/' + monster.monsterId + '.png')"
           class="card__dontHaveimg"
           style="-webkit-user-drag: none"
+          alt="획득 못한 풀깨비"
         />
       </div>
       <div class="dontHavecontentBx">
@@ -81,8 +80,6 @@
 
 <script>
 import axios from 'axios'
-import Swal from 'sweetalert2'
-import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -98,15 +95,9 @@ export default {
       userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
-  // computed: {
-  //   ...mapGetters(['userInfo'])
-  // },
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
-      // alert(a.name)
-      // console.log(a)
-      // console.log(this.monsterDetail)
     },
     goToGG() {
       this.$router.push({
@@ -164,7 +155,6 @@ export default {
           description: `${user}님이 ${name}몬을 획득하셨습니다 ✨`,
           imageUrl: img,
           link: {
-            // mobileWebUrl: '이미지 클릭시 이동할 사이트',
             webUrl: 'https://j7e201.p.ssafy.io'
           }
         },
@@ -172,7 +162,6 @@ export default {
           {
             title: '도감 모으러 이동!',
             link: {
-              // mobileWebUrl: '이미지 클릭시 이동할 사이트',
               webUrl: 'https://j7e201.p.ssafy.io'
             }
           }
@@ -194,17 +183,6 @@ export default {
   justify-content: center;
   flex-direction: row;
 }
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #131313;
-} */
-
-/* .container {
-  position: relative;
-} */
 
 .speech {
   position: absolute;
@@ -220,12 +198,9 @@ export default {
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 2vh;
-  /* margin: 0; */
 }
 
 .container .card .imgBx {
-  /* position: absolute; */
-  /* top: 35%; */
   transform: translate(10%, 20%);
   width: 100%;
   height: 120px;
@@ -252,7 +227,6 @@ export default {
 }
 
 .container .card:hover .imgBx {
-  /* top: 30%; */
   transform: translate(20%, 20%);
   width: 80%;
 }
@@ -261,61 +235,25 @@ export default {
   position: absolute;
   display: block;
   margin: auto;
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transition: transform 0.25s ease; */
-  /* transform: translate(-20%, -20%); */
   width: 80%;
 }
 
 .kakao__img {
-  /* margin-top: 5px;
-  margin-left: 15px; */
   margin: 2vmin;
   width: 20px;
   position: absolute;
   align-items: flex-end;
-  /* top: 5%; */
+
   top: 1%;
-  /* left: 77%; */
 }
 
-/* .arrow_box {
-  display: none;
-}
-
-.imgBx:hover .arrow_box {
-  display: block;
-} */
-/* .container .card .imgBx .arrow_box {
-  position: relative;
-  background: #d6c1c1;
-  border-radius: 20px;
-  margin: 2vh;
-  height: 5vh;
-  text-align: center;
-} */
-/* .container .card .imgBx .arrow_box:after {
-  top: 100%;
-  left: 70%;
-  border: solid transparent;
-  content: '';
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-top-color: #d6c1c1;
-  border-width: 3vh;
-  margin-left: -3vw;
-} */
 .container .card .card__dontHaveimg {
   position: absolute;
-  /* top: 50%; */
+
   transform: translate(30%, 30%);
-  /* z-index: 10000; */
+
   width: 60%;
-  /* height: 220px; */
-  /* transition: 0.5s; */
+
   filter: brightness(0%);
 }
 
@@ -360,11 +298,7 @@ export default {
   margin-bottom: 1vw;
 }
 
-/* .container .card .contentBx .contentBx__name {
-
-} */
 .container .card .contentBx p {
-  /* position: relative; */
   font-weight: 500;
   font-size: 0.9em;
   color: #000000;
@@ -373,7 +307,6 @@ export default {
 
 .contentBx__name {
   margin-top: 1.5vh;
-  /* width: 80%; */
 }
 
 .dontHavecontentBx__name {
@@ -383,7 +316,6 @@ export default {
 .container .card .contentBx .size,
 .container .card .contentBx .color {
   display: flex;
-  /* height: inherit; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -398,10 +330,9 @@ export default {
 
 .container .card .dontHavecontentBx h3 {
   position: relative;
-  /* font-weight: 600; */
   font-size: 15;
   color: #000000;
-  font-family: 'UhBeeSe_hyun';
+  font-family: 'UhBeeSe_hyun', sans-serif;
   margin-bottom: 1vw;
 }
 
@@ -409,20 +340,10 @@ export default {
   position: relative;
   font-weight: 500;
   font-size: 0.9em;
-  font-family: 'UhBeeSe_hyun';
+  font-family: 'UhBeeSe_hyun', sans-serif;
   color: #000000;
   margin: 0;
 }
-
-/* .container .card .dontHavecontentBx h3,
-.container .card .dontHavecontentBx p {
-  position: relative;
-  font-weight: 600;
-  font-size: 1em;
-  color: #000000;
-  margin-top: 3vh;
-  font-family: 'UhBeeSe_hyun';
-} */
 
 .container .card:hover .contentBx .size {
   opacity: 1;
@@ -432,7 +353,6 @@ export default {
 
 .card__common {
   background-color: rgb(166, 166, 166);
-  /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
   background-color: skyblue;

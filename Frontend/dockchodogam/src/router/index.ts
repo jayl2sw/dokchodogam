@@ -20,19 +20,11 @@ const isAccessTokenExpired = function isAccessTokenExpired() {
     // accessToken의 만료 시간을 확인합니다.
     const currentDate = new Date().getTime() / 1000
     if (payloadObject.exp <= currentDate) {
-      console.log('token expired')
       expire = true
-    } else {
-      console.log('token valid')
     }
   }
   return expire
 }
-
-// const requireAuth = () => (from, to, next) => {
-//   if (isAccessTokenExpired) return next()
-//   next('/')
-// }
 
 const doRefreshToken = async function doRefreshToken() {
   if (localStorage.getItem('accessToken') !== '') {
@@ -46,39 +38,22 @@ const doRefreshToken = async function doRefreshToken() {
         token
       )
       if (result.status === 200) {
-        console.log('Access-Token이 갱신되었습니다.')
         localStorage.setItem('accessToken', result.data.accessToken)
         localStorage.setItem('refreshToken', result.data.refreshToken)
-        console.log('accessToken : ', result.data.accessToken)
-        console.log('refreshToken : ', result.data.refreshToken)
         axios.defaults.headers.common.AUTHORIZATION = result.data.accessToken
         location.reload()
       } else {
-        console.log('다시 로그인 하셈')
         localStorage.clear()
         location.reload()
-        // let err = new Error("Request failed with status code 401");
-        // err.status = 401;
-        // err.response = {data:{"success":false, "errormessage":"Access-Token이 갱신되었습니다."}};
-        // resultErr = err;
       }
     } catch (err) {
-      console.log('다시 로그인 하셈')
+      console.log(err)
       localStorage.clear()
       location.reload()
-      // if (!err.response) {
-      // err.response = {data:{"success":false, "errormessage":err.message}};
-      // }
-      // resultErr = err;
     }
   } else {
-    console.log('다시 로그인 하셈')
     localStorage.clear()
     location.reload()
-    // let err = new Error("Access-Token does not exist");
-    // err.status = 401;
-    // err.response = {data:{"success":false, "errormessage":"Access-Token이 없습니다."}};
-    // resultErr = err;
   }
 }
 
@@ -92,9 +67,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/findpassword',
     name: 'findpassword',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(
         /* webpackChunkName: "findpassword" */ '../views/start/FindPasswordView.vue'
@@ -328,7 +300,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  console.log(window.location.href)
   let token = ''
   if (localStorage.getItem('accessToken')) {
     token = localStorage.getItem('accessToken')
@@ -351,50 +322,14 @@ router.beforeEach(async (to, from, next) => {
     }
     next()
   } else if (token) {
-    console.log(isAccessTokenExpired())
-
     if (!isAccessTokenExpired()) {
       return next()
     } else {
       doRefreshToken()
     }
   } else {
-    console.log('로그인 해주세용~💋')
-    alert('로그인 해주세용~💋')
     return next({ path: '/' })
   }
-
-  // if (window.location.href === 'http://localhost:8080/') {
-  //   console.log(window.location.href)
-  //   console.log(localStorage.getItem('accessToken'))
-  //   return next()
-  // } else {
-  //   if (isAccessTokenExpired()) {
-  //     await doRefreshToken()
-  //     return next()
-  //   } else {
-  //     alert('로그인 해주세용~💋')
-  //     router.push({ path: '/' })
-  //     return next()
-  //   }
-  // }
 })
-
-// router.beforeEach(async (to, from) => {
-//   console.log(window.location.href)
-//   if (window.location.href === 'http://localhost:8080/') {
-//     console.log(window.location.href)
-//     console.log(localStorage.getItem('accessToken'))
-//     return '/'
-//   } else {
-//     if (isAccessTokenExpired()) {
-//       await doRefreshToken()
-//       return '/'
-//     } else {
-//       alert('로그인 해주세용~💋')
-//       return '/'
-//     }
-//   }
-// })
 
 export default router

@@ -117,7 +117,6 @@
 import NavBar from '@/components/main/NavBar.vue'
 import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
-// import dotenv from 'dotenv'
 
 export default {
   components: {
@@ -161,7 +160,6 @@ export default {
   },
   created() {
     this.getTodayPlant()
-    console.log(process.env)
   }
 }
 </script>
@@ -278,8 +276,6 @@ input {
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 input::placeholder {
   color: #467302;

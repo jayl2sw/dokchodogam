@@ -100,9 +100,6 @@ export default {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
-        .then((res) => {
-          console.log(res.data)
-        })
         .catch((err) => console.log(err))
     },
     getFriendList() {
@@ -113,7 +110,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('친구', res.data)
           this.friendList = res.data
         })
         .catch((err) => console.log(err))

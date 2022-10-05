@@ -26,19 +26,15 @@ export const game: Module<gameState, RootState> = {
   mutations: {
     SET_ENEMYINFO(state, enemyInfo) {
       state.enemyInfo = enemyInfo
-      console.log(enemyInfo)
     },
     SET_USERDECK(state, userDeck) {
       state.userDeck = userDeck
-      console.log(userDeck)
     },
     SET_MONSTERGACHA(state, monsterGacha) {
       state.monsterGacha = monsterGacha
-      console.log(monsterGacha)
     },
     SET_MONSTERPACKAGE(state, monsterPackage) {
       state.monsterPackage = monsterPackage
-      console.log(monsterPackage)
     }
   },
   actions: {
@@ -54,7 +50,6 @@ export const game: Module<gameState, RootState> = {
         })
         .then((res) => {
           commit('SET_USERDECK', res.data)
-          console.log('내 덱', res.data)
         })
         .catch((err) => console.log(err))
     },
@@ -64,12 +59,10 @@ export const game: Module<gameState, RootState> = {
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-          // 'Content-Type': 'application/json'
         }
       })
         .then((res) => {
           commit('SET_MONSTERGACHA', res.data)
-          console.log('몬스터 단뽑', res.data)
         })
         .catch((err) => console.log(err))
     },

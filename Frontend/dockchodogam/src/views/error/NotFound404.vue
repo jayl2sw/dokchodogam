@@ -2,11 +2,6 @@
   <div class="bg-purple">
     <div>
       <div class="central-body">
-        <!-- <img
-          class="image-404"
-          src="http://salehriaz.com/404Page/img/404.svg"
-          width="300px"
-        /> -->
         <h1 class="TITLE">
           {{ this.userInfo.nickname }}님, 여기엔 풀깨비들이 살지 않아요
         </h1>
@@ -195,13 +190,11 @@ export default {
   color: #d1d1d1;
 }
 .central-body h1 {
-  /* font-size: medium; */
   margin-top: 5vh;
   color: white;
 }
 .error__buttons {
   display: flex;
-  /* flex-direction: row; */
   justify-content: center;
   margin-top: 5%;
 }
@@ -247,7 +240,6 @@ export default {
 .central-body {
   width: 100%;
   margin-top: 20%;
-  /* padding: 17% 5% 10% 5%; */
   text-align: center;
 }
 
@@ -277,16 +269,10 @@ export default {
   position: absolute;
   top: 12%;
   left: 25%;
-
-  /* transform: rotate(20deg); */
   transition: transform ease-in 99999999999s;
 }
 
-/* .earth-moon {
-} */
-
 .object_astronaut {
-  /* width: 20%; */
   object-fit: cover;
   animation: rotate-astronaut 200s infinite linear both alternate;
 }
