@@ -55,6 +55,7 @@ const doRefreshToken = async function doRefreshToken() {
         location.reload()
       } else {
         console.log('다시 로그인 하셈')
+        localStorage.clear();
         // let err = new Error("Request failed with status code 401");
         // err.status = 401;
         // err.response = {data:{"success":false, "errormessage":"Access-Token이 갱신되었습니다."}};
@@ -63,6 +64,7 @@ const doRefreshToken = async function doRefreshToken() {
     } catch (err) {
       console.log('다시 로그인 하셈')
       console.log(err)
+      localStorage.clear();
       // if (!err.response) {
       // err.response = {data:{"success":false, "errormessage":err.message}};
       // }
@@ -70,6 +72,7 @@ const doRefreshToken = async function doRefreshToken() {
     }
   } else {
     console.log('다시 로그인 하셈')
+    localStorage.clear();
     // let err = new Error("Access-Token does not exist");
     // err.status = 401;
     // err.response = {data:{"success":false, "errormessage":"Access-Token이 없습니다."}};
