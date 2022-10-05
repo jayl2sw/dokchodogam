@@ -289,7 +289,14 @@ public class DokchoServiceImpl implements DokchoService {
         JSONArray suggestions = (JSONArray) jsonObject.get("suggestions");
         System.out.println(1);
         JSONObject suggestion = (JSONObject) suggestions.get(0);
-        String name = (String) suggestion.get("plant_name");
+        String name;
+        try {
+            JSONObject plant_detail = (JSONObject) suggestion.get("plant_detail");
+            JSONArray common_names = (JSONArray) plant_detail.get("common_names");
+            name = (String) common_names.get(0);
+        } catch (Exception e) {
+            name = (String) suggestion.get("plant_name");
+        }
         double probability = (double) suggestion.get("probability");
         JSONArray similar_images = (JSONArray) suggestion.get("similar_images");
         System.out.println(4);
