@@ -1,5 +1,5 @@
 <template>
-  <div class="dogam__container">
+  <div class="dogam__container" :class="this.showMenu ? 'open-menu' : ''">
     <LoadingPage v-if="this.isLoading" />
     <NavBar v-show="!this.isLoading" @overflow="overflow" />
 
@@ -147,7 +147,8 @@ export default {
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3')
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3'),
+      showMenu: false
     }
   },
   computed: {
@@ -224,6 +225,9 @@ export default {
     }
   },
   methods: {
+    overflow(value) {
+      this.showMenu = value
+    },
     backToTop() {
       document.body.scrollTop = 0
       document.documentElement.scrollTop = 0
@@ -362,5 +366,9 @@ input[type='checkbox']:checked::after {
 }
 .col {
   padding: 2vh;
+}
+.open-menu {
+  overflow: hidden;
+  position: fixed;
 }
 </style>
