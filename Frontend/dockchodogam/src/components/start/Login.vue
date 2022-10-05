@@ -285,12 +285,16 @@ input:focus {
   text-decoration: none;
 }
 
+a {
+  color: rgb(52, 52, 52);
+}
+
 a:link {
-  color: black;
+  color: rgb(45, 45, 45);
 }
 
 a:hover {
-  color: blue;
+  color: green;
   cursor: pointer;
 }
 
