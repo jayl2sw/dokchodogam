@@ -61,7 +61,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
           swal({
             text: '친구 신청을 보냈어요 🚀',

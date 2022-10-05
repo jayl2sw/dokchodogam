@@ -1,6 +1,5 @@
 <template>
   <div class="background">
-    <!-- <img class="background" src="@/assets/game_background.png" alt="" /> -->
     <div class="loginpage">
       <div class="loginpage__left">
         <img class="loginpage__img" src="@/assets/login/book.gif" alt="" />
@@ -25,18 +24,9 @@
         />
         <div class="loginpage__btn">
           <button class="login__btn" @click="login()">로그인</button>
-
-          <!-- <a href="/oauth2/authorization/kakao">
-            <button class="kakaologin__btn">카카오로그인</button>
-          </a> -->
         </div>
-        <!-- <div class="loginpage__btn">
-          <button class="signup__btn" @click="signUp()">회원가입</button>
-        </div> -->
+
         <div class="loginpage__btn">
-          <!-- <button class="kakaologin__btn" @click="kakaoLogin()">
-            카카오로그인
-          </button> -->
           <img
             class="kakaologin__btn"
             @click="kakaoLogin()"
@@ -75,9 +65,7 @@ export default {
     ...mapActions(['doRefreshToken', 'fetchUserInfo', 'fetchUserDeck']),
     ...mapGetters(['isAccessTokenExpired']),
     kakaoLogin() {
-      // window.open(BASE_URL + '/oauth2/authorization/kakao')
       window.location.href = this.kakaoLoginURL
-      // this.$router.replace({ name: 'kakaologinagreement' })
     },
     findpassword() {
       this.$router.push({ name: 'findpassword' })
@@ -86,8 +74,6 @@ export default {
       this.$router.push({ name: 'signup' })
     },
     async login() {
-      console.log(this.username)
-      console.log(this.password)
       try {
         const result = await axios.post(
           BASE_URL + '/api/v1/user/auth/login',
@@ -102,7 +88,6 @@ export default {
           }
         )
         if (result.status === 200) {
-          console.log(result)
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
           const option = {
@@ -235,7 +220,6 @@ button {
 }
 
 .loginpage__left {
-  /* height: 100%; */
   width: 30vw;
   margin-left: 5vw;
   margin-right: 5vw;
@@ -247,7 +231,6 @@ button {
 }
 
 .loginpage__right {
-  /* height: 100%; */
   width: 30vw;
   margin-left: 5vw;
   margin-right: 5vw;
@@ -263,13 +246,9 @@ input {
   height: 7vh;
   margin: 8px 0 8px 0;
   padding: 10px 15px 10px 25px;
-  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
-  background-size: 20px 20px; */
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 
 input::placeholder {

@@ -100,7 +100,6 @@ export default {
       axios
         .get(BASE_URL + '/api/v1/gg/ranking?page=' + this.rankingPage, option)
         .then((res) => {
-          console.log(res.data)
           if (res.data.content.length) {
             this.rankList = this.rankList.concat(res.data.content)
             this.rankingPage += 1

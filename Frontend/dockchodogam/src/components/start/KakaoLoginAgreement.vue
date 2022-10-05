@@ -139,9 +139,7 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
-import { mapActions, mapGetters } from 'vuex'
 import swal from 'sweetalert'
 
 export default {
@@ -156,8 +154,6 @@ export default {
       this.$router.replace('/')
     },
     signup() {
-      console.log(JSON.parse(localStorage.getItem('userInfo')).newbie)
-      console.log(localStorage.getItem('userInfo'))
       if (this.termsAgreed === false) {
         swal({
           title: '약관 동의를 먼저 진행해주세요🙏',
@@ -168,12 +164,10 @@ export default {
         })
       } else {
         if (JSON.parse(localStorage.getItem('userInfo')).newbie) {
-          // this.$router.replace({ name: 'setnickname' })
           this.$router.replace({ name: 'setnickname' })
         } else {
           this.$router.replace({ name: 'main' })
         }
-        // window.location.href = this.kakaoLoginURL
       }
     }
   }
@@ -263,13 +257,9 @@ input {
   height: 7vh;
   margin: 8px 0 8px 0;
   padding: 10px 15px 10px 25px;
-  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
-  background-size: 20px 20px; */
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 .termsofservice {
   width: 50vw;
@@ -331,7 +321,6 @@ input {
 
 @media screen and (max-width: 850px) {
   .background {
-    /* overflow: auto; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -349,7 +338,6 @@ input {
     border-radius: 40px;
   }
   .signuppage__left {
-    /* overflow: auto; */
     margin-left: 5vw;
     margin-right: 5vw;
     margin-top: 1vh;
@@ -360,7 +348,6 @@ input {
     margin: 5vw;
     margin-top: 10vh;
     margin-bottom: 0;
-    /* margin-top: 15vh; */
     background-image: url('@/assets/hanji.jpeg');
     background-size: cover;
     background-repeat: no-repeat;

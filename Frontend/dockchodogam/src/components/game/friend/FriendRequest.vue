@@ -47,7 +47,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
           this.$emit('getFriendList')
         })
@@ -65,7 +64,6 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
         })
         .catch((err) => console.log(err))

@@ -71,7 +71,6 @@ export default {
           option
         )
         .then((res) => {
-          console.log(res.data.data)
           if (res.data.data.length) {
             this.userGallery = this.userGallery.concat(res.data.data)
             this.galleryPage += 1
@@ -167,34 +166,5 @@ export default {
     height: 100%;
     position: fixed;
   }
-  /* .galleryItem {
-    width: 30vw;
-    height: 38vw;
-  }
-  .galleryImage {
-    max-width: 28vw;
-    max-height: 28vw;
-  } */
 }
-/* @media screen and (max-width: 450px) {
-  .open-menu {
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-  }
-  .galleryItem {
-    width: 60vw;
-    height: 75vw;
-  }
-  .galleryImage {
-    max-width: 55vw;
-    max-height: 55vw;
-  }
-} */
-/* @media screen and (max-height: 450px) {
-  .gallery {
-    padding-top: 23vh;
-  }
-} */
 </style>

@@ -12,35 +12,11 @@
         <img
           class="gacha__img"
           :src="require('@/assets/monster/' + monster.monsterId + '.png')"
+          alt=""
         />
         <p>{{ monster.name }}</p>
       </div>
     </div>
-    <!-- <div class="gacha__body">
-      <div>
-        <img
-          class="gacha__img"
-          :src="this.imageBaseUrl + '/' + monsterPackage[0].monsterId + '.png'"
-        />
-        <p>{{ monsterGacha[0].name }}몬</p>
-      </div>
-
-      <div>
-        <img
-          class="gacha__img"
-          :src="this.imageBaseUrl + '/' + monsterPackage[1].monsterId + '.png'"
-        />
-        <p>{{ monsterGacha[1].name }}몬</p>
-      </div>
-
-      <div>
-        <img
-          class="gacha__img"
-          :src="this.imageBaseUrl + '/' + monsterPackage[2].monsterId + '.png'"
-        />
-        <p>{{ monsterGacha[2].name }}몬</p>
-      </div>
-    </div> -->
 
     <div class="gacha__footer">
       <div class="buttons">
@@ -75,9 +51,7 @@ export default {
       })
     },
     startConfetti() {
-      jsConfetti.addConfetti({
-        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸']
-      })
+      jsConfetti.addConfetti()
     }
   },
   created() {
@@ -112,11 +86,9 @@ export default {
   overflow: hidden;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  /* margin: 0; */
 }
 
 .container .card .imgBx {
-  /* position: absolute; */
   top: 35%;
   transform: translateY(0%);
   z-index: 10000;
@@ -127,15 +99,11 @@ export default {
 
 .container .card:hover .imgBx {
   top: 30%;
-  /* transform: translateY(-20%); */
 }
 
 .container .card .imgBx img {
-  /* position: absolute; */
   top: 50%;
-  /* left: 50%; */
   transition: transform 0.25s ease;
-  /* transform: translate(-20%, -20%); */
   width: 50%;
 }
 

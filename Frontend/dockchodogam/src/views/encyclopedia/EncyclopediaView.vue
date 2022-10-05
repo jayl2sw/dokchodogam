@@ -129,9 +129,6 @@ import MonsterCard from '@/components/encyclopedia/MonsterCard.vue'
 import axios from 'axios'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 
-// import { BASE_URL } from '@/constant/BASE_URL'
-// import { mapGetters } from 'vuex'
-
 export default {
   components: {
     NavBar,
@@ -152,7 +149,6 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters(['userInfo']),
     filteredMonsters() {
       if (
         !this.checkedType.length &&
@@ -241,8 +237,6 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(res.data.content)
-
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
@@ -267,19 +261,15 @@ export default {
 
 <style scoped>
 .toTheTop {
-  /* background-color: #a7c957; */
   position: fixed;
   bottom: 20px;
   right: 20px;
-  /* display: none; */
-  /* border-radius: 50px; */
 }
 
 .toTheTop:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  /* display: none; */
 }
 
 .dogam__container {
@@ -303,8 +293,6 @@ export default {
 .checkbox2,
 .checkbox3 {
   flex-direction: row;
-  /* justify-content: space-between; */
-  /* background-color: aqua; */
   text-align: start;
   margin-bottom: 5vh;
   margin-left: 10vw;
@@ -314,7 +302,7 @@ export default {
   text-align: end;
   margin-right: 10vw;
   margin-bottom: 3vh;
-  font-family: 'UhBeeSe_hyun';
+  font-family: 'UhBeeSe_hyun', sans-serif;
 }
 
 p {

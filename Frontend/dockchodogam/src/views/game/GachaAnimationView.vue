@@ -35,9 +35,8 @@
       <img
         class="gacha__img dpNone"
         :src="require('@/assets/monster/' + monsterGacha[0].monsterId + '.png')"
+        alt=""
       />
-
-      <!-- <img src="@/assets/speech.png" /> -->
     </div>
 
     <div class="gacha__footer dpNone">
@@ -46,29 +45,19 @@
         <button class="btn" @click="goToGameShop">상점으로 돌아가기</button>
       </div>
     </div>
-    <!-- <div class="shop__exit" @click="goToGameShop()">
-      <font-awesome-icon icon="fa-solid fa-x" size="xl" />
-    </div> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import { mapGetters, mapActions } from 'vuex'
-import { BASE_URL } from '@/constant/BASE_URL'
-import swal from 'sweetalert'
+import { mapGetters } from 'vuex'
+
 import JSConfetti from 'js-confetti'
 
 const jsConfetti = new JSConfetti()
 
-// jsConfetti.addConfetti({
-//   // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸']
-// })
-
 export default {
   data() {
     return {
-      // newMonster: {},
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
       imageBaseUrl: process.env.VUE_APP_S3_URL,
       gotcha_audio: new Audio(process.env.VUE_APP_S3_URL + '/gotcha.mp3'),
@@ -79,7 +68,6 @@ export default {
     ...mapGetters(['monsterGacha'])
   },
   methods: {
-    // ...mapActions(['fetchUserInfo']),
     goToDogam() {
       this.$router.replace({
         path: '/encyclopedia'
@@ -97,13 +85,7 @@ export default {
     }
   },
   created() {
-    console.log('시작')
-    // this.fetchMonsterGacha()
-    // document.cookie = 'safeCookie1=foo; SameSite=Lax'
-    // document.cookie = 'safeCookie2=foo'
-    // document.cookie = 'crossCookie=bar; SameSite=None; Secure'
     this.startConfetti()
-    // this.fetchUserInfo()
   },
   mounted() {
     this.gotcha_audio.play()
@@ -139,28 +121,22 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* height: 70%; */
 }
 
 .gacha__img {
   width: 20vw;
   height: 40vh;
-  /* margin: 5%; */
   margin-left: auto;
   margin-right: auto;
 }
 
 .bubble {
-  /* height: 250px; */
   height: 3vmax;
   width: 40%;
   min-width: 200px;
-  /* background: ivory; */
   display: block;
   margin: 0 auto;
   border-radius: 50px;
-  /* margin-top: 50px; */
-  /* font-size: 200px; */
   text-align: center;
   display: table;
 }
@@ -170,7 +146,6 @@ export default {
   vertical-align: middle;
   text-align: center;
   align-self: center;
-  /* margin-bottom: 0; */
   font-family: 'UhBeeSe_hyun';
 }
 
@@ -191,7 +166,6 @@ export default {
 }
 
 .btn {
-  /* width: ; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -221,22 +195,6 @@ export default {
   right: 30px;
   cursor: pointer;
 }
-
-/* .card__common {
-  color: #8f8f8f;
-}
-.card__rare {
-  color: #4dbcfb;
-}
-.card__epic {
-  color: violet;
-}
-.card__legendary {
-  color: #f1c012;
-}px
-.card__special {
-  color: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
-} */
 
 .card__common {
   background-color: #8f8f8f;

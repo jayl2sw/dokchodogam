@@ -35,7 +35,6 @@ provide('selectedTitle', selectedTitle)
   margin: 0;
   display: flex;
   justify-content: space-between;
-  /* gap: 5px; */
   height: 4vw;
   min-height: 6vh;
   font-size: 1.5vw;

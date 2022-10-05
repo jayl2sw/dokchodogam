@@ -1,6 +1,5 @@
 <template>
   <div v-if="monsterDetail !== null" class="find">
-    <!-- <p>새로찾음</p> -->
     <div class="find__header">
       <h3 v-if="this.catch === false" class="TITLE">
         찾았다, {{ monsterDetail.name }}몬!
@@ -20,6 +19,7 @@
           class="silhouette__img"
           :src="require('@/assets/monster/' + monsterDetail.monsterId + '.png')"
           style="-webkit-user-drag: none"
+          alt="뽑기 전 풀깨비 실루엣"
         />
       </div>
       <div class="find__footer__false">
@@ -45,8 +45,8 @@
               "
               class="card__img"
               style="-webkit-user-drag: none"
+              alt="풀깨비 카드 이미지"
             />
-            <!-- <p>대사 : {{ monster.line }}</p> -->
           </div>
           <div
             :class="{
@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -85,10 +84,7 @@ export default {
   },
   data() {
     return {
-      // pick: false,
-      // monsterId: this.photoResult.plant.monsterId,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      // monsterDetail: {},
       catch: false,
       line_audio: new Audio(
         process.env.VUE_APP_S3_URL + '/' + this.monsterDetail.monsterId + '.m4a'
@@ -108,22 +104,12 @@ export default {
         path: '/encyclopedia'
       })
     }
-    //
   }
-  // created() {
-  //   this.fetchMonsterDetail()
-  // }
 }
 </script>
 
 <style scoped>
 .find {
-  /* border-style: groove; */
-  /* border-color: yellow; */
-  /* border-width: 5px; */
-  /* border-radius: 10px; */
-  /* width: 40vw;
-  height: 70vh; */
   width: 100%;
   height: 100%;
   padding: 3vmin;
@@ -142,11 +128,9 @@ export default {
 }
 
 .find__body {
-  /* height: 80%; */
-  /* width: 100%; */
   padding: 0;
   display: flex;
-  /* flex-direction: column; */
+
   margin-top: 3vh;
 }
 
@@ -173,13 +157,9 @@ export default {
   overflow: hidden;
   margin-bottom: 2vh;
   margin: auto;
-  /* margin: 0; */
 }
 
 .card .imgBx {
-  /* position: absolute; */
-  /* top: 35%; */
-  /* transform: translate(0%, 10%); */
   width: 100%;
   height: 120px;
   transition: 0.5s;
@@ -191,10 +171,6 @@ export default {
   position: absolute;
   display: block;
   margin: auto;
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transition: transform 0.25s ease; */
-  /* transform: translate(-20%, -20%); */
   width: 95%;
 }
 
@@ -215,29 +191,23 @@ export default {
 }
 .contentBx__name {
   margin-top: 2vh;
-  /* width: 80%; */
 }
 .card .contentBx .title {
   position: relative;
-  /* font-weight: 600; */
   font-size: 1.3em;
   color: #000000;
-  /* margin-top: 1vw; */
 }
 
 .card .contentBx p {
-  /* position: relative; */
   font-weight: 500;
   font-size: 0.9em;
   color: #000000;
   margin: 0;
-  /* margin-top: 1vw; */
 }
 
 .card .contentBx .size,
 .card .contentBx .color {
   display: flex;
-  /* height: inherit; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -260,15 +230,12 @@ export default {
 }
 
 .btn {
-  /* align-self: center; */
   min-width: 50px;
-  /* width: 30%; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;
@@ -282,7 +249,6 @@ export default {
 
 .card__common {
   background-color: rgb(166, 166, 166);
-  /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
   background-color: skyblue;
@@ -312,32 +278,4 @@ export default {
 .card__hidden {
   box-shadow: 0 0 8px #c493ff;
 }
-
-/* @media screen and (max-width: 850px) {
-  .find {
-    width: 100%;
-    height: auto;
-    margin-bottom: 8vh;
-    position: relative;
-  }
-  .find_finder {
-    position: absolute;
-    bottom: -9vh;
-    text-align: left;
-    left: 5vw;
-    font-size: 0.8rem;
-  }
-  .find__title {
-    font-size: 8vw;
-    font-weight: bold;
-    word-break: keep-all;
-  }
-  .find__img > img {
-    width: 60vw;
-  }
-  button {
-    width: 50vw;
-    opacity: 1;
-  }
-} */
 </style>

@@ -194,7 +194,6 @@ export default {
         )
         .then((res) => {
           if (res.data.BattleDto.length) {
-            console.log(res.data)
             this.userBattleLog = this.userBattleLog.concat(res.data.BattleDto)
             this.battleLogPage += 1
             $state.loaded()
@@ -230,7 +229,6 @@ export default {
         ]
         this.doughnutChart.options.plugins.subtitle.text =
           Math.round(res.data.winRate.winRate * 1000) / 10 + '%'
-        console.log(this.winRate, this.doughnutChart.data.datasets[0].data)
         this.$refs.graph.update(100)
         this.pickRate = res.data.pickRate
       })
