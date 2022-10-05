@@ -23,7 +23,7 @@
       </h3>
       <br />
       <p v-if="monsterGacha[0].got === true">
-        이미 획득한 몬스터입니다 🤟 10냥을 돌려드릴게요!
+        이미 획득한 풀깨비입니다 🤟 10냥을 돌려드릴게요!
       </p>
     </div>
     <div class="gacha__body dpNone">

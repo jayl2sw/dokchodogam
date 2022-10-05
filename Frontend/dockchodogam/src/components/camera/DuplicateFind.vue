@@ -5,7 +5,7 @@
       <div class="find__header">
         <h3 class="TITLE">{{ monsterDetail.name }}몬은 이미 도감에 있어요!</h3>
         <p v-if="monsterDetail.firstFinder">
-          최초 발견자 : {{ monsterDetail.firstFinder }}
+          ✨ {{ monsterDetail.firstFinder }}님이 제일 먼저 찾아냈어요! ✨
         </p>
       </div>
 
@@ -101,6 +101,12 @@ export default {
 .find__header {
   margin-bottom: 5vmin;
 }
+
+.find__header p {
+  margin: 0;
+  padding-top: 1vmin;
+}
+
 .find__body {
   height: 80%;
   display: flex;
@@ -193,7 +199,8 @@ export default {
 }
 
 .find__footer {
-  margin-top: 3vh;
+  margin-top: 7vh;
+  margin-bottom: 5vh;
 }
 
 .btn {

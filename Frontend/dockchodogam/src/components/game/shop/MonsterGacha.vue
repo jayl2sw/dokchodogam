@@ -1,10 +1,10 @@
 <template>
   <div class="gacha">
     <div class="gacha__header">
-      <h3 h2 class="TITLE">독초몬 뽑기</h3>
+      <h3 h2 class="TITLE">풀깨비 뽑기</h3>
     </div>
     <div class="gacha__body">
-      <p>✨ 일반 ~ 스페셜 독초몬 ✨등장!</p>
+      <p>✨ 일반 ~ 스페셜 풀깨비 ✨등장!</p>
       <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
     </div>
     <div class="gacha__footer">
@@ -48,7 +48,7 @@ export default {
       swalWithBootstrapButtons
         .fire({
           title: '100냥을 내고 뽑기를 하시겠어요?',
-          text: '원하는 독초몬을 생각하며 고고고 🙂',
+          text: '원하는 풀깨비를 생각하며 고고고 🙂',
           icon: 'question',
           showCancelButton: true,
           confirmButtonText: '예',
