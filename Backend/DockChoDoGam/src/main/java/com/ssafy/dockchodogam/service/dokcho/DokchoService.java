@@ -1,7 +1,6 @@
 package com.ssafy.dockchodogam.service.dokcho;
 
 import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.Plant;
 import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;

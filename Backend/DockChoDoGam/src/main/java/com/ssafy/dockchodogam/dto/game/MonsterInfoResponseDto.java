@@ -3,7 +3,6 @@ package com.ssafy.dockchodogam.dto.game;
 import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.enums.MonsterGrade;
 import com.ssafy.dockchodogam.domain.enums.PlantType;
-import com.ssafy.dockchodogam.dto.user.UserResponseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -41,6 +40,9 @@ public class MonsterInfoResponseDto {
     @ApiModelProperty(name="대사", example="This is Me")
     private String line;
 
+    @ApiModelProperty(name="식물 아이디", example="1")
+    private Long plantId;
+
     public static MonsterInfoResponseDto of(Monster monster) {
         return MonsterInfoResponseDto.builder()
                 .monsterId(monster.getMonsterId())
@@ -54,6 +56,7 @@ public class MonsterInfoResponseDto {
                 .currentHp(monster.getHp())
                 .firstFinder(monster.getFirstFinder())
                 .line(monster.getLine())
+                .plantId(monster.getPlantId())
                 .build();
     }
 }

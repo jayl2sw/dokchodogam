@@ -127,7 +127,7 @@ public class DokchoController {
                 dokchoService.addFoundMonster(plant.getMonster());
             }
 
-            if (plant.getMonster().getFirstFinder()==null) {
+            if (plant.getMonster().getFirstFinder().equals(null)) {
                 gameService.setFirstFinder(plant);
             }
 

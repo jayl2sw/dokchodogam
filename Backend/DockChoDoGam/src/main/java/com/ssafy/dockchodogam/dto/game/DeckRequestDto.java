@@ -1,10 +1,6 @@
 package com.ssafy.dockchodogam.dto.game;
 
 import com.ssafy.dockchodogam.domain.Deck;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.User;
-import com.ssafy.dockchodogam.domain.enums.MonsterGrade;
-import com.ssafy.dockchodogam.domain.enums.PlantType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

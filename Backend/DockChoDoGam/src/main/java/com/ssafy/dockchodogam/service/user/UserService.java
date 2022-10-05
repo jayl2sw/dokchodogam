@@ -4,7 +4,6 @@ package com.ssafy.dockchodogam.service.user;
 import com.ssafy.dockchodogam.dto.jwt.TokenDto;
 import com.ssafy.dockchodogam.dto.jwt.TokenRequestDto;
 import com.ssafy.dockchodogam.dto.user.*;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
