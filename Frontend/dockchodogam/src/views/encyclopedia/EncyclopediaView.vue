@@ -11,7 +11,7 @@
 
       <div class="dogam__checkbox">
         <div class="checkbox1">
-          <p class="TITLE">독초몬 보유</p>
+          <p class="TITLE">풀깨비 🌱</p>
 
           <input type="checkbox" id="true" value="true" v-model="checkedGot" />
           <label for="true">보유</label>
@@ -27,7 +27,7 @@
 
         <!-- 타입별 -->
         <div class="checkbox2">
-          <p class="TITLE">독초몬 타입</p>
+          <p class="TITLE">풀깨비 타입</p>
 
           <input
             type="checkbox"
@@ -64,7 +64,7 @@
 
         <!-- 등급별 -->
         <div class="checkbox3">
-          <p class="TITLE">독초몬 등급</p>
+          <p class="TITLE">풀깨비 등급</p>
 
           <input
             type="checkbox"

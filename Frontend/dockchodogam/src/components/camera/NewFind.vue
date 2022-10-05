@@ -7,7 +7,7 @@
       </h3>
       <h3 v-else class="TITLE">잡았다! {{ monsterDetail.name }}몬!</h3>
       <p v-if="monsterDetail.firstFinder">
-        최초 발견자 : {{ monsterDetail.firstFinder }}
+        ✨ {{ monsterDetail.firstFinder }}님이 제일 먼저 찾아냈어요! ✨
       </p>
     </div>
 
@@ -87,7 +87,10 @@ export default {
       // monsterId: this.photoResult.plant.monsterId,
       imageBaseUrl: process.env.VUE_APP_S3_URL,
       // monsterDetail: {},
-      catch: false
+      catch: false,
+      line_audio: new Audio(
+        process.env.VUE_APP_S3_URL + '/' + this.monsterDetail.monsterId + '.m4a'
+      )
     }
   },
   computed: {
@@ -96,6 +99,7 @@ export default {
   methods: {
     catchMonster() {
       this.catch = true
+      this.line_audio.play()
     },
     goToEncyclopedia() {
       this.$router.push({
@@ -129,6 +133,12 @@ export default {
 .find__header {
   margin-bottom: 5vmin;
 }
+
+.find__header p {
+  margin: 0;
+  padding-top: 1vmin;
+}
+
 .find__body {
   /* height: 80%; */
   /* width: 100%; */
@@ -149,7 +159,7 @@ export default {
 }
 
 .find__footer__false {
-  margin-top: 5vh;
+  margin-top: 7vh;
 }
 .card {
   align-self: center;

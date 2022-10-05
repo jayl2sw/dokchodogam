@@ -86,7 +86,20 @@
       <div class="block"></div>
     </div>
   </div>
-  <div v-else>내가 가진 독초몬이 아닙니다</div>
+  <div v-else>
+    <div class="dokchoData">
+      <div class="undefined__body">
+        <h3 class="undefined TITLE">내 도감에 들어 있지 않은</h3>
+        <h3 class="undefined TITLE">풀깨비에요 👀</h3>
+        <img src="@/assets/nomonster.png" />
+      </div>
+      <div class="undefined__footer">
+        <button @click="goToEncyclopedia()" class="btn">
+          <span>도감으로 돌아가기</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -207,6 +220,11 @@ export default {
           console.log(err)
           $state.error()
         })
+    },
+    goToEncyclopedia() {
+      this.$router.push({
+        path: '/encyclopedia'
+      })
     }
   },
   created() {
@@ -391,6 +409,55 @@ export default {
 .dpNone {
   display: none;
 }
+
+.undefined__body {
+  width: 100%;
+  margin-top: 8vmin;
+  /* height: 50%; */
+  align-items: center;
+}
+
+.undefined {
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
+.undefined__body img {
+  display: block;
+  margin: auto;
+  /* object-fit: cover; */
+  width: 25vmax;
+}
+
+.undefined__footer {
+  display: flex;
+  flex-direction: center;
+}
+
+.btn {
+  margin: auto;
+  margin-top: 5vmin;
+  /* align-self: center; */
+  min-width: 50px;
+  /* width: 30%; */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  /* margin: auto; */
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+  transform: translateY(-50%);
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
+}
+
 @media screen and (max-width: 850px) {
   .profile {
     height: auto;
@@ -442,6 +509,23 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
+  }
+
+  .undefined__body {
+    width: 100%;
+    height: 50%;
+  }
+
+  .undefined {
+    text-align: center;
+    margin-bottom: 5vh;
+  }
+
+  .undefined__body img {
+    display: block;
+    margin: auto;
+    /* object-fit: cover; */
+    width: 30vmax;
   }
 }
 </style>

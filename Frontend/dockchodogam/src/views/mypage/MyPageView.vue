@@ -14,7 +14,7 @@
         />
       </div>
       <button class="change__dockcho" @click="this.onClickChangeDokcho()">
-        대표 독초몬 변경
+        대표 풀깨비 변경
       </button>
     </div>
     <div class="mypage__right">
