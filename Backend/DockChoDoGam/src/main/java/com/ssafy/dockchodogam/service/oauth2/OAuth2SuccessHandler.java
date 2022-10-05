@@ -1,7 +1,6 @@
 package com.ssafy.dockchodogam.service.oauth2;
 
 import com.ssafy.dockchodogam.domain.Deck;
-import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.UserMonster;
 import com.ssafy.dockchodogam.domain.enums.Role;
 import com.ssafy.dockchodogam.domain.User;

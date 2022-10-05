@@ -1,11 +1,9 @@
 package com.ssafy.dockchodogam.dto.plant;
 
-import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.Plant;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
-import java.util.Locale;
 
 @Getter
 @Builder
