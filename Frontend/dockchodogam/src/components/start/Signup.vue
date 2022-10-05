@@ -496,6 +496,14 @@ export default {
         })
       }
     }
+  },
+  watch: {
+    username(newUsername) {
+      this.usernameDuplicate = true
+    },
+    email(newEmail) {
+      this.emailDuplicate = true
+    }
   }
 }
 </script>
