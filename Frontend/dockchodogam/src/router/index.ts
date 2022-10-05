@@ -52,8 +52,11 @@ const doRefreshToken = async function doRefreshToken() {
         console.log('accessToken : ', result.data.accessToken)
         console.log('refreshToken : ', result.data.refreshToken)
         axios.defaults.headers.common.AUTHORIZATION = result.data.accessToken
+        location.reload()
       } else {
         console.log('다시 로그인 하셈')
+        localStorage.clear()
+        location.reload()
         // let err = new Error("Request failed with status code 401");
         // err.status = 401;
         // err.response = {data:{"success":false, "errormessage":"Access-Token이 갱신되었습니다."}};
@@ -61,6 +64,8 @@ const doRefreshToken = async function doRefreshToken() {
       }
     } catch (err) {
       console.log('다시 로그인 하셈')
+      localStorage.clear()
+      location.reload()
       // if (!err.response) {
       // err.response = {data:{"success":false, "errormessage":err.message}};
       // }
@@ -68,6 +73,8 @@ const doRefreshToken = async function doRefreshToken() {
     }
   } else {
     console.log('다시 로그인 하셈')
+    localStorage.clear()
+    location.reload()
     // let err = new Error("Access-Token does not exist");
     // err.status = 401;
     // err.response = {data:{"success":false, "errormessage":"Access-Token이 없습니다."}};
@@ -102,6 +109,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/SignUpView.vue'
       )
   },
+  // 카카오로그인 약관동의
+  {
+    path: '/kakaologinagreement',
+    name: 'kakaologinagreement',
+    component: () =>
+      import(
+        /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/KakaoLoginAgreementView.vue'
+      )
+  },
   // 인트로
   {
     path: '/intro',
@@ -109,6 +125,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(
         /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/IntroView.vue'
+      )
+  },
+  // 닉네임지정
+  {
+    path: '/set/nickname',
+    name: 'setnickname',
+    component: () =>
+      import(
+        /* webpackChunkName: "intro", webpackPrefetch:true */ '../views/start/SetNicknameView.vue'
       )
   },
   // 메인페이지
@@ -220,7 +245,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'arenaInGame',
     component: () =>
       import(
-        /* webpackChunkName: "arena" */ '../views/game/ArenaInGameView.vue'
+        /* webpackChunkName: "ingame" */ '../views/game/ArenaInGameView.vue'
+      )
+  },
+  {
+    path: '/game/arena/chinsunGame',
+    name: 'arenaChinsunGame',
+    component: () =>
+      import(
+        /* webpackChunkName: "ingame" */ '../views/game/ArenaChinsunInGameView.vue'
       )
   },
   // 덱 수정
@@ -235,9 +268,32 @@ const routes: Array<RouteRecordRaw> = [
     path: '/game/friend',
     name: 'friend',
     component: () =>
-      import(/* webpackChunkName: "deck" */ '../views/game/FriendView.vue')
+      import(/* webpackChunkName: "friend" */ '../views/game/FriendView.vue')
   },
-  // 친구 관리
+  // 독초지지
+  {
+    path: '/game/gg',
+    name: 'gg',
+    component: () =>
+      import(/* webpackChunkName: "gg" */ '../views/game/DokchoGG.vue')
+  },
+  // 독초지지
+  {
+    path: '/dokcho/gg/',
+    name: 'dcgg',
+    component: () =>
+      import(/* webpackChunkName: "gg" */ '../views/game/DokchoData.vue')
+  },
+  // 갤러리
+  {
+    path: '/gallery',
+    name: 'gallery',
+    component: () =>
+      import(
+        /* webpackChunkName: "gallery" */ '../views/gallery/GalleryView.vue'
+      )
+  },
+  // 어드민
   {
     path: '/admin',
     name: 'admin',
@@ -281,17 +337,26 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/' ||
     to.path === '/signup' ||
     to.path === '/findpassword' ||
-    to.path === '/oauth'
+    to.path === '/oauth' ||
+    to.path === '/oauth2/authorization/kakao' ||
+    to.path === '/kakaologinagreement' ||
+    to.path === '/set/nickname'
   ) {
+    if (localStorage.getItem('accessToken')) {
+      if (!JSON.parse(localStorage.getItem('userInfo')).newbie) {
+        return next({ path: '/main' })
+      } else {
+        next()
+      }
+    }
     next()
   } else if (token) {
     console.log(isAccessTokenExpired())
 
     if (!isAccessTokenExpired()) {
-      await doRefreshToken()
       return next()
     } else {
-      return next('/')
+      doRefreshToken()
     }
   } else {
     console.log('로그인 해주세용~💋')

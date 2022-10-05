@@ -1,15 +1,17 @@
 <template>
   <div class="cash">
     <div class="cash__header">
-      <h2>💰 냥 충전소 💰</h2>
+      <h3 class="TITLE">냥 충전소</h3>
     </div>
 
     <div class="cash__body">
-      <img
-        class="cash__img"
-        src="http://img3.tmon.kr/cdn4/deals/2021/10/04/4040092538/front_252ba_vaemg.jpg"
-      />
-      <button @click="onPaymentCash">충전하기</button>
+      <img class="cash__img" :src="require('@/assets/shop/cash.png')" />
+    </div>
+
+    <div class="cash__footer">
+      <button class="btn" @click="onPaymentCash">
+        <span class="TITLE">💰 9,900원</span>
+      </button>
     </div>
   </div>
 </template>
@@ -18,61 +20,77 @@
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+
+const IMP = window.IMP
+IMP.init('imp40805235')
 
 export default {
-  // data() {
-  //   return {
-  //     userInfo: JSON.parse(localStorage.getItem('userInfo'))
-  //   }
-  // },
-  computed: {
-    ...mapGetters(['userInfo'])
+  data() {
+    return {
+      userInfo: JSON.parse(localStorage.getItem('userInfo')),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+    }
   },
+  // computed: {
+  //   ...mapGetters(['userInfo'])
+  // },
   methods: {
-    onPaymentCash() {
+    ...mapActions(['fetchnowUserInfo']),
+    onPaymentCash: function () {
+      this.btn_audio.play()
       /* 1. 가맹점 식별하기 */
-      const IMP = window.IMP
-      IMP.init('imp40805235')
+      // const IMP = window.IMP
+      // IMP.init('imp40805235')
+      // {
+      //   pg: 'html5_inicis',
 
+      //   merchant_uid: `mid_${new Date().getTime()}`,
+      //   amount: 100,
+      //   name: '재화충전:1,000냥',
+      //   m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
+      //   buyer_name: `${this.userInfo.username}`
+      // },
       IMP.request_pay(
         {
-          pg: 'html5_inicis', // 카카오페이
-          // pay_method: 'card', // 결제수단
-          merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-          amount: 9900, // 결제금액
-          name: '재화충전:결제테스트', // 주문명
-          buyer_name: `${this.userInfo.username}` // 구매자 이름 //이거 username으로 넣기
+          pg: 'danal_tpay',
+          pay_method: 'card',
+          merchant_uid: `mid_${new Date().getTime()}`,
+          name: '재화충전:1,000냥',
+          amount: 100,
+          buyer_email: `${this.userInfo.email}`,
+          buyer_name: `${this.userInfo.username}`,
+          buyer_tel: '010-1234-5678'
         },
-        (res) => {
-          if (res.sucess) {
-            // 결제 성공시 로직
-            // axios로 HTTP 요청
+        (rsp) => {
+          console.log(rsp)
+          if (rsp.success) {
             axios({
-              url: `${BASE_URL} + api/v1/game/monster/pick`,
-              method: 'POST',
+              url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/1',
+              method: 'GET',
               headers: {
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-              },
-              data: {
-                itemId: 1
               }
-            }).then((data) => {
-              // 서버 결제 API 성공시 로직
-              swal({
-                title: '냥 충전 완료! 💰',
-                text: '1,000냥이 충전 되었습니다😸',
-                icon: 'success',
-                buttons: false,
-                timer: 1500
-              })
             })
+              .then((data) => {
+                console.log(data)
+                this.fetchnowUserInfo()
+                // 서버 결제 API 성공시 로직
+                swal({
+                  title: '냥 충전 완료! 💰',
+                  text: '1,000냥이 충전 되었습니다😸',
+                  icon: 'success',
+                  buttons: false,
+                  timer: 1500
+                })
+              })
+              .catch((err) => console.log(err))
           } else {
             // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',
-              text: `${res.error_msg}`,
+              text: `${rsp.error_msg}`,
               icon: 'error',
               buttons: false,
               timer: 1500
@@ -81,21 +99,87 @@ export default {
         }
       )
     }
+  },
+  created() {
+    document.cookie = 'safeCookie1=foo; SameSite=Lax'
+    document.cookie = 'safeCookie2=foo'
+    document.cookie = 'crossCookie=bar; SameSite=None; Secure'
   }
 }
 </script>
 
 <style scoped>
 .cash {
+  width: 30vw;
+  height: 60vh;
 }
 .cash__header {
   text-align: center;
+  margin-top: 5vh;
+}
+.cash__header h3 {
+  margin-bottom: 1vmin;
 }
 .cash__body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 40vh;
 }
 .cash__img {
-  width: 20vw;
+  /* margin-top: 5; */
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cash__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  min-width: 50px;
+  /* width: 10vw; */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+  /* margin: auto; */
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 2vw;
+  }
+  .btn > .TITLE {
+    font-size: 2vw;
+  }
+  .btn {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cash__img {
+    width: 15vw;
+  }
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 </style>

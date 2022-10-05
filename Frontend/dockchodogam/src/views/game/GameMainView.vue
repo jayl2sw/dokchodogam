@@ -1,8 +1,8 @@
 <template>
   <NavBar @overflow="overflow" />
   <div class="game">
-    <div class="game__arena" @click="goToArena()">아레나</div>
-    <div class="game__mandu">독초만두</div>
+    <div class="game__arena" @click="goToArena()"></div>
+    <div class="game__gg" @click="geToGG()"></div>
   </div>
 </template>
 
@@ -27,6 +27,9 @@ export default {
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
       audio.play()
       this.$router.push({ path: '/game/arena' })
+    },
+    geToGG() {
+      this.$router.push({ path: '/game/gg' })
     }
   },
   mounted() {
@@ -42,42 +45,66 @@ export default {
 
 <style scoped>
 .game {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: -1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  background-image: url('@/assets/dogam_background.jpg');
 }
 .game__arena {
-  background-image: url('@/assets/game_background.png');
+  background-image: url('@/assets/arena/001.png');
   background-repeat: no-repeat;
-  background-size: cover;
-  border: 2px groove;
-  border-radius: 5px;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 50px;
   width: 39.5vw;
   height: 50vh;
   margin: 3vh 2vw;
   cursor: pointer;
 }
-.game__mandu {
-  border: 2px groove;
-  border-radius: 5px;
+.game__arena:hover {
+  animation: bigger 0.5s linear 0s 1 normal forwards;
+}
+.game__gg {
+  background-image: url('@/assets/arena/002.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 50px;
   width: 39.5vw;
   height: 50vh;
   margin: 3vh 2vw;
   cursor: pointer;
 }
-@media screen and (max-width: 850px) {
+.game__gg:hover {
+  animation: bigger 0.5s linear 0s 1 normal forwards;
+}
+@media screen and (max-width: 660px) {
   .game {
     flex-direction: column;
-    height: auto;
+    height: 110%;
   }
   .game__arena {
     width: 80vw;
     height: 38vh;
+    background-size: cover;
   }
-  .game__mandu {
+  .game__gg {
     width: 80vw;
     height: 38vh;
+    background-size: cover;
+  }
+}
+@keyframes bigger {
+  from {
+    background-size: 100%;
+  }
+  to {
+    background-size: 50vw;
   }
 }
 </style>

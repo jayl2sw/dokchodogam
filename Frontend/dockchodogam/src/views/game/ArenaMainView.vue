@@ -1,14 +1,37 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
   <div class="main" v-show="!this.isLoading">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="main__boxes">
       <div class="box__left">
         <div class="myDeck">
           <div class="nickname">
-            <h3>{{ this.userInfo.nickname }}</h3>
+            <h1 class="TITLE" @click="goToGG()">
+              {{ this.userInfo.nickname }}
+            </h1>
           </div>
           <div class="expBar">
-            <span>rankpoint</span>
+            <img
+              :src="
+                this.imageBaseUrl +
+                '/tier' +
+                Math.min(
+                  (this.userInfo.rank_point -
+                    (this.userInfo.rank_point % 100)) /
+                    100 +
+                    1,
+                  5
+                ) +
+                '.png'
+              "
+              alt="tier"
+              class="tier"
+            />
             <div class="progress">
               <div
                 class="progress-bar"
@@ -25,7 +48,7 @@
           <div class="myDeckDetail">
             <div class="myDeckPower">
               <p>전투력</p>
-              <h2>500</h2>
+              <h1 class="TITLE">{{ this.tot }}</h1>
             </div>
             <div class="myDeckImages">
               <div v-for="(item, i) in this.myDeck" :key="i">
@@ -38,25 +61,33 @@
             </div>
           </div>
           <div class="myDeckBtnBox">
-            <div class="myDeckBtn" @click="goToDeck()">내 덱 수정</div>
+            <div class="myDeckBtn TITLE" @click="goToDeck()">나의 덱 수정</div>
           </div>
         </div>
         <div class="ranking">
           <div class="rankingText">
-            <p>랭킹</p>
+            <p class="TITLE">랭킹</p>
           </div>
           <div class="rankingList">
             <div
               class="rankingListItem"
-              v-for="(item, i) in this.ranking.opponents"
+              v-for="(item, i) in this.ranking"
               :key="i"
             >
-              <div class="rankIntImage">{{ i + 1 }}</div>
-              <div class="rankerName">{{ item.nickname }}</div>
+              <div>
+                <img
+                  class="rankIntImage"
+                  :src="require('@/assets/medal' + (i + 1) + '.png')"
+                  alt=""
+                />
+              </div>
+              <div class="rankerName TITLE">
+                {{ item.nickname }}
+              </div>
               <div class="rankerDeck">
-                <div v-for="(dokcho, j) in this.ranking.yourDecks[i]" :key="j">
+                <div v-for="(dokcho, j) in item.deck" :key="j">
                   <img
-                    :src="this.imageBaseUrl + '/' + dokcho.monsterId + '.png'"
+                    :src="this.imageBaseUrl + '/' + dokcho + '.png'"
                     alt=""
                     class="rankerDeckItem"
                   />
@@ -68,19 +99,18 @@
       </div>
       <div class="box__right">
         <div class="goToHome">
-          <div class="goToHomeBtn" @click="goToGameMain()">홈으로 돌아가기</div>
+          <div class="goToHomeBtn TITLE" @click="goToGameMain()">
+            홈으로 돌아가기
+          </div>
         </div>
         <div class="users">
-          <div class="info__box">
-            <div
-              class="game__info"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              @click="sound()"
-            >
-              <font-awesome-icon icon="fa-solid fa-question" size="xl" />
-            </div>
-          </div>
+          <font-awesome-icon
+            class="game__info"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            @click="sound()"
+            icon="fa-solid fa-circle-info"
+          />
           <div class="userList">
             <div
               v-for="(enemy, i) in this.Enemys.userInfo"
@@ -88,7 +118,9 @@
               class="userListItem"
             >
               <div class="enemyInfo">
-                <div class="enemyName">{{ enemy.nickname }}</div>
+                <div class="enemyName TITLE">
+                  {{ enemy.nickname }}
+                </div>
               </div>
               <div class="enemyDeck">
                 <div v-for="(item, j) in this.Enemys.deck[i]" :key="j">
@@ -99,13 +131,15 @@
                   />
                 </div>
               </div>
-              <div class="gameStartBtn" @click="onClickGameStart(i)">start</div>
+              <div class="gameStartBtn TITLE" @click="onClickGameStart(i)">
+                START
+              </div>
             </div>
           </div>
         </div>
         <div class="buttons">
-          <div class="button" @click="goToGameShop()">상점</div>
-          <div class="button" @click="goToFriend()">친구관리</div>
+          <div class="button TITLE" @click="goToGameShop()">상점</div>
+          <div class="button TITLE" @click="goToFriend()">친구 관리</div>
         </div>
       </div>
     </div>
@@ -129,29 +163,32 @@
             ></button>
           </div>
           <div class="modal-body">
+            <p class="TITLE danger">
+              뒤로가기를 누르면 패배로 기록되니 주의 또 주의!
+            </p>
             <p class="TITLE">
               아레나에서는 여러분과 비슷한 점수의 사람들과 배틀을 할 수 있어요!
             </p>
             <p class="TITLE">
-              대전 상대를 골라 배틀을 시작하면<br />상대의 첫 번째 독초몬과 나의
-              첫 번째 독초몬이 서로를 공격해요.<br /><span class="emphasize"
-                >데미지는 각 독초몬의 최소 데미지와 최대 데미지 사이의
+              대전 상대를 골라 배틀을 시작하면<br />상대의 첫 번째 풀깨비와 나의
+              첫 번째 풀깨비가 서로를 공격해요.<br /><span class="emphasize"
+                >데미지는 각 풀깨비의 최소 데미지와 최대 데미지 사이의
                 랜덤값</span
-              >으로, 매번 달라진답니다.<br />상대의 독초몬의 체력이 먼저 닳게
-              되면 그 다음 순서로 자동으로 넘어가요.<br />나의 독초몬의 체력이
-              모두 닳으면 다음으로 상대를 맞설 독초몬을 덱에서 골라야 해요.
+              >으로, 매번 달라진답니다.<br />상대의 풀깨비의 체력이 먼저 닳게
+              되면 그 다음 순서로 자동으로 넘어가요.<br />나의 풀깨비의 체력이
+              모두 닳으면 다음으로 상대를 맞설 풀깨비을 덱에서 골라야 해요.
             </p>
             <p class="TITLE">
               배틀 도중 <span class="emphasize">딱 한 번 스킬을 발동</span>시킬
               수 있어요.<br />오른쪽 아래의 버튼을 눌러 스킬을 사용해봐요!
-              스킬은 게임이 시작될 때 세 가지 중 랜덤으로 하나를 준답니다.<br />ㅇㅇㅇ은
-              딱 한 번 나의 독초몬을 두 배로 강하게 만들어줘요!<br />ㅁㅁㅁ은 딱
-              한 번 상대의 공격을 무효화시켜요!<br />ㅂㅂㅂ은 딱 한 번 상대의
-              공격을 그대로 상대에게 반사시켜줘요! 대신, 나의 독초몬은 상대를
-              공격할 수 없답니다.
+              스킬은 게임이 시작될 때 세 가지 중 랜덤으로 하나를 준답니다.<br />"승리의
+              불꽃"은 딱 한 번 나의 풀깨비를 두 배로 강하게 만들어줘요!<br />"무적의
+              방패"는 딱 한 번 상대의 공격을 무효화시켜요!<br />"소망의 거울"은
+              딱 한 번 상대의 공격을 그대로 상대에게 반사시켜줘요! 대신, 나의
+              풀깨비는 상대를 공격할 수 없답니다.
             </p>
             <p class="TITLE">
-              독초몬끼리는 상성이 있는데,
+              풀깨비끼리는 상성이 있는데,
               <span class="emphasize">서로가 붙었을 때 공격 버프</span>를 받을
               수 있어요.<br />잡초몬과 독초몬이 만나면 독초몬이 20% 강해져요!<br />독초몬과
               약초몬이 만나면 약초몬이 20% 강해져요!<br />약초몬과 잡초몬이
@@ -162,6 +199,10 @@
               <span class="emphasize"
                 >만약 무승부로 게임이 끝난다면 이는 상대의 승리</span
               >랍니다.
+              <span class="emphasize"
+                >승리하면 10점을 얻고, 진다면 5점을 잃으니</span
+              >
+              조심하세요!
             </p>
             <p class="TITLE">그럼 즐거운 아레나를 시작해볼까요?</p>
           </div>
@@ -185,6 +226,7 @@ export default {
     return {
       Enemys: { userInfo: [], deck: [] },
       myDeck: [],
+      tot: 0,
       ranking: [],
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
@@ -195,7 +237,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck']),
+    ...mapActions(['fetchEnemyInfo', 'fetchUserDeck', 'fetchnowUserInfo']),
     goToGameMain() {
       this.btn_audio.play()
       this.$router.push({ path: '/game' })
@@ -211,6 +253,10 @@ export default {
     goToDeck() {
       this.btn_audio.play()
       this.$router.push({ path: '/game/deck' })
+    },
+    goToGG() {
+      this.btn_audio.play()
+      this.$router.push({ path: '/game/gg' })
     },
     getMyEnemy() {
       axios
@@ -228,7 +274,7 @@ export default {
     },
     getRanking() {
       axios
-        .get(BASE_URL + '/api/v1/game/deck/opponentInfo', {
+        .get(BASE_URL + '/api/v1/game/ranking', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
@@ -258,10 +304,12 @@ export default {
   },
   created() {
     this.getMyEnemy()
+    this.fetchnowUserInfo()
     this.fetchUserDeck()
     this.getRanking()
     setTimeout(() => {
       this.isLoading = false
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
       if (this.enemyInfo.nickname) {
         this.fetchEnemyInfo('')
       }
@@ -271,6 +319,7 @@ export default {
     this.audio.loop = true
     this.audio.volume = 0.5
     this.audio.play()
+    console.log('tier : ' + this.mytier)
   },
   beforeUnmount() {
     this.audio.pause()
@@ -282,6 +331,11 @@ export default {
     userDeck() {
       this.myDeck = this.userDeck
       console.log('와치', this.myDeck)
+      for (let index = 0; index < 5; index++) {
+        this.tot +=
+          (this.myDeck[index].maxAttack + this.myDeck[index].minAttack) / 2
+      }
+      console.log(this.tot)
     }
   }
 }
@@ -315,26 +369,39 @@ export default {
   height: 39vh;
   width: 40vw;
   margin: 1vh 0;
-  padding: 0 2vw;
+  padding: 2vh 2vw;
   background-color: #ececec;
 }
 .nickname {
-  height: 13vh;
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.nickname > h1 {
+  font-size: 5vh;
+}
+.nickname > h1:hover {
+  color: #467302;
+}
 .myDeckDetail {
-  height: 10vh;
+  height: 13vh;
   display: flex;
   justify-content: space-between;
   margin: 2vh 0;
+  padding: 0 1vw;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
 }
 .expBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 2vh;
+}
+.tier {
+  width: 5vw;
+  margin-left: 2vh;
 }
 .progress {
   background-color: white;
@@ -356,7 +423,7 @@ export default {
   font-size: 2vh;
   margin: 0;
 }
-.myDeckPower > h2 {
+.myDeckPower > h1 {
   font-size: 3vh;
   margin: 0;
 }
@@ -368,8 +435,8 @@ export default {
   height: 100%;
 }
 .myDeckImage {
-  width: 6vw;
-  height: 6vw;
+  width: 5vw;
+  height: 5vw;
 }
 .myDeckBtnBox {
   display: flex;
@@ -380,11 +447,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 15vw;
+  font-size: 1.2vw;
+  width: 10vw;
   height: 5vh;
   background-color: #a7c957;
   cursor: pointer;
+  transition: 0.3s;
+}
+.myDeckBtn:hover {
+  background-color: #467302;
+  color: white;
 }
 .ranking {
   display: flex;
@@ -413,13 +485,13 @@ export default {
 }
 .rankingListItem {
   border-radius: 15px;
-  box-shadow: 2px 2px 2px;
-  width: 33vw;
+  width: 35vw;
   height: 8vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 1vh 1vw;
 }
 .rankIntImage {
   width: 3vw;
@@ -431,16 +503,17 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5vw;
+  font-size: 1.1vw;
 }
+
 .rankerDeck {
   width: 23vw;
   display: flex;
   justify-content: space-evenly;
 }
 .rankerDeckItem {
-  width: 4vw;
-  height: 4vw;
+  width: 3vw;
+  height: 3vw;
 }
 .box__right {
   display: flex;
@@ -459,24 +532,30 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 20vw;
-  height: 5vh;
-  background-color: #a7c957;
+  font-size: 1.5vw;
+  width: 13vw;
+  height: 6vh;
+  background-color: white;
   cursor: pointer;
+  transition: 0.3s;
+}
+.goToHomeBtn:hover {
+  background-color: #467302;
+  color: white;
 }
 .users {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 20px;
-  height: 65vh;
+  height: 55vh;
   width: 50vw;
   background-color: #467302;
+  position: relative;
 }
 .userList {
   margin: 2vh 2.5vw;
-  height: 55vh;
+  height: 100%;
   width: 45vw;
   display: flex;
   flex-direction: column;
@@ -484,10 +563,10 @@ export default {
   align-items: center;
 }
 .userListItem {
-  border-radius: 15px;
-  box-shadow: 5px 5px 10px;
-  height: 13vh;
-  width: 40vw;
+  border-radius: 30px;
+  /* box-shadow: 5px 5px 10px; */
+  height: 12vh;
+  width: 100%;
   margin: 1vh 2vw;
   display: flex;
   justify-content: space-around;
@@ -498,13 +577,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5vw;
+  width: 7vw;
 }
 .enemyName {
-  font-size: 1.5vw;
+  font-size: 1.2vw;
+  margin-left: 1vw;
 }
+
 .enemyDeck {
-  width: 28vw;
+  width: 30vw;
   height: 10vh;
   display: flex;
   justify-content: space-evenly;
@@ -519,12 +600,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vh;
+  font-size: 1.3vh;
   width: 5vw;
   height: 5vh;
-  background-color: #ffe140;
+  background-color: #ccc;
   margin-right: 0.5vw;
   cursor: pointer;
+  transition: 0.3s;
+}
+.gameStartBtn:hover {
+  background-color: #ffe140;
 }
 .buttons {
   display: flex;
@@ -537,26 +622,29 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 15vw;
-  height: 5vh;
-  background-color: #a7c957;
+  font-size: 2.5vh;
+  width: 10vw;
+  height: 6vh;
+  background-color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
-.info__box {
-  display: flex;
-  justify-content: flex-end;
+.button:hover {
+  background-color: #467302;
+  color: white;
 }
 .game__info {
-  margin: 2vh 2vw;
-  width: 25px;
-  height: 25px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 3vh;
+  height: 3vh;
   cursor: pointer;
-  background-color: #ececec;
+  color: white;
+  position: absolute;
+  top: 1vh;
+  right: 1vw;
+  transition: 0.3s;
+}
+.game__info:hover {
+  color: #ffe140;
 }
 .modal-dialog {
   min-width: 90vw;
@@ -574,11 +662,11 @@ export default {
   border: none;
 }
 .modal-title {
-  font-size: 2vh;
+  font-size: 4vh;
 }
 .modal-body {
-  font-size: 1.5vh;
-  line-height: 3vh;
+  font-size: 1.2vw;
+  line-height: 2.5vw;
   padding: 2vh 2vw;
   overflow: scroll;
 }
@@ -588,9 +676,18 @@ export default {
 .emphasize {
   font-family: 'UhBeeSe_hyun';
   color: #467302;
-  font-size: 1.8vh;
+  font-size: 1.5vw;
 }
-@media screen and (max-width: 850px) {
+.danger {
+  color: red;
+  font-size: 1.7vw;
+  margin-bottom: 2vw;
+  font-weight: bold;
+}
+/* @media screen and (max-width: 850px) {
+  .nickname > h1 {
+    font-size: 1vw;
+  }
   .game__info {
     top: 10px;
     right: 10px;
@@ -606,6 +703,48 @@ export default {
     border-radius: 20px;
     border: none;
     overflow: scroll;
+  }
+} */
+@media only screen and (orientation: portrait) {
+  .main {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .main__boxes {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+  .danger {
+    font-size: 7vw;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 1vw;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
+  }
+  .enemyInfo {
+    width: 9vw;
+  }
+  .enemyDeck {
+    width: 28vw;
+  }
+  .gameStartBtn {
+    width: 7vw;
+    font-size: 1vh;
   }
 }
 </style>

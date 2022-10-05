@@ -5,14 +5,17 @@ import { RootState } from '../index'
 
 export interface accountsState {
   userInfo: object
+  nowUserInfo: object
 }
 
 export const accounts: Module<accountsState, RootState> = {
   state: {
-    userInfo: {}
+    userInfo: {},
+    nowUserInfo: {}
   },
   getters: {
     userInfo: (state) => state.userInfo,
+    nowUserInfo: (state) => state.nowUserInfo,
     // 로그인 여부를 가져옵니다.
     // isLogin(state) {
     //   return localStorage.getItem('refreshToken') === '' ? false : true
@@ -43,13 +46,31 @@ export const accounts: Module<accountsState, RootState> = {
       state.userInfo = userInfo
       localStorage.setItem('userInfo', JSON.stringify(userInfo))
       console.log(localStorage.getItem('userInfo'))
+    },
+    SET_NOWUSERINFO(state, nowUserInfo) {
+      localStorage.setItem('userInfo', JSON.stringify(nowUserInfo))
+      state.nowUserInfo = nowUserInfo
     }
   },
   actions: {
     async fetchUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
-
+    fetchnowUserInfo({ commit }) {
+      axios({
+        url: 'https://j7e201.p.ssafy.io/api/v1/user/myinfo',
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          // 'Content-Type': 'application/json'
+        }
+      })
+        .then((res) => {
+          commit('SET_NOWUSERINFO', res.data)
+          console.log('현재 유저 데이터~', res.data)
+        })
+        .catch((err) => console.log(err))
+    },
     // Access-Token를 갱신합니다.
     async doRefreshToken() {
       if (localStorage.getItem('accessToken') !== '') {
@@ -73,6 +94,8 @@ export const accounts: Module<accountsState, RootState> = {
               result.data.accessToken
           } else {
             console.log('다시 로그인 하셈')
+            alert('다시 로그인 해주세요🙏')
+            window.location.href = '/'
             // let err = new Error("Request failed with status code 401");
             // err.status = 401;
             // err.response = {data:{"success":false, "errormessage":"Access-Token이 갱신되었습니다."}};
@@ -81,6 +104,8 @@ export const accounts: Module<accountsState, RootState> = {
         } catch (err) {
           console.log('다시 로그인 하셈')
           console.log(err)
+          alert('다시 로그인 해주세요🙏')
+          window.location.href = '/'
           // if (!err.response) {
           // err.response = {data:{"success":false, "errormessage":err.message}};
           // }
@@ -88,6 +113,8 @@ export const accounts: Module<accountsState, RootState> = {
         }
       } else {
         console.log('다시 로그인 하셈')
+        alert('다시 로그인 해주세요🙏')
+        window.location.href = '/'
         // let err = new Error("Access-Token does not exist");
         // err.status = 401;
         // err.response = {data:{"success":false, "errormessage":"Access-Token이 없습니다."}};

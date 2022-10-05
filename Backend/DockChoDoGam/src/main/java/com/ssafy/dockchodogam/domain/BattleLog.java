@@ -1,5 +1,6 @@
 package com.ssafy.dockchodogam.domain;
 
+import com.ssafy.dockchodogam.domain.basetime.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Table(name = "battle_log")
-public class BattleLog {
+public class BattleLog extends BaseTime {
 
     @Id
     @GeneratedValue
@@ -29,6 +30,6 @@ public class BattleLog {
     private Integer defendMonsterHp;
     private Integer attackMonsterDamage;
     private Integer defendMonsterDamage;
-    private Long skillId;
+    private Long skill;
     private boolean skillUsage;
 }

@@ -48,8 +48,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         }
 
         String email = (String) attributes.get("email");
-        Map<String, Object> profile = (Map<String, Object>) attributes.get("profile");
-        String nickname = (String) profile.get("nickname");
 
         // db 확인
         // 새로운 유저 -> 회원가입
@@ -57,10 +55,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         TokenDto tokenDto = new TokenDto();
 
         if(!entity.isPresent()){
-            User user = User.builder().username(passwordMaker.make())
+            User user = User.builder().username(email)
                     .password(passwordMaker.make())
                     .email(email)
-                    .nickname(nickname)
+                    .nickname("")
                     .role(Role.ROLE_USER)
                     .representMonster(monsterRepository.findById(Long.parseLong("8")).orElseThrow(MonsterNotFoundException::new))
                     .build();

@@ -52,10 +52,9 @@ public class GameController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = MonsterInfoResponseDto.class)
     })
-    public ResponseEntity<?> getMyMonsters(Pageable pageable){
+    public ResponseEntity<?> getMyMonsters(){
         Long userId = userService.getMyInfo().getUser_id();
-        Slice<MonsterInfoResponseDto> list = gameService.getMyMonsterList(userId, pageable);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(gameService.getMyMonsterList(userId), HttpStatus.OK);
     }
 
     @GetMapping("/monster/detail/{monster_id}")
@@ -156,6 +155,18 @@ public class GameController {
         return new ResponseEntity<>(gameService.getMyRank(rankPoint), HttpStatus.OK);
     }
 
+    @GetMapping("/yourranking/{user_id}")
+    @ApiOperation(value = "특정 유저 랭킹 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = Long.class)
+    })
+    public ResponseEntity<?> getYourRanking(
+            @PathVariable @ApiParam(value = "유저 아이디") Long user_id){
+        // 랭킹 조회
+        int rankPoint = userService.getUserInfo(user_id).getRank_point();
+        return new ResponseEntity<>(gameService.getMyRank(rankPoint), HttpStatus.OK);
+    }
+
     @GetMapping("/shop")
     @ApiOperation(value = "판매 상품 리스트 조회")
     @ApiResponses({
@@ -166,18 +177,18 @@ public class GameController {
         return new ResponseEntity<>(gameService.getItems(), HttpStatus.OK);
     }
 
-    @PostMapping("/monster/pick")
+    @GetMapping("/monster/pick/{item_id}")
     @ApiOperation(value = "독초몬 뽑기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = MonstersResponseDto.class)
     })
     public ResponseEntity<?> getRandomMonsters(
-            @RequestBody @ApiParam(value = "아이템 아이디") Long itemId){
+            @PathVariable @ApiParam(value = "아이템 아이디") Long item_id){
         UserResponseDto user = userService.getMyInfo();
         // 랜덤 독초몬 뽑기
         // 이미 있는 독초몬이라면 일부 냥 돌려주기
         // 새로운 독초몬이라면 유저 보유 독초몬에 추가
-        return new ResponseEntity<>(gameService.getRandomMonsters(user, itemId), HttpStatus.OK);
+        return new ResponseEntity<>(gameService.getRandomMonsters(user, item_id), HttpStatus.OK);
     }
 
     @PostMapping("/charge")

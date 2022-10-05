@@ -1,68 +1,86 @@
 <template>
   <div class="gacha">
     <div class="gacha__header">
-      <h3>독초몬 뽑기</h3>
+      <h3 h2 class="TITLE">풀깨비 뽑기</h3>
     </div>
     <div class="gacha__body">
-      <img class="gatcha__img" src="@/assets/tree.png" />
-      <button @click="doubleCheck">뽑기</button>
+      <p>✨ 일반 ~ 스페셜 풀깨비 ✨등장!</p>
+      <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
+    </div>
+    <div class="gacha__footer">
+      <button class="btn" @click="doubleCheck">
+        <span class="TITLE">💰 100냥</span>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 
 export default {
   // data() {
   //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
   // },
+  data() {
+    return {
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
+    }
+  },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['nowUserInfo'])
   },
   methods: {
+    ...mapActions(['fetchMonsterGacha', 'fetchnowUserInfo']),
     doubleCheck() {
-      swal({
-        text: '200냥을 내고 뽑기를 진행하시겠습니까?',
-        buttons: ['취소', '확인']
-      }).then(function (result) {
-        console.log(result)
-
-        if (result === true) {
-          if (this.userInfo.money >= 200) {
-            this.$router.push({
-              path: '/game/shop/gacha'
-            })
-          } else {
-            swal({
-              title: '보유하신 냥이 부족합니다. 😢',
-              text: '냥을 모아서 다시 도전하세요!',
-              icon: 'error',
-              buttons: false,
-              timer: 1500
-            })
+      this.btn_audio.play()
+      swalWithBootstrapButtons
+        .fire({
+          title: '100냥을 내고 뽑기를 하시겠어요?',
+          text: '원하는 풀깨비를 생각하며 고고고 🙂',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            // console.log(result)
+            this.fetchGacha()
           }
-        }
-        // if (confirm('200냥을 내고 뽑기를 진행하시겠습니까?') === true) {
-        //   if (this.userInfo.money >= 200) {
-        //     this.$router.push({
-        //       path: '/game/shop/gacha'
-        //     })
-        //   } else {
-        //     swal({
-        //       title: '보유하신 냥이 부족합니다. 😢',
-        //       text: '냥을 모아서 다시 도전하세요!',
-        //       icon: 'error',
-        //       buttons: false,
-        //       timer: 1500
-        //     })
-        //     return false
-        //   }
-        // } else {
-        //   return false
-        // }
-      })
+        })
+    },
+    fetchGacha() {
+      if (this.nowUserInfo.money >= 100) {
+        this.fetchMonsterGacha()
+        // this.fetchUserInfo()
+        setTimeout(() => {
+          this.$router.replace({
+            path: '/game/shop/gacha'
+          })
+        }, 1000)
+      } else {
+        swal({
+          title: '보유하신 냥이 부족합니다 😢',
+          text: '냥을 모아서 다시 도전하세요!',
+          icon: 'error',
+          buttons: false,
+          timer: 1500
+        })
+        return false
+      }
     }
   }
 }
@@ -70,18 +88,85 @@ export default {
 
 <style scoped>
 .gacha {
+  width: 30vw;
+  height: 60vh;
+  /* background-color: green; */
 }
 .gacha__header {
   text-align: center;
+  margin-top: 5vh;
 }
 
+.gacha__header h3 {
+  margin-bottom: 1vmin;
+}
+
+.gacha__body p {
+  margin: 0;
+}
 .gacha__body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  /* margin-bottom: 0; */
 }
 
 .gatcha__img {
-  width: 20vw;
-  height: 30vh;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gacha__footer {
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: 2vh; */
+}
+
+.btn {
+  /* align-self: center; */
+  min-width: 50px;
+  /* width: 30%; */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  color: black;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  /* margin: auto; */
+  box-shadow: 0 0 10px #000;
+  border-radius: 10px;
+  background-color: #a7c957;
+  background-image: #a7c957;
+}
+.btn:hover {
+  background-position: right center;
+  background-color: #467302;
+  color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 1.5vw;
+  }
+  .btn > .TITLE {
+    font-size: 2vw;
+  }
+  .btn {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gatcha__img {
+    width: 15vw;
+  }
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 </style>

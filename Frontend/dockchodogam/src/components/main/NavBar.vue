@@ -39,7 +39,7 @@
               </a>
             </li>
             <li>
-              <a href="/" @click="logout()">
+              <a href="#" @click="logout()">
                 <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
               </a>
             </li>
@@ -114,6 +114,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+})
 export default {
   data() {
     return {
@@ -127,9 +139,49 @@ export default {
       this.showMenu = !this.showMenu
       this.$emit('overflow', this.showMenu)
     },
-    async logout() {
-      localStorage.clear()
-      await alert('로그아웃되셨습니다. 다음에 또 봐용~❤')
+    logout() {
+      swalWithBootstrapButtons
+        .fire({
+          title: '도감을 덮으시겠어요?',
+          text: '풀깨비들이 도감에서 웅성거리고 있어요 😥',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            // console.log(result)
+            this.fetchLogout()
+          }
+        })
+    },
+    fetchLogout() {
+      axios
+        .put(BASE_URL + '/api/v1/user/logout', null, {
+          headers: {
+            // 'Content-type': 'application/json',
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          swal({
+            title: '로그아웃이 완료되었습니다!',
+            text: ' 다시 도감을 펼치는 날을 기다릴게요 🌻 ',
+            icon: 'success',
+            buttons: false,
+            timer: 1500
+          })
+          localStorage.clear()
+          this.$router.push({
+            path: '/'
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     popon(path) {
       console.log(process.env)
@@ -221,7 +273,7 @@ a {
   right: -60vw;
   background: #cde29d;
   padding: 1vh 2vw;
-  z-index: 9999;
+  z-index: 2;
   overflow: auto;
 }
 .sideBar__menu {
@@ -238,7 +290,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9998;
+  z-index: 1;
   display: none;
 }
 .sideBar__items {

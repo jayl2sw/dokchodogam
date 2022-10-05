@@ -1,44 +1,89 @@
 <template>
-  <NavBar @overflow="overflow" />
-  <div class="result">
+  <LoadingPage v-if="this.isLoading" />
+  <NavBar v-show="!this.isLoading" @overflow="overflow" />
+  <div
+    v-show="!this.isLoading"
+    v-if="photoResult !== null && monsterDetail !== null"
+    class="result"
+  >
     <div class="result__body">
       <div class="result__left">
-        <div></div>
-        <!-- 조건 걸기 / 독초몬 유,무 -->
-        <div v-if="!results" class="dockchoMonster">
+        <!-- <p>결과창페이지</p> -->
+        <!-- <p>{{ this.photoResult }}</p> -->
+        <!-- {{ photoResult.plant }} -->
+        <!-- 도감에 없을 때  -->
+        <div v-if="this.photoResult.onDogam === false" class="dockchoMonster">
           <undefined-find />
         </div>
+        <!-- 도감 O 새로 찾음 -->
         <div
-          v-else-if="results.onDogam && !results.isOverlapped"
+          v-else-if="
+            this.photoResult.onDogam === true &&
+            this.photoResult.isOverlapped === false
+          "
           class="dockchoMonster"
         >
-          <new-find :plant="results.plant" />
+          <new-find :monsterDetail="monsterDetail" />
         </div>
+        <!-- 도감 O 중복 찾음 -->
         <div
-          v-else-if="results.onDogam && results.isOverlapped"
+          v-else-if="
+            this.photoResult.onDogam === true &&
+            this.photoResult.isOverlapped === true
+          "
           class="dockchoMonster"
         >
-          <duplicate-find :plant="results.plant" />
+          <duplicate-find :monsterDetail="monsterDetail" />
         </div>
       </div>
       <div class="result__right">
-        <img src="@/assets/cat.png" alt="cat" />
+        <!-- <img src="@/assets/cat.png" alt="cat" /> -->
         <div class="dockchoExplanation__container">
-          <div v-if="!results" class="dockchoExplanation">
-            <img src="@/assets/flower_ex.png" alt="flower" />
-            <!-- <h3 v-if="results.docko == true">
+          <div v-if="this.photoResult.plant" class="dockchoExplanation">
+            <img
+              v-if="this.photoResult.plant.imgUrl !== 'NONE'"
+              :src="
+                this.imageBaseUrl +
+                '/' +
+                this.photoResult.plant.plantId +
+                '.png'
+              "
+              alt="flower"
+            />
+            <h3 v-show="this.photoResult.isDokcho == true" class="notice TITLE">
               독초입니다! 채집 및 섭취에 주의하세요.
-            </h3> -->
-            <h3>{{ results.plant.name }}</h3>
-            <p>
-              {{ results.plant.familyKorNm }} {{ results.plant.genusKorNm }}
+            </h3>
+            <h3 class="TITLE">{{ this.photoResult.plant.name }}</h3>
+            <!-- <p>{{ this.photoResult.plant.monsterId }}</p> -->
+            <p
+              v-if="
+                this.photoResult.plant.familyKorNm &&
+                this.photoResult.plant.genusKorNm
+              "
+            >
+              {{ this.photoResult.plant.familyKorNm }}
+              {{ this.photoResult.plant.genusKorNm }}
             </p>
-            <p>원산지 : {{ results.plant.dstrb }}</p>
-            <p>{{ results.plant.flwrDesc }}</p>
-            <p>{{ results.plant.grwEvrntDesc }}</p>
-          </div>
-          <div v-else>
-            <p>정보가 없어요 ㅠㅠ</p>
+            <p v-if="this.photoResult.plant.dstrb">
+              <span class="subheading">원산지 :</span>
+              {{ this.photoResult.plant.dstrb }}
+            </p>
+            <p v-if="this.photoResult.plant.flwrDesc">
+              <span class="subheading">꽃 🌺 :</span>
+              {{ this.photoResult.plant.flwrDesc }}
+            </p>
+            <p v-if="this.photoResult.plant.fritDesc">
+              <span class="subheading">열매 🍈 :</span>
+              {{ this.photoResult.plant.fritDesc }}
+            </p>
+            <p v-if="this.photoResult.plant.grwEvrntDesc">
+              <span class="subheading"> 어디서 자라나요? 🌿 </span>:
+              {{ this.photoResult.plant.grwEvrntDesc }}
+            </p>
+            <br />
+            <p style="color: gray; font-size: small; text-align: center">
+              {{ this.photoResult.plant.cprtCtnt }}
+            </p>
           </div>
           <div class="tree_container">
             <img class="tree1" src="@/assets/tree.png" alt="tree" />
@@ -48,39 +93,66 @@
         </div>
       </div>
     </div>
-    <div class="result__footer">
-      <div>
-        <!-- <button @click="goToCamera">다시 촬영하기</button> -->
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/main/NavBar.vue'
 import NewFind from '@/components/camera/NewFind.vue'
-// import DuplicateFind from '@/components/camera/DuplicateFind.vue'
-// import UndefinedFind from '@/components/camera/UndefinedFind.vue'
+import DuplicateFind from '@/components/camera/DuplicateFind.vue'
+import UndefinedFind from '@/components/camera/UndefinedFind.vue'
+import { mapGetters } from 'vuex'
+import axios from 'axios'
+import LoadingPage from '@/components/main/LoadingPage.vue'
 
 export default {
   components: {
     NavBar,
-    NewFind
-    // DuplicateFind,
-    // UndefinedFind
+    LoadingPage,
+    NewFind,
+    DuplicateFind,
+    UndefinedFind
   },
   data() {
     return {
-      results: this.$route.params
+      isLoading: true,
+      monsterDetail: {},
+      imageBaseUrl: process.env.VUE_APP_PLANTS_S3_URL
     }
   },
 
+  computed: {
+    ...mapGetters(['photoResult'])
+  },
+
   methods: {
+    fetchMonsterDetail() {
+      axios({
+        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.photoResult.plant.monsterId}`,
+        method: 'GET',
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+        .then((res) => {
+          console.log(res.data)
+          this.monsterDetail = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     goToCamera() {
       this.$router.push({
         path: '/camera'
       })
     }
+  },
+  created() {
+    this.fetchMonsterDetail()
+    setTimeout(() => {
+      this.isLoading = false
+    }, 2000)
   }
 }
 </script>
@@ -91,6 +163,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   margin-top: 7vh;
+  /* height: 90vh;
+  background-image: url('@/assets/dogam_background.jpg'); */
 }
 .result__body {
   display: flex;
@@ -104,6 +178,7 @@ export default {
   justify-content: space-around;
   text-align: center;
   margin-right: 2%;
+  height: 100%;
 }
 .result__right {
   display: flex;
@@ -123,12 +198,12 @@ export default {
   justify-content: center;
 }
 .dockchoMonster {
-  border-style: groove;
-  border-color: black;
-  border-width: 5px;
-  border-radius: 10px;
-  width: 40vw;
-  height: 40vh;
+  /* border-style: groove; */
+  /* border-color: black; */
+  /* border-width: 5px; */
+  /* border-radius: 10px; */
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,20 +223,55 @@ export default {
   text-align: left;
   position: relative;
 }
+
 .dockchoExplanation {
   height: 60vh;
   overflow: auto;
-  color: #215f00;
+}
+
+.dockchoExplanation h3 {
+  /* height: 60vh;
+  overflow: auto; */
+  margin-top: 3vmin;
+  margin-bottom: 3vmin;
+}
+
+.notice {
+  font-size: medium;
+  text-align: center;
+  color: red;
+}
+.dockchoExplanation p {
+  /* height: 60vh;
+  overflow: auto; */
+  color: #000000;
+}
+
+.subheading {
+  color: #000000;
+  font-weight: bold;
+}
+
+.copyright {
+  color: #d0d0d0;
 }
 
 .dockchoExplanation > img {
-  float: left;
-  width: 10vw;
-  height: 60vh;
-  margin-right: 1vw;
-  margin-bottom: 1vh;
+  display: block;
+  /* float: left; */
+  width: 100%;
+  /* width: 10vw; */
+  height: 40%;
+  margin: auto;
+  /* margin-right: 1vw;
+  margin-bottom: 1vh; */
   object-fit: cover;
 }
+
+/* .dockchoExplanation_none p {
+  align-self: center;
+  text-align: center;
+} */
 
 .tree_container img {
   height: 8vh;
@@ -170,6 +280,7 @@ export default {
 }
 .tree_container .tree1 {
   left: -1vw;
+  /* bottom: 1vh; */
 }
 .tree_container .tree2 {
   height: 5vh;

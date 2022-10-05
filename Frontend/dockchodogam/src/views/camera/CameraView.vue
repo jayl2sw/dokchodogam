@@ -27,6 +27,30 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 // import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
 import swal from 'sweetalert'
+// import { mapActions } from 'vuex'
+import { useStore } from 'vuex'
+
+const useRouterCustom = () => {
+  const router = useRouter()
+
+  const goToResult = () => {
+    router.push('/camera/result')
+  }
+  return {
+    goToResult
+  }
+}
+
+const useRouterMain = () => {
+  const router = useRouter()
+
+  const goToMain = () => {
+    router.push('/')
+  }
+  return {
+    goToMain
+  }
+}
 
 export default defineComponent({
   name: 'App',
@@ -35,6 +59,13 @@ export default defineComponent({
     NavBar
   },
   setup() {
+    const store = useStore()
+
+    const { goToResult } = useRouterCustom()
+
+    const { goToMain } = useRouterMain()
+    // this.store.dispatch
+
     const camera = ref<InstanceType<typeof Camera>>()
 
     const cameras: Ref<MediaDeviceInfo[]> = ref([])
@@ -48,8 +79,18 @@ export default defineComponent({
       }
     })
 
-    const route = useRoute()
-    const router = useRouter()
+    // const route = useRoute()
+    // const router = useRouter()
+    // const useRouterCustom = () => {
+    //   const router = useRouter()
+
+    //   const goToResult = () => {
+    //     router.push('/camera/result')
+    //   }
+    //   return {
+    //     goToResult
+    //   }
+    // }
     const start = () => camera.value?.start()
     const stop = () => camera.value?.stop()
     const pause = () => camera.value?.pause()
@@ -83,25 +124,23 @@ export default defineComponent({
         data: formdata
       })
         .then((res) => {
-          console.log(res.data)
-          if (res.data === null) {
-            swal({
-              title: '사진을 다시 찍어주세요 😢',
-              text: '찍어 주신 사진을 인식하지 못했어요 ...',
-              icon: 'error',
-              timer: 1500
-            })
-          } else {
-            result.value = res.data
-            // router push 하면서 result.value 담아서 보내기
-            router.push({
-              path: '/camera/result',
-              params: result.value
-            })
-          }
+          result.value = res.data
+          console.log('result value')
+          console.log(result.value.plant)
+          store.dispatch('fetchphotoResult', res.data)
+          // 받은 데이터 store에 저장
+          // this.fetchphotoResult(res.data)
+          // setTimeout(() => console.log('결과값 저장~'), 2000)
+
+          goToResult()
         })
         .catch((err) => {
-          alert(err)
+          swal({
+            title: '사진을 다시 찍어주세요 😢',
+            text: '찍어 주신 사진을 인식하지 못했어요 ...',
+            icon: 'error',
+            timer: 1500
+          })
           console.log(err)
         })
     }
@@ -115,11 +154,11 @@ export default defineComponent({
       camera.value?.changeCamera(target.value)
     }
 
-    const goToMain = () => {
-      router.push({
-        name: 'main'
-      })
-    }
+    // const goToMain = () => {
+    //   router.push({
+    //     name: 'main'
+    //   })
+    // }
 
     return {
       camera,

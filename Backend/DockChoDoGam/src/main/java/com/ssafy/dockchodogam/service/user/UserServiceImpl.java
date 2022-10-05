@@ -49,11 +49,40 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkUsername(String username){
+        Optional<User> entity = userRepository.findByUsername(username);
+
+        return entity.isPresent();
+    }
+
+    @Override
     public boolean checkNickName(String nickname) {
         // 이미 있으면 true, 없으면 false
         Optional<User> entity = userRepository.findByNickname(nickname);
 
         return entity.isPresent();
+    }
+
+    @Override
+    public boolean checkPW(Long id, String nowPW){
+        String username = userRepository.findById(id).orElseThrow(UserNotFoundException::new).getUsername();
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, nowPW);
+
+        Authentication authentication = authenticationManagerBuilder.getObject()
+                .authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkSameUser(String email, String username){
+        Long emailId = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new).getUserId();
+        Long nameId = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new).getUserId();
+
+        return emailId == nameId;
     }
 
     @Override
@@ -94,14 +123,10 @@ public class UserServiceImpl implements UserService{
             throw new DuplicateEmailException();
         }
 
-        if(userRepository.findByNickname(requestDto.getNickname()).orElse(null)!=null){
-            throw new DuplicateNicknameException();
-        }
-
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .email(requestDto.getEmail())
-                .nickname(requestDto.getNickname())
+                .nickname("")
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                 .role(Role.ROLE_USER)
                 // 대표 독초몬은 개나리몬이 디폴트
@@ -139,6 +164,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponseDto getMyInfo(){
         return UserResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new));
+    }
+
+
+    @Override
+    public UserResponseDto getUserInfo(Long userId) {
+        return UserResponseDto.from(userRepository.findById(userId).orElseThrow(UserNotFoundException::new));
     }
 
 //  현재 사용처 없음
@@ -203,6 +234,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void setNickname(String nickname){
+        if(checkNickName(nickname)) throw new DuplicateNicknameException();
+
+        User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        me.setNickname(nickname);
+        userRepository.save(me);
+    }
+
+    @Override
     public TokenDto refresh(TokenRequestDto requestDto){
         // Refresh Token 검증
         if(!tokenProvider.validateToken(requestDto.getRefreshToken())){
@@ -228,6 +268,7 @@ public class UserServiceImpl implements UserService{
 
         // DB 정보 업데이트
         entity.saveToken(tokenDto.getRefreshToken());
+        userRepository.save(entity);
 
         // 토큰 발급
         return tokenDto;
@@ -256,11 +297,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public void requestFriend(Long id) {
         User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-//        if(getFriendCount(me.getUserId()) >= 10){
-//            throw new TooManyFriendsException();
-//        }
 
         User other = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        Optional<Propose> propose = proposeRepository.findByTwoId(me.getUserId(), other.getUserId());
+        if(propose.isPresent()){
+            throw new DuplicateProposeException();
+        }
 
         Optional<Friend> friend = friendRepository.findByTwoId(me.getUserId(), other.getUserId());
         if(friend.isPresent()){
@@ -413,6 +456,14 @@ public class UserServiceImpl implements UserService{
         Monster monster =  monsterRepository.findById(id).orElseThrow(MonsterNotFoundException::new);
 
         me.setRepresentMonster(monster);
+        userRepository.save(me);
+    }
+
+    @Override
+    public void changeRankPoint(int point){
+        User me = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        me.changeRankPoint(point);
+
         userRepository.save(me);
     }
 }

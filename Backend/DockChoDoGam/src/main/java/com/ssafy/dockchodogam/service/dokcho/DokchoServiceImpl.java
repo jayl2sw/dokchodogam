@@ -5,19 +5,14 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
-import com.ssafy.dockchodogam.domain.Monster;
-import com.ssafy.dockchodogam.domain.Plant;
-import com.ssafy.dockchodogam.domain.User;
-import com.ssafy.dockchodogam.domain.UserMonster;
+import com.ssafy.dockchodogam.domain.*;
 import com.ssafy.dockchodogam.dto.exception.plant.PlantNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
-import com.ssafy.dockchodogam.repository.PlantRepository;
-import com.ssafy.dockchodogam.repository.TodayPlantRepository;
-import com.ssafy.dockchodogam.repository.UserMonsterRepository;
-import com.ssafy.dockchodogam.repository.UserRepository;
+import com.ssafy.dockchodogam.repository.*;
 import com.ssafy.dockchodogam.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -25,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,14 +44,17 @@ public class DokchoServiceImpl implements DokchoService {
     private final UserMonsterRepository userMonsterRepository;
     private final TodayPlantRepository todayPlantRepository;
     private final AmazonS3Client amazonS3Client;
+    private final PlantMongoRepository plantMongoRepository;
+    private final MonsterRepository monsterRepository;
+    private final ArchiveRepository archiveRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
     private String apiKey;
 
     @Override
-    public List<PlantListDto> findAllPlants() {
-        List<PlantListDto> plantList = plantRepository.findAll().stream()
+    public List<PlantListDto> findAllPlants(int page) {
+        List<PlantListDto> plantList = plantRepository.findAll(PageRequest.of(page, 20)).stream()
                 .map(p -> new PlantListDto(p.getPlantId(), p.getName(), p.getEngNm(), p.getImgUrl(),
                         p.getFamilyKorNm(), p.getGenusKorNm(), p.getPlantSpecsScnm()))
                 .collect(Collectors.toList());
@@ -64,12 +63,8 @@ public class DokchoServiceImpl implements DokchoService {
 
     @Override
     public PlantDetailDto findPlantDetail(Long plantId) {
-        Optional<Plant> plant = plantRepository.findById(plantId);
-        if (plant.isPresent()) {
-            PlantDetailDto result = createDto(plant.get());
-            return result;
-        }
-        return null;
+        Plant plant = plantRepository.findPlantByPlantId(plantId).orElseThrow(PlantNotFoundException::new);
+        return PlantDetailDto.from(plant);
     }
 
     @Override
@@ -85,23 +80,20 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public void addFoundMonster(Monster monster) {
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+
         UserMonster userMonster = UserMonster.builder().user(user).monster(monster).build();
         userMonsterRepository.save(userMonster);
     }
 
     @Override
     public PlantDetailDto findPlantByPlantSpecsScnm(String plantSpecsScnm) {
-        Optional<Plant> plant = plantRepository.findByplantSpecsScnm(plantSpecsScnm);
-        if (plant.isPresent()) {
-            PlantDetailDto dto = createDto(plant.get());
-            return dto;
-        }
-        return null;
+        Plant plant = plantRepository.findByplantSpecsScnm(plantSpecsScnm).orElseThrow(PlantNotFoundException::new);
+        return new PlantDetailDto().from(plant);
     }
 
     @Override
     public String savePlantImage(MultipartFile file) {
-        if(file.isEmpty()){
+        if (file.isEmpty()){
             throw new RuntimeException("이미지가 없습니다.");
         }
         String fileName = file.getOriginalFilename();
@@ -121,8 +113,13 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
+
+        // MongoDB에 저장
+        plantMongoRepository.save(new JSONObject(jsonData));
+
+        saveArchive(jsonData);
         Map<String, Object> data = getGenusAndProb(jsonData);
-        System.out.println(data);
+
         double probability = (double) data.get("probability");
         Map<String, Object> res = new HashMap<>();
         res.put("plantExist", false);
@@ -133,7 +130,6 @@ public class DokchoServiceImpl implements DokchoService {
         }
         res.put("probability", probability);
         if (data.containsKey("species")) {
-//        if (false) {
             String species = (String) data.get("species");
             Optional<Plant> plantBySpecies = plantRepository.findPlantByEngNm(species);
             if (plantBySpecies.isPresent()) {
@@ -169,12 +165,23 @@ public class DokchoServiceImpl implements DokchoService {
 
     public boolean checkUserDogam(Long monsterId){
         User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
-        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(user.getUserId(), monsterId);
+        Monster monster = monsterRepository.findMonsterByMonsterId(monsterId);
+        Optional<UserMonster> um = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user);
+
         if (um.isPresent()) {
             return true;
         } else{
             return false;
         }
+    }
+
+    @Override
+    public List<ArchiveResponseDto> getArchives(Pageable pageable) {
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        List<ArchiveResponseDto> archiveDtos = archiveRepository.findArchivesByUserNicknameOrderByArchiveIdDesc(
+                pageable, user.getNickname()).stream().map(a -> ArchiveResponseDto.from(a))
+                .collect(Collectors.toList());
+        return archiveDtos;
     }
 
     private static String base64EncodeFromFile(String imgurl) throws Exception {
@@ -201,8 +208,8 @@ public class DokchoServiceImpl implements DokchoService {
         byte[] bytes = IOUtils.toByteArray(is);
         String response = new String(bytes);
 
-        System.out.println("Response code : " + con.getResponseCode());
-        System.out.println("Response : " + response);
+//        System.out.println("Response code : " + con.getResponseCode());
+//        System.out.println("Response : " + response);
         con.disconnect();
         return response;
     }
@@ -265,22 +272,49 @@ public class DokchoServiceImpl implements DokchoService {
         return res;
     }
 
-
-    public PlantDetailDto createDto(Plant p){
-        PlantDetailDto dto = new PlantDetailDto(p.getPlantId(), p.getName(), p.getEngNm(), p.getFamilyKorNm(),
-                p.getFamilyNm(), p.getGenusKorNm(), p.getGenusNm(), p.getPlantSpecsScnm(), p.getImgUrl(),
-                p.getShpe(), p.getSpft(), p.getOrplcNm(), p.getSz(), p.getSmlrPlntDesc(), p.getFlwrDesc(),
-                p.getLeafDesc(), p.getDstrb(), p.getStemDesc(), p.getFritDesc(), p.getBranchDesc(), p.getWoodDesc(),
-                p.getSporeDesc(), p.getRootDesc(), p.getFarmSpftDesc(), p.getGrwEvrntDesc(), p.getUseMthdDesc(),
-                p.getCprtCtnt(), p.getMonster().getMonsterId());
-        return dto;
-    }
-
     public TodayPlantDto getTodayPlant(){
         String today = LocalDate.now().toString();
         int month = Integer.parseInt(today.substring(5, 7));
         int day = Integer.parseInt(today.substring(8, 10));
 
         return TodayPlantDto.of(todayPlantRepository.findByMonthAndDay(month, day).orElseThrow(PlantNotFoundException::new));
+    }
+
+    public void saveArchive(String jsonData) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonData);
+        JSONArray images = (JSONArray) jsonObject.get("images");
+        JSONObject image = (JSONObject) images.get(0);
+        String imgURL = (String) image.get("url");
+        boolean is_plant = (boolean) jsonObject.get("is_plant");
+        JSONArray suggestions = (JSONArray) jsonObject.get("suggestions");
+        System.out.println(1);
+        JSONObject suggestion = (JSONObject) suggestions.get(0);
+        String name;
+        try {
+            JSONObject plant_detail = (JSONObject) suggestion.get("plant_detail");
+            JSONArray common_names = (JSONArray) plant_detail.get("common_names");
+            name = (String) common_names.get(0);
+        } catch (Exception e) {
+            name = (String) suggestion.get("plant_name");
+        }
+        double probability = (double) suggestion.get("probability");
+        JSONArray similar_images = (JSONArray) suggestion.get("similar_images");
+        System.out.println(4);
+        JSONObject similar_image = (JSONObject) similar_images.get(0);
+        String similar_img = (String) similar_image.get("url");
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+
+        System.out.println(user.getNickname());
+        Archive archive = new Archive().builder()
+                .imgURL(imgURL)
+                .userNickname(user.getNickname())
+                .isPlant(is_plant)
+                .probability(probability)
+                .suggestionPlantNm(name)
+                .suggestionImg(similar_img)
+                .build();
+
+        archiveRepository.save(archive);
     }
 }

@@ -13,6 +13,8 @@ public enum ErrorCode {
     INVALID_PARAMETER(400, "U005", "잘못된 요청입니다."),
     TOO_MANY_FRIENDS(400, "U006", "더 이상 친구를 추가할 수 없습니다."),
     DUPLICATE_FRIEND(400, "U007", "이미 친구입니다."),
+
+    DUPLICATE_PROPOSE(400, "U008", "이미 전송된 요청입니다."),
     EXCEEDED_MONEY(400, "U008", "알맞은 금액이 아닙니다."),
     MONSTER_NOT_FOUND(404, "G001", "몬스터 정보를 찾을 수 없습니다."),
     PLANT_NOT_FOUND(404, "P001", "식물 정보를 찾을 수 없습니다,"),

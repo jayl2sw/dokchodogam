@@ -1,5 +1,11 @@
 <template>
   <div class="friendPage">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="friend">
       <TabWrapper>
         <TabItem title="친구 목록" class="friendList__tap">
@@ -21,6 +27,11 @@
             <div class="friendRequest">
               <div class="friendRequest__top">
                 <p class="TITLE">NEW 친구 신청</p>
+                <font-awesome-icon
+                  icon="fa-solid fa-repeat"
+                  class="resetRequest"
+                  @click="this.getRequestList()"
+                />
               </div>
               <div class="friendRequest__bottom">
                 <div v-for="(request, i) in this.requestList" :key="i">
@@ -35,14 +46,14 @@
           </div>
         </TabItem>
         <TabItem title="친구 추가" class="friendSearch__tap">
-          <FriendSearch />
+          <FriendSearch @getRequestList="getRequestList()" />
         </TabItem>
         <TabItem title="우편함" class="friendGift__tap">
           <FriendGift />
         </TabItem>
       </TabWrapper>
       <div class="friend__exit" @click="goToArenaMain()">
-        <font-awesome-icon icon="fa-solid fa-x" size="xl" />
+        <font-awesome-icon icon="fa-solid fa-circle-xmark" />
       </div>
     </div>
   </div>
@@ -72,11 +83,14 @@ export default {
   data() {
     return {
       friendList: [],
-      requestList: []
+      requestList: [],
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/friend.wav'),
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     goToArenaMain() {
+      this.btn_audio.play()
       this.$router.push({ path: '/game/arena' })
     },
     giveGiftAll() {
@@ -120,6 +134,14 @@ export default {
   created() {
     this.getFriendList()
     this.getRequestList()
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.5
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
@@ -141,6 +163,8 @@ export default {
   padding: 5vh 5vw;
   height: 80vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 .friendManage__tap {
   padding: 5vh 5vw;
@@ -172,10 +196,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .friendRequest__top > p {
   font-weight: bold;
   font-size: 2vw;
+}
+.resetRequest {
+  position: absolute;
+  right: 3vw;
+  top: 2vh;
+  width: 3vw;
+  color: #467302;
+  cursor: pointer;
+}
+.resetRequest:hover {
+  color: #a7c957;
 }
 .friendRequest__bottom {
   border: none;
@@ -196,17 +232,23 @@ export default {
   width: 100%;
 }
 .friend__exit {
-  width: 30px;
-  height: 30px;
-  border: 2px groove black;
-  border-radius: 2px;
+  width: 4vw;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: 6vh;
-  right: 6vw;
+  right: 11vw;
   cursor: pointer;
+}
+svg {
+  width: 5vh;
+  height: 5vh;
+  color: #ffe140;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #ffef92;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -219,7 +261,33 @@ export default {
     height: 25px;
   }
   svg {
-    width: 10px;
+    width: 20px;
+  }
+}
+@media only screen and (orientation: portrait) {
+  .friendPage {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .friend {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>

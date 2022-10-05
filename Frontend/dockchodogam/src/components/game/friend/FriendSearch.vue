@@ -23,8 +23,12 @@
           <font-awesome-icon
             icon="fa-solid fa-clover"
             @click="this.requestFriend(searchUser.user_id)"
+            class="icon"
           />
         </div>
+      </div>
+      <div v-if="this.searchUser === '*'" class="noResult TITLE">
+        유저 정보가 존재하지 않습니다.
       </div>
     </div>
   </div>
@@ -33,17 +37,20 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import swal from 'sweetalert'
 
 export default {
   data() {
     return {
       inputData: '',
       searchUser: '',
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     requestFriend(userId) {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/request', userId, {
           headers: {
@@ -53,6 +60,12 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
+          this.$emit('getRequestList')
+          swal({
+            text: '친구 신청을 보냈어요 🚀',
+            buttons: false,
+            timer: 1000
+          })
         })
         .catch((err) => console.log(err))
     },
@@ -64,9 +77,17 @@ export default {
           }
         })
         .then((res) => {
-          this.searchUser = res.data
+          if (
+            res.data.nickname !==
+            JSON.parse(localStorage.getItem('userInfo')).nickname
+          ) {
+            this.searchUser = res.data
+          }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err)
+          this.searchUser = '*'
+        })
     }
   }
 }
@@ -145,6 +166,14 @@ svg {
 }
 svg:hover {
   color: #a7c957;
+}
+.icon {
+  cursor: pointer;
+}
+.noResult {
+  font-size: 4vh;
+  text-align: center;
+  color: white;
 }
 ::-webkit-scrollbar {
   display: none;

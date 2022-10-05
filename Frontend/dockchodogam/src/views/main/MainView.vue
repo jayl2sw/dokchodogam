@@ -16,7 +16,9 @@
       <div class="main__left">
         <div class="myDockcho">
           <div class="dockchoName">
-            <h3 class="TITLE">같이 여행을 떠날 잡초몬</h3>
+            <h3 class="TITLE">
+              같이 <a class="TITLE easter" href="/intro">여행</a>을 떠날 풀깨비
+            </h3>
           </div>
           <img
             :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
@@ -153,6 +155,7 @@ export default {
   },
   created() {
     this.getTodayPlant()
+    console.log(process.env)
   }
 }
 </script>
@@ -184,6 +187,12 @@ export default {
 .dockchoName h3 {
   font-weight: bold;
   color: #fff;
+  word-break: keep-all;
+}
+.easter {
+  text-decoration: none;
+  cursor: text;
+  color: white;
 }
 .dockchoImg {
   border-radius: 5px;
@@ -201,9 +210,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70vh;
+  height: 68vh;
 }
 .todayPlant__container {
+  position: relative;
   background-color: #ececec;
   border-width: 5px;
   border-radius: 40px;
@@ -216,8 +226,10 @@ export default {
   opacity: 1;
 }
 .todayPlant {
+  position: absolute;
+  top: 3vh;
   width: 40vw;
-  height: 56vh;
+  height: 54vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -301,13 +313,13 @@ input:focus {
   }
   .todayPlant__container {
     width: 70vw;
-    height: auto;
+    height: 50vh;
     padding-bottom: 3vh;
     opacity: 1;
   }
   .todayPlant {
     width: 70vw;
-    height: auto;
+    height: 45vh;
     font-size: 2vw;
   }
   .todayPlant h2 {
@@ -317,7 +329,7 @@ input:focus {
     font-size: 4vw;
   }
   .todayPlant h6 {
-    font-size: 1vw;
+    font-size: 2vw;
     font-style: italic;
     color: gray;
   }

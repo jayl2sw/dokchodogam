@@ -1,19 +1,23 @@
 package com.ssafy.dockchodogam.controller;
 
 import com.ssafy.dockchodogam.domain.Plant;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
 import com.ssafy.dockchodogam.service.dokcho.DokchoService;
+import com.ssafy.dockchodogam.service.game.GameService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +29,7 @@ import java.util.Map;
 public class DokchoController {
 
     private final DokchoService dokchoService;
+    private final GameService gameService;
 
     @GetMapping("/test")
     public ResponseEntity<Map<String, Object>> test() {
@@ -32,15 +37,15 @@ public class DokchoController {
         res.put("data", "test");
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
-    @GetMapping("/list")
+    @GetMapping("/list/{page}")
     @ApiOperation(value = "식물 리스트 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = Void.class),
             @ApiResponse(code = 401, message = "Fail", response = Void.class)
     })
-    public ResponseEntity<Map<String, Object>> getPlants(){
+    public ResponseEntity<Map<String, Object>> getPlants(@PathVariable int page){
         // 모든 식물 리스트 조회
-        List<PlantListDto> plants = dokchoService.findAllPlants();
+        List<PlantListDto> plants = dokchoService.findAllPlants(page);
         Map<String, Object> res = new HashMap<>();
         res.put("data", plants);
 
@@ -104,11 +109,12 @@ public class DokchoController {
         if (!(boolean) plantData.get("plantExist")){
             res.put("plant", null);
             res.put("errCode", plantData.get("errCode"));
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         Plant plant = (Plant) plantData.get("plant");
-        PlantDetailDto plantDto = dokchoService.createDto(plant);
+        PlantDetailDto plantDto = new PlantDetailDto().from(plant);
         res.put("plant", plantDto);
+
 
         boolean onDogam = false;
         boolean isOverlapped = false;
@@ -119,6 +125,10 @@ public class DokchoController {
             isOverlapped = dokchoService.checkUserDogam(plant.getMonster().getMonsterId());
             if (!isOverlapped) {
                 dokchoService.addFoundMonster(plant.getMonster());
+            }
+
+            if (plant.getMonster().getFirstFinder()==null) {
+                gameService.setFirstFinder(plant);
             }
 
             if (plant.getMonster().getType().toString() == "DOKCHO") {
@@ -137,5 +147,15 @@ public class DokchoController {
     public ResponseEntity<TodayPlantDto> getTodayPlant(){
 
         return new ResponseEntity<TodayPlantDto>(dokchoService.getTodayPlant(), HttpStatus.OK);
+    }
+
+    @GetMapping("/archive")
+    @ApiOperation(value = "사진 아카이브")
+    public ResponseEntity<Map<String, Object>> getArchives(
+            Pageable pageable){
+        List<ArchiveResponseDto> archives = dokchoService.getArchives(pageable);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", archives);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

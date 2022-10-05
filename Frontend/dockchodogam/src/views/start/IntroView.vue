@@ -1,48 +1,64 @@
 <template>
-  <div class="intro">
+  <IntroCard v-if="this.introCard" />
+  <div class="intro" v-else>
     <flipbook
       class="flipbook"
       :pages="[
         null,
         require('@/assets/intro/001.png'),
         require('@/assets/intro/002.png'),
-        require('@/assets/intro/003.png'),
+        require('@/assets/intro/003' +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
+          '.png'),
         require('@/assets/intro/004.png'),
-        require('@/assets/intro/005.png'),
+        require('@/assets/intro/005' +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
+          '.png'),
         require('@/assets/intro/006.png'),
-        require('@/assets/intro/007.png'),
+        require('@/assets/intro/007' +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
+          '.png'),
         require('@/assets/intro/008.png'),
-        require('@/assets/intro/009.png'),
+        require('@/assets/intro/009' +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
+          '.png'),
         require('@/assets/intro/010.png'),
-        require('@/assets/intro/011.png'),
+        require('@/assets/intro/011' +
+          (this.currentWidth < this.currentHeight ? 'm' : '') +
+          '.png'),
         require('@/assets/intro/012.png')
       ]"
       :zooms="null"
       :flipDuration="2000"
       v-slot="flipbook"
       :startPage="1"
+      :dragToFlip="false"
     >
       <div
         class="lastPageBlur"
         :class="flipbook.page === flipbook.numPages ? 'lastPage' : ''"
       ></div>
-      <div class="progress">
-        <div
-          class="progress-bar"
-          :style="
-            'width:' +
-            ((flipbook.page - 1) / (flipbook.numPages - 1)) * 100 +
-            '%'
-          "
-        ></div>
+      <div
+        @click="flipbook.flipRight"
+        class="nextPage"
+        v-if="flipbook.page !== flipbook.numPages"
+      >
+        <img src="@/assets/arrow.png" alt="" class="nextImage" />
       </div>
-      <!-- <button @click="flipbook.flipLeft">Previous Page</button>
-      <button @click="flipbook.flipRight">Next Page</button> -->
       <div
         class="intro__btn"
         :class="flipbook.page === flipbook.numPages ? 'lastPage' : ''"
       >
-        <button class="goToMainBtn" @click="this.goToMain()">메인으로</button>
+        <div
+          class="goToIntroCard TITLE"
+          @click="this.geToIntroCard()"
+          v-if="this.isNewbie"
+        >
+          모험을 떠나기
+        </div>
+        <div class="goToMainBtn TITLE" @click="this.goToMain()" v-else>
+          모험을 떠나기
+        </div>
       </div>
     </flipbook>
   </div>
@@ -50,15 +66,43 @@
 
 <script>
 import Flipbook from 'flipbook-vue'
+import IntroCard from '@/components/main/IntroCard.vue'
+
 export default {
   components: {
-    Flipbook
+    Flipbook,
+    IntroCard
+  },
+  data() {
+    return {
+      isNewbie: true,
+      introCard: false,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/intro.mp3'),
+      currentWidth: 0,
+      currentHeight: 0
+    }
   },
   methods: {
     goToMain() {
       this.$router.push({ path: '/main' })
-      this.isLastPage = true
+    },
+    geToIntroCard() {
+      this.introCard = true
     }
+  },
+  mounted() {
+    this.isNewbie = JSON.parse(localStorage.getItem('userInfo')).newbie
+    this.currentWidth = window.innerWidth
+    this.currentHeight = window.innerHeight
+    window.addEventListener('resize', () => {
+      this.currentWidth = window.innerWidth
+      this.currentHeight = window.innerHeight
+    })
+    this.audio.loop = true
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
@@ -68,6 +112,8 @@ export default {
   display: flex;
   justify-content: center;
   overflow: hidden;
+  padding: 5vh;
+  background-image: url('@/assets/hanji.jpeg') no-repeat cover;
 }
 .lastPageBlur {
   background-color: rgba(0, 0, 0, 0.4);
@@ -79,6 +125,8 @@ export default {
   height: 100%;
   z-index: 9998;
   display: none;
+  display: block;
+  z-index: 9998;
 }
 .progress {
   width: 100%;
@@ -86,19 +134,47 @@ export default {
 .flipbook {
   width: 90vw;
   height: 90vh;
+  position: relative;
+}
+.nextPage {
+  position: absolute;
+  bottom: 40vh;
+  right: 0;
+  z-index: 9999;
+  cursor: pointer;
+}
+.nextImage {
+  width: 5vw;
+  height: 10vh;
 }
 .intro__btn {
   position: absolute;
   display: none;
-  top: 45vh;
-  left: 45vw;
+  bottom: 20vh;
+  left: 35vw;
+  cursor: pointer;
+  font-size: 3vw;
 }
 .goToMainBtn {
-  width: 10vw;
-  height: 10vh;
+  width: 20vw;
+  text-align: center;
+}
+.goToIntroCard {
+  width: 20vw;
+  text-align: center;
 }
 .lastPage {
   display: block;
   z-index: 9999;
+}
+@media screen and (max-width: 850px) {
+  .intro__btn {
+    font-size: 5vw;
+    left: 20vw;
+    bottom: 30vh;
+  }
+  .goToMainBtn {
+    width: 40vw;
+  }
 }
 </style>

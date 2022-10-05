@@ -1,5 +1,8 @@
 <template>
   <div class="friendGifts">
+    <div class="resetGiftBox" @click="this.getGiftList()">
+      <font-awesome-icon icon="fa-solid fa-repeat" class="resetGift" />
+    </div>
     <button class="all__button" @click="this.receiptGiftAll()">
       한 번에 받기
     </button>
@@ -30,11 +33,13 @@ export default {
   data() {
     return {
       giftList: [],
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
   methods: {
     receiptGift(friendId) {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/receipt', friendId, {
           headers: {
@@ -49,6 +54,7 @@ export default {
         .catch((err) => console.log(err))
     },
     receiptGiftAll() {
+      this.btn_audio.play()
       axios
         .put(BASE_URL + '/api/v1/user/friend/receipt/all', null, {
           headers: {
@@ -102,6 +108,25 @@ export default {
 .all__button:hover {
   color: #467302;
 }
+.resetGiftBox {
+  background-color: white;
+  border-radius: 1vw;
+  width: 5vh;
+  height: 5vh;
+  float: left;
+  color: #467302;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.resetGift {
+  width: 4vh;
+  height: 4vh;
+}
+.resetGift:hover {
+  color: #a7c957;
+}
 .lists {
   border: none;
   border-radius: 30px;
@@ -140,6 +165,7 @@ svg.icon {
   height: 100% !important;
   margin-right: 3vw;
   transition: 0.3s;
+  cursor: pointer;
 }
 svg:hover {
   color: #a7c957;

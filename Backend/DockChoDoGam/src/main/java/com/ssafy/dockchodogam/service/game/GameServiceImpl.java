@@ -4,7 +4,6 @@ import com.ssafy.dockchodogam.domain.*;
 import com.ssafy.dockchodogam.dto.exception.game.CashBelowZeroException;
 import com.ssafy.dockchodogam.dto.exception.game.ItemNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.game.MonsterNotFoundException;
-import com.ssafy.dockchodogam.dto.exception.game.SkillNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.game.DeckRequestDto;
 import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
@@ -12,6 +11,7 @@ import com.ssafy.dockchodogam.dto.game.MonstersResponseDto;
 import com.ssafy.dockchodogam.dto.game.RankerProfileResponseDto;
 import com.ssafy.dockchodogam.dto.user.UserResponseDto;
 import com.ssafy.dockchodogam.repository.*;
+import com.ssafy.dockchodogam.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +45,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Page<MonsterInfoResponseDto> getMyMonsterList(Long userId, Pageable pageable) {
-        return userMonsterRepository.findUserMonsterByUserUserId(userId, pageable).map(s -> MonsterInfoResponseDto.of(s.getMonster()));
+    public List<MonsterInfoResponseDto> getMyMonsterList(Long userId) {
+        return userMonsterRepository.findUserMonstersByUserUserIdOrderByMonsterGradeDesc(userId).stream().map(s -> MonsterInfoResponseDto.of(s.getMonster())).collect(Collectors.toList());
     }
 
     @Override
@@ -103,8 +104,13 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<RankerProfileResponseDto> getTop5() {
-        return userRepository.findTop5ByOrderByRankPointDesc()
+        return userRepository.findRanker()
                 .stream().map(s -> RankerProfileResponseDto.of(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<RankerProfileResponseDto> getRanker(Pageable pageable) {
+        return userRepository.findUsersByOrderByRankPointDesc(pageable).map(s -> RankerProfileResponseDto.of(s));
     }
 
     @Override
@@ -127,17 +133,27 @@ public class GameServiceImpl implements GameService {
         purchasesRepository.save(Purchases.builder().user(user).item(item).build());
         // 개수만큼 독초몬 랜덤하게 뽑기
         List<MonstersResponseDto> list = new ArrayList<>();
-        List<Monster> monsters = monsterRepository.findRandomMonster(item.getItemCnt());
+        Random random = new Random();
         for (int i = 0; i < item.getItemCnt(); i++) {
             Monster monster;
-            // 중복 허용 (1개라면 중복 허용으로 넣기)
-            if (item.isDuplicate()) {
-                monster = monsterRepository.findRandomMonster();
-            // 중복 비허용
+            int grade = random.nextInt(100);
+            if (grade < 60) {
+                // common
+                monster = monsterRepository.findRandomMonster(0);
+            } else if (grade < 85) {
+                // rare
+                monster = monsterRepository.findRandomMonster(1);
+            } else if (grade < 97) {
+                // epic
+                monster = monsterRepository.findRandomMonster(2);
+            } else if (grade < 99) {
+                // legendary
+                monster = monsterRepository.findRandomMonster(3);
             } else {
-                monster = monsters.get(i);
+                // hidden
+                monster = monsterRepository.findRandomMonster(4);
             }
-            boolean isGot = userMonsterRepository.findUserMonsterByMonsterMonsterIdAndUserUserId(monster.getMonsterId(), user.getUserId()) != null;
+            boolean isGot = userMonsterRepository.findUserMonsterByMonsterAndUser(monster, user).isPresent();
             if (isGot) {
                 // 일부 환불 (10%)
                 rest += item.getPriceCash() / (item.getItemCnt() * 10);
@@ -168,6 +184,12 @@ public class GameServiceImpl implements GameService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Monster monster = monsterRepository.findById(monsterId).orElseThrow(MonsterNotFoundException::new);
         userMonsterRepository.save(UserMonster.builder().user(user).monster(monster).build());
+    }
+
+    @Override
+    public void setFirstFinder(Plant plant) {
+        User user = SecurityUtil.getCurrentUsername().flatMap(userRepository::findByUsername).orElseThrow(UserNotFoundException::new);
+        plant.getMonster().setFirstFinder(user.getNickname());
     }
 
 }

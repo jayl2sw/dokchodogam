@@ -2,9 +2,11 @@ package com.ssafy.dockchodogam.service.dokcho;
 
 import com.ssafy.dockchodogam.domain.Monster;
 import com.ssafy.dockchodogam.domain.Plant;
+import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
 import com.ssafy.dockchodogam.dto.plant.PlantDetailDto;
 import com.ssafy.dockchodogam.dto.plant.PlantListDto;
 import com.ssafy.dockchodogam.dto.plant.TodayPlantDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Map;
 public interface DokchoService {
 
     // 모든 식물 리스트 조회
-    List<PlantListDto> findAllPlants();
+    List<PlantListDto> findAllPlants(int page);
 
     // 독초 아이디를 통해 특정 식물 상세 정보 조회
     PlantDetailDto findPlantDetail(Long plantId);
@@ -33,9 +35,8 @@ public interface DokchoService {
     // 이미지 경로를 통해 이미지 판별
     Map<String, Object> judgeImage(String path) throws Exception;
 
-    PlantDetailDto createDto(Plant p);
-
     boolean checkUserDogam(Long monsterId);
 
+    List<ArchiveResponseDto> getArchives(Pageable pageable);
     TodayPlantDto getTodayPlant();
 }

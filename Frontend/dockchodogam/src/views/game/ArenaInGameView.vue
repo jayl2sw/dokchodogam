@@ -1,6 +1,12 @@
 <template>
   <LoadingPage v-if="this.isLoading" />
-  <div v-show="!this.isLoading">
+  <div class="containerBox" v-show="!this.isLoading">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="inGame" v-if="!this.isGameEndFlag">
       <div class="inGame__top">
         <div class="yourDockChoList">
@@ -33,10 +39,20 @@
                 : ''
             "
           >
-            <DockChoMon
-              :data="this.currentMyDockCho"
-              :damage="this.yourDamage"
-            />
+            <div class="myDockchoBox">
+              <img
+                :src="this.imageBaseUrl + '/skill' + this.skill + '.png'"
+                alt=""
+                class="skillEffect"
+                :class="this.skillEffect ? 'onEffect' : ''"
+              />
+              <DockChoMon
+                :data="this.currentMyDockCho"
+                :damage="this.yourDamage"
+                :sangseong="this.sangseong"
+                :who="'me'"
+              />
+            </div>
           </div>
         </div>
         <div class="currentYourDockCho">
@@ -53,6 +69,8 @@
             <DockChoMon
               :data="this.currentYourDockCho"
               :damage="this.myDamage"
+              :sangseong="this.sangseong"
+              :who="'you'"
             />
           </div>
         </div>
@@ -78,10 +96,11 @@
           </div>
         </div>
         <div class="skillBtn" @click="onClickSkill()">
-          <div
-            class="skillBlur"
-            :class="this.isUseSkill ? 'usedSkill' : ''"
-          ></div>
+          <img
+            :src="this.imageBaseUrl + '/skill' + this.skill + '.png'"
+            alt=""
+            :class="this.isUseSkill ? 'skillImg usedSkill' : 'skillImg'"
+          />
         </div>
       </div>
     </div>
@@ -101,6 +120,8 @@ import ArenaGameResult from '@/components/game/arena/ArenaGameResult.vue'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 import _ from 'lodash'
 import swal from 'sweetalert'
+import { BASE_URL } from '@/constant/BASE_URL'
+import axios from 'axios'
 
 export default {
   components: {
@@ -110,6 +131,7 @@ export default {
   },
   data() {
     return {
+      battleId: 0,
       isLoading: true,
       round: 1,
       isAttack: false,
@@ -123,6 +145,9 @@ export default {
       currentYourIdx: 0,
       myDamage: '',
       yourDamage: '',
+      myType: '',
+      yourType: '',
+      sangseong: '',
       isMyDockchoDead: false,
       isGameEndFlag: false,
       resultInfo: [],
@@ -130,7 +155,9 @@ export default {
       nowUseSkill: false,
       isUseSkill: false,
       audio: new Audio(process.env.VUE_APP_S3_URL + '/game.mp3'),
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      isPortrait: true,
+      skillEffect: false
     }
   },
   methods: {
@@ -139,6 +166,9 @@ export default {
       setTimeout(() => {
         this.currentMyDockCho = this.myDockChoList[0]
         this.currentYourDockCho = this.yourDockChoList[0]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         console.log('지금 나의 스킬은?', this.skill)
         setTimeout(() => {
           this.attack()
@@ -237,16 +267,17 @@ export default {
             if (this.skill === 1) {
               console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
               this.myDamage *= 2
+              this.skillEffect = true
             } else if (this.skill === 2) {
               console.log('상대 공격 무효')
               this.yourDamage = 0
+              this.skillEffect = true
             } else {
               console.log('상대 공격 반사')
               this.myDamage = this.yourDamage
               this.yourDamage = 0
+              this.skillEffect = true
             }
-            this.nowUseSkill = false
-            this.isUseSkill = true
           }
           this.judged()
         }, 300)
@@ -255,7 +286,14 @@ export default {
     judged() {
       this.currentMyDockCho.currentHp -= this.yourDamage
       this.currentYourDockCho.currentHp -= this.myDamage
+      this.postGameLog()
+      if (this.nowUseSkill) {
+        this.isUseSkill = true
+        this.nowUseSkill = false
+      }
       setTimeout(() => {
+        this.skillEffect = false
+        this.round += 1
         this.myDamage = ''
         this.yourDamage = ''
         if (
@@ -268,6 +306,9 @@ export default {
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentMyDockCho = ''
           this.currentYourDockCho = ''
+          this.myType = ''
+          this.yourType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('둘다죽음')
           setTimeout(() => {
@@ -277,6 +318,8 @@ export default {
           this.isDead_myDockCho[this.currentMyIdx] = true
           this.currentMyIdx = this.isDead_myDockCho.indexOf(false)
           this.currentMyDockCho = ''
+          this.myType = ''
+          this.sangseong = ''
           this.isMyDockchoDead = true
           console.log('나 죽음')
           setTimeout(() => {
@@ -286,6 +329,8 @@ export default {
           this.isDead_yourDockCho[this.currentYourIdx] = true
           this.currentYourIdx = this.isDead_yourDockCho.indexOf(false)
           this.currentYourDockCho = ''
+          this.yourType = ''
+          this.sangseong = ''
           console.log('상대 죽음')
           setTimeout(() => {
             this.isGameEnd()
@@ -304,24 +349,32 @@ export default {
       console.log('상대 독초몬', this.currentYourDockCho)
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
         console.log('상대 승리')
+        this.postGameEnd(false)
+        this.putMyPoint(-5)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '패배']
+          this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentMyIdx === -1) {
         console.log('상대 승리')
+        this.postGameEnd(false)
+        this.putMyPoint(-5)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '패배']
+          this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentYourIdx === -1) {
         console.log('나 승리')
+        this.postGameEnd(true)
+        this.putMyPoint(10)
         setTimeout(() => {
           this.isGameEndFlag = true
-          this.resultInfo = [0, '승리!']
+          this.resultInfo = [this.enemyInfo.isChinsun, '승리!']
         }, 1000)
       } else if (this.currentMyDockCho && this.currentYourDockCho === '') {
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -331,10 +384,18 @@ export default {
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/card_select.mp3')
       audio.volume = 1
       audio.play()
-      if (this.isMyDockchoDead && !this.isDead_myDockCho[idx]) {
+      if (
+        this.isMyDockchoDead &&
+        !this.isDead_myDockCho[idx] &&
+        this.currentMyDockCho === ''
+      ) {
         this.currentMyIdx = idx
         this.currentMyDockCho = this.myDockChoList[this.currentMyIdx]
         this.currentYourDockCho = this.yourDockChoList[this.currentYourIdx]
+        this.myType = this.setType(this.currentMyDockCho)
+        this.yourType = this.setType(this.currentYourDockCho)
+        this.sangseong = this.calSangSeong()
+        this.isMyDockchoDead = false
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -348,17 +409,159 @@ export default {
       if (!this.isUseSkill) {
         this.nowUseSkill = true
       }
+    },
+    postGameStart() {
+      const data = {
+        attacker: JSON.parse(localStorage.getItem('userInfo')).nickname,
+        defender: this.enemyInfo.nickname,
+        monster0: this.myDockChoList[0].monsterId,
+        monster1: this.myDockChoList[1].monsterId,
+        monster2: this.myDockChoList[2].monsterId,
+        monster3: this.myDockChoList[3].monsterId,
+        monster4: this.myDockChoList[4].monsterId,
+        monster5: this.yourDockChoList[0].monsterId,
+        monster6: this.yourDockChoList[1].monsterId,
+        monster7: this.yourDockChoList[2].monsterId,
+        monster8: this.yourDockChoList[3].monsterId,
+        monster9: this.yourDockChoList[4].monsterId,
+        rank: true
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/new', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          this.battleId = res.data.battle_id
+        })
+        .catch((err) => console.log(err))
+    },
+    postGameLog() {
+      const data = {
+        attackMonsterDamage: this.myDamage,
+        attackMonsterHp: this.currentMyDockCho.currentHp,
+        attackMonsterId: this.currentMyDockCho.monsterId,
+        battleId: this.battleId,
+        defendMonsterDamage: this.yourDamage,
+        defendMonsterHp: this.currentYourDockCho.currentHp,
+        defendMonsterId: this.currentYourDockCho.monsterId,
+        round: this.round,
+        skill: this.skill,
+        skillUsage: this.nowUseSkill
+      }
+      axios
+        .post(BASE_URL + '/api/v1/battle/logs/new', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err))
+    },
+    postGameEnd(win) {
+      const data = {
+        battle_id: this.battleId,
+        success: win
+      }
+      console.log(data)
+      axios
+        .post(BASE_URL + '/api/v1/battle/finish', data, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err))
+    },
+    putMyPoint(point) {
+      axios
+        .put(BASE_URL + '/api/v1/user/point', point, {
+          headers: {
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken'),
+            'Content-type': 'application/json'
+          }
+        })
+        .catch((err) => console.log(err))
+    },
+    calSangSeong() {
+      if (this.myType === '잡초') {
+        if (this.yourType === '잡초') {
+          return '상성 보통'
+        } else if (this.yourType === '독초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '독초') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 보통'
+        } else if (this.yourType === '약초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '약초') {
+        if (this.yourType === '잡초') {
+          return '상성 나쁨'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 보통'
+        } else if (this.yourType === '히든') {
+          return '상성 나쁨'
+        } else {
+          return ''
+        }
+      } else if (this.myType === '히든') {
+        if (this.yourType === '잡초') {
+          return '상성 좋음'
+        } else if (this.yourType === '독초') {
+          return '상성 좋음'
+        } else if (this.yourType === '약초') {
+          return '상성 좋음'
+        } else if (this.yourType === '히든') {
+          return '상성 보통'
+        } else {
+          return ''
+        }
+      } else {
+        return this.sangseong === ''
+      }
+    },
+    setType(dokchoInfo) {
+      if (dokchoInfo.type === 'JAPCHO') {
+        return '잡초'
+      } else if (dokchoInfo.type === 'DOKCHO') {
+        return '독초'
+      } else if (dokchoInfo.type === 'YAKCHO') {
+        return '약초'
+      } else {
+        return '히든'
+      }
     }
   },
   created() {
     this.fetchUserDeck()
+    this.isChinsun = this.enemyInfo.isChinsun
     if (!this.enemyInfo.nickname) {
-      this.$router.push({ path: '/game/arena' })
+      this.$router.push({ path: '/main' })
     }
     setTimeout(() => {
       this.isLoading = false
       this.myDockChoList = this.userDeck
       this.yourDockChoList = this.enemyInfo.enemyDeck
+      this.postGameStart()
       if (this.enemyInfo.nickname) {
         this.gameStart()
       }
@@ -375,12 +578,13 @@ export default {
     if (!this.isGameEndFlag) {
       swal({
         title: '정상적이지 않은 게임 진행입니다 😡',
-        text: '임의로 게임이 중단되어 랭크 포인트 5점이 감점됩니다.',
+        text: '임의로 게임이 중단되어 랭크 포인트 10점이 감점됩니다.',
         icon: 'error',
         timer: 1500
       })
-      this.fetchEnemyInfo('')
+      this.putMyPoint(-10)
     }
+    this.fetchEnemyInfo('')
   },
   computed: {
     ...mapGetters(['userDeck', 'enemyInfo'])
@@ -430,9 +634,31 @@ export default {
   width: 20vw;
   height: 25vw;
   position: fixed;
-  top: 20vh;
+  top: 25vh;
   left: -20vw;
   transition: all 1s;
+}
+.myDockchoBox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.skillEffect {
+  width: 15vw;
+  height: 15vw;
+  transition: 1s;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+.onEffect {
+  opacity: 0.5;
+  transition: 1s;
+  display: block;
 }
 .currentYourDockCho {
   width: 50vw;
@@ -442,7 +668,7 @@ export default {
   width: 20vw;
   height: 25vw;
   position: fixed;
-  top: 20vh;
+  top: 25vh;
   right: -20vw;
   transition: all 1s;
 }
@@ -455,7 +681,8 @@ export default {
   display: flex;
 }
 .myDockChoItem {
-  border: 5px solid #ffe140;
+  /* border: 5px solid #ffe140; */
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
   width: 17vh;
   height: 17vh;
@@ -481,21 +708,16 @@ export default {
   display: none;
 }
 .skillBtn {
-  border: 2px groove black;
-  border-radius: 5px;
   width: 17vh;
   height: 17vh;
   margin: 1vh;
   cursor: pointer;
+  position: relative;
 }
-.skillBlur {
-  background-color: rgba(0, 0, 0, 0.4);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  display: none;
+.skillImg {
+  position: absolute;
+  width: 17vh;
+  height: 17vh;
 }
 .myDockCho_inGround {
   left: 20vw;
@@ -523,7 +745,7 @@ export default {
   cursor: default;
 }
 .usedSkill {
-  display: block;
+  opacity: 0.3;
   cursor: default;
 }
 /* @media screen and (min-height: 700px) {
@@ -537,6 +759,35 @@ export default {
 @media screen and (max-width: 850px) {
   .myDockChoItem {
     border-width: 2px;
+  }
+}
+@media only screen and (orientation: portrait) {
+  .containerBox {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .inGame {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
   }
 }
 </style>

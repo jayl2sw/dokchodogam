@@ -1,11 +1,16 @@
 <template>
-  <LoadingPage v-if="this.isLoading" />
   <div class="deckPage">
+    <div id="warning-message">
+      <p class="TITLE">
+        아레나는<br /><br /><span class="emphasize">"가로 화면 전용"</span>
+        게임입니다.
+      </p>
+    </div>
     <div class="deck" v-show="!this.isLoading">
       <div class="myDeck">
         <div class="myDeckItems">
           <div
-            class="myDeckItem"
+            class="myDeckItem TITLE"
             v-for="(item, i) in this.myDeck"
             :key="i"
             @click="onClickDeck(i)"
@@ -16,20 +21,33 @@
               alt=""
               class="myDeckItemImage"
             />
-            {{ item.name }}몬
-            <div class="myDeckItemIdx">{{ i + 1 }}</div>
+            <p class="myDeckItem__name TITLE">{{ item.name }}몬</p>
+            <div class="myDeckItemIdx TITLE">{{ i + 1 }}</div>
           </div>
         </div>
       </div>
       <div class="myDockcho">
         <div
-          class="myDockchoItemBox"
-          :class="this.selectDockcho === i ? 'checked' : ''"
+          class="myDockchoItemBox TITLE"
+          :class="this.selectDockcho === i ? 'candidate__checked' : ''"
           v-for="(item, i) in this.myDockcho"
           :key="i"
           @click="onClickDockcho(i)"
         >
-          <div class="myDockchoItem">
+          <div
+            class="myDockchoItem"
+            :class="{
+              card__common: item.grade == 'COMMON',
+              card__rare: item.grade == 'RARE',
+              card__epic: item.grade == 'EPIC',
+              card__legendary: item.grade == 'LEGENDARY',
+              card__special: item.grade == 'SPECIAL',
+              card__dokcho: item.type == 'DOKCHO',
+              card__yakcho: item.type == 'YAKCHO',
+              card__japcho: item.type == 'JAPCHO',
+              card__hidden: item.type == 'HIDDEN'
+            }"
+          >
             <div
               class="dokchoBlur"
               :class="this.check[i] ? 'inMyDeck' : ''"
@@ -40,12 +58,12 @@
               class="myDockchoItemImage"
             />
           </div>
-          {{ item.name }}몬
+          <p class="myDockchoItem__name TITLE">{{ item.name }}몬</p>
         </div>
       </div>
       <div class="buttons">
-        <div class="cancel" @click="goToArena()">취소</div>
-        <div class="complite" @click="changeMyDeck()">완료</div>
+        <div class="cancel TITLE" @click="goToArena()">취소</div>
+        <div class="complete TITLE" @click="changeMyDeck()">완료</div>
       </div>
     </div>
   </div>
@@ -55,13 +73,9 @@
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { BASE_URL } from '@/constant/BASE_URL'
-import LoadingPage from '@/components/main/LoadingPage.vue'
 import swal from 'sweetalert'
 
 export default {
-  components: {
-    LoadingPage
-  },
   data() {
     return {
       myDeck: [],
@@ -69,8 +83,8 @@ export default {
       check: [],
       selectDeck: '',
       selectDockcho: '',
-      isLoading: false,
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/deck.mp3')
     }
   },
   methods: {
@@ -85,8 +99,8 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
-          res.data.content.forEach((element) => {
+          console.log('데이터', res.data)
+          res.data.forEach((element) => {
             let tmpBool = false
             this.myDeck.forEach((el) => {
               if (el.monsterId === element.monsterId) {
@@ -123,9 +137,15 @@ export default {
       }
     },
     onClickDockcho(idx) {
+      console.log(this.check[idx])
       if (!this.check[idx]) {
+        console.log(this.selectDockcho)
         if (this.selectDeck === '') {
-          this.selectDockcho = idx
+          if (this.selectDockcho === idx) {
+            this.selectDockcho = ''
+          } else {
+            this.selectDockcho = idx
+          }
         } else {
           const monId = this.myDeck[this.selectDeck].monsterId
           this.myDeck[this.selectDeck] = this.myDockcho[idx]
@@ -167,10 +187,24 @@ export default {
   },
   created() {
     this.getMyDokcho()
-    this.myDeck = this.userDeck
-    setTimeout(() => {
-      this.isLoading = false
-    }, 3000)
+    axios
+      .get(BASE_URL + '/api/v1/game/deck/myInfo', {
+        headers: {
+          AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+      .then((res) => {
+        this.myDeck = res.data
+      })
+      .catch((err) => console.log(err))
+  },
+  mounted() {
+    this.audio.loop = true
+    this.audio.volume = 0.3
+    this.audio.play()
+  },
+  beforeUnmount() {
+    this.audio.pause()
   }
 }
 </script>
@@ -185,19 +219,19 @@ export default {
   background-size: cover;
 }
 .deck {
-  border: 2px groove black;
-  border-radius: 2px;
+  border-radius: 20px;
   height: 90vh;
   width: 90vw;
   margin: 5vh 5vw;
   display: flex;
   flex-direction: column;
   background-color: white;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .myDeck {
-  height: 45vh;
+  height: 40vh;
   width: 85vw;
-  margin: 5vh 2.5vw;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -207,41 +241,40 @@ export default {
 .myDeckItems {
   display: flex;
   justify-content: space-around;
-  margin: 0 0 2vh 0;
-  height: 40vh;
+  align-items: center;
+  /* margin: 0 0 2vh 0; */
+  height: 90%;
   width: 100%;
 }
 .myDeckItem {
-  border: 2px #ececec;
-  border-radius: 2px;
+  font-size: 1.5vh;
+  border-radius: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 90%;
   width: 15vw;
   cursor: pointer;
 }
 .myDeckItemImage {
-  width: 12vw;
-  height: 12vw;
+  min-width: 20vh;
+  min-height: 20vh;
 }
 .myDeckItemIdx {
-  margin-top: 5vh;
-  border-radius: 1.5vh;
+  border-radius: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 3vh;
-  width: 10vw;
-  height: 3vh;
+  width: 8vw;
+  height: 5vh;
   background-color: #a7c957;
 }
 .myDockcho {
   border-radius: 20px;
-  height: 25vh;
+  height: 30vh;
   width: 85vw;
-  margin: 0 2.5vw;
   padding: 0 1vw;
   overflow-x: auto;
   align-items: center;
@@ -249,20 +282,21 @@ export default {
   background-color: #a7c957;
 }
 .myDockchoItemBox {
-  height: 20vh;
+  height: 80%;
   width: 20vh;
   border: 4px dotted #a7c957;
   margin: 0 0.5vw;
   margin-top: 2vh;
+  /* padding-bottom: 2vh; */
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 1.5vh;
 }
 .myDockchoItem {
-  margin-top: 1vh;
+  margin-top: 5vh;
   border-radius: 10px;
-  background-color: #ececec;
   height: 15vh;
   width: 15vh;
   cursor: pointer;
@@ -270,14 +304,12 @@ export default {
   display: inline-block;
 }
 .myDockchoItemImage {
-  margin: 0 0.5vh;
-  width: 14vh;
-  height: 14vh;
+  width: 15vh;
+  height: 15vh;
 }
 .buttons {
-  height: 10vh;
+  height: 5vh;
   width: 85vw;
-  margin: 0 2.5vw;
   padding: 0 1vw;
   display: flex;
   justify-content: flex-end;
@@ -288,34 +320,46 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 10vw;
+  font-size: 2vh;
+  width: 7vw;
   height: 5vh;
-  background-color: #a7c957;
+  background-color: #ccc;
   cursor: pointer;
-  margin-right: 5vw;
+  margin-right: 2vw;
+  transition: 0.3s;
 }
-.complite {
+.cancel:hover {
+  background-color: rgb(174, 0, 0);
+  color: white;
+}
+.complete {
   border-radius: 2.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3vh;
-  width: 10vw;
+  font-size: 2vh;
+  width: 7vw;
   height: 5vh;
   background-color: #a7c957;
   cursor: pointer;
 }
+.complete:hover {
+  background-color: #467302;
+  color: white;
+}
 .checked {
-  border: 4px groove green;
+  background-color: rgba(167, 201, 87, 0.3);
+}
+.candidate__checked {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 .dokchoBlur {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10%;
+  left: -7%;
+  width: 115%;
+  height: 140%;
   z-index: 9999;
   display: none;
   position: absolute;
@@ -324,7 +368,93 @@ export default {
 .inMyDeck {
   display: block;
 }
-@media screen and (max-width: 850px) {
+
+.myDockchoItem__name {
+  margin-top: 0.5vmin;
+  z-index: 9999;
+}
+
+.card__common {
+  background-color: rgb(166, 166, 166);
+  /* box-shadow: 0 0 10px #467302; */
+}
+.card__rare {
+  background-color: skyblue;
+}
+.card__epic {
+  background-color: violet;
+}
+.card__legendary {
+  background-color: yellow;
+}
+.card__special {
+  background-image: url(https://img.freepik.com/premium-vector/glitters-rainbow-sky-shiny-rainbows-pastel-color-magic-fairy-starry-skies-and-glitter-sparkles-background-illustration_102902-1299.jpg?w=2000);
+}
+
+.card__dokcho {
+  box-shadow: 0 0 20px #ff5555;
+}
+
+.card__yakcho {
+  box-shadow: 0 0 20px #467302;
+}
+
+.card__japcho {
+  box-shadow: 0 0 20px #ffe140;
+}
+
+.card__hidden {
+  box-shadow: 0 0 20px #c493ff;
+}
+
+.dokcho__filter {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5vh;
+  justify-content: space-around;
+}
+
+.checkbox2 .checkbox3 {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox2 label,
+.checkbox3 label {
+  font-size: 1.2vw;
+}
+
+.checkbox2 span,
+.checkbox3 span {
+  font-size: 1.2vw;
+}
+@media only screen and (orientation: portrait) {
+  .deckPage {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+  }
+  .deck {
+    display: none;
+  }
+  #warning-message {
+    display: block;
+    font-size: 5vw;
+    text-align: center;
+  }
+  .emphasize {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 6vw;
+    font-weight: bold;
+    color: #467302;
+  }
+}
+@media only screen and (orientation: landscape) {
+  #warning-message {
+    display: none;
+  }
+}
+/* @media screen and (max-width: 850px) {
   .myDockchoItemBox {
     font-size: 2vh;
   }
@@ -337,5 +467,5 @@ export default {
 }
 ::-webkit-scrollbar {
   display: block;
-}
+} */
 </style>

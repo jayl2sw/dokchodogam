@@ -1,12 +1,12 @@
 package com.ssafy.dockchodogam.domain;
 
+import com.ssafy.dockchodogam.domain.basetime.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 @Table(name = "battle")
-public class Battle {
+public class Battle extends BaseTime {
 
     @Id
     @GeneratedValue
@@ -30,7 +30,8 @@ public class Battle {
     private User defender;
 
     private boolean success;
-    private LocalTime battle_time;
+    private boolean isRank;
+    private boolean wellFinished;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "monster_id0")
@@ -71,5 +72,8 @@ public class Battle {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "monster_id9")
     private Monster monster9;
+
+    public void successBattle() { this.success = true; }
+    public void finishBattle() { this.wellFinished = true; }
 
 }

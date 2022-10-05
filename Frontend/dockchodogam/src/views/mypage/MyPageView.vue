@@ -14,25 +14,39 @@
         />
       </div>
       <button class="change__dockcho" @click="this.onClickChangeDokcho()">
-        대표 독초몬 변경
+        대표 풀깨비 변경
       </button>
     </div>
     <div class="mypage__right">
       <div class="myProfile">
         <div class="myProfile__medal">
-          <img src="@/assets/medal.png" alt="" />
+          <img
+            :src="
+              this.imageBaseUrl +
+              '/tier' +
+              (Math.floor(this.userInfo.rank_point / 100) + 1) +
+              '.png'
+            "
+            alt=""
+          />
         </div>
         <div>
           <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
           <p class="myProfile__contents">
-            현재 재화 : <span class="emphasize">{{ this.userInfo.money }}</span
-            >냥
+            지금 내 주머니에는
+            <span class="emphasize">{{ this.userInfo.money }}</span
+            >냥이 있어요!
           </p>
           <p class="myProfile__contents">
-            아레나 순위 : <span class="emphasize">{ }</span>위
+            오늘 아레나 <span class="emphasize">{{ this.ranking }}</span
+            >위를 달성했습니다!
           </p>
           <p class="myProfile__contents">
-            독초보감과 함께한 지 <span class="emphasize">{ }</span>일 째
+            어느덧 독초도감과 함께한 지
+            <span class="emphasize">{{
+              Math.ceil((this.today - this.cdate) / (1000 * 60 * 60 * 24))
+            }}</span
+            >일 째
           </p>
         </div>
       </div>
@@ -40,7 +54,7 @@
         <button class="change__password" @click="this.displayNone()">
           비밀번호 변경
         </button>
-        <button class="quit__btn">회원 탈퇴</button>
+        <button class="quit__btn" @click="this.deleteUser()">회원 탈퇴</button>
       </div>
       <div class="changePw__form" :class="this.isNone ? '' : 'displayNone'">
         <div class="changePw__inputs">
@@ -49,16 +63,29 @@
             type="password"
             placeholder="현재 비밀번호"
           />
+          <span>영문자+숫자+특수문자 조합으로 8~25자리</span>
           <input
+            @keyup="checkPassword()"
             v-model="newPassword"
             type="password"
             placeholder="새 비밀번호"
           />
+          <span class="allowedtext" v-if="this.isPasswordChecked"
+            >이 비밀번호는 사용하셔도 좋아요👌</span
+          >
+          <span class="warningtext" v-else
+            >비밀번호 생성 조건을 확인해주세요🙏</span
+          >
           <input
             v-model="newPassword2"
             type="password"
             placeholder="새 비밀번호 확인"
           />
+          <span
+            class="warningtext"
+            v-if="this.newPassword !== this.newPassword2"
+            >비밀번호를 확인해주세요🙏</span
+          >
         </div>
         <div class="changePw__btn">
           <button @click="this.displayNone()" class="cancel__btn">취소</button>
@@ -73,6 +100,13 @@
     @closeChangeDokcho="closeChangeDokcho"
     :showChangeDokchoMenu="showChangeDokchoMenu"
   />
+  <footer>
+    <p>
+      <!-- 쾌락과 독초 <br />
+      서상균 김성빈 박지현 오하민 이재준 최지원 <br /> -->
+      © 2022. 쾌락과 독초 All rights reserved
+    </p>
+  </footer>
 </template>
 
 <script>
@@ -80,7 +114,20 @@ import NavBar from '@/components/main/NavBar.vue'
 import MyDokchoChange from '@/components/mypage/MyDokchoChange.vue'
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
+import { mapActions } from 'vuex'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
+
+var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
 
 export default {
   components: {
@@ -96,10 +143,15 @@ export default {
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
       newPassword2: this.newPassword2,
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      ranking: 0,
+      isPasswordChecked: false,
+      today: '',
+      cdate: ''
     }
   },
   methods: {
+    ...mapActions(['fetchnowUserInfo']),
     overflow(value) {
       this.showMenu = value
     },
@@ -112,15 +164,32 @@ export default {
     onClickChangeDokcho() {
       this.showChangeDokchoMenu = true
     },
+    checkPassword() {
+      if (passwordCheck.test(this.newPassword)) {
+        this.isPasswordChecked = true
+      } else {
+        this.isPasswordChecked = false
+      }
+    },
     changePassword() {
-      if (this.newPassword === this.newPassword2) {
+      if (!passwordCheck.test(this.newPassword)) {
+        swal({
+          title:
+            '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리를 사용해야 해요🙏',
+          icon: 'error',
+          text: '🤔',
+          buttons: false,
+          timer: 2000
+        })
+      } else if (this.newPassword === this.newPassword2) {
         console.log(this.newPassword)
         console.log(this.newPassword2)
         axios
           .put(
             BASE_URL + '/api/v1/user/password',
             {
-              newPW: this.newPassword
+              newPW: this.newPassword,
+              nowPW: this.oldPassword
             },
             {
               headers: {
@@ -134,27 +203,94 @@ export default {
             swal({
               title: '비밀번호가 변경되었습니다!😘',
               icon: 'success',
+              text: '바뀐 비밀번호로 로그인 해주세요😉',
               buttons: false,
               timer: 1500
             })
           })
           .catch((err) => {
             console.log(err)
+            swal({
+              title: '현재 비밀번호를 확인해주세요😥',
+              icon: 'warning',
+              text: '입력해주신 비밀번호와 현재 비밀번호가 다른 것 같아요😅',
+              buttons: false,
+              timer: 1500
+            })
           })
       } else {
         swal({
           title: '새 비밀번호를 한번 더 확인해 주세요😢',
           icon: 'error',
+          text: '두 비밀번호가 다른 것 같아요..😅',
           buttons: false,
           timer: 1500
         })
       }
+    },
+    deleteUser() {
+      swalWithBootstrapButtons
+        .fire({
+          title: '허준의 제자를 그만두시겠어요?',
+          text: `풀깨비들이 ${this.userInfo.nickname}님을 많이 좋아하는데...😥`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            this.fetchDeleteUser()
+          }
+        })
+    },
+    fetchDeleteUser() {
+      axios
+        .delete(BASE_URL + '/api/v1/user/', {
+          headers: {
+            'Content-type': 'application/json',
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          swal({
+            title: '탈퇴가 완료되었어요😭',
+            icon: 'success',
+            text: '언제든지 돌아오세요!',
+            buttons: false,
+            timer: 1500
+          })
+          localStorage.clear()
+          this.$router.push({
+            path: '/'
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   watch: {
     showChangeDokchoMenu() {
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     }
+  },
+  created() {
+    this.fetchnowUserInfo()
+    const option = {
+      headers: {
+        'Content-type': 'application/json',
+        AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+      }
+    }
+    axios
+      .get(BASE_URL + '/api/v1/game/myranking', option)
+      .then((res) => (this.ranking = res.data))
+      .catch((err) => console.log(err))
+    this.today = new Date()
+    this.cdate = new Date(this.userInfo.createDate)
   }
 }
 </script>
@@ -164,7 +300,7 @@ button {
   height: 4vh;
   border-radius: 50px;
   border: none;
-  width: 10vw;
+  width: 12vw;
   margin: 0 auto;
 }
 .mypage {
@@ -173,9 +309,23 @@ button {
   display: flex;
   justify-content: space-between;
   width: 80vw;
-  height: 80vh;
+  height: 75vh;
+  /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
+  /* padding-bottom: 10%; */
+}
+
+footer {
+  height: 10%;
+  padding-top: 2%;
+  position: relative;
+  transform: translateY(-10%);
+  text-align: center;
+}
+
+footer p {
+  color: #989797;
 }
 .mypage__left {
   height: 100%;
@@ -200,6 +350,7 @@ button {
 .change__dockcho {
   background-color: #a7c957;
   transition: 0.3s;
+  width: 14vw;
 }
 .change__dockcho:hover {
   background-color: #467302;
@@ -207,7 +358,7 @@ button {
 }
 .mypage__right {
   height: 100%;
-  width: 30vw;
+  width: 35vw;
   margin-right: 10vw;
   display: flex;
   flex-direction: column;
@@ -231,10 +382,11 @@ button {
   width: 5vw;
 }
 .myProfile__name {
-  font-size: 2vw;
+  font-size: 2.5vw;
   margin-bottom: 3vh;
 }
 .myProfile__contents {
+  word-break: keep-all;
   font-size: 1vw;
   line-height: 4vh;
 }
@@ -267,7 +419,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 25vh;
+  height: 35vh;
   transition: 0.6s;
 }
 .changePw__inputs {
@@ -282,6 +434,10 @@ button {
   padding: 1vh 1vw;
   border: 3px solid white;
   border-radius: 20px;
+}
+.changePw__inputs > span {
+  margin: 1vh 3vw;
+  font-size: 1vw;
 }
 .changePw__inputs input:focus {
   outline: none;
@@ -313,6 +469,13 @@ button {
   height: 0;
   transition: 0.6s;
 }
+.allowedtext {
+  color: #29cd2e;
+}
+.warningtext {
+  color: #be0000;
+}
+
 @media screen and (max-width: 850px) {
   .mypage {
     flex-direction: column;
@@ -349,7 +512,7 @@ button {
   .change__dockcho {
     width: 50vw;
     height: 8vw;
-    font-size: 3vw;
+    font-size: 4vw;
   }
   .mypage__right {
     margin: 0;
@@ -358,11 +521,21 @@ button {
   }
   .change__password {
     width: 20vw;
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .quit__btn {
     width: 20vw;
+    font-size: 3vw;
+  }
+  .changePw__form {
+    height: 30vh;
+  }
+  .changePw__inputs > span {
+    margin: 1vh 3vw;
     font-size: 2.5vw;
+  }
+  .displayNone {
+    height: 0;
   }
   .changePw__inputs input {
     height: 5vh;

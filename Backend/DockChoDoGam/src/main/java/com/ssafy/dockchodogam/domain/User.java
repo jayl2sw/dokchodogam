@@ -53,6 +53,19 @@ public class User extends BaseTime {
     private Monster representMonster;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Purchases> purchases;
+    @OneToMany(mappedBy = "attacker", cascade = CascadeType.ALL)
+    private List<Battle> attack;
+    @OneToMany(mappedBy = "defender", cascade = CascadeType.ALL)
+    private List<Battle> defend;
+    @OneToMany(mappedBy = "userA", cascade = CascadeType.ALL)
+    private List<Friend> friendA;
+    @OneToMany(mappedBy = "userB", cascade = CascadeType.ALL)
+    private List<Friend> friendB;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Propose> proposeA;
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private List<Propose> proposeB;
 
     public void update(UpdateUserRequestDto requestDto){
         this.email = requestDto.getEmail();
@@ -65,9 +78,16 @@ public class User extends BaseTime {
         this.token = token;
     }
 
-    public void changeRankPoint(int point){this.rankPoint = point;}
+    public void changeRankPoint(int point){
+        this.rankPoint += point;
+
+        if(this.rankPoint < 0){
+            this.rankPoint = 0;
+        }
+    }
 
     public void changePW(String password){this.password = password;}
+    public void setNickname(String nickname){this.nickname = nickname;}
     public void setRepresentMonster(Monster monster){this.representMonster = monster;}
     public void changeNB(){this.newbie = false;}
     public void buyStarter(){this.starter = false;}
