@@ -2,9 +2,9 @@
   <div class="gacha">
     <div class="gacha__header">
       <h3 h2 class="TITLE">독초몬 뽑기</h3>
-      <p>✨ 일반 ~ 스페셜 독초몬 ✨등장!</p>
     </div>
     <div class="gacha__body">
+      <p>✨ 일반 ~ 스페셜 독초몬 ✨등장!</p>
       <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
     </div>
     <div class="gacha__footer">
@@ -66,9 +66,11 @@ export default {
       if (this.nowUserInfo.money >= 100) {
         this.fetchMonsterGacha()
         // this.fetchUserInfo()
-        this.$router.replace({
-          path: '/game/shop/gacha'
-        })
+        setTimeout(() => {
+          this.$router.replace({
+            path: '/game/shop/gacha'
+          })
+        }, 1000)
       } else {
         swal({
           title: '보유하신 냥이 부족합니다 😢',
@@ -99,14 +101,15 @@ export default {
   margin-bottom: 1vmin;
 }
 
-.gacha__header p {
+.gacha__body p {
   margin: 0;
 }
 .gacha__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 30vh;
+  align-items: center;
+  height: 40vh;
   /* margin-bottom: 0; */
 }
 
@@ -141,5 +144,29 @@ export default {
   background-position: right center;
   background-color: #467302;
   color: white;
+}
+@media screen and (max-width: 916px) {
+  .TITLE {
+    font-size: 2.2vw;
+  }
+  p {
+    font-size: 1.5vw;
+  }
+  .btn > .TITLE {
+    font-size: 2vw;
+  }
+  .btn {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gatcha__img {
+    width: 15vw;
+  }
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
 }
 </style>

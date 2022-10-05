@@ -94,12 +94,13 @@ export default {
       monsterDetail: {},
       monsterType: '',
       monterGrade: '',
-      imageBaseUrl: process.env.VUE_APP_S3_URL
+      imageBaseUrl: process.env.VUE_APP_S3_URL,
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
-  computed: {
-    ...mapGetters(['userInfo'])
-  },
+  // computed: {
+  //   ...mapGetters(['userInfo'])
+  // },
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
@@ -457,5 +458,12 @@ export default {
 
 .card__hidden {
   box-shadow: 0 0 8px #c493ff;
+}
+svg {
+  cursor: pointer;
+  transition: 0.3s;
+}
+svg:hover {
+  color: #467302;
 }
 </style>

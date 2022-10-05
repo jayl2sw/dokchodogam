@@ -52,6 +52,7 @@ const doRefreshToken = async function doRefreshToken() {
         console.log('accessToken : ', result.data.accessToken)
         console.log('refreshToken : ', result.data.refreshToken)
         axios.defaults.headers.common.AUTHORIZATION = result.data.accessToken
+        location.reload()
       } else {
         console.log('다시 로그인 하셈')
         // let err = new Error("Request failed with status code 401");
@@ -61,6 +62,7 @@ const doRefreshToken = async function doRefreshToken() {
       }
     } catch (err) {
       console.log('다시 로그인 하셈')
+      console.log(err)
       // if (!err.response) {
       // err.response = {data:{"success":false, "errormessage":err.message}};
       // }
@@ -100,6 +102,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(
         /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/SignUpView.vue'
+      )
+  },
+  // 카카오로그인 약관동의
+  {
+    path: '/kakaologinagreement',
+    name: 'kakaologinagreement',
+    component: () =>
+      import(
+        /* webpackChunkName: "signup", webpackPrefetch:true */ '../views/start/KakaoLoginAgreementView.vue'
       )
   },
   // 인트로
@@ -268,6 +279,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "gg" */ '../views/game/DokchoData.vue')
   },
+  // 갤러리
+  {
+    path: '/gallery',
+    name: 'gallery',
+    component: () =>
+      import(
+        /* webpackChunkName: "gallery" */ '../views/gallery/GalleryView.vue'
+      )
+  },
   // 어드민
   {
     path: '/admin',
@@ -313,8 +333,17 @@ router.beforeEach(async (to, from, next) => {
     to.path === '/signup' ||
     to.path === '/findpassword' ||
     to.path === '/oauth' ||
-    to.path === '/oauth2/authorization/kakao'
+    to.path === '/oauth2/authorization/kakao' ||
+    to.path === '/kakaologinagreement' ||
+    to.path === '/set/nickname'
   ) {
+    if (localStorage.getItem('accessToken')) {
+      if (!JSON.parse(localStorage.getItem('userInfo')).newbie) {
+        return next({ path: '/main' })
+      } else {
+        next()
+      }
+    }
     next()
   } else if (token) {
     console.log(isAccessTokenExpired())

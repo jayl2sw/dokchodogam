@@ -29,10 +29,6 @@
           <!-- <a href="/oauth2/authorization/kakao">
             <button class="kakaologin__btn">카카오로그인</button>
           </a> -->
-
-          <button class="kakaologin__btn" @click="kakaoLogin()">
-            카카오로그인
-          </button>
         </div>
         <div class="loginpage__btn">
           <button class="signup__btn" @click="signUp()">회원가입</button>
@@ -40,6 +36,17 @@
           <!-- <button class="findpassword__btn" @click="findpassword()">
             비밀번호찾기
           </button> -->
+        </div>
+        <div class="loginpage__btn">
+          <!-- <button class="kakaologin__btn" @click="kakaoLogin()">
+            카카오로그인
+          </button> -->
+          <img
+            class="kakaologin__btn"
+            @click="kakaoLogin()"
+            src="@/assets/kakao_login_medium_wide.png"
+            alt=""
+          />
         </div>
         <div>
           <a class="findpassword__btn" @click="findpassword()"
@@ -55,6 +62,7 @@
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions, mapGetters } from 'vuex'
+import swal from 'sweetalert'
 
 export default {
   data() {
@@ -70,6 +78,7 @@ export default {
     kakaoLogin() {
       // window.open(BASE_URL + '/oauth2/authorization/kakao')
       window.location.href = this.kakaoLoginURL
+      // this.$router.replace({ name: 'kakaologinagreement' })
     },
     findpassword() {
       this.$router.push({ name: 'findpassword' })
@@ -107,10 +116,16 @@ export default {
             .then((res) => {
               this.fetchUserInfo(res.data)
             })
-          await this.$router.push({ name: 'main' })
+          await this.$router.replace({ name: 'main' })
         }
       } catch (err) {
-        alert('아이디나 비밀번호를 확인해주세요🙏')
+        swal({
+          title: '아이디나 비밀번호를 확인해주세요🙏',
+          text: '정신 차리세요!🐯',
+          icon: 'warning',
+          buttons: false,
+          timer: 1500
+        })
       }
     }
   }
@@ -120,9 +135,9 @@ export default {
 <style scoped>
 button {
   height: 5vh;
-  border-radius: 50px;
+  border-radius: 10px;
   border: none;
-  width: 10vw;
+  width: 15.5vw;
   margin: 10px;
 }
 
@@ -267,9 +282,24 @@ input:focus {
   border: #467302 solid 2px;
 }
 
+.findpassword__btn {
+  text-decoration: none;
+}
+
+a:link {
+  color: black;
+}
+
+a:hover {
+  color: blue;
+  cursor: pointer;
+}
+
 .loginpage__btn {
   display: flex;
-  justify-content: space-around;
+  width: 30vw;
+  justify-content: center;
+  align-self: center;
 }
 
 .login__btn {
@@ -286,9 +316,15 @@ input:focus {
   background-color: #ffe62d;
   color: rgb(0, 0, 0);
   transition: 0.3s;
+  border-radius: 10px;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 4.8vmin;
+  width: 32vmin;
 }
 .kakaologin__btn:hover {
   background-color: #ffd104;
+  cursor: pointer;
 }
 
 .signup__btn {
@@ -398,12 +434,25 @@ input:focus {
     padding-left: 7vw;
   }
   button {
-    height: 6vh;
-    border-radius: 50px;
+    height: 4.5vh;
+    border-radius: 10px;
     border: none;
-    width: 35vw;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 80vw;
+    margin-top: 5px;
+    margin-bottom: 7px;
+  }
+  .kakaologin__btn {
+    border-radius: 10px;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    height: 10vmin;
+    width: 70vmin;
+  }
+
+  .loginpage__btn {
+    display: flex;
+    width: 78vw;
+    justify-content: space-around;
   }
 }
 </style>

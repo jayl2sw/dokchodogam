@@ -1,6 +1,10 @@
 <template>
   <div class="card">
-    <img :src="result.imgUrl" alt="" class="plantImage" />
+    <img
+      :src="this.imageBaseUrl + '/' + result.plantId + '.png'"
+      alt=""
+      class="plantImage"
+    />
     <div class="plantName">
       {{ result.name }}
     </div>
@@ -9,7 +13,12 @@
 
 <script>
 export default {
-  props: ['result']
+  props: ['result'],
+  data() {
+    return {
+      imageBaseUrl: process.env.VUE_APP_PLANTS_S3_URL
+    }
+  }
 }
 </script>
 

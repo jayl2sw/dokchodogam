@@ -117,6 +117,16 @@
 import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 export default {
   data() {
     return {
@@ -131,34 +141,48 @@ export default {
       this.$emit('overflow', this.showMenu)
     },
     logout() {
-      if (
-        confirm('정말 로그아웃 하시겠어요? 독초도감을 완성하지 못했는데..😥')
-      ) {
-        axios
-          .put(BASE_URL + '/api/v1/user/logout', null, {
-            headers: {
-              // 'Content-type': 'application/json',
-              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+      swalWithBootstrapButtons
+        .fire({
+          title: '도감을 덮으시겠어요?',
+          text: '풀깨비들이 도감에서 웅성거리고 있어요 😥',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            // console.log(result)
+            this.fetchLogout()
+          }
+        })
+    },
+    fetchLogout() {
+      axios
+        .put(BASE_URL + '/api/v1/user/logout', null, {
+          headers: {
+            // 'Content-type': 'application/json',
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          swal({
+            title: '로그아웃이 완료되었습니다!',
+            text: ' 다시 도감을 펼치는 날을 기다릴게요 🌻 ',
+            icon: 'success',
+            buttons: false,
+            timer: 1500
           })
-          .then((res) => {
-            console.log(res)
-            swal({
-              title: '로그아웃이 완료되었습니다!😘',
-              text: '또 만나요',
-              icon: 'success',
-              buttons: false,
-              timer: 1500
-            })
-            localStorage.clear()
-            this.$router.push({
-              path: '/'
-            })
+          localStorage.clear()
+          this.$router.push({
+            path: '/'
           })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     popon(path) {
       console.log(process.env)

@@ -155,6 +155,7 @@ export default {
   },
   created() {
     this.getTodayPlant()
+    console.log(process.env)
   }
 }
 </script>
@@ -186,6 +187,7 @@ export default {
 .dockchoName h3 {
   font-weight: bold;
   color: #fff;
+  word-break: keep-all;
 }
 .easter {
   text-decoration: none;

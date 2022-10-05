@@ -100,6 +100,13 @@
     @closeChangeDokcho="closeChangeDokcho"
     :showChangeDokchoMenu="showChangeDokchoMenu"
   />
+  <footer>
+    <p>
+      <!-- 쾌락과 독초 <br />
+      서상균 김성빈 박지현 오하민 이재준 최지원 <br /> -->
+      © 2022. 쾌락과 독초 All rights reserved
+    </p>
+  </footer>
 </template>
 
 <script>
@@ -109,6 +116,16 @@ import axios from 'axios'
 import { BASE_URL } from '@/constant/BASE_URL'
 import { mapActions } from 'vuex'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    title: 'custom-title-class',
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+  // buttonsStyling: false
+})
 
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
 
@@ -171,7 +188,8 @@ export default {
           .put(
             BASE_URL + '/api/v1/user/password',
             {
-              newPW: this.newPassword
+              newPW: this.newPassword,
+              nowPW: this.oldPassword
             },
             {
               headers: {
@@ -192,6 +210,13 @@ export default {
           })
           .catch((err) => {
             console.log(err)
+            swal({
+              title: '현재 비밀번호를 확인해주세요😥',
+              icon: 'warning',
+              text: '입력해주신 비밀번호와 현재 비밀번호가 다른 것 같아요😅',
+              buttons: false,
+              timer: 1500
+            })
           })
       } else {
         swal({
@@ -204,32 +229,47 @@ export default {
       }
     },
     deleteUser() {
-      if (confirm('정말 탈퇴하시겠어요? 독초도감을 완성하지 못했는데..😥')) {
-        axios
-          .delete(BASE_URL + '/api/v1/user/', {
-            headers: {
-              'Content-type': 'application/json',
-              AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+      swalWithBootstrapButtons
+        .fire({
+          title: '허준의 제자를 그만두시겠어요?',
+          text: `풀깨비들이 ${this.userInfo.nickname}님을 많이 좋아하는데...😥`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: '예',
+          cancelButtonText: '아니오',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.value) {
+            this.fetchDeleteUser()
+          }
+        })
+    },
+    fetchDeleteUser() {
+      axios
+        .delete(BASE_URL + '/api/v1/user/', {
+          headers: {
+            'Content-type': 'application/json',
+            AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          swal({
+            title: '탈퇴가 완료되었어요😭',
+            icon: 'success',
+            text: '언제든지 돌아오세요!',
+            buttons: false,
+            timer: 1500
           })
-          .then((res) => {
-            console.log(res)
-            swal({
-              title: '탈퇴가 완료되었어요!😭',
-              icon: 'success',
-              text: '독초도감은 기억할것입니다.',
-              buttons: false,
-              timer: 1500
-            })
-            localStorage.clear()
-            this.$router.push({
-              path: '/'
-            })
+          localStorage.clear()
+          this.$router.push({
+            path: '/'
           })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   watch: {
@@ -260,7 +300,7 @@ button {
   height: 4vh;
   border-radius: 50px;
   border: none;
-  width: 10vw;
+  width: 12vw;
   margin: 0 auto;
 }
 .mypage {
@@ -269,9 +309,23 @@ button {
   display: flex;
   justify-content: space-between;
   width: 80vw;
-  height: 80vh;
+  height: 75vh;
+  /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
+  /* padding-bottom: 10%; */
+}
+
+footer {
+  height: 10%;
+  padding-top: 2%;
+  position: relative;
+  transform: translateY(-10%);
+  text-align: center;
+}
+
+footer p {
+  color: #989797;
 }
 .mypage__left {
   height: 100%;
@@ -296,6 +350,7 @@ button {
 .change__dockcho {
   background-color: #a7c957;
   transition: 0.3s;
+  width: 14vw;
 }
 .change__dockcho:hover {
   background-color: #467302;
@@ -331,7 +386,8 @@ button {
   margin-bottom: 3vh;
 }
 .myProfile__contents {
-  font-size: 1.5vw;
+  word-break: keep-all;
+  font-size: 1vw;
   line-height: 4vh;
 }
 .emphasize {
@@ -363,7 +419,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 25vh;
+  height: 35vh;
   transition: 0.6s;
 }
 .changePw__inputs {
@@ -378,6 +434,10 @@ button {
   padding: 1vh 1vw;
   border: 3px solid white;
   border-radius: 20px;
+}
+.changePw__inputs > span {
+  margin: 1vh 3vw;
+  font-size: 1vw;
 }
 .changePw__inputs input:focus {
   outline: none;
@@ -466,6 +526,16 @@ button {
   .quit__btn {
     width: 20vw;
     font-size: 3vw;
+  }
+  .changePw__form {
+    height: 30vh;
+  }
+  .changePw__inputs > span {
+    margin: 1vh 3vw;
+    font-size: 2.5vw;
+  }
+  .displayNone {
+    height: 0;
   }
   .changePw__inputs input {
     height: 5vh;
