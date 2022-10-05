@@ -26,6 +26,7 @@
             "
             alt=""
             class="dockchoImg"
+            @click="this.playAudio(this.userInfo.profile_img)"
           />
         </div>
       </div>
@@ -153,6 +154,9 @@ export default {
           this.datas = res.data
         })
         .catch((err) => console.log(err))
+    },
+    playAudio(id) {
+      new Audio(this.imageBaseUrl + '/' + id + '.m4a').play()
     }
   },
   created() {
@@ -201,6 +205,7 @@ export default {
   width: 20vw;
   height: 20vw;
   margin-top: 2vw;
+  cursor: pointer;
 }
 .main__left {
   display: flex;
