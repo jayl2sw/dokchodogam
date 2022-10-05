@@ -40,6 +40,9 @@ public class MonsterInfoResponseDto {
     @ApiModelProperty(name="대사", example="This is Me")
     private String line;
 
+    @ApiModelProperty(name="식물 아이디", example="1")
+    private Long plantId;
+
     public static MonsterInfoResponseDto of(Monster monster) {
         return MonsterInfoResponseDto.builder()
                 .monsterId(monster.getMonsterId())
@@ -53,6 +56,7 @@ public class MonsterInfoResponseDto {
                 .currentHp(monster.getHp())
                 .firstFinder(monster.getFirstFinder())
                 .line(monster.getLine())
+                .plantId(monster.getPlantId())
                 .build();
     }
 }
