@@ -4,7 +4,9 @@
       :src="this.imageBaseUrl + '/' + result.plantId + '.png'"
       alt=""
       class="plantImage"
+      v-if="result.imgUrl"
     />
+    <img src="@/assets/no-image.jpg" alt="" class="plantImage" v-else />
     <div class="plantName">
       {{ result.name }}
     </div>
