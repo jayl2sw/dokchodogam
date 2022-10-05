@@ -7,11 +7,6 @@
     "
   >
     <div class="mypage__left">
-      <div class="goToGalleryBox">
-        <button class="goToGallery" @click="this.goToGallery()">
-          내 갤러리로 이동
-        </button>
-      </div>
       <div class="myDockcho">
         <img
           :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
@@ -22,9 +17,7 @@
         대표 풀깨비 변경
       </button>
     </div>
-    <div class="mypage__right">
-      <div class="block"></div>
-
+    <div class="mypage__mid">
       <div class="myProfile">
         <div class="myProfile__medal">
           <img
@@ -37,7 +30,7 @@
             alt=""
           />
         </div>
-        <div>
+        <div class="myInfo">
           <div class="nickname">
             <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
           </div>
@@ -102,6 +95,16 @@
             수정 완료
           </button>
         </div>
+      </div>
+    </div>
+    <div class="mypage__right">
+      <div class="gallery" @click="this.goToGallery()">
+        <img
+          :src="require('@/assets/camera.png')"
+          alt="camera"
+          class="camera"
+        />
+        <p class="TITLE">나의 사진 보러가기</p>
       </div>
     </div>
   </div>
@@ -316,11 +319,11 @@ button {
   margin: 0 auto;
 }
 .mypage {
-  margin: 5vh 10vw 0 10vw;
+  margin: 5vh 5vw 0 5vw;
   border-radius: 50px;
   display: flex;
-  justify-content: space-between;
-  width: 80vw;
+  justify-content: space-evenly;
+  width: 90vw;
   height: 75vh;
   /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
@@ -342,16 +345,13 @@ footer p {
 .mypage__left {
   height: 100%;
   width: 20vw;
-  margin-left: 10vw;
+  /* margin-left: 10vw; */
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.block {
-  height: 6vh;
-}
 .myDockcho {
-  height: 30vh;
+  height: 40vh;
   margin: 2vh 0;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 50px;
@@ -371,16 +371,16 @@ footer p {
   background-color: #467302;
   color: white;
 }
-.mypage__right {
+.mypage__mid {
   height: 100%;
   width: 35vw;
-  margin-right: 10vw;
+  /* margin-right: 10vw; */
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .myProfile {
-  height: 30vh;
+  height: 40vh;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 50px;
@@ -396,6 +396,11 @@ footer p {
 .myProfile__medal > img {
   width: 5vw;
 }
+.myInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 .nickname {
   display: flex;
   justify-content: space-between;
@@ -405,26 +410,6 @@ footer p {
 .myProfile__name {
   font-size: 2.5vw;
   margin-bottom: 1vh;
-}
-.goToGalleryBox {
-  height: 6vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.goToGallery {
-  border-radius: 50px;
-  height: 4vh;
-  width: 14vw;
-  background-color: #d0d0d0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-}
-.goToGallery:hover {
-  background-color: #aaa;
-  transition: 0.3s;
 }
 .myProfile__contents {
   word-break: keep-all;
@@ -516,7 +501,32 @@ footer p {
 .warningtext {
   color: #be0000;
 }
-
+.mypage__right {
+  width: 20vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gallery {
+  height: 45vh;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gallery:hover > .camera {
+  transform: rotateZ(0.05turn);
+}
+.camera {
+  width: 10vh;
+  margin-bottom: 5vh;
+  transition: 0.3s;
+}
 @media screen and (max-width: 850px) {
   .mypage {
     flex-direction: column;
@@ -525,6 +535,9 @@ footer p {
   }
   .mypage__left {
     margin: 0;
+    width: 80%;
+  }
+  .mypage__right {
     width: 80%;
   }
   .myDockcho {
@@ -546,12 +559,6 @@ footer p {
     font-size: 4vw;
     margin-bottom: 1vh;
   }
-  .goToGallery {
-    margin-top: 3vh;
-    width: 50vw;
-    height: 8vw;
-    font-size: 4vw;
-  }
   .myProfile__contents {
     font-size: 2.5vw;
     line-height: 4vh;
@@ -561,7 +568,7 @@ footer p {
     height: 8vw;
     font-size: 4vw;
   }
-  .mypage__right {
+  .mypage__mid {
     margin: 0;
     margin-bottom: 2vh;
     width: 80%;
