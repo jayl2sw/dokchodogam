@@ -30,54 +30,6 @@ export default {
   },
   methods: {
     ...mapActions(['monsterPackage, fetchnowUserInfo']),
-    onPaymentPackage: function () {
-      IMP.request_pay(
-        {
-          pg: 'html5_inicis',
-          merchant_uid: `mid_${new Date().getTime()}`,
-          amount: 100,
-          name: '독초도감:스타터팩',
-          buyer_name: `${this.nowUserInfo.username}`
-        },
-        (rsp) => {
-          console.log(rsp)
-          if (rsp.sucess) {
-            axios({
-              url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/2',
-              method: 'GET',
-              headers: {
-                AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
-              }
-            })
-              .then((res) => {
-                this.fetchMonsterPackage(res.data)
-                this.$router.push({
-                  path: '/game/shop/package'
-                })
-              })
-              .catch((err) => {
-                swal({
-                  title: '결제에 실패하였습니다 😢',
-                  text: '스타터팩 구매를 실패하였습니다.',
-                  icon: 'error',
-                  timer: 1500
-                })
-                this.$router.push({
-                  path: '/game/shop/package'
-                })
-              })
-          } else {
-            swal({
-              title: '결제에 실패하였습니다 😢',
-              text: `${rsp.error_msg}`,
-              icon: 'error',
-              buttons: false,
-              timer: 1500
-            })
-          }
-        }
-      )
-    },
     goToGameShop() {
       this.$router.replace({ path: '/game/shop' })
     }
