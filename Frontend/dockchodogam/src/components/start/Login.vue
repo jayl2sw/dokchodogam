@@ -30,13 +30,9 @@
             <button class="kakaologin__btn">카카오로그인</button>
           </a> -->
         </div>
-        <div class="loginpage__btn">
+        <!-- <div class="loginpage__btn">
           <button class="signup__btn" @click="signUp()">회원가입</button>
-          <!-- <a href="/oauth2/authorization/kakao">카카오 로그인</a> -->
-          <!-- <button class="findpassword__btn" @click="findpassword()">
-            비밀번호찾기
-          </button> -->
-        </div>
+        </div> -->
         <div class="loginpage__btn">
           <!-- <button class="kakaologin__btn" @click="kakaoLogin()">
             카카오로그인
@@ -48,10 +44,13 @@
             alt=""
           />
         </div>
-        <div>
-          <a class="findpassword__btn" @click="findpassword()"
-            >비밀번호를 잊으셨나요?
-          </a>
+        <div class="loginpage__btn">
+          <div class="signfind">
+            <a class="findpassword__btn" @click="findpassword()"
+              >비밀번호 찾기
+            </a>
+            <a class="findpassword__btn" @click="signUp()">회원가입</a>
+          </div>
         </div>
       </div>
     </div>
@@ -341,6 +340,13 @@ a:hover {
   justify-content: space-around;
 }
 
+.signfind {
+  display: flex;
+  width: 20vw;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 @media screen and (max-width: 850px) {
   .background {
     display: flex;
@@ -434,7 +440,7 @@ a:hover {
     padding-left: 7vw;
   }
   button {
-    height: 4.5vh;
+    height: 5vh;
     border-radius: 10px;
     border: none;
     width: 80vw;
@@ -451,8 +457,15 @@ a:hover {
 
   .loginpage__btn {
     display: flex;
-    width: 78vw;
+    width: 75vw;
     justify-content: space-around;
+  }
+
+  .signfind {
+    display: flex;
+    width: 70vw;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 </style>
