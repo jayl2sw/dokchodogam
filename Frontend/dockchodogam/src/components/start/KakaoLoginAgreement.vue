@@ -287,7 +287,6 @@ input {
   height: 40vh;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
 }
 
 .checkbox {
