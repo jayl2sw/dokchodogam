@@ -2,7 +2,6 @@ package com.ssafy.dockchodogam.dto.user;
 
 import com.ssafy.dockchodogam.domain.enums.Role;
 import com.ssafy.dockchodogam.domain.User;
-import com.ssafy.dockchodogam.dto.game.MonsterInfoResponseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

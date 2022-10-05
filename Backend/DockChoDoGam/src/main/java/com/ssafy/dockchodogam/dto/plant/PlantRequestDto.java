@@ -1,6 +1,5 @@
 package com.ssafy.dockchodogam.dto.plant;
 
-import com.ssafy.dockchodogam.domain.enums.PlantType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

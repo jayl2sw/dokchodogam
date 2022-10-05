@@ -7,8 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Builder
