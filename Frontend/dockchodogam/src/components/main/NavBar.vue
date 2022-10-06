@@ -35,12 +35,20 @@
           <ul class="navbar__sideIcons">
             <li>
               <a href="/mypage">
-                <font-awesome-icon icon="fa-solid fa-user" size="xl" />
+                <font-awesome-icon
+                  icon="fa-solid fa-user"
+                  size="xl"
+                  class="bottons"
+                />
               </a>
             </li>
             <li>
               <a href="#" @click="logout()">
-                <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
+                <font-awesome-icon
+                  icon="fa-solid fa-door-open"
+                  size="xl"
+                  class="bottons"
+                />
               </a>
             </li>
           </ul>
@@ -262,7 +270,14 @@ a {
   text-decoration: none;
   color: black;
 }
-
+.bottons {
+  transition: 0.3s;
+}
+.bottons:hover {
+  color: #2e4c00;
+  transition: 0.3s;
+  transform: scale(1.1);
+}
 .sideBar {
   width: 60vw;
   height: 100vh;

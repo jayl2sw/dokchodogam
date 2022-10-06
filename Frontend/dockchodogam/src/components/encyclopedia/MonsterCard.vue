@@ -13,10 +13,10 @@
       <div class="imgBx">
         <img
           :src="require('@/assets/monster/' + monster.monsterId + '.png')"
-          class="card__img monster__img"
+          class="monster__img"
           style="-webkit-user-drag: none"
           alt="풀깨비 그림"
-          @click="openDetail()"
+          @click="fetchMonsterDetail()"
         />
       </div>
       <div
@@ -48,7 +48,7 @@
 
         <div class="size">
           <p>
-            타입 : {{ this.monsterType }} <br />등급 : {{ this.monterGrade }}
+            타입 : {{ this.monsterType }} <br />등급 : {{ this.monsterGrade }}
             <br />
             체력 : {{ this.monster.hp }} <br />
             공격력 : {{ this.monster.minAttack }} ~ {{ this.monster.maxAttack }}
@@ -92,17 +92,15 @@ export default {
       modal: false,
       monsterDetail: {},
       monsterType: '',
-      monterGrade: '',
+      monsterGrade: '',
       imageBaseUrl: process.env.VUE_APP_S3_URL,
+      plantImageBaseUrl: process.env.VUE_APP_PLANTS_S3_URL,
       userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
-    },
-    openDetail() {
-      this.fetchMonsterDetail()
     },
     goToGG() {
       this.$router.push({
@@ -122,16 +120,16 @@ export default {
       }
     },
     checkGrade() {
-      if (this.monster.grade === 'COMMOM') {
-        this.monterGrade = '일반'
+      if (this.monster.grade === 'COMMON') {
+        this.monsterGrade = '일반'
       } else if (this.monster.grade === 'RARE') {
-        this.monterGrade = '희귀'
+        this.monsterGrade = '희귀'
       } else if (this.monster.grade === 'EPIC') {
-        this.monterGrade = '영웅'
+        this.monsterGrade = '영웅'
       } else if (this.monster.grade === 'LEGENDARY') {
-        this.monterGrade = '전설'
+        this.monsterGrade = '전설'
       } else {
-        this.monterGrade = '스페셜'
+        this.monsterGrade = '스페셜'
       }
     },
     fetchMonsterDetail() {
@@ -154,7 +152,7 @@ export default {
                     this.monster.name
                   ),
                 html: `<a style="font-family:UhBeeSe_hyun;text-decoration:none;" href="${this.monsterDetail.engNm}">${this.monster.name}몬의 Github</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
                 imageWidth: '80%',
                 imageHeight: 200,
                 imageAlt: 'Custom image',
@@ -168,7 +166,7 @@ export default {
             // 독초 X 학명 X 설명 X
             !this.monsterDetail.familyKorNm &&
             !this.monsterDetail.flwrDesc &&
-            !this.monster.type === 'DOKCHO'
+            this.monster.type !== 'DOKCHO'
           ) {
             return setTimeout(() => {
               Swal.fire({
@@ -177,8 +175,80 @@ export default {
                     '$name',
                     this.monster.name
                   ),
-                html: `<a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
+                html: `<a style="font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 x 학명 x 설명 o
+            !this.monsterDetail.familyKorNm &&
+            this.monsterDetail.flwrDesc &&
+            this.monster.type !== 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 X 학명 O 설명 X
+            this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            this.monster.type !== 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 X 학명 O 설명 O
+            this.monsterDetail.familyKorNm &&
+            this.monsterDetail.flwrDesc &&
+            this.monster.type !== 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><br /><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
                 imageWidth: '80%',
                 imageHeight: 200,
                 imageAlt: 'Custom image',
@@ -201,8 +271,32 @@ export default {
                     '$name',
                     this.monster.name
                   ),
-                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 O 학명 X 설명 O
+            !this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><br /><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
                 imageWidth: '80%',
                 imageHeight: 200,
                 imageAlt: 'Custom image',
@@ -225,80 +319,8 @@ export default {
                     '$name',
                     this.monster.name
                   ),
-                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
-                imageWidth: '80%',
-                imageHeight: 200,
-                imageAlt: 'Custom image',
-                showCloseButton: false,
-                showConfirmButton: false,
-                position: 'center',
-                scrollbarPadding: false
-              })
-            }, 100)
-          } else if (
-            // 독초 X 학명 O 설명 X
-            this.monsterDetail.familyKorNm &&
-            !this.monsterDetail.flwrDesc &&
-            !this.monster.type === 'DOKCHO'
-          ) {
-            return setTimeout(() => {
-              Swal.fire({
-                title:
-                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
-                    '$name',
-                    this.monster.name
-                  ),
-                html: `<b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
-                imageWidth: '80%',
-                imageHeight: 200,
-                imageAlt: 'Custom image',
-                showCloseButton: false,
-                showConfirmButton: false,
-                position: 'center',
-                scrollbarPadding: false
-              })
-            }, 100)
-          } else if (
-            // 독초 O 학명 O 설명 O
-            this.monsterDetail.familyKorNm &&
-            this.monsterDetail.flwrDesc &&
-            this.monster.type === 'DOKCHO'
-          ) {
-            return setTimeout(() => {
-              Swal.fire({
-                title:
-                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
-                    '$name',
-                    this.monster.name
-                  ),
-                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
-                imageWidth: '80%',
-                imageHeight: 200,
-                imageAlt: 'Custom image',
-                showCloseButton: false,
-                showConfirmButton: false,
-                position: 'center',
-                scrollbarPadding: false
-              })
-            }, 100)
-          } else if (
-            // 독초 x 학명 x 설명 o
-            !this.monsterDetail.familyKorNm &&
-            this.monsterDetail.flwrDesc &&
-            !this.monster.type === 'DOKCHO'
-          ) {
-            return setTimeout(() => {
-              Swal.fire({
-                title:
-                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
-                    '$name',
-                    this.monster.name
-                  ),
-                html: `<p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
                 imageWidth: '80%',
                 imageHeight: 200,
                 imageAlt: 'Custom image',
@@ -316,10 +338,8 @@ export default {
                     '$name',
                     this.monster.name
                   ),
-                html: `<b style="font-family:UhBeeSe_hyun;color:red">독초입니다! 채집 및 섭취에 주의하세요!</b>
-                <br /><br /><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p>
-                <a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
-                imageUrl: `${this.monsterDetail.imgUrl}`,
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="font-size: 1rem; font-family:UhBeeSe_hyun; color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.plantImageBaseUrl}/${this.monsterDetail.plantId}.png`,
                 imageWidth: '80%',
                 imageHeight: 200,
                 imageAlt: 'Custom image',
@@ -426,6 +446,7 @@ export default {
   display: block;
   margin: auto;
   width: 80%;
+  cursor: pointer;
 }
 
 .kakao__img {

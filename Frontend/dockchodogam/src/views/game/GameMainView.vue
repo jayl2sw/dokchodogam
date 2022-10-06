@@ -1,6 +1,6 @@
 <template>
   <NavBar @overflow="overflow" />
-  <div class="game">
+  <div class="game" :class="this.showMenu ? 'open-menu' : ''">
     <div class="game__arena" @click="goToArena()"></div>
     <div class="game__gg" @click="geToGG()"></div>
   </div>
@@ -97,6 +97,10 @@ export default {
     width: 80vw;
     height: 38vh;
     background-size: cover;
+  }
+  .open-menu {
+    overflow: hidden;
+    position: fixed;
   }
 }
 @keyframes bigger {

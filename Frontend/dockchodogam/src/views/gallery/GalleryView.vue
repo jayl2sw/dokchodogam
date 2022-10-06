@@ -4,13 +4,8 @@
     <div class="gallery__top TITLE">{{ this.userInfo.nickname }}의 갤러리</div>
     <div class="container">
       <div class="row">
-        <div
-          class="col"
-          :class="item.plant ? 'plantTrue' : ''"
-          v-for="(item, i) in this.userGallery"
-          :key="i"
-        >
-          <div class="galleryItem">
+        <div class="col" v-for="(item, i) in this.userGallery" :key="i">
+          <div class="galleryItem" :class="item.plant ? 'plantTrue' : ''">
             <img :src="item.imgURL" alt="" class="galleryImage front" />
             <img :src="item.suggestionImg" alt="" class="galleryImage back" />
             <div class="galleryItemText TITLE">
@@ -137,6 +132,7 @@ export default {
   transition: 1s;
 }
 .galleryItemText {
+  width: 180px;
   height: 60px;
 }
 .plantTrue {
