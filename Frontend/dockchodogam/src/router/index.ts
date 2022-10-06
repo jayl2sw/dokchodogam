@@ -262,7 +262,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'gallery',
     component: () =>
       import(
-        /* webpackChunkName: "gallery" */ '../views/gallery/GalleryView.vue'
+        /* webpackChunkName: "gallery" webpackPrefetch:true */ '../views/gallery/GalleryView.vue'
       )
   },
   // 어드민
