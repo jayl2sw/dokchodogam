@@ -68,7 +68,7 @@ export default {
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.5
+    this.audio.volume = 0.2
     setTimeout(() => {
       this.audio.play()
     }, 300)

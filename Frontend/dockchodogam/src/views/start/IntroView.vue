@@ -99,6 +99,7 @@ export default {
       this.currentHeight = window.innerHeight
     })
     this.audio.loop = true
+    this.audio.volume = 0.5
     this.audio.play()
   },
   beforeUnmount() {

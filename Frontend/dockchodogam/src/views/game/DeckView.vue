@@ -194,7 +194,7 @@ export default {
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.3
+    this.audio.volume = 0.1
     this.audio.play()
   },
   beforeUnmount() {
