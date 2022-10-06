@@ -36,9 +36,10 @@ public class Monster {
     private MonsterGrade grade;
     @Column(name = "hp")
     private int hp;
-
     @Column(name = "line")
     private String line;
+    @Column(name = "plant_id")
+    private Long plantId;
     @OneToMany(mappedBy = "monster", fetch = FetchType.LAZY)
     private List<Plant> plant;
 
