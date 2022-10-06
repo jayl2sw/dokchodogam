@@ -2,7 +2,7 @@
   <div class="lists">
     <div class="left">
       <img
-        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        :src="require('@/assets/monster/' + this.friend.profile_img + '.png')"
         alt=""
       />
       <p class="TITLE name">{{ this.friend.nickname }}</p>
@@ -52,7 +52,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$refs.button.$el.classList.add('sentGift')
         })
         .catch((err) => console.log(err))
@@ -77,7 +76,6 @@ export default {
         enemyDeck: deck
       }
       this.fetchEnemyInfo(info)
-      console.log('상대 덱 저장?', info)
       setTimeout(() => {
         this.$router.push({ path: '/game/arena/chinsunGame' })
       }, 200)

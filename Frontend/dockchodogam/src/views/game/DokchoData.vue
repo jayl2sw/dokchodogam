@@ -7,7 +7,7 @@
   >
     <div class="profile">
       <img
-        :src="this.imageBaseUrl + '/' + this.dokchoInfo.monsterId + '.png'"
+        :src="require('@/assets/monster/' + this.dokchoInfo.monsterId + '.png')"
         alt=""
         class="profileImage"
       />
@@ -53,7 +53,7 @@
               class="deckItem"
               v-for="idx in this.array1"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>
@@ -63,7 +63,7 @@
               class="deckItem"
               v-for="idx in this.array2"
               :key="idx"
-              :src="this.imageBaseUrl + '/' + item[idx] + '.png'"
+              :src="require('@/assets/monster/' + item[idx] + '.png')"
               alt=""
             />
           </div>
@@ -236,7 +236,6 @@ export default {
     axios
       .get(BASE_URL + '/api/v1/game/monster/mylist', option)
       .then((res) => {
-        console.log(res.data)
         res.data.forEach((element) => {
           if (this.queryData === String(element.monsterId)) {
             this.isMyDokcho = true
@@ -254,7 +253,6 @@ export default {
         option
       )
       .then((res) => {
-        console.log(res.data)
         this.dokchoInfo = res.data.monsterDto
         this.allDoughnutChart.data.datasets[0].data = [
           res.data.totalWinRate.winGame,
@@ -413,7 +411,6 @@ export default {
 .undefined__body {
   width: 100%;
   margin-top: 8vmin;
-  /* height: 50%; */
   align-items: center;
 }
 
@@ -425,7 +422,6 @@ export default {
 .undefined__body img {
   display: block;
   margin: auto;
-  /* object-fit: cover; */
   width: 25vmax;
 }
 
@@ -437,15 +433,12 @@ export default {
 .btn {
   margin: auto;
   margin-top: 5vmin;
-  /* align-self: center; */
   min-width: 50px;
-  /* width: 30%; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;
@@ -524,7 +517,6 @@ export default {
   .undefined__body img {
     display: block;
     margin: auto;
-    /* object-fit: cover; */
     width: 30vmax;
   }
 }

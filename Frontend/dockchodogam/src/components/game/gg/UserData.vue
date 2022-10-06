@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     search() {
-      console.log(this.inputData)
       this.keyword =
         this.inputData === ''
           ? JSON.parse(localStorage.getItem('userInfo')).nickname
@@ -45,7 +44,6 @@ export default {
       axios
         .get(BASE_URL + '/api/v1/user/search/' + this.keyword, option)
         .then((res) => {
-          console.log(res.data)
           this.searchUser = res.data
         })
         .catch((err) => {
@@ -82,8 +80,6 @@ input {
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 input::placeholder {
   color: #467302;

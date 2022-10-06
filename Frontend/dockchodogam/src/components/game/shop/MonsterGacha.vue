@@ -5,7 +5,11 @@
     </div>
     <div class="gacha__body">
       <p>✨ 일반 ~ 스페셜 풀깨비 ✨등장!</p>
-      <img class="gatcha__img" :src="require('@/assets/shop/monster.png')" />
+      <img
+        class="gatcha__img"
+        :src="require('@/assets/shop/monster.png')"
+        alt="gatcha_img"
+      />
     </div>
     <div class="gacha__footer">
       <button class="btn" @click="doubleCheck">
@@ -26,13 +30,9 @@ const swalWithBootstrapButtons = Swal.mixin({
     confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   }
-  // buttonsStyling: false
 })
 
 export default {
-  // data() {
-  //   return { userInfo: JSON.parse(localStorage.getItem('userInfo')) }
-  // },
   data() {
     return {
       btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
@@ -57,7 +57,6 @@ export default {
         })
         .then((res) => {
           if (res.value) {
-            // console.log(result)
             this.fetchGacha()
           }
         })
@@ -65,7 +64,6 @@ export default {
     fetchGacha() {
       if (this.nowUserInfo.money >= 100) {
         this.fetchMonsterGacha()
-        // this.fetchUserInfo()
         setTimeout(() => {
           this.$router.replace({
             path: '/game/shop/gacha'
@@ -90,7 +88,6 @@ export default {
 .gacha {
   width: 30vw;
   height: 60vh;
-  /* background-color: green; */
 }
 .gacha__header {
   text-align: center;
@@ -110,7 +107,6 @@ export default {
   justify-content: center;
   align-items: center;
   height: 40vh;
-  /* margin-bottom: 0; */
 }
 
 .gatcha__img {
@@ -122,19 +118,15 @@ export default {
 .gacha__footer {
   display: flex;
   justify-content: center;
-  /* margin-bottom: 2vh; */
 }
 
 .btn {
-  /* align-self: center; */
   min-width: 50px;
-  /* width: 30%; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;

@@ -16,7 +16,9 @@
             class="yourDockChoItem"
           >
             <img
-              :src="this.imageBaseUrl + '/' + yourDockCho.monsterId + '.png'"
+              :src="
+                require('@/assets/monster/' + yourDockCho.monsterId + '.png')
+              "
               alt=""
               class="yourDockChoItemImage"
             />
@@ -85,7 +87,7 @@
             @click="this.selectNextDockcho(i)"
           >
             <img
-              :src="this.imageBaseUrl + '/' + myDockCho.monsterId + '.png'"
+              :src="require('@/assets/monster/' + myDockCho.monsterId + '.png')"
               alt=""
               class="myDockChoItemImage"
             />
@@ -169,7 +171,6 @@ export default {
         this.myType = this.setType(this.currentMyDockCho)
         this.yourType = this.setType(this.currentYourDockCho)
         this.sangseong = this.calSangSeong()
-        console.log('지금 나의 스킬은?', this.skill)
         setTimeout(() => {
           this.attack()
         }, 2000)
@@ -194,70 +195,31 @@ export default {
           // 상성 체크
           if (this.currentMyDockCho.type === 'JAPCHO') {
             if (this.currentYourDockCho.type === 'DOKCHO') {
-              console.log(
-                '잡 독 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'YAKCHO') {
-              console.log('잡 약 쎄게떄림!', this.myDamage, this.myDamage * 1.2)
               this.myDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'HIDDEN') {
-              console.log(
-                '잡 히 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             }
           } else if (this.currentMyDockCho.type === 'DOKCHO') {
             if (this.currentYourDockCho.type === 'JAPCHO') {
-              console.log('독 잡 쎄게때림!', this.myDamage, this.myDamage * 1.2)
               this.myDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'YAKCHO') {
-              console.log(
-                '독 약 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'HIDDEN') {
-              console.log(
-                '독 히 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             }
           } else if (this.currentMyDockCho.type === 'YAKCHO') {
             if (this.currentYourDockCho.type === 'DOKCHO') {
-              console.log('약 독 쎄게때림!', this.myDamage, this.myDamage * 1.2)
               this.myDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'JAPCHO') {
-              console.log(
-                '약 잡 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             } else if (this.currentYourDockCho.type === 'HIDDEN') {
-              console.log(
-                '약 히 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             }
           } else {
-            console.log('히 쎄게때림!', this.myDamage, this.myDamage * 1.2)
             this.myDamage *= 1.2
             if (this.currentYourDockCho.type === 'HIDDEN') {
-              console.log(
-                '히 히 쎄게맞음!',
-                this.yourDamage,
-                this.yourDamage * 1.2
-              )
               this.yourDamage *= 1.2
             }
           }
@@ -265,15 +227,12 @@ export default {
           this.yourDamage = Math.round(this.yourDamage)
           if (this.nowUseSkill) {
             if (this.skill === 1) {
-              console.log('데미지 두배임', this.myDamage, this.myDamage * 2)
               this.myDamage *= 2
               this.skillEffect = true
             } else if (this.skill === 2) {
-              console.log('상대 공격 무효')
               this.yourDamage = 0
               this.skillEffect = true
             } else {
-              console.log('상대 공격 반사')
               this.myDamage = this.yourDamage
               this.yourDamage = 0
               this.skillEffect = true
@@ -310,7 +269,6 @@ export default {
           this.yourType = ''
           this.sangseong = ''
           this.isMyDockchoDead = true
-          console.log('둘다죽음')
           setTimeout(() => {
             this.isGameEnd()
           }, 2000)
@@ -321,7 +279,6 @@ export default {
           this.myType = ''
           this.sangseong = ''
           this.isMyDockchoDead = true
-          console.log('나 죽음')
           setTimeout(() => {
             this.isGameEnd()
           }, 2000)
@@ -331,7 +288,6 @@ export default {
           this.currentYourDockCho = ''
           this.yourType = ''
           this.sangseong = ''
-          console.log('상대 죽음')
           setTimeout(() => {
             this.isGameEnd()
           }, 2000)
@@ -343,12 +299,7 @@ export default {
       }, 1000)
     },
     isGameEnd() {
-      console.log('내 인덱스', this.currentMyIdx)
-      console.log('상대 인덱스', this.currentYourIdx)
-      console.log('내 독초몬', this.currentMyDockCho)
-      console.log('상대 독초몬', this.currentYourDockCho)
       if (this.currentMyIdx === -1 && this.currentYourIdx === -1) {
-        console.log('상대 승리')
         this.postGameEnd(false)
         this.putMyPoint(-5)
         setTimeout(() => {
@@ -356,7 +307,6 @@ export default {
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentMyIdx === -1) {
-        console.log('상대 승리')
         this.postGameEnd(false)
         this.putMyPoint(-5)
         setTimeout(() => {
@@ -364,7 +314,6 @@ export default {
           this.resultInfo = [this.enemyInfo.isChinsun, '패배']
         }, 1000)
       } else if (this.currentYourIdx === -1) {
-        console.log('나 승리')
         this.postGameEnd(true)
         this.putMyPoint(10)
         setTimeout(() => {
@@ -457,7 +406,6 @@ export default {
             'Content-type': 'application/json'
           }
         })
-        .then((res) => console.log(res.data))
         .catch((err) => console.log(err))
     },
     postGameEnd(win) {
@@ -465,7 +413,6 @@ export default {
         battle_id: this.battleId,
         success: win
       }
-      console.log(data)
       axios
         .post(BASE_URL + '/api/v1/battle/finish', data, {
           headers: {
@@ -473,7 +420,6 @@ export default {
             'Content-type': 'application/json'
           }
         })
-        .then((res) => console.log(res.data))
         .catch((err) => console.log(err))
     },
     putMyPoint(point) {
@@ -570,7 +516,7 @@ export default {
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.5
+    this.audio.volume = 0.2
     this.audio.play()
   },
   beforeUnmount() {
@@ -681,7 +627,6 @@ export default {
   display: flex;
 }
 .myDockChoItem {
-  /* border: 5px solid #ffe140; */
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
   width: 17vh;
@@ -748,14 +693,7 @@ export default {
   opacity: 0.3;
   cursor: default;
 }
-/* @media screen and (min-height: 700px) {
-  .myDockChoMon {
-    top: 30vh;
-  }
-  .yourDockChoMon {
-    top: 30vh;
-  }
-} */
+
 @media screen and (max-width: 850px) {
   .myDockChoItem {
     border-width: 2px;

@@ -2,7 +2,9 @@
   <div class="lists">
     <div class="left">
       <img
-        :src="this.imageBaseUrl + '/' + this.request.sender_monster + '.png'"
+        :src="
+          require('@/assets/monster/' + this.request.sender_monster + '.png')
+        "
         alt=""
       />
       <p class="TITLE name">{{ this.request.sender_nickname }}</p>
@@ -45,7 +47,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
           this.$emit('getFriendList')
         })
@@ -63,7 +64,6 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
         })
         .catch((err) => console.log(err))

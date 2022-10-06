@@ -3,31 +3,23 @@
   <NavBar @overflow="overflow" />
   <div class="camera">
     <div class="camera__body">
-      <camera
-        ref="camera"
-        @loading="logEvent('loading')"
-        @started="logEvent('started')"
-        @error="(error) => logEvent('error: ' + error)"
-      >
+      <camera ref="camera" @error="(error) => logEvent('error: ' + error)">
       </camera>
       <button type="button" @click="snapshot" class="photo__btn">
         <font-awesome-icon icon="fa-solid fa-camera" class="photo__icon" />
       </button>
-      <!-- <button @click="goToMain">메인으로 돌아가기</button> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { BASE_URL } from '@/constant/BASE_URL'
 import NavBar from '@/components/main/NavBar.vue'
 import axios from 'axios'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
-// import Camera from 'simple-vue-camera'
 import Camera from '@/components/camera/Camera.vue'
 import swal from 'sweetalert'
-// import { mapActions } from 'vuex'
 import { useStore } from 'vuex'
 
 const useRouterCustom = () => {
@@ -64,7 +56,6 @@ export default defineComponent({
     const { goToResult } = useRouterCustom()
 
     const { goToMain } = useRouterMain()
-    // this.store.dispatch
 
     const camera = ref<InstanceType<typeof Camera>>()
 
@@ -79,18 +70,6 @@ export default defineComponent({
       }
     })
 
-    // const route = useRoute()
-    // const router = useRouter()
-    // const useRouterCustom = () => {
-    //   const router = useRouter()
-
-    //   const goToResult = () => {
-    //     router.push('/camera/result')
-    //   }
-    //   return {
-    //     goToResult
-    //   }
-    // }
     const start = () => camera.value?.start()
     const stop = () => camera.value?.stop()
     const pause = () => camera.value?.pause()
@@ -107,12 +86,8 @@ export default defineComponent({
       formdata.append('file', blob)
 
       const url = URL.createObjectURL(blob!)
-      console.log(formdata)
-      console.log(blob)
       const result = ref()
       currentSnapshot.value = URL.createObjectURL(blob!)
-      // console.log('사진찍힘')
-      // console.log(currentSnapshot.value)
 
       axios({
         url: BASE_URL + '/api/v1/dokcho/judge/',
@@ -125,13 +100,7 @@ export default defineComponent({
       })
         .then((res) => {
           result.value = res.data
-          console.log('result value')
-          console.log(result.value.plant)
           store.dispatch('fetchphotoResult', res.data)
-          // 받은 데이터 store에 저장
-          // this.fetchphotoResult(res.data)
-          // setTimeout(() => console.log('결과값 저장~'), 2000)
-
           goToResult()
         })
         .catch((err) => {
@@ -153,12 +122,6 @@ export default defineComponent({
       const target = event.target as HTMLSelectElement
       camera.value?.changeCamera(target.value)
     }
-
-    // const goToMain = () => {
-    //   router.push({
-    //     name: 'main'
-    //   })
-    // }
 
     return {
       camera,

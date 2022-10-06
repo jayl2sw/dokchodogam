@@ -5,7 +5,11 @@
     </div>
 
     <div class="cash__body">
-      <img class="cash__img" :src="require('@/assets/shop/cash.png')" />
+      <img
+        class="cash__img"
+        :src="require('@/assets/shop/cash.png')"
+        alt="cash__img"
+      />
     </div>
 
     <div class="cash__footer">
@@ -18,7 +22,6 @@
 
 <script>
 import axios from 'axios'
-import { BASE_URL } from '@/constant/BASE_URL'
 import swal from 'sweetalert'
 import { mapActions } from 'vuex'
 
@@ -32,51 +35,32 @@ export default {
       btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
   },
-  // computed: {
-  //   ...mapGetters(['userInfo'])
-  // },
   methods: {
     ...mapActions(['fetchnowUserInfo']),
     onPaymentCash: function () {
       this.btn_audio.play()
-      /* 1. 가맹점 식별하기 */
-      // const IMP = window.IMP
-      // IMP.init('imp40805235')
-      // {
-      //   pg: 'html5_inicis',
-
-      //   merchant_uid: `mid_${new Date().getTime()}`,
-      //   amount: 100,
-      //   name: '재화충전:1,000냥',
-      //   m_redirect_url: 'https://j7e201.p.ssafy.io/game/shop',
-      //   buyer_name: `${this.userInfo.username}`
-      // },
       IMP.request_pay(
         {
           pg: 'danal_tpay',
           pay_method: 'card',
           merchant_uid: `mid_${new Date().getTime()}`,
           name: '재화충전:1,000냥',
-          amount: 100,
+          amount: 9900,
           buyer_email: `${this.userInfo.email}`,
           buyer_name: `${this.userInfo.username}`,
           buyer_tel: '010-1234-5678'
         },
         (rsp) => {
-          console.log(rsp)
           if (rsp.success) {
             axios({
               url: 'https://j7e201.p.ssafy.io/api/v1/game/monster/pick/1',
               method: 'GET',
               headers: {
-                // 'Content-Type': 'application/json',
                 AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
               }
             })
               .then((data) => {
-                console.log(data)
                 this.fetchnowUserInfo()
-                // 서버 결제 API 성공시 로직
                 swal({
                   title: '냥 충전 완료! 💰',
                   text: '1,000냥이 충전 되었습니다😸',
@@ -87,7 +71,6 @@ export default {
               })
               .catch((err) => console.log(err))
           } else {
-            // 결제 실패시 로직
             swal({
               title: '결제에 실패하였습니다 😢',
               text: `${rsp.error_msg}`,
@@ -127,7 +110,6 @@ export default {
   height: 40vh;
 }
 .cash__img {
-  /* margin-top: 5; */
   width: 60%;
   margin-left: auto;
   margin-right: auto;
@@ -140,14 +122,11 @@ export default {
 
 .btn {
   min-width: 50px;
-  /* width: 10vw; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-
-  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;

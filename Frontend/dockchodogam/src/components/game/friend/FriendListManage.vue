@@ -2,7 +2,7 @@
   <div class="lists">
     <div class="left">
       <img
-        :src="this.imageBaseUrl + '/' + this.friend.profile_img + '.png'"
+        :src="require('@/assets/monster/' + this.friend.profile_img + '.png')"
         alt=""
       />
       <p class="TITLE name">{{ this.friend.nickname }}</p>
@@ -28,7 +28,6 @@ const swalWithBootstrapButtons = Swal.mixin({
     confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   }
-  // buttonsStyling: false
 })
 
 export default {
@@ -53,7 +52,6 @@ export default {
         })
         .then((res) => {
           if (res.value) {
-            // console.log(result)
             this.fetchDelete()
 
             swalWithBootstrapButtons.fire(
@@ -61,11 +59,7 @@ export default {
               '안녕 친구야 ...',
               'success'
             )
-          } else if (
-            /* Read more about handling dismissals below */
-            res.dismiss === 'cancel'
-          ) {
-            // console.log(res)
+          } else if (res.dismiss === 'cancel') {
             swalWithBootstrapButtons.fire(
               '삭제가 취소되었습니다!',
               '친구를 유지하게 되었어요 :)',
@@ -83,7 +77,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$emit('getFriendList')
         })
         .catch((err) => console.log(err))
@@ -136,7 +129,6 @@ svg:hover {
 }
 
 .custom-title-class {
-  /* font-size: 1.6rem !important; */
   font-family: 'UhBeeSe_hyun' !important;
 }
 </style>

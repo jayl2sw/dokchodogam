@@ -1,5 +1,5 @@
 <template>
-  <div class="dogam__container">
+  <div class="dogam__container" :class="this.showMenu ? 'open-menu' : ''">
     <LoadingPage v-if="this.isLoading" />
     <NavBar v-show="!this.isLoading" @overflow="overflow" />
 
@@ -129,9 +129,6 @@ import MonsterCard from '@/components/encyclopedia/MonsterCard.vue'
 import axios from 'axios'
 import LoadingPage from '@/components/main/LoadingPage.vue'
 
-// import { BASE_URL } from '@/constant/BASE_URL'
-// import { mapGetters } from 'vuex'
-
 export default {
   components: {
     NavBar,
@@ -147,11 +144,11 @@ export default {
       isLoading: true,
       userInfo: JSON.parse(localStorage.getItem('userInfo')),
       imageBaseUrl: process.env.VUE_APP_S3_URL,
-      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3')
+      audio: new Audio(process.env.VUE_APP_S3_URL + '/encyclopedia.mp3'),
+      showMenu: false
     }
   },
   computed: {
-    // ...mapGetters(['userInfo']),
     filteredMonsters() {
       if (
         !this.checkedType.length &&
@@ -224,6 +221,9 @@ export default {
     }
   },
   methods: {
+    overflow(value) {
+      this.showMenu = value
+    },
     backToTop() {
       document.body.scrollTop = 0
       document.documentElement.scrollTop = 0
@@ -237,8 +237,6 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(res.data.content)
-
           this.monsters = res.data.content
         })
         .catch((err) => console.log(err))
@@ -252,7 +250,7 @@ export default {
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.5
+    this.audio.volume = 0.2
     this.audio.play()
   },
   beforeUnmount() {
@@ -263,19 +261,16 @@ export default {
 
 <style scoped>
 .toTheTop {
-  /* background-color: #a7c957; */
   position: fixed;
   bottom: 20px;
   right: 20px;
-  /* display: none; */
-  /* border-radius: 50px; */
+  cursor: pointer;
 }
 
 .toTheTop:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  /* display: none; */
 }
 
 .dogam__container {
@@ -299,8 +294,6 @@ export default {
 .checkbox2,
 .checkbox3 {
   flex-direction: row;
-  /* justify-content: space-between; */
-  /* background-color: aqua; */
   text-align: start;
   margin-bottom: 5vh;
   margin-left: 10vw;
@@ -310,7 +303,7 @@ export default {
   text-align: end;
   margin-right: 10vw;
   margin-bottom: 3vh;
-  font-family: 'UhBeeSe_hyun';
+  font-family: 'UhBeeSe_hyun', sans-serif;
 }
 
 p {
@@ -362,5 +355,9 @@ input[type='checkbox']:checked::after {
 }
 .col {
   padding: 2vh;
+}
+.open-menu {
+  overflow: hidden;
+  position: fixed;
 }
 </style>

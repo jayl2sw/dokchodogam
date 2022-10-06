@@ -9,7 +9,9 @@
     <div class="mypage__left">
       <div class="myDockcho">
         <img
-          :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+          :src="
+            require('@/assets/monster/' + this.userInfo.profile_img + '.png')
+          "
           alt=""
         />
       </div>
@@ -17,7 +19,7 @@
         대표 풀깨비 변경
       </button>
     </div>
-    <div class="mypage__right">
+    <div class="mypage__mid">
       <div class="myProfile">
         <div class="myProfile__medal">
           <img
@@ -30,8 +32,10 @@
             alt=""
           />
         </div>
-        <div>
-          <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
+        <div class="myInfo">
+          <div class="nickname">
+            <p class="TITLE myProfile__name">{{ this.userInfo.nickname }}님</p>
+          </div>
           <p class="myProfile__contents">
             지금 내 주머니에는
             <span class="emphasize">{{ this.userInfo.money }}</span
@@ -95,17 +99,23 @@
         </div>
       </div>
     </div>
+    <div class="mypage__right">
+      <div class="gallery" @click="this.goToGallery()">
+        <img
+          :src="require('@/assets/camera.png')"
+          alt="camera"
+          class="camera"
+        />
+        <p class="TITLE">나의 사진 보러가기</p>
+      </div>
+    </div>
   </div>
   <MyDokchoChange
     @closeChangeDokcho="closeChangeDokcho"
     :showChangeDokchoMenu="showChangeDokchoMenu"
   />
   <footer>
-    <p>
-      <!-- 쾌락과 독초 <br />
-      서상균 김성빈 박지현 오하민 이재준 최지원 <br /> -->
-      © 2022. 쾌락과 독초 All rights reserved
-    </p>
+    <p>© 2022. 쾌락과 독초 All rights reserved</p>
   </footer>
 </template>
 
@@ -124,7 +134,6 @@ const swalWithBootstrapButtons = Swal.mixin({
     confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   }
-  // buttonsStyling: false
 })
 
 var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
@@ -171,6 +180,9 @@ export default {
         this.isPasswordChecked = false
       }
     },
+    goToGallery() {
+      this.$router.push({ path: '/gallery' })
+    },
     changePassword() {
       if (!passwordCheck.test(this.newPassword)) {
         swal({
@@ -182,8 +194,6 @@ export default {
           timer: 2000
         })
       } else if (this.newPassword === this.newPassword2) {
-        console.log(this.newPassword)
-        console.log(this.newPassword2)
         axios
           .put(
             BASE_URL + '/api/v1/user/password',
@@ -199,7 +209,6 @@ export default {
             }
           )
           .then((res) => {
-            console.log(res)
             swal({
               title: '비밀번호가 변경되었습니다!😘',
               icon: 'success',
@@ -254,7 +263,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res)
           swal({
             title: '탈퇴가 완료되었어요😭',
             icon: 'success',
@@ -304,16 +312,14 @@ button {
   margin: 0 auto;
 }
 .mypage {
-  margin: 5vh 10vw 0 10vw;
+  margin: 5vh 5vw 0 5vw;
   border-radius: 50px;
   display: flex;
-  justify-content: space-between;
-  width: 80vw;
+  justify-content: space-evenly;
+  width: 90vw;
   height: 75vh;
-  /* height: 80vh; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
-  /* padding-bottom: 10%; */
 }
 
 footer {
@@ -330,13 +336,12 @@ footer p {
 .mypage__left {
   height: 100%;
   width: 20vw;
-  margin-left: 10vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .myDockcho {
-  height: 30vh;
+  height: 40vh;
   margin: 2vh 0;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 50px;
@@ -356,23 +361,21 @@ footer p {
   background-color: #467302;
   color: white;
 }
-.mypage__right {
+.mypage__mid {
   height: 100%;
   width: 35vw;
-  margin-right: 10vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .myProfile {
-  height: 30vh;
+  height: 40vh;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   margin: 2vh 0;
   padding: 3vh;
   display: flex;
-  /* transition: 1s; */
 }
 .myProfile__medal {
   margin-top: 1vh;
@@ -381,9 +384,20 @@ footer p {
 .myProfile__medal > img {
   width: 5vw;
 }
+.myInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.nickname {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+}
 .myProfile__name {
   font-size: 2.5vw;
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
 }
 .myProfile__contents {
   word-break: keep-all;
@@ -475,7 +489,32 @@ footer p {
 .warningtext {
   color: #be0000;
 }
-
+.mypage__right {
+  width: 20vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gallery {
+  height: 45vh;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gallery:hover > .camera {
+  transform: rotateZ(0.05turn);
+}
+.camera {
+  width: 10vh;
+  margin-bottom: 5vh;
+  transition: 0.3s;
+}
 @media screen and (max-width: 850px) {
   .mypage {
     flex-direction: column;
@@ -484,6 +523,9 @@ footer p {
   }
   .mypage__left {
     margin: 0;
+    width: 80%;
+  }
+  .mypage__right {
     width: 80%;
   }
   .myDockcho {
@@ -503,7 +545,7 @@ footer p {
   }
   .myProfile__name {
     font-size: 4vw;
-    margin-bottom: 3vh;
+    margin-bottom: 1vh;
   }
   .myProfile__contents {
     font-size: 2.5vw;
@@ -514,7 +556,7 @@ footer p {
     height: 8vw;
     font-size: 4vw;
   }
-  .mypage__right {
+  .mypage__mid {
     margin: 0;
     margin-bottom: 2vh;
     width: 80%;

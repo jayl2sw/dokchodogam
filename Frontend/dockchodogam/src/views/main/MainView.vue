@@ -21,9 +21,12 @@
             </h3>
           </div>
           <img
-            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            :src="
+              require('@/assets/monster/' + this.userInfo.profile_img + '.png')
+            "
             alt=""
             class="dockchoImg"
+            @click="this.playAudio(this.userInfo.profile_img)"
           />
         </div>
       </div>
@@ -114,7 +117,6 @@
 import NavBar from '@/components/main/NavBar.vue'
 import { BASE_URL } from '@/constant/BASE_URL'
 import axios from 'axios'
-// import dotenv from 'dotenv'
 
 export default {
   components: {
@@ -151,11 +153,13 @@ export default {
           this.datas = res.data
         })
         .catch((err) => console.log(err))
+    },
+    playAudio(id) {
+      new Audio(this.imageBaseUrl + '/' + id + '.m4a').play()
     }
   },
   created() {
     this.getTodayPlant()
-    console.log(process.env)
   }
 }
 </script>
@@ -199,6 +203,7 @@ export default {
   width: 20vw;
   height: 20vw;
   margin-top: 2vw;
+  cursor: pointer;
 }
 .main__left {
   display: flex;
@@ -271,8 +276,6 @@ input {
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 input::placeholder {
   color: #467302;

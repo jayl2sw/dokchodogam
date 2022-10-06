@@ -1,11 +1,11 @@
 {
-  "theme_color": "#3eaf7c",
-  "background_color": "#3eaf7c",
+  "theme_color": "#467302",
+  "background_color": "#467302",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "DOKCHO",
-  "short_name": "DOKCHO",
+  "name": "독초도감",
+  "short_name": "독초도감",
   "icons": [
     {
       "src": "icons/icon-192x192.png",

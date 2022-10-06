@@ -1,7 +1,6 @@
 <template>
   <div v-if="monsterDetail !== null" class="find">
     <div>
-      <!-- {{ monsterDetail }} -->
       <div class="find__header">
         <h3 class="TITLE">{{ monsterDetail.name }}몬은 이미 도감에 있어요!</h3>
         <p v-if="monsterDetail.firstFinder">
@@ -21,11 +20,13 @@
         >
           <div class="imgBx">
             <img
-              :src="this.imageBaseUrl + '/' + monsterDetail.monsterId + '.png'"
+              :src="
+                require('@/assets/monster/' + monsterDetail.monsterId + '.png')
+              "
+              alt="중복으로 뽑은 풀깨비 사진"
               class="card__img"
               style="-webkit-user-drag: none"
             />
-            <!-- <p>대사 : {{ monster.line }}</p> -->
           </div>
           <div
             :class="{
@@ -55,7 +56,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -64,9 +64,7 @@ export default {
   },
   data() {
     return {
-      // mymonsterId: this.monsterId,
       imageBaseUrl: process.env.VUE_APP_S3_URL
-      // monsterDetail: {}
     }
   },
   computed: {
@@ -84,12 +82,6 @@ export default {
 
 <style scoped>
 .find {
-  /* border-style: groove; */
-  /* border-color: yellow; */
-  /* border-width: 5px; */
-  /* border-radius: 10px; */
-  /* width: 40vw;
-  height: 70vh; */
   width: 100%;
   height: 100%;
   padding: 3vmin;
@@ -110,7 +102,6 @@ export default {
 .find__body {
   height: 80%;
   display: flex;
-  /* margin-top: 3vh; */
 }
 
 .card {
@@ -123,12 +114,9 @@ export default {
   overflow: hidden;
   margin-bottom: 2vh;
   margin: auto;
-  /* margin: 0; */
 }
 
 .card .imgBx {
-  /* position: absolute; */
-  /* top: 35%; */
   transform: translate(0%, 10%);
   width: 100%;
   height: 120px;
@@ -141,10 +129,6 @@ export default {
   position: absolute;
   display: block;
   margin: auto;
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transition: transform 0.25s ease; */
-  /* transform: translate(-20%, -20%); */
   width: 100%;
 }
 
@@ -160,18 +144,15 @@ export default {
 }
 .contentBx__name {
   margin-top: 1.5vh;
-  /* width: 80%; */
 }
 .card .contentBx .title {
   position: relative;
-  /* font-weight: 600; */
   font-size: 1.3em;
   color: #000000;
   margin-bottom: 1vw;
 }
 
 .card .contentBx p {
-  /* position: relative; */
   font-weight: 500;
   font-size: 0.9em;
   color: #000000;
@@ -181,7 +162,6 @@ export default {
 .container .card .contentBx .size,
 .container .card .contentBx .color {
   display: flex;
-  /* height: inherit; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -204,15 +184,12 @@ export default {
 }
 
 .btn {
-  /* align-self: center; */
   min-width: 50px;
-  /* width: 30%; */
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   color: black;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* margin: auto; */
   box-shadow: 0 0 10px #000;
   border-radius: 10px;
   background-color: #a7c957;
@@ -226,7 +203,6 @@ export default {
 
 .card__common {
   background-color: rgb(166, 166, 166);
-  /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
   background-color: skyblue;

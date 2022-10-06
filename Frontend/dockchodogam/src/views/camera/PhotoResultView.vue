@@ -8,9 +8,6 @@
   >
     <div class="result__body">
       <div class="result__left">
-        <!-- <p>결과창페이지</p> -->
-        <!-- <p>{{ this.photoResult }}</p> -->
-        <!-- {{ photoResult.plant }} -->
         <!-- 도감에 없을 때  -->
         <div v-if="this.photoResult.onDogam === false" class="dockchoMonster">
           <undefined-find />
@@ -37,7 +34,6 @@
         </div>
       </div>
       <div class="result__right">
-        <!-- <img src="@/assets/cat.png" alt="cat" /> -->
         <div class="dockchoExplanation__container">
           <div v-if="this.photoResult.plant" class="dockchoExplanation">
             <img
@@ -54,7 +50,6 @@
               독초입니다! 채집 및 섭취에 주의하세요.
             </h3>
             <h3 class="TITLE">{{ this.photoResult.plant.name }}</h3>
-            <!-- <p>{{ this.photoResult.plant.monsterId }}</p> -->
             <p
               v-if="
                 this.photoResult.plant.familyKorNm &&
@@ -135,7 +130,6 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res.data)
           this.monsterDetail = res.data
         })
         .catch((err) => {
@@ -163,8 +157,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   margin-top: 7vh;
-  /* height: 90vh;
-  background-image: url('@/assets/dogam_background.jpg'); */
 }
 .result__body {
   display: flex;
@@ -198,10 +190,6 @@ export default {
   justify-content: center;
 }
 .dockchoMonster {
-  /* border-style: groove; */
-  /* border-color: black; */
-  /* border-width: 5px; */
-  /* border-radius: 10px; */
   width: 100%;
   height: 100%;
   display: flex;
@@ -212,10 +200,7 @@ export default {
 .dockchoExplanation__container {
   width: 40vw;
   height: 70vh;
-  /* display: flex;
-  flex-direction: column; */
   align-items: center;
-  /* overflow: auto; */
   background: url('@/assets/hanji.jpeg') no-repeat;
   background-size: cover;
   border-radius: 50px;
@@ -230,8 +215,6 @@ export default {
 }
 
 .dockchoExplanation h3 {
-  /* height: 60vh;
-  overflow: auto; */
   margin-top: 3vmin;
   margin-bottom: 3vmin;
 }
@@ -242,8 +225,6 @@ export default {
   color: red;
 }
 .dockchoExplanation p {
-  /* height: 60vh;
-  overflow: auto; */
   color: #000000;
 }
 
@@ -258,20 +239,11 @@ export default {
 
 .dockchoExplanation > img {
   display: block;
-  /* float: left; */
   width: 100%;
-  /* width: 10vw; */
   height: 40%;
   margin: auto;
-  /* margin-right: 1vw;
-  margin-bottom: 1vh; */
   object-fit: cover;
 }
-
-/* .dockchoExplanation_none p {
-  align-self: center;
-  text-align: center;
-} */
 
 .tree_container img {
   height: 8vh;
@@ -280,7 +252,6 @@ export default {
 }
 .tree_container .tree1 {
   left: -1vw;
-  /* bottom: 1vh; */
 }
 .tree_container .tree2 {
   height: 5vh;

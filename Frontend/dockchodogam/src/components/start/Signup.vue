@@ -145,15 +145,15 @@
             <span
               class="allowedtext"
               v-if="this.isUsernameChecked && !this.usernameDuplicate"
-              >이 아이디는 사용하셔도 좋아요👌</span
+              >이 아이디는 사용하셔도 좋아요 👌</span
             >
             <span
               class="warningtext"
               v-else-if="this.isUsernameChecked && this.usernameDuplicate"
-              >아이디가 중복인지 확인해주세요🙏</span
+              >아이디가 중복인지 확인해주세요 🙏</span
             >
             <span class="warningtext" v-else
-              >아이디 생성 조건을 확인해주세요🙏</span
+              >아이디 생성 조건을 확인해주세요 🙏</span
             >
           </div>
           <button
@@ -170,15 +170,15 @@
             <span
               class="allowedtext"
               v-if="this.isEmailChecked && !this.emailDuplicate"
-              >이 이메일은 사용하셔도 좋아요👌</span
+              >이 이메일은 사용하셔도 좋아요 👌</span
             >
             <span
               class="warningtext"
               v-else-if="this.isEmailChecked && this.emailDuplicate"
-              >이메일이 중복인지 확인해주세요🙏</span
+              >이메일이 중복인지 확인해주세요 🙏</span
             >
             <span class="warningtext" v-else
-              >이메일 입력 조건을 확인해주세요🙏</span
+              >이메일 입력 조건을 확인해주세요 🙏</span
             >
           </div>
           <button
@@ -201,10 +201,10 @@
           />
           <div class="oktext">
             <span class="allowedtext" v-if="this.isPasswordChecked"
-              >이 비밀번호는 사용하셔도 좋아요👌</span
+              >이 비밀번호는 사용하셔도 좋아요 👌</span
             >
             <span class="warningtext" v-else
-              >비밀번호 생성 조건을 확인해주세요🙏</span
+              >비밀번호 생성 조건을 확인해주세요 🙏</span
             >
           </div>
         </div>
@@ -217,13 +217,13 @@
           />
           <div class="oktext">
             <span class="warningtext" v-if="this.password !== this.password2"
-              >비밀번호를 확인해주세요🙏</span
+              >비밀번호를 확인해주세요 🙏</span
             >
             <span class="warningtext" v-else-if="this.password == null"
-              >비밀번호를 확인해주세요🙏</span
+              >비밀번호를 확인해주세요 🙏</span
             >
             <span class="allowedtext" v-else
-              >비밀번호 확인이 완료되었습니다👌</span
+              >비밀번호 확인이 완료되었습니다 👌</span
             >
           </div>
         </div>
@@ -291,23 +291,13 @@ export default {
       }
     },
     isUsernameDuplicate() {
-      // if (!usernameCheck.test(this.username)) {
-      //   swal({
-      //     title: '정확한 아이디인지 확인해주세요🙏',
-      //     text: '🐯',
-      //     icon: 'warning',
-      //     buttons: false,
-      //     timer: 1500
-      //   })
-      // } else {
       axios
         .get(BASE_URL + '/api/v1/user/auth/check/username/' + this.username)
         .then((res) => {
-          console.log(res)
           if (res.data === false) {
             this.usernameDuplicate = false
             swal({
-              title: '이 아이디는 사용하셔도 좋아용😘',
+              title: '이 아이디는 사용하셔도 좋아요 😘',
               text: '👍👍👍👍👍',
               icon: 'success',
               buttons: false,
@@ -343,11 +333,10 @@ export default {
             email: this.email
           })
           .then((res) => {
-            console.log(res)
             if (res.data === false) {
               this.emailDuplicate = false
               swal({
-                title: '이 이메일은 사용하셔도 좋아용😘',
+                title: '이 이메일은 사용하셔도 좋아요 😘',
                 text: '👍👍👍👍👍',
                 icon: 'success',
                 buttons: false,
@@ -370,8 +359,6 @@ export default {
       }
     },
     login() {
-      console.log(this.username)
-      console.log(this.password)
       axios
         .post(
           BASE_URL + '/api/v1/user/auth/login',
@@ -386,7 +373,6 @@ export default {
           }
         )
         .then((result) => {
-          console.log(result)
           localStorage.setItem('accessToken', result.data.accessToken)
           localStorage.setItem('refreshToken', result.data.refreshToken)
           const option = {
@@ -396,19 +382,13 @@ export default {
           }
           axios.get(BASE_URL + '/api/v1/user/myinfo', option).then((res) => {
             this.fetchUserInfo(res.data)
-            console.log(res.data.newbie)
             if (res.data.newbie) {
               this.$router.replace({ name: 'setnickname' })
             } else {
               this.$router.replace({ name: 'main' })
             }
           })
-          // console.log(localStorage.getItem('userInfo').newbie)
         })
-
-      // .catch((errorr) => {
-      //   alert('아이디나 비밀번호를 확인해주세요🙏')
-      // })
     },
     cancel() {
       this.$router.replace('/')
@@ -473,7 +453,6 @@ export default {
             username: this.username
           })
           .then((res) => {
-            console.log(res)
             swal({
               title: '회원가입을 축하드립니다!🤗',
               text: '😸😸😸😸😸',
@@ -591,13 +570,9 @@ input {
   height: 7vh;
   margin: 8px 0 8px 0;
   padding: 10px 15px 10px 25px;
-  /* background: #ececec url('@/assets/search-icon.png') no-repeat 20px center;
-  background-size: 20px 20px; */
   font-size: 16px;
   border: #ececec solid 2px;
   border-radius: 20px;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 .termsofservice {
   width: 50vw;
@@ -618,7 +593,6 @@ input {
   height: 40vh;
   flex-direction: column;
   justify-content: center;
-  /* text-align: center; */
 }
 
 .checkbox {
@@ -659,7 +633,6 @@ input {
 
 @media screen and (max-width: 850px) {
   .background {
-    /* overflow: auto; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -677,7 +650,6 @@ input {
     border-radius: 40px;
   }
   .signuppage__left {
-    /* overflow: auto; */
     margin-left: 5vw;
     margin-right: 5vw;
     margin-top: 35vh;
@@ -688,7 +660,6 @@ input {
     margin: 5vw;
     margin-top: 10vh;
     margin-bottom: 0;
-    /* margin-top: 15vh; */
     background-image: url('@/assets/hanji.jpeg');
     background-size: cover;
     background-repeat: no-repeat;

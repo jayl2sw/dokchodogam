@@ -13,7 +13,9 @@
         <div class="left">
           <img
             :src="
-              this.imageBaseUrl + '/' + this.searchUser.profile_img + '.png'
+              require('@/assets/monster/' +
+                this.searchUser.profile_img +
+                '.png')
             "
             alt=""
           />
@@ -59,7 +61,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log(res.data)
           this.$emit('getRequestList')
           swal({
             text: '친구 신청을 보냈어요 🚀',

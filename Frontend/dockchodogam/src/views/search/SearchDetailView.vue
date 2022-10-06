@@ -10,7 +10,13 @@
         <span class="TITLE">{{ this.data.engNm }}</span>
       </div>
       <div class="plantInfo">
-        <img :src="this.data.imgUrl" alt="" class="plantImage" />
+        <img
+          :src="this.imageBaseUrl + '/' + this.data.plantId + '.png'"
+          alt=""
+          class="plantImage"
+          v-if="this.data.imgUrl !== 'NONE'"
+        />
+        <img src="@/assets/no-image.jpg" alt="" class="plantImage" v-else />
         <div class="plantDetail__container">
           <div class="plantDetail">
             <span v-if="this.data.familyKorNm">
@@ -67,7 +73,8 @@ export default {
     return {
       showMenu: false,
       queryData: this.$route.query.query,
-      data: {}
+      data: {},
+      imageBaseUrl: process.env.VUE_APP_PLANTS_S3_URL
     }
   },
   methods: {

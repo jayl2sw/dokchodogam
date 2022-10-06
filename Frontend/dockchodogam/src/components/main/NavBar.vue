@@ -35,12 +35,20 @@
           <ul class="navbar__sideIcons">
             <li>
               <a href="/mypage">
-                <font-awesome-icon icon="fa-solid fa-user" size="xl" />
+                <font-awesome-icon
+                  icon="fa-solid fa-user"
+                  size="xl"
+                  class="bottons"
+                />
               </a>
             </li>
             <li>
               <a href="#" @click="logout()">
-                <font-awesome-icon icon="fa-solid fa-door-open" size="xl" />
+                <font-awesome-icon
+                  icon="fa-solid fa-door-open"
+                  size="xl"
+                  class="bottons"
+                />
               </a>
             </li>
           </ul>
@@ -59,7 +67,9 @@
       <div class="sideBar__menu">
         <div class="sideBar__profile">
           <img
-            :src="this.imageBaseUrl + '/' + this.userInfo.profile_img + '.png'"
+            :src="
+              require('@/assets/monster/' + this.userInfo.profile_img + '.png')
+            "
             alt="profile"
           />
           <p class="TITLE">{{ this.userInfo.nickname }}</p>
@@ -152,7 +162,6 @@ export default {
         })
         .then((res) => {
           if (res.value) {
-            // console.log(result)
             this.fetchLogout()
           }
         })
@@ -161,12 +170,10 @@ export default {
       axios
         .put(BASE_URL + '/api/v1/user/logout', null, {
           headers: {
-            // 'Content-type': 'application/json',
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
         })
         .then((res) => {
-          console.log(res)
           swal({
             title: '로그아웃이 완료되었습니다!',
             text: ' 다시 도감을 펼치는 날을 기다릴게요 🌻 ',
@@ -184,7 +191,6 @@ export default {
         })
     },
     popon(path) {
-      console.log(process.env)
       var audio = new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
       audio.play()
       this.$router.push(path)
@@ -264,7 +270,14 @@ a {
   text-decoration: none;
   color: black;
 }
-
+.bottons {
+  transition: 0.3s;
+}
+.bottons:hover {
+  color: #2e4c00;
+  transition: 0.3s;
+  transform: scale(1.1);
+}
 .sideBar {
   width: 60vw;
   height: 100vh;
@@ -273,7 +286,7 @@ a {
   right: -60vw;
   background: #cde29d;
   padding: 1vh 2vw;
-  z-index: 2;
+  z-index: 30;
   overflow: auto;
 }
 .sideBar__menu {
@@ -290,7 +303,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 20;
   display: none;
 }
 .sideBar__items {

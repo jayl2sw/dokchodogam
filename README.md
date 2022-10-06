@@ -1,78 +1,172 @@
-#### 2022.08.30 화
+- # 독초도감
+  
+  `캐치프레이즈 넣는 곳`
+  
+  `지현이 만들어줄 커버 이미지`
 
-dev야.. 잘 지내니?
+  `독초도감 소개`
 
-해위
+  `독초도감 링크`
 
-0830 팀장미팅
+## 목차
 
-- 오프라인 팀장미팅은 이슈가 있을 때만
+- [독초도감](#독초도감)
+  
+  - [목차](#목차)
+  - [서비스 소개](#서비스-소개)
+    - [📋 기술 스택 및 버전](#기술-스택-및-버전)
+  - [프로젝트 파일 구조](#프로젝트-파일-구조)
+  - [산출물](#산출물)
+  - [결과물](#결과물)
 
-- 팀원들이 알아야 할 내용들을 팀장이 잘 전달
+- [📺 프로젝트 UCC](https://drive.google.com/file/d/1AMcAO6QFbD6dapB6_n6oYhm9_pHbsGKm/view?usp=sharing)
 
-- 구글 대시보드 챙기기
+## 서비스 소개
 
-- 팀 리딩 방식
+1. 개발 기간 : 2022.08.22 ~ 2022.10.07 (총 6주)
+2. 인원 (총 6인)
+   - 서상균 : 팀장, Front-end, https://github.com/seosanggyun
+     - 김성빈 : Back-end, DevOps, https://github.com/ksb0903
+     - 박지현 : Front-end, UI/UX, https://github.com/petteloiv
+     - 오하민 : Front-end, PWA, https://github.com/ohhamin
+     - 이재준 : Back-end, DevOps, https://github.com/jayl2sw
+     - 최지원 : Back-end, UI/UX, https://github.com/CHOIJXWXN
 
-- 레귤러하게 스크럼미팅 진행할 것
+## 기술 스택 및 버전
 
-- 이번주 첫번째 평가
+1. 이슈 관리 : ![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white)
+2. 형상 관리: ![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)
+3. 커뮤니케이션: ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Discord](https://img.shields.io/badge/discord-5865F2.svg?style=for-the-badge&logo=discord&logoColor=white) 
+4. 개발 환경 
+   - IDE : ![IntelliJ](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)2022.1.2 ![Visual_Studio_Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)1.71.2
+   - DB : ![MySQL](https://img.shields.io/badge/MySQL-003545?style=for-the-badge&logo=mysql&logoColor=white) 8.0.30 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) 6.0.1 
+   - UI & UX : ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white) 
+   - Server : ![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white) ![S3](https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white) ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=white) ![ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)![NGINX](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white) ???
+5. 상세
+   - Backend : ![JAVA](https://img.shields.io/badge/JAVA-FF0000?style=for-the-badge&logoColor=white) 1.8 ![Spring](https://img.shields.io/badge/Spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)2.7.3 ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)7.5 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)0.11.2
+   - Frontend : ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)![CSS3](https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white)![JAVASCRIPT](https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)![Vue.js](https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white) 3.2.39 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)16.16.0 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=type&logoColor=white) 4.5.5 ![bootstrap](https://img.shields.io/badge/BootStrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white) 5.2.1
+   - CI/CD : ![docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)20.10.18 ![Vue.js](https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white) 2.222.4
+   - Data : ![python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)3.8.10 ![hadoop](https://img.shields.io/badge/hadoop-66CCFF?style=for-the-badge&logo=apache hadoop&logoColor=white)3.3.2 ![spark](https://img.shields.io/badge/spark-E25A1C?style=for-the-badge&logo=apache spark&logoColor=white) 3.2.1 ![kafka](https://img.shields.io/badge/kafka-231F20?style=for-the-badge&logo=apache kafka&logoColor=white) 7.0.1  
 
-- jira, git 프로젝트 생성 후 일별 학습 기록
+## 프로젝트 파일 구조
 
-- 지라에 일별 학습 이슈 올리기, git에 폴더 생성 개인 readme 업로드
+- Backend
+  
+  ```
+  main
+  ├─generated
+  ├─java
+  │  └─com
+  │      └─ssafy
+  │          └─dockchodogam
+  │             ├─config
+  │             ├─controller
+  │             ├─domain
+  │             │  ├─basetime
+  │             │  └─enums
+  │             ├─dto
+  │             │  ├─battle
+  │             │  ├─exception
+  │             │  │  ├─common
+  │             │  │  ├─game
+  │             │  │  ├─plant
+  │             │  │  └─user
+  │             │  ├─game
+  │             │  ├─gg
+  │             │  ├─jwt
+  │             │  ├─oauth2
+  │             │  ├─plant
+  │             │  └─user
+  │             ├─jwt
+  │             ├─kafka
+  │             ├─repository
+  │             ├─service
+  │             │  ├─admin
+  │             │  ├─battle
+  │             │  ├─dokcho
+  │             │  ├─game
+  │             │  ├─jwt
+  │             │  ├─oauth2
+  │             │  └─user
+  │             └─util
+  └─resources
+  ```
 
-- 마크다운도 괜찮고 그냥 텍스트도 괜찮음
+- Frontend **이거 하민이 해**
+  
+  ```
+  rc
+  ├─assets
+  │  ├─arena
+  │  ├─intro
+  │  ├─intro-card
+  │  ├─loading
+  │  ├─login
+  │  ├─monster
+  │  └─shop
+  ├─components
+  │  ├─admin
+  │  ├─camera
+  │  ├─encyclopedia
+  │  ├─game
+  │  │  ├─arena
+  │  │  ├─friend
+  │  │  ├─gg
+  │  │  └─shop
+  │  ├─main
+  │  ├─mypage
+  │  ├─search
+  │  └─start
+  ├─constant
+  ├─router
+  ├─store
+  │  └─modules
+  └─components
+     ├─admin
+     ├─camera
+     ├─encyclopedia
+     ├─error
+     ├─gallery
+     ├─game
+     ├─main
+     ├─mypage
+     ├─search
+     └─start
+  
+  ```
+  
+  <br><br>
+  
+  ## 산출물
 
-- 팀별로 같이해요~ 팀장님이 챙겨줘요~
+- [프로젝트 메모 및 공유 : Notion](https://www.notion.so/dokcho/bee30bec2cdb4479a7db031c9d7806e8)
 
-- 스켈레톤 코드 다운, 띄워보기
+- [프로젝트 회의록](https://www.notion.so/dokcho/84b2d7b282774267a12c866524a1f481?v=2456f84e544d459eb873931dd94d261b)
+  
+  <br>
 
-- 빅데이터 분산 처리는 일반 웹 이용자 대상 서비스가 아닐 수도 있음
+- [프로젝트 컨벤션 목록](https://www.notion.so/dokcho/73506d36df0844f2b1e13e61a4a2aae3)
 
-- 팀 별로 기술적인 부분만 잘 이용하는 방식으로 대시보드만 만들 지,
+- [기획서](https://www.notion.so/dokcho/92608bad2eaf4831b3c893ff731baa22)
 
-- 분산 처리도 하고 그걸 이용하는 서비스도 만들지 생각을 잘 해라
+- [API Docs](https://www.notion.so/dokcho/API-Docs-8c38c792438a439f88a7dafdbf77a25f)
 
-- 특화는 아이디어 싸움이 아니라 기술력 싸움임
+- [와이어 프레임](./docs/와이어프레임.md) (아직 링크 안 걸었음)
 
-- 도메인 공부를 확실하게 더 해야 함
+- [서비스 아키텍처](./docs/아키텍처.md) (아직 링크 안 걸었음)
 
-- 공부한 지식을 가지고 어떻게 활용할 수 있을지 고민해야 함
+- [기능 명세서](https://www.notion.so/dokcho/API-Docs-8c38c792438a439f88a7dafdbf77a25f)
 
-- 명세서가 대학원 수준일 것임 화이팅해라
+- [데이터베이스:ERD](./docs/ERD.md) (아직 링크 안 걸었음)
+  
+  <br><br>
+  
+  ## 결과물 (얘네들 전부 나중에 링크 달아야함)
 
-- 빅분 자기주도 학습 키워드
+- [포팅메뉴얼](./exec/포팅메뉴얼.md)
 
-- scalability
-  (scale up, scale out)
+- [시연시나리오](./exec/시연시나리오.md)
 
-- NoSQL, NewSQL in sharding
+- [중간발표자료](./pt/[중간발표]특화_PJT_구미1반_D104.pdf)
 
-- Distributed SQL Database
-
-- auto scaling sharding
-
-### 2022.08.31 수
-
-0831 팀장미팅
-
-- 이번주는 도메인 학습에 집중해달라
-
-- 명세서, 사전학습, 인터넷 등 사용해서
-
-- 그러고 나서 주제를 정할 때 데이터를 정해 놓고 그것에 맞는 주제를 정해야 함
-
-- 불편한 문제를 분산처리, 블록체인과 같은 기술로 해결하는데에 집중해야 함
-
-- 그래야 어떤 주제라도 필요한 주제가 됨
-
-- 데이터부터 많은 걸로 찾아라
-
-- 데이터가 없으면 나중에 프로젝트가 이도저도 안돼서 망가지는 경우가 많았음
-
-- 크롤링을 하던지 찾던지 해라
-
-- 엔지닉스 엑세스로그를 가지고 뭐 사용자가 언제 접속했는지 시간대를 확인할 수 있음 근데 이건 왜 이야기하는건데?
-
-- 그냥 있는 서비스 카피해도 됨 도메인 학습하는데에 집중해라
+- [최종발표자료](./pt/[최종발표]특화_PJT_구미1반_D104.pdf)

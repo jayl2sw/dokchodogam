@@ -19,7 +19,6 @@
       </div>
       <div class="shop__bottom">
         <div class="shop__item">
-          <!-- <p class="special__cash">특별가격!</p> -->
           <PaymentCash />
         </div>
         <div class="shop__item">
@@ -45,7 +44,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      // nowUserInfo: JSON.parse(localStorage.getItem('fetchnowUserInfo')),
       audio: new Audio(process.env.VUE_APP_S3_URL + '/shop.mp3'),
       btn_audio: new Audio(process.env.VUE_APP_S3_URL + '/button.mp3')
     }
@@ -64,19 +62,13 @@ export default {
       this.btn_audio.play()
       this.$router.replace({ path: '/game/arena' })
     }
-    // unLoadEvent: function (event) {
-    //   if (this.isLeaveSite) return
-
-    //   event.preventDefault()
-    //   event.returnValue = ''
-    // }
   },
   created() {
     this.fetchnowUserInfo()
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.5
+    this.audio.volume = 0.2
     setTimeout(() => {
       this.audio.play()
     }, 300)
@@ -84,12 +76,6 @@ export default {
   beforeUnmount() {
     this.audio.pause()
   }
-  // mounted() {
-  //   window.addEventListener('beforeunload', this.unLoadEvent)
-  // },
-  // beforeUnmount() {
-  //   window.removeEventListener('beforeunload', this.unLoadEvent)
-  // }
 }
 </script>
 

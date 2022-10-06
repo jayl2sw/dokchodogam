@@ -17,7 +17,7 @@
             :class="this.selectDeck === i ? 'checked' : ''"
           >
             <img
-              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              :src="require('@/assets/monster/' + item.monsterId + '.png')"
               alt=""
               class="myDeckItemImage"
             />
@@ -53,7 +53,7 @@
               :class="this.check[i] ? 'inMyDeck' : ''"
             ></div>
             <img
-              :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+              :src="require('@/assets/monster/' + item.monsterId + '.png')"
               alt=""
               class="myDockchoItemImage"
             />
@@ -99,7 +99,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('데이터', res.data)
           res.data.forEach((element) => {
             let tmpBool = false
             this.myDeck.forEach((el) => {
@@ -110,8 +109,6 @@ export default {
             this.myDockcho.push(element)
             this.check.push(tmpBool)
           })
-          console.log(this.myDockcho)
-          console.log(this.check)
         })
         .catch((err) => console.log(err))
     },
@@ -137,9 +134,7 @@ export default {
       }
     },
     onClickDockcho(idx) {
-      console.log(this.check[idx])
       if (!this.check[idx]) {
-        console.log(this.selectDockcho)
         if (this.selectDeck === '') {
           if (this.selectDockcho === idx) {
             this.selectDockcho = ''
@@ -168,7 +163,6 @@ export default {
         monster4: this.myDeck[3].monsterId,
         monster5: this.myDeck[4].monsterId
       }
-      console.log(params)
       axios
         .put(BASE_URL + '/api/v1/game/deck/save', params, {
           headers: {
@@ -200,7 +194,7 @@ export default {
   },
   mounted() {
     this.audio.loop = true
-    this.audio.volume = 0.3
+    this.audio.volume = 0.1
     this.audio.play()
   },
   beforeUnmount() {
@@ -242,7 +236,6 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  /* margin: 0 0 2vh 0; */
   height: 90%;
   width: 100%;
 }
@@ -287,7 +280,6 @@ export default {
   border: 4px dotted #a7c957;
   margin: 0 0.5vw;
   margin-top: 2vh;
-  /* padding-bottom: 2vh; */
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -376,7 +368,6 @@ export default {
 
 .card__common {
   background-color: rgb(166, 166, 166);
-  /* box-shadow: 0 0 10px #467302; */
 }
 .card__rare {
   background-color: skyblue;
@@ -454,18 +445,4 @@ export default {
     display: none;
   }
 }
-/* @media screen and (max-width: 850px) {
-  .myDockchoItemBox {
-    font-size: 2vh;
-  }
-  .myDeckItem {
-    font-size: 3vh;
-  }
-  .myDeckItemIdx {
-    margin-top: 1vh;
-  }
-}
-::-webkit-scrollbar {
-  display: block;
-} */
 </style>

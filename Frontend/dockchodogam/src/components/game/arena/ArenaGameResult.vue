@@ -18,7 +18,7 @@
       <img
         v-for="(item, i) in myDeck"
         :key="i"
-        :src="this.imageBaseUrl + '/' + item.monsterId + '.png'"
+        :src="require('@/assets/monster/' + item.monsterId + '.png')"
         alt=""
         :class="(resultInfo[1] === '패배') + ' result__dockcho'"
       />
