@@ -2,10 +2,7 @@ package com.ssafy.dockchodogam.service.battle;
 
 import com.ssafy.dockchodogam.domain.Battle;
 import com.ssafy.dockchodogam.domain.BattleLog;
-import com.ssafy.dockchodogam.dto.battle.BattleDto;
-import com.ssafy.dockchodogam.dto.battle.BattleLogRequestDto;
-import com.ssafy.dockchodogam.dto.battle.BattleRequestDto;
-import com.ssafy.dockchodogam.dto.battle.BattleStatusDto;
+import com.ssafy.dockchodogam.dto.battle.*;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.gg.PickRate;
 import com.ssafy.dockchodogam.dto.gg.WinRate;
@@ -35,6 +32,7 @@ public class BattleServiceImpl implements BattleService {
     private final BattleRepository battleRepository;
     private final BattleLogRepository battleLogRepository;
     private final KafkaTemplate<String, BattleDto> battleDtoKafkaTemplate;
+    private final KafkaTemplate<String, BattleLogDto> battleLogDtoKafkaTemplate;
 
 
     public Long createNewBattle(BattleRequestDto data) {
@@ -56,7 +54,6 @@ public class BattleServiceImpl implements BattleService {
                 .wellFinished(data.isFinish())
                 .build();
 
-        System.out.println(battle);
         Battle saved = battleRepository.save(battle);
         return saved.getBattle_id();
     }
@@ -76,8 +73,10 @@ public class BattleServiceImpl implements BattleService {
                 .skillUsage(data.isSkillUsage())
                 .build();
 
-        System.out.println(true);
+
         battleLogRepository.save(battleLog);
+        battleLogDtoKafkaTemplate.send("battleLog", BattleLogDto.from(battleLog));
+
     }
 
     @Override
@@ -88,9 +87,9 @@ public class BattleServiceImpl implements BattleService {
         }
         battle.finishBattle();
 
-//        BattleDto battleDto = BattleDto.from(battle);
+        BattleDto battleDto = BattleDto.from(battle);
 
-//        battleDtoKafkaTemplate.send("battles", String.valueOf(battleDto.getBattle_id()), battleDto);
+        battleDtoKafkaTemplate.send("battles", String.valueOf(battleDto.getBattle_id()), battleDto);
 
     }
 

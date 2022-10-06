@@ -28,7 +28,7 @@ public class BattleLogDto {
     private boolean isFinished;
     private boolean success;
 
-    public BattleLogDto from(BattleLog battleLog) {
+    public static BattleLogDto from(BattleLog battleLog) {
         String createdDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(battleLog.getCreatedDate()).toString();
 
         return BattleLogDto.builder()

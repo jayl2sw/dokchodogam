@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
 import com.ssafy.dockchodogam.domain.*;
+import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.exception.plant.PlantNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +49,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final PlantMongoRepository plantMongoRepository;
     private final MonsterRepository monsterRepository;
     private final ArchiveRepository archiveRepository;
+    private final KafkaTemplate<String, String> plantIdKafkaTemplate;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${plant.api.key}")
@@ -113,7 +116,7 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
-
+        plantIdKafkaTemplate.send("plantId", jsonData);
         // MongoDB에 저장
         plantMongoRepository.save(new JSONObject(jsonData));
 
@@ -208,8 +211,6 @@ public class DokchoServiceImpl implements DokchoService {
         byte[] bytes = IOUtils.toByteArray(is);
         String response = new String(bytes);
 
-//        System.out.println("Response code : " + con.getResponseCode());
-//        System.out.println("Response : " + response);
         con.disconnect();
         return response;
     }
