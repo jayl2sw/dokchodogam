@@ -16,6 +16,7 @@
           class="card__img monster__img"
           style="-webkit-user-drag: none"
           alt="풀깨비 그림"
+          @click="openDetail()"
         />
       </div>
       <div
@@ -80,6 +81,7 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   props: {
@@ -98,6 +100,9 @@ export default {
   methods: {
     async storeMonster(a) {
       this.monsterDetail = a
+    },
+    openDetail() {
+      this.fetchMonsterDetail()
     },
     goToGG() {
       this.$router.push({
@@ -131,14 +136,200 @@ export default {
     },
     fetchMonsterDetail() {
       axios({
-        url: `https://j7e201.p.ssafy.io/api/v1/game/monster/detail/${this.monster.monsterId}`,
+        url: `https://j7e201.p.ssafy.io/api/v1/dokcho/detail/${this.monster.plantId}`,
         method: 'GET',
         headers: {
           AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
         }
       })
         .then((res) => {
-          this.monsterDetail = res.data
+          this.monsterDetail = res.data.data
+          // 히든 몬스터
+          if (this.monster.type === 'HIDDEN') {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<a style="font-family:UhBeeSe_hyun;text-decoration:none;" href="${this.monsterDetail.engNm}">${this.monster.name}몬의 Github</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 X 학명 X 설명 X
+            !this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            !this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 O 학명 X 설명 X
+            !this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 O 학명 O 설명 X
+            this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 X 학명 O 설명 X
+            this.monsterDetail.familyKorNm &&
+            !this.monsterDetail.flwrDesc &&
+            !this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><br /><br /><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 O 학명 O 설명 O
+            this.monsterDetail.familyKorNm &&
+            this.monsterDetail.flwrDesc &&
+            this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b>독초입니다! 채집 및 섭취에 주의하세요!</b><br /><br /><b>${this.monsterDetail.familyKorNm} ${this.monsterDetail.genusKorNm}</b><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else if (
+            // 독초 x 학명 x 설명 o
+            !this.monsterDetail.familyKorNm &&
+            this.monsterDetail.flwrDesc &&
+            !this.monster.type === 'DOKCHO'
+          ) {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p><a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          } else {
+            return setTimeout(() => {
+              Swal.fire({
+                title:
+                  '<div style="font-family:UhBeeSe_hyun">$name몬</div>'.replace(
+                    '$name',
+                    this.monster.name
+                  ),
+                html: `<b style="font-family:UhBeeSe_hyun;color:red">독초입니다! 채집 및 섭취에 주의하세요!</b>
+                <br /><br /><p style="font-size:1rem">${this.monsterDetail.flwrDesc}</p>
+                <a style="color:blue; text-decoration:none;" href="https://j7e201.p.ssafy.io/search/detail?query=${this.monster.plantId}">🔍더 알아보기</a>`,
+                imageUrl: `${this.monsterDetail.imgUrl}`,
+                imageWidth: '80%',
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCloseButton: false,
+                showConfirmButton: false,
+                position: 'center',
+                scrollbarPadding: false
+              })
+            }, 100)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -170,7 +361,6 @@ export default {
     }
   },
   created() {
-    this.fetchMonsterDetail()
     this.checkType()
     this.checkGrade()
   }
