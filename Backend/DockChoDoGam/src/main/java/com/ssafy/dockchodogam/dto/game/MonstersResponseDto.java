@@ -7,8 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Builder
@@ -40,6 +38,8 @@ public class MonstersResponseDto {
 
     @ApiModelProperty(name="대사", example="This is Me")
     private String line;
+    @ApiModelProperty(name="식물 아이디", example="1")
+    private Long plantId;
 
     public static MonstersResponseDto of(Monster monster, boolean isGot) {
         return MonstersResponseDto.builder()
@@ -54,6 +54,7 @@ public class MonstersResponseDto {
                 .currentHp(monster.getHp())
                 .isGot(isGot)
                 .line(monster.getLine())
+                .plantId(monster.getPlantId())
                 .build();
     }
 }

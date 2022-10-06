@@ -1,10 +1,7 @@
 package com.ssafy.dockchodogam.dto.battle;
 
-import com.ssafy.dockchodogam.domain.Battle;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
-
-import java.time.format.DateTimeFormatter;
 
 @Data
 @ApiModel(value = "BattleRequestDto", description = "배틀 생성 요청 Dto")

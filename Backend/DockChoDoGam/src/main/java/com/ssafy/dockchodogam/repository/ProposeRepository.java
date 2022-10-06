@@ -1,9 +1,6 @@
 package com.ssafy.dockchodogam.repository;
 
-import com.ssafy.dockchodogam.domain.Friend;
 import com.ssafy.dockchodogam.domain.Propose;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
