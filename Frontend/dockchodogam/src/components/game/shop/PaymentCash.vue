@@ -45,7 +45,7 @@ export default {
           pay_method: 'card',
           merchant_uid: `mid_${new Date().getTime()}`,
           name: '재화충전:1,000냥',
-          amount: 100,
+          amount: 9900,
           buyer_email: `${this.userInfo.email}`,
           buyer_name: `${this.userInfo.username}`,
           buyer_tel: '010-1234-5678'
