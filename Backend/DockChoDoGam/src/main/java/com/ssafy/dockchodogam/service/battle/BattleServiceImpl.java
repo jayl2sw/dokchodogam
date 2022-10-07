@@ -75,7 +75,10 @@ public class BattleServiceImpl implements BattleService {
 
 
         battleLogRepository.save(battleLog);
-        battleLogDtoKafkaTemplate.send("battleLog", BattleLogDto.from(battleLog));
+
+        BattleLogDto battleLogDto = BattleLogDto.from(battleLog);
+        System.out.println(battleLogDto.getBattleId());
+        battleLogDtoKafkaTemplate.send("battleLog", battleLogDto);
 
     }
 

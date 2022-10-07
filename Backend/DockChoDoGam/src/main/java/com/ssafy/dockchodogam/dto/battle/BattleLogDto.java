@@ -34,6 +34,7 @@ public class BattleLogDto {
         return BattleLogDto.builder()
                 .battleLogId(battleLog.getBattleLogId())
                 .round(battleLog.getRound())
+                .battleId(battleLog.getBattleId())
                 .attackMonsterId(battleLog.getAttackMonsterId())
                 .defendMonsterId(battleLog.getDefendMonsterId())
                 .attackMonsterHp(battleLog.getAttackMonsterHp())

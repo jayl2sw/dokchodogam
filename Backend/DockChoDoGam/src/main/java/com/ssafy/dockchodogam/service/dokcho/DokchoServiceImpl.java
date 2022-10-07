@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
 import com.ssafy.dockchodogam.domain.*;
-import com.ssafy.dockchodogam.dto.battle.BattleDto;
 import com.ssafy.dockchodogam.dto.exception.plant.PlantNotFoundException;
 import com.ssafy.dockchodogam.dto.exception.user.UserNotFoundException;
 import com.ssafy.dockchodogam.dto.plant.ArchiveResponseDto;
@@ -49,6 +48,7 @@ public class DokchoServiceImpl implements DokchoService {
     private final PlantMongoRepository plantMongoRepository;
     private final MonsterRepository monsterRepository;
     private final ArchiveRepository archiveRepository;
+
     private final KafkaTemplate<String, String> plantIdKafkaTemplate;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -116,7 +116,7 @@ public class DokchoServiceImpl implements DokchoService {
     @Override
     public Map<String, Object> judgeImage(String imgurl) throws Exception {
         String jsonData = sendAPIRequest(imgurl);
-        plantIdKafkaTemplate.send("plantId", jsonData);
+//        plantIdKafkaTemplate.send("plantId", jsonData);
         // MongoDB에 저장
         plantMongoRepository.save(new JSONObject(jsonData));
 
@@ -288,19 +288,19 @@ public class DokchoServiceImpl implements DokchoService {
         String imgURL = (String) image.get("url");
         boolean is_plant = (boolean) jsonObject.get("is_plant");
         JSONArray suggestions = (JSONArray) jsonObject.get("suggestions");
-        System.out.println(1);
         JSONObject suggestion = (JSONObject) suggestions.get(0);
         String name;
         try {
-            JSONObject plant_detail = (JSONObject) suggestion.get("plant_detail");
-            JSONArray common_names = (JSONArray) plant_detail.get("common_names");
+            JSONObject plant_detail = (JSONObject) suggestion.get("plant_details");
+            JSONObject wiki_description = (JSONObject) plant_detail.get("wiki_description");
+            JSONArray common_names = (JSONArray) wiki_description.get("common_names");
             name = (String) common_names.get(0);
+            System.out.println(name);
         } catch (Exception e) {
             name = (String) suggestion.get("plant_name");
         }
         double probability = (double) suggestion.get("probability");
         JSONArray similar_images = (JSONArray) suggestion.get("similar_images");
-        System.out.println(4);
         JSONObject similar_image = (JSONObject) similar_images.get(0);
         String similar_img = (String) similar_image.get("url");
 

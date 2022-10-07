@@ -1,6 +1,5 @@
 package com.ssafy.dockchodogam.domain;
 
-import com.ssafy.dockchodogam.domain.enums.PlantType;
 import com.ssafy.dockchodogam.dto.plant.PlantRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
