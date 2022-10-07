@@ -1,7 +1,6 @@
-# [독초도감](https://j7e201.p.ssafy.io/) 🌷
+# [독초도감](https://j7e201.p.ssafy.io/ "독초도감 바로가기!") 🌷
 
-![독초도감 최종-003](C:\Users\SSAFY\Desktop\S07P22E201\README.assets\독초도감 최종-003.png)
-
+![독초도감 최종-003](.\README.assets\독초도감 최종-003.png)
 
 
 ## 목차
