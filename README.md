@@ -14,7 +14,7 @@
   - [산출물](#산출물)
   - [결과물](#결과물)
 
-- [📺 프로젝트 UCC](https://drive.google.com/file/d/1AMcAO6QFbD6dapB6_n6oYhm9_pHbsGKm/view?usp=sharing)
+- [📺 프로젝트 UCC](https://www.youtube.com/watch?v=-kDqJq-I1tY)
 
 ## 서비스 소개
 
@@ -150,7 +150,7 @@
 
 - [서비스 아키텍처](./docs/아키텍처.md) 
 
-- [기능 명세서](https://www.notion.so/dokcho/API-Docs-8c38c792438a439f88a7dafdbf77a25f)
+- [기능 명세서](https://www.notion.so/dokcho/2dbd554834c545e889120713203f4a82?v=af668f3232374e4f9cff18c42b2bde56)
 
 - [데이터베이스:ERD](./docs/ERD.md) 
   
