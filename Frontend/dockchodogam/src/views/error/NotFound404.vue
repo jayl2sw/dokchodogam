@@ -1,0 +1,346 @@
+<template>
+  <div class="bg-purple">
+    <div>
+      <div class="central-body">
+        <h1 class="TITLE">
+          {{ this.userInfo.nickname }}님, 여기엔 풀깨비들이 살지 않아요
+        </h1>
+        <p class="TITLE">풀깨비들이 있는 곳으로 안내해드릴게요!</p>
+        <div class="error__buttons">
+          <div class="backBtn" @click="goToBack()">뒤로가기</div>
+          <div class="mainBtn" @click="goToMain()">메인 페이지로 돌아가기</div>
+        </div>
+      </div>
+      <div class="objects">
+        <img
+          class="object_rocket"
+          src="http://salehriaz.com/404Page/img/rocket.svg"
+          width="40px"
+        />
+        <div class="earth-moon">
+          <img
+            class="object_earth"
+            src="http://salehriaz.com/404Page/img/earth.svg"
+            width="100px"
+          />
+          <img
+            class="object_moon"
+            src="http://salehriaz.com/404Page/img/moon.svg"
+            width="80px"
+          />
+        </div>
+        <div class="box_astronaut">
+          <img
+            class="object_astronaut"
+            src="@/assets/404Image.png"
+            width="140px"
+          />
+        </div>
+      </div>
+      <div class="glowing_stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
+    }
+  },
+  methods: {
+    goToBack() {
+      this.$router.go(-1)
+    },
+    goToMain() {
+      this.$router.push({ path: '/main' })
+    }
+  }
+}
+</script>
+
+<style scoped>
+@-moz-keyframes rocket-movement {
+  100% {
+    -moz-transform: translate(1200px, -600px);
+  }
+}
+@-webkit-keyframes rocket-movement {
+  100% {
+    -webkit-transform: translate(1200px, -600px);
+  }
+}
+@keyframes rocket-movement {
+  100% {
+    transform: translate(1200px, -600px);
+  }
+}
+@-moz-keyframes spin-earth {
+  100% {
+    -moz-transform: rotate(-360deg);
+    transition: transform 20s;
+  }
+}
+@-webkit-keyframes spin-earth {
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transition: transform 20s;
+  }
+}
+@keyframes spin-earth {
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+    transition: transform 20s;
+  }
+}
+
+@-moz-keyframes move-astronaut {
+  100% {
+    -moz-transform: translate(-160px, -160px);
+  }
+}
+@-webkit-keyframes move-astronaut {
+  100% {
+    -webkit-transform: translate(-160px, -160px);
+  }
+}
+@keyframes move-astronaut {
+  100% {
+    -webkit-transform: translate(-160px, -160px);
+    transform: translate(-160px, -160px);
+  }
+}
+@-moz-keyframes rotate-astronaut {
+  100% {
+    -moz-transform: rotate(-720deg);
+  }
+}
+@-webkit-keyframes rotate-astronaut {
+  100% {
+    -webkit-transform: rotate(-720deg);
+  }
+}
+@keyframes rotate-astronaut {
+  100% {
+    -webkit-transform: rotate(-720deg);
+    transform: rotate(-720deg);
+  }
+}
+
+@-moz-keyframes glow-star {
+  40% {
+    -moz-opacity: 0.3;
+  }
+  90%,
+  100% {
+    -moz-opacity: 1;
+    -moz-transform: scale(1.2);
+  }
+}
+@-webkit-keyframes glow-star {
+  40% {
+    -webkit-opacity: 0.3;
+  }
+  90%,
+  100% {
+    -webkit-opacity: 1;
+    -webkit-transform: scale(1.2);
+  }
+}
+@keyframes glow-star {
+  40% {
+    -webkit-opacity: 0.3;
+    opacity: 0.3;
+  }
+  90%,
+  100% {
+    -webkit-opacity: 1;
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    border-radius: 999999px;
+  }
+}
+
+.spin-earth-on-hover {
+  transition: ease 200s !important;
+  transform: rotate(-3600deg) !important;
+}
+
+.bg-purple {
+  background: url('https://www.salehriaz.com/404Page/img/bg_purple.png');
+  background-repeat: repeat-x;
+  background-size: cover;
+  background-position: left top;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.central-body p {
+  font-size: medium;
+  margin-top: 5vh;
+  color: #d1d1d1;
+}
+.central-body h1 {
+  margin-top: 5vh;
+  color: white;
+}
+.error__buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.backBtn {
+  margin-left: 2vw;
+  border-radius: 2.5vh;
+  width: 200px;
+  height: 5vh;
+  background-color: #ececec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.backBtn:hover {
+  background-color: #ffcb39;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mainBtn {
+  margin-left: 2vw;
+  border-radius: 2.5vh;
+  width: 200px;
+  height: 5vh;
+  background-color: #a7c957;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mainBtn:hover {
+  background-color: #ffcb39;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.1);
+}
+
+.central-body {
+  width: 100%;
+  margin-top: 20%;
+  text-align: center;
+}
+
+.objects img {
+  z-index: 90;
+  pointer-events: none;
+}
+
+.object_rocket {
+  z-index: 95;
+  position: absolute;
+  transform: translateX(-50px);
+  top: 75%;
+  pointer-events: none;
+  animation: rocket-movement 200s linear infinite both running;
+}
+
+.object_earth {
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  z-index: 90;
+  animation: spin-earth 100s infinite linear both;
+}
+
+.object_moon {
+  position: absolute;
+  top: 12%;
+  left: 25%;
+  transition: transform ease-in 99999999999s;
+}
+
+.object_astronaut {
+  object-fit: cover;
+  animation: rotate-astronaut 200s infinite linear both alternate;
+}
+
+.box_astronaut {
+  z-index: 110 !important;
+  position: absolute;
+  top: 60%;
+  right: 20%;
+  will-change: transform;
+  animation: move-astronaut 50s infinite linear both alternate;
+}
+
+.glowing_stars .star {
+  position: absolute;
+  border-radius: 100%;
+  background-color: #fff;
+  width: 3px;
+  height: 3px;
+  opacity: 0.3;
+  will-change: opacity;
+}
+
+.glowing_stars .star:nth-child(1) {
+  top: 80%;
+  left: 25%;
+  animation: glow-star 2s infinite ease-in-out alternate 1s;
+}
+.glowing_stars .star:nth-child(2) {
+  top: 20%;
+  left: 40%;
+  animation: glow-star 2s infinite ease-in-out alternate 3s;
+}
+.glowing_stars .star:nth-child(3) {
+  top: 25%;
+  left: 25%;
+  animation: glow-star 2s infinite ease-in-out alternate 5s;
+}
+.glowing_stars .star:nth-child(4) {
+  top: 75%;
+  left: 80%;
+  animation: glow-star 2s infinite ease-in-out alternate 7s;
+}
+.glowing_stars .star:nth-child(5) {
+  top: 90%;
+  left: 50%;
+  animation: glow-star 2s infinite ease-in-out alternate 9s;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .custom-navbar {
+    text-align: center;
+  }
+
+  .brand-logo img {
+    width: 120px;
+  }
+
+  .box_astronaut {
+    top: 70%;
+  }
+
+  .central-body {
+    padding-top: 25%;
+  }
+}
+</style>
