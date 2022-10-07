@@ -1,6 +1,6 @@
 # [독초도감](https://j7e201.p.ssafy.io/ "독초도감 바로가기!") 🌷
 
-![독초도감 최종-003](.\README.assets\독초도감 최종-003.png)
+![독초도감](.\README.assets\독초도감.png)
 
 
 ## 목차
@@ -148,11 +148,11 @@
 
 - [와이어 프레임](./docs/와이어프레임.md) 
 
-- [서비스 아키텍처](./docs/아키텍처.md) (아직 링크 안 걸었음)
+- [서비스 아키텍처](./docs/아키텍처.md) 
 
 - [기능 명세서](https://www.notion.so/dokcho/API-Docs-8c38c792438a439f88a7dafdbf77a25f)
 
-- [데이터베이스:ERD](./docs/ERD.md) (아직 링크 안 걸었음)
+- [데이터베이스:ERD](./docs/ERD.md) 
   
   <br><br>
   
