@@ -1,12 +1,8 @@
-- # 독초도감
-  
-  `캐치프레이즈 넣는 곳`
-  
-  `지현이 만들어줄 커버 이미지`
+# [독초도감](https://j7e201.p.ssafy.io/) 🌷
 
-  `독초도감 소개`
+![독초도감 최종-003](C:\Users\SSAFY\Desktop\S07P22E201\README.assets\독초도감 최종-003.png)
 
-  `독초도감 링크`
+
 
 ## 목차
 
@@ -25,12 +21,12 @@
 
 1. 개발 기간 : 2022.08.22 ~ 2022.10.07 (총 6주)
 2. 인원 (총 6인)
-   - 서상균 : 팀장, Front-end, https://github.com/seosanggyun
-     - 김성빈 : Back-end, DevOps, https://github.com/ksb0903
-     - 박지현 : Front-end, UI/UX, https://github.com/petteloiv
-     - 오하민 : Front-end, PWA, https://github.com/ohhamin
-     - 이재준 : Back-end, DevOps, https://github.com/jayl2sw
-     - 최지원 : Back-end, UI/UX, https://github.com/CHOIJXWXN
+
+| [서상균](https://github.com/seosanggyun) | [김성빈](https://github.com/ksb0903) | [박지현](https://github.com/petteloiv) | [오하민](https://github.com/ohhamin) | [이재준]( https://github.com/jayl2sw) | [최지원](https://github.com/CHOIJXWXN) |
+| :--------------------------------------: | :----------------------------------: | :------------------------------------: | :----------------------------------: | :-----------------------------------: | :------------------------------------: |
+|           **팀장, Front-end**            |         **Back-end, DevOps**         |          **Front-end, UI/UX**          |          **Front-end, PWA**          |         **Back-end, DevOps**          |          **Back-end, UI/UX**           |
+
+
 
 ## 기술 스택 및 버전
 
@@ -50,7 +46,7 @@
 
 ## 프로젝트 파일 구조
 
-- Backend
+- **Backend**
   
   ```
   main
@@ -92,7 +88,7 @@
   └─resources
   ```
 
-- Frontend **이거 하민이 해**
+- **Frontend** 
   
   ```
   rc
@@ -151,7 +147,7 @@
 
 - [API Docs](https://www.notion.so/dokcho/API-Docs-8c38c792438a439f88a7dafdbf77a25f)
 
-- [와이어 프레임](./docs/와이어프레임.md) (아직 링크 안 걸었음)
+- [와이어 프레임](./docs/와이어프레임.md) 
 
 - [서비스 아키텍처](./docs/아키텍처.md) (아직 링크 안 걸었음)
 
@@ -161,12 +157,12 @@
   
   <br><br>
   
-  ## 결과물 (얘네들 전부 나중에 링크 달아야함)
+  ## 결과물 
 
-- [포팅메뉴얼](./exec/포팅메뉴얼.md)
+- [포팅메뉴얼](./exec/porting_manual.md)
 
-- [시연시나리오](./exec/시연시나리오.md)
+- [시연시나리오](./exec/[시연시나리오]특화_PJT_부울경_2반_E201.pdf)
 
-- [중간발표자료](./pt/[중간발표]특화_PJT_구미1반_D104.pdf)
+- [중간발표자료](./pt/[중간발표]특화_PJT_부울경_2반_E201.pdf)
 
-- [최종발표자료](./pt/[최종발표]특화_PJT_구미1반_D104.pdf)
+- [최종발표자료](./pt/[최종발표]특화_PJT_부울경_2반_E201.pdf)
