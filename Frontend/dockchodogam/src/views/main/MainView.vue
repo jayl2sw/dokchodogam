@@ -144,7 +144,7 @@ export default {
     },
     getTodayPlant() {
       axios
-        .get(BASE_URL + '/api/v1/dokcho/today', {
+        .get(BASE_URL + '/api/v1/auth/dokcho/today', {
           headers: {
             AUTHORIZATION: 'Bearer ' + localStorage.getItem('accessToken')
           }
