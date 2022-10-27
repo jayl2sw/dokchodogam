@@ -142,7 +142,7 @@ public class DokchoController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @GetMapping("/today")
+    @GetMapping("/auth/today")
     @ApiOperation(value = "오늘의 식물")
     public ResponseEntity<TodayPlantDto> getTodayPlant(){
 
